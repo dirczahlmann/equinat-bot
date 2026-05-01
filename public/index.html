@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>EQUINAT PferdeBot</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;background:#070B05;color:#F4EFE4;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+.hdr{display:flex;align-items:center;gap:.7rem;padding:0 1rem;height:52px;background:rgba(5,8,3,.97);border-bottom:1px solid rgba(201,148,58,.15);flex-shrink:0;}
+.mark{width:30px;height:30px;background:#C9943A;display:flex;align-items:center;justify-content:center;font-weight:700;color:#0D130A;font-size:.8rem;}
+.name{font-family:Georgia,serif;font-size:.95rem;letter-spacing:.12em;color:#E8B85A;}
+.sub{font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(201,148,58,.4);}
+.dot{margin-left:auto;width:6px;height:6px;background:#4ADE80;border-radius:50%;}
+.topics{display:flex;overflow-x:auto;gap:.4rem;padding:.5rem .9rem;background:rgba(5,8,3,.6);border-bottom:1px solid rgba(201,148,58,.1);flex-shrink:0;}
+.topics::-webkit-scrollbar{display:none;}
+.tbtn{padding:.3rem .7rem;background:rgba(201,148,58,.08);border:1px solid rgba(201,148,58,.2);border-radius:100px;cursor:pointer;white-space:nowrap;font-size:.7rem;color:rgba(244,239,228,.7);font-family:inherit;flex-shrink:0;}
+.tbtn:hover{background:rgba(201,148,58,.18);color:#E8B85A;}
+.msgs{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.8rem;}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;color:rgba(244,239,228,.3);}
+.empty-i{font-size:2.5rem;margin-bottom:.6rem;}
+.empty-t{font-family:Georgia,serif;font-size:1.1rem;color:rgba(244,239,228,.5);margin-bottom:.3rem;}
+.row{display:flex;gap:.5rem;align-items:flex-start;}
+.row.u{flex-direction:row-reverse;}
+.av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.85rem;}
+.av.b{background:linear-gradient(135deg,#2D4A1E,#1B2F14);border:1px solid rgba(201,148,58,.25);}
+.av.u{background:rgba(201,148,58,.12);border:1px solid rgba(201,148,58,.3);font-size:.55rem;font-weight:700;color:#E8B85A;}
+.bbl{max-width:80%;padding:.65rem .85rem;font-size:.83rem;line-height:1.7;border-radius:3px;}
+.bbl.b{background:rgba(27,47,20,.4);border:1px solid rgba(201,148,58,.12);}
+.bbl.u{background:rgba(201,148,58,.1);border:1px solid rgba(201,148,58,.25);}
+.bbl.e{background:rgba(180,40,40,.2);border:1px solid rgba(180,40,40,.3);color:#ffaaaa;}
+.typing{display:flex;gap:4px;padding:.65rem .85rem;background:rgba(27,47,20,.4);border:1px solid rgba(201,148,58,.12);border-radius:3px;}
+.typing span{width:5px;height:5px;background:rgba(201,148,58,.6);border-radius:50%;animation:d 1.2s ease infinite;}
+.typing span:nth-child(2){animation-delay:.2s;}
+.typing span:nth-child(3){animation-delay:.4s;}
+@keyframes d{0%,60%,100%{transform:translateY(0);opacity:.3}30%{transform:translateY(-4px);opacity:1}}
+.disc{padding:.3rem 1rem;font-size:.56rem;color:rgba(244,239,228,.2);text-align:center;border-top:1px solid rgba(201,148,58,.08);flex-shrink:0;}
+.inp-a{padding:.65rem 1rem .8rem;border-top:1px solid rgba(201,148,58,.12);background:rgba(5,8,3,.8);flex-shrink:0;}
+.inp-r{display:flex;gap:.5rem;}
+.inp{flex:1;background:rgba(201,148,58,.06);border:1px solid rgba(201,148,58,.2);outline:none;color:#F4EFE4;font-family:inherit;font-size:.85rem;padding:.6rem .8rem;border-radius:2px;}
+.inp:focus{border-color:rgba(201,148,58,.45);}
+.inp::placeholder{color:rgba(244,239,228,.2);}
+.sbtn{width:40px;height:40px;background:#C9943A;color:#0D130A;border:none;cursor:pointer;font-size:1rem;font-weight:700;border-radius:2px;flex-shrink:0;}
+.sbtn:hover{background:#E8B85A;}
+.sbtn:disabled{opacity:.4;cursor:not-allowed;}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="mark">EQ</div>
+  <div><div class="name">EQUINAT PferdeBot</div><div class="sub">Pferd · Stall · Gesundheit · Futter</div></div>
+  <div class="dot"></div>
+</div>
+<div class="topics">
+  <button class="tbtn" onclick="ask('Welches Futter fuer ein 500kg Warmblut?')">Futterung</button>
+  <button class="tbtn" onclick="ask('Mein Pferd lahmt vorne links - Ursachen?')">Gesundheit</button>
+  <button class="tbtn" onclick="ask('Wie erkenne ich EMS oder Cushing?')">EMS und Cushing</button>
+  <button class="tbtn" onclick="ask('Wie erkenne ich RAO und was hilft?')">Atemwege</button>
+  <button class="tbtn" onclick="ask('Natuerliche Mittel fuer Gelenkprobleme?')">Gelenke</button>
+  <button class="tbtn" onclick="ask('Grundregeln optimale Stallhaltung?')">Stallhaltung</button>
+  <button class="tbtn" onclick="ask('Impfungen und Entwurmungen jaehrlich?')">Vorsorge</button>
+  <button class="tbtn" onclick="ask('Trainingsplan fuer Freizeitpferd?')">Training</button>
+</div>
+<div class="msgs" id="msgs">
+  <div class="empty" id="empty">
+    <div class="empty-i">🐴</div>
+    <div class="empty-t">Wie kann ich dir helfen?</div>
+    <div style="font-size:.75rem">Waehle ein Thema oder stelle deine Frage.</div>
+  </div>
+</div>
+<div class="disc">Keine Diagnosen - kein Ersatz fuer Tierarzt - EQUINAT COMPLETE - Zafao GmbH</div>
+<div class="inp-a">
+  <div class="inp-r">
+    <input class="inp" id="inp" placeholder="Deine Frage zum Pferd..." onkeydown="if(event.key==='Enter')ask()"/>
+    <button class="sbtn" id="sbtn" onclick="ask()">-&gt;</button>
+  </div>
+</div>
+<script>
+var SYS='Du bist der EQUINAT PferdeBot - Experte fuer Pferdehaltung. Antworte auf Deutsch. Max 250 Woerter.';
+var hist=[],busy=false;
+function addMsg(c,t){
+  var e=document.getElementById('empty');if(e)e.remove();
+  var m=document.getElementById('msgs'),r=document.createElement('div');
+  r.className='row '+(c==='u'?'u':'');
+  r.innerHTML='<div class="av '+(c==='u'?'u':'b')+'">'+(c==='u'?'DU':'PB')+'</div><div class="bbl '+(c==='e'?'e':c==='u'?'u':'b')+'">'+t.replace(/\n/g,'<br/>')+'</div>';
+  m.appendChild(r);m.scrollTop=m.scrollHeight;
+}
+function showTyping(){
+  var m=document.getElementById('msgs'),r=document.createElement('div');
+  r.className='row';r.id='typ';
+  r.innerHTML='<div class="av b">PB</div><div class="typing"><span></span><span></span><span></span></div>';
+  m.appendChild(r);m.scrollTop=m.scrollHeight;
+}
+function hideTyping(){var t=document.getElementById('typ');if(t)t.remove();}
+async function ask(text){
+  var inp=document.getElementById('inp'),msg=text||inp.value.trim();
+  if(!msg||busy)return;
+  inp.value='';busy=true;document.getElementById('sbtn').disabled=true;
+  addMsg('u',msg);hist.push({role:'user',content:msg});showTyping();
+  try{
+    var r=await fetch('/.netlify/functions/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({system:SYS,messages:hist})
+    });
+    var d=await r.json();
+    hideTyping();
+    if(d&&d.content&&d.content[0]){
+      var rep=d.content[0].text||JSON.stringify(d);
+      hist.push({role:'assistant',content:rep});
+      addMsg('b',rep);
+    }else{
+      addMsg('e','Fehler: '+JSON.stringify(d).substring(0,300));
+    }
+  }catch(e){
+    hideTyping();
+    addMsg('e','Netzfehler: '+e.message);
+  }
+  busy=false;document.getElementById('sbtn').disabled=false;
+}
+</script>
+</body>
+</html>
