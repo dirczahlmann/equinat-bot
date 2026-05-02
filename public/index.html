@@ -836,18 +836,25 @@ function PferdeBot() {
           padding: "1.1rem 1rem 0.9rem", borderBottom: "1px solid " + T.borderS,
           display: "flex", alignItems: "center", justifyContent: "space-between",
         }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.65rem", minWidth: 0 }}>
             <div style={{
-              width: "32px", height: "32px", borderRadius: "2px",
+              padding: "0.42rem 0.7rem",
+              borderRadius: "2px",
               background: "linear-gradient(135deg, " + T.gold + ", " + T.goldD + ")",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontFamily: T.fontDisplay, fontWeight: 600, fontSize: "1rem", color: T.bg,
-            }}>EQ</div>
-            <div>
-              <div style={{ fontFamily: T.fontDisplay, fontSize: "1.05rem", fontWeight: 500, lineHeight: 1, letterSpacing: "0.02em" }}>
-                PferdeBot<sup style={{ fontSize: "0.45em", color: T.gold }}>®</sup>
+              fontFamily: T.fontDisplay, fontWeight: 600, fontSize: "0.92rem",
+              color: T.bg, letterSpacing: "0.18em", flexShrink: 0, lineHeight: 1,
+            }}>EQUINAT</div>
+            <div style={{ minWidth: 0 }}>
+              <div style={{
+                fontFamily: T.fontDisplay, fontSize: "0.95rem", fontWeight: 500,
+                lineHeight: 1, letterSpacing: "0.02em",
+              }}>
+                PferdeBot<sup style={{ fontSize: "0.5em", color: T.gold }}>®</sup>
               </div>
-              <div style={{ fontSize: "0.62rem", color: T.dim, letterSpacing: "0.12em", textTransform: "uppercase", marginTop: "3px" }}>
+              <div style={{
+                fontSize: "0.6rem", color: T.dim, letterSpacing: "0.12em",
+                textTransform: "uppercase", marginTop: "3px", whiteSpace: "nowrap",
+              }}>
                 Vet-validiert
               </div>
             </div>
@@ -1142,12 +1149,32 @@ function PferdeBot() {
           </div>
         </div>
 
-        {/* Footer */}
+        {/* Legal Footer / Impressum */}
         <div style={{
-          padding: "0.7rem 1rem", borderTop: "1px solid " + T.borderS,
-          fontSize: "0.62rem", color: T.dim2, textAlign: "center", letterSpacing: "0.05em",
+          padding: "0.75rem 0.95rem 0.85rem",
+          borderTop: "1px solid " + T.borderS,
+          fontSize: "0.6rem", color: T.dim2,
+          letterSpacing: "0.03em", lineHeight: 1.6,
         }}>
-          EQUINAT® · equinat.de
+          <div style={{
+            color: T.dim, fontWeight: 500, fontSize: "0.58rem",
+            letterSpacing: "0.18em", textTransform: "uppercase",
+            marginBottom: "0.35rem",
+          }}>
+            Impressum
+          </div>
+          <div style={{ color: T.dim }}>Zafao GmbH</div>
+          <div>Adolfsallee 22 · 65185 Wiesbaden</div>
+          <a href="mailto:info@zafao.world" style={{
+            color: T.dim2, textDecoration: "none",
+            borderBottom: "1px dotted " + T.borderS,
+            display: "inline-block", marginTop: "0.25rem",
+            transition: "color 0.15s, border-color 0.15s",
+          }}
+            onMouseEnter={e => { e.currentTarget.style.color = T.gold; e.currentTarget.style.borderBottomColor = T.gold; }}
+            onMouseLeave={e => { e.currentTarget.style.color = T.dim2; e.currentTarget.style.borderBottomColor = T.borderS; }}>
+            info@zafao.world
+          </a>
         </div>
       </aside>
 
