@@ -184,6 +184,13 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:#070B05;color:var(--c
 </aside>
 
 <div class="chat">
+  <!-- Credit Bar -->
+  <div style="background:rgba(5,8,3,0.9);border-bottom:1px solid rgba(201,148,58,0.12);padding:5px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
+    <div style="flex:1;background:rgba(201,148,58,0.12);border-radius:100px;height:5px;overflow:hidden;">
+      <div id="creditBar" style="height:100%;width:100%;background:#C9943A;border-radius:100px;transition:width 0.4s,background 0.4s;"></div>
+    </div>
+    <div id="creditTxt" style="font-size:0.6rem;color:rgba(244,239,228,0.55);white-space:nowrap;letter-spacing:0.04em;">20 Nachrichten verbleibend</div>
+  </div>
   <div class="msgs" id="msgs">
     <div class="welcome" id="welcome">
       <div class="wi">🐴</div>
