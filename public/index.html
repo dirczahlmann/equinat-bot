@@ -230,7 +230,10 @@ var BOOST_CODES = {
 function loadCredits() {
   try {
     var stored = localStorage.getItem(STORAGE_KEY);
-    return stored !== null ? parseInt(stored) : CREDITS_DEFAULT;
+    if (stored === null) return CREDITS_DEFAULT;
+    var n = parseInt(stored);
+    // Auto-reset if 0 or invalid (prevents permanent lock-out during testing)
+    return (isNaN(n) || n <= 0) ? CREDITS_DEFAULT : n;
   } catch(e) { return CREDITS_DEFAULT; }
 }
 
