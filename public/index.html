@@ -614,6 +614,7 @@ function PferdeBot() {
   const [newProjectName, setNewProjectName] = useState("");
   const [moveMenuChatId, setMoveMenuChatId] = useState(null);
   const [messageCount, setMessageCount] = useState(0);
+  const [legalModal, setLegalModal] = useState(null); // null | 'impressum' | 'datenschutz' | 'ki'
   const [hydrated, setHydrated] = useState(false);
   const messagesEnd = useRef(null);
   const inputRef = useRef(null);
@@ -1149,32 +1150,37 @@ function PferdeBot() {
           </div>
         </div>
 
-        {/* Legal Footer / Impressum */}
+        {/* Legal Footer Links */}
         <div style={{
-          padding: "0.75rem 0.95rem 0.85rem",
+          padding: "0.75rem 0.85rem 0.85rem",
           borderTop: "1px solid " + T.borderS,
-          fontSize: "0.6rem", color: T.dim2,
-          letterSpacing: "0.03em", lineHeight: 1.6,
+          display: "flex", flexWrap: "wrap",
+          gap: "0.4rem 0.6rem", justifyContent: "center",
+          alignItems: "center",
         }}>
-          <div style={{
-            color: T.dim, fontWeight: 500, fontSize: "0.58rem",
-            letterSpacing: "0.18em", textTransform: "uppercase",
-            marginBottom: "0.35rem",
-          }}>
-            Impressum
-          </div>
-          <div style={{ color: T.dim }}>Zafao GmbH</div>
-          <div>Adolfsallee 22 · 65185 Wiesbaden</div>
-          <a href="mailto:info@zafao.world" style={{
-            color: T.dim2, textDecoration: "none",
-            borderBottom: "1px dotted " + T.borderS,
-            display: "inline-block", marginTop: "0.25rem",
-            transition: "color 0.15s, border-color 0.15s",
-          }}
-            onMouseEnter={e => { e.currentTarget.style.color = T.gold; e.currentTarget.style.borderBottomColor = T.gold; }}
-            onMouseLeave={e => { e.currentTarget.style.color = T.dim2; e.currentTarget.style.borderBottomColor = T.borderS; }}>
-            info@zafao.world
-          </a>
+          {[
+            { id: "impressum", label: "Impressum" },
+            { id: "datenschutz", label: "Datenschutz" },
+            { id: "ki", label: "KI-Hinweis" },
+          ].map((l, i, arr) => (
+            <React.Fragment key={l.id}>
+              <button
+                onClick={() => setLegalModal(l.id)}
+                style={{
+                  background: "transparent", border: "none", padding: "2px 0",
+                  color: T.dim2, fontFamily: T.fontBody, fontSize: "0.66rem",
+                  letterSpacing: "0.06em", cursor: "pointer",
+                  transition: "color 0.15s",
+                }}
+                onMouseEnter={e => e.currentTarget.style.color = T.gold}
+                onMouseLeave={e => e.currentTarget.style.color = T.dim2}>
+                {l.label}
+              </button>
+              {i < arr.length - 1 && (
+                <span style={{ color: T.dim2, fontSize: "0.6rem", opacity: 0.5 }}>·</span>
+              )}
+            </React.Fragment>
+          ))}
         </div>
       </aside>
 
@@ -1325,6 +1331,11 @@ function PferdeBot() {
           </div>
         </div>
       </main>
+
+      {/* Legal Modal */}
+      {legalModal && (
+        <LegalModal type={legalModal} onClose={() => setLegalModal(null)}/>
+      )}
     </div>
   );
 }
@@ -1577,6 +1588,303 @@ function TypingDots() {
         ))}
       </div>
     </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════
+   LEGAL MODAL — Impressum, Datenschutz, KI-Hinweis
+   ═══════════════════════════════════════════════════ */
+
+function LegalModal({ type, onClose }) {
+  useEffect(() => {
+    const h = e => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", h);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", h);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  const titles = {
+    impressum: "Impressum",
+    datenschutz: "Datenschutzerklärung",
+    ki: "KI-Transparenz & Hinweis",
+  };
+
+  const Body = type === "impressum" ? Impressum
+            : type === "datenschutz" ? Datenschutz
+            : KIHinweis;
+
+  return (
+    <div onClick={onClose} style={{
+      position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)",
+      backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)",
+      zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center",
+      padding: "1rem", animation: "fadeIn 0.2s ease",
+    }}>
+      <div onClick={e => e.stopPropagation()} style={{
+        width: "100%", maxWidth: "640px", maxHeight: "85vh",
+        background: T.bg2, border: "1px solid " + T.border,
+        borderRadius: "3px", overflow: "hidden",
+        display: "flex", flexDirection: "column",
+        boxShadow: "0 10px 40px rgba(0,0,0,0.5)",
+      }}>
+        <div style={{
+          padding: "1.1rem 1.4rem", borderBottom: "1px solid " + T.borderS,
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          flexShrink: 0, background: T.bg3,
+        }}>
+          <h2 style={{
+            fontFamily: T.fontDisplay, fontSize: "1.3rem", fontWeight: 500,
+            margin: 0, color: T.cream, letterSpacing: "0.02em",
+          }}>{titles[type]}</h2>
+          <button onClick={onClose} style={{
+            background: "transparent", border: "none", color: T.dim,
+            cursor: "pointer", padding: "4px", display: "flex", borderRadius: "2px",
+          }}
+            onMouseEnter={e => e.currentTarget.style.color = T.gold}
+            onMouseLeave={e => e.currentTarget.style.color = T.dim}>
+            <Icon name="x" size={20}/>
+          </button>
+        </div>
+        <div style={{
+          padding: "1.4rem 1.4rem 1.6rem", overflowY: "auto", flex: 1,
+          fontSize: "0.85rem", lineHeight: 1.65, color: T.cream,
+        }}>
+          <Body/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const legalStyles = {
+  h3: {
+    fontFamily: T.fontDisplay, fontSize: "1.05rem", fontWeight: 500,
+    color: T.gold, margin: "1.4rem 0 0.5rem", letterSpacing: "0.02em",
+  },
+  p: { margin: "0 0 0.8rem" },
+  strong: { color: T.cream, fontWeight: 600 },
+  a: { color: T.gold, textDecoration: "none", borderBottom: "1px solid " + T.border },
+  small: { fontSize: "0.75rem", color: T.dim },
+  list: { margin: "0.5rem 0 0.8rem", paddingLeft: "1.2rem" },
+  li: { marginBottom: "0.3rem" },
+};
+
+/* ── IMPRESSUM ── */
+function Impressum() {
+  return (
+    <>
+      <p style={legalStyles.p}>Anbieter dieses Webangebots:</p>
+      <p style={legalStyles.p}>
+        <strong style={legalStyles.strong}>Zafao GmbH</strong><br/>
+        Adolfsallee 22<br/>
+        65185 Wiesbaden<br/>
+        Deutschland
+      </p>
+      <p style={legalStyles.p}>
+        E-Mail: <a href="mailto:info@zafao.world" style={legalStyles.a}>info@zafao.world</a>
+      </p>
+
+      <h3 style={legalStyles.h3}>Hinweis zur Marke EQUINAT</h3>
+      <p style={legalStyles.p}>
+        EQUINAT® und EQUINAT COMPLETE® sind Marken im EQUINAT-Markenportfolio.
+        Bis zur Eintragung der EQUINAT GmbH im Handelsregister wird dieser
+        Web-Service durch die Zafao GmbH als Vertragspartnerin bereitgestellt.
+        Sobald die EQUINAT GmbH eingetragen ist, übernimmt diese sämtliche Rechte
+        und Pflichten in Bezug auf die EQUINAT-Marken und Produkte.
+      </p>
+
+      <h3 style={legalStyles.h3}>Haftungsausschluss</h3>
+      <p style={legalStyles.p}>
+        Die durch den EQUINAT PferdeBot® bereitgestellten Informationen ersetzen
+        keine tierärztliche Beratung, Diagnose oder Therapie. Bei akuten gesundheitlichen
+        Problemen, ungewöhnlichem Verhalten oder Symptomen deines Pferdes kontaktiere
+        bitte unverzüglich einen Tierarzt oder eine Tierklinik.
+      </p>
+
+      <h3 style={legalStyles.h3}>EU-Streitschlichtung</h3>
+      <p style={legalStyles.p}>
+        Die Europäische Kommission stellt eine Plattform zur
+        Online-Streitbeilegung (OS) bereit:{" "}
+        <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" style={legalStyles.a}>
+          ec.europa.eu/consumers/odr
+        </a>.
+      </p>
+      <p style={legalStyles.p}>
+        Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor
+        einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 VSBG).
+      </p>
+
+      <h3 style={legalStyles.h3}>Urheberrecht</h3>
+      <p style={legalStyles.p}>
+        Die durch den Anbieter erstellten Inhalte und Werke unterliegen dem deutschen
+        Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der
+        Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen
+        Zustimmung des jeweiligen Autors.
+      </p>
+
+      <p style={{...legalStyles.p, ...legalStyles.small, marginTop: "1.5rem"}}>
+        Stand: 2026 — Weitere Pflichtangaben (Geschäftsführung, HRB-Nummer, USt-IdNr.)
+        werden nach Eintragung der EQUINAT GmbH ergänzt.
+      </p>
+    </>
+  );
+}
+
+/* ── DATENSCHUTZ ── */
+function Datenschutz() {
+  return (
+    <>
+      <h3 style={{...legalStyles.h3, marginTop: 0}}>1. Verantwortlicher</h3>
+      <p style={legalStyles.p}>
+        <strong style={legalStyles.strong}>Zafao GmbH</strong><br/>
+        Adolfsallee 22, 65185 Wiesbaden<br/>
+        E-Mail: <a href="mailto:info@zafao.world" style={legalStyles.a}>info@zafao.world</a>
+      </p>
+
+      <h3 style={legalStyles.h3}>2. Welche Daten werden verarbeitet?</h3>
+      <p style={legalStyles.p}><strong style={legalStyles.strong}>a) Chat-Inhalte</strong></p>
+      <p style={legalStyles.p}>
+        Deine eingegebenen Nachrichten werden zur Beantwortung an unseren KI-Dienstleister
+        Anthropic PBC (Claude API) übermittelt. Sie werden lokal in deinem Browser
+        (LocalStorage) gespeichert — nicht zentral auf unseren Servern.
+      </p>
+      <p style={legalStyles.p}><strong style={legalStyles.strong}>b) Server-Logfiles</strong></p>
+      <p style={legalStyles.p}>
+        Beim Aufruf der Webseite speichert unser Hosting-Provider Netlify Inc. übliche
+        technische Daten (IP-Adresse, Browser-Typ, Zeitstempel, Referrer) — automatisiert
+        und ausschließlich zur Sicherstellung des Betriebs.
+      </p>
+
+      <h3 style={legalStyles.h3}>3. Rechtsgrundlage</h3>
+      <p style={legalStyles.p}>
+        Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO
+        (Erfüllung des Nutzungsvertrags) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes
+        Interesse am sicheren Betrieb des Dienstes).
+      </p>
+
+      <h3 style={legalStyles.h3}>4. Datenweitergabe an Drittländer</h3>
+      <p style={legalStyles.p}>
+        Anthropic PBC hat seinen Sitz in den USA. Die Übermittlung erfolgt auf Basis der
+        EU-Standardvertragsklauseln. Anthropic verwendet die übermittelten Chat-Inhalte
+        laut eigener Datenschutzrichtlinie nicht zum Training ihrer KI-Modelle.
+      </p>
+
+      <h3 style={legalStyles.h3}>5. Keine Cookies, kein Tracking</h3>
+      <p style={legalStyles.p}>
+        Wir setzen keine Tracking-Cookies, kein Google Analytics, keine Werbenetzwerke
+        und keine Social-Media-Plugins ein.
+      </p>
+
+      <h3 style={legalStyles.h3}>6. Speicherdauer</h3>
+      <p style={legalStyles.p}>
+        Chat-Inhalte verbleiben in deinem Browser, bis du sie selbst löschst.
+        Server-Logfiles werden nach maximal 30 Tagen automatisch gelöscht.
+      </p>
+
+      <h3 style={legalStyles.h3}>7. Deine Rechte</h3>
+      <p style={legalStyles.p}>Du hast das Recht auf:</p>
+      <ul style={legalStyles.list}>
+        <li style={legalStyles.li}>Auskunft (Art. 15 DSGVO)</li>
+        <li style={legalStyles.li}>Berichtigung (Art. 16 DSGVO)</li>
+        <li style={legalStyles.li}>Löschung (Art. 17 DSGVO)</li>
+        <li style={legalStyles.li}>Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+        <li style={legalStyles.li}>Datenübertragbarkeit (Art. 20 DSGVO)</li>
+        <li style={legalStyles.li}>Widerspruch (Art. 21 DSGVO)</li>
+        <li style={legalStyles.li}>Beschwerde bei einer Aufsichtsbehörde (Art. 77 DSGVO)</li>
+      </ul>
+
+      <h3 style={legalStyles.h3}>8. Daten selbst löschen</h3>
+      <p style={legalStyles.p}>
+        Du kannst deine Chats jederzeit selbst entfernen:
+      </p>
+      <ul style={legalStyles.list}>
+        <li style={legalStyles.li}>Einzelne Chats: Hover → ⋯ → Löschen</li>
+        <li style={legalStyles.li}>Alle Chats: Browser-Daten / Site Storage für diese Domain löschen</li>
+      </ul>
+
+      <h3 style={legalStyles.h3}>9. Kontakt für Datenschutzanfragen</h3>
+      <p style={legalStyles.p}>
+        <a href="mailto:info@zafao.world" style={legalStyles.a}>info@zafao.world</a>
+      </p>
+
+      <p style={{...legalStyles.p, ...legalStyles.small, marginTop: "1.5rem"}}>
+        Stand: 2026
+      </p>
+    </>
+  );
+}
+
+/* ── KI-HINWEIS (EU AI Act Art. 50) ── */
+function KIHinweis() {
+  return (
+    <>
+      <p style={{...legalStyles.p, padding: "0.8rem 1rem", background: T.hover,
+        border: "1px solid " + T.border, borderRadius: "2px", color: T.gold,
+        fontWeight: 500, marginBottom: "1.2rem",
+      }}>
+        ⚠️ Du interagierst mit einer Künstlichen Intelligenz — nicht mit einem Menschen.
+      </p>
+
+      <h3 style={{...legalStyles.h3, marginTop: 0}}>Welche KI wird verwendet?</h3>
+      <p style={legalStyles.p}>
+        Der EQUINAT PferdeBot® nutzt das KI-Modell <strong style={legalStyles.strong}>Claude Sonnet</strong> der
+        Anthropic PBC (San Francisco, USA). Datenschutz erfolgt nach EU-Standardvertragsklauseln.
+        Übermittelte Chats werden laut Anthropic nicht zum Training verwendet.
+      </p>
+
+      <h3 style={legalStyles.h3}>Was die KI kann</h3>
+      <ul style={legalStyles.list}>
+        <li style={legalStyles.li}>Fundierte Informationen zu Pferdehaltung, -gesundheit und -ernährung</li>
+        <li style={legalStyles.li}>Strukturierte Empfehlungen basierend auf wissenschaftlich anerkannter Praxis</li>
+        <li style={legalStyles.li}>Erklärungen zu EQUINAT-Produkten und ihren Anwendungsbereichen</li>
+        <li style={legalStyles.li}>Orientierung bei typischen Pferdethemen rund um Haltung und Versorgung</li>
+      </ul>
+
+      <h3 style={legalStyles.h3}>Was die KI NICHT kann</h3>
+      <ul style={legalStyles.list}>
+        <li style={legalStyles.li}><strong style={legalStyles.strong}>Keine Diagnosen</strong> — das macht ein Tierarzt</li>
+        <li style={legalStyles.li}><strong style={legalStyles.strong}>Keine verbindlichen Therapieempfehlungen</strong> oder Medikamenten-Dosierungen</li>
+        <li style={legalStyles.li}><strong style={legalStyles.strong}>Keine Notfallbeurteilung</strong> aus der Ferne</li>
+        <li style={legalStyles.li}>Keine Einschätzung individueller Krankheitsbilder ohne Untersuchung</li>
+      </ul>
+
+      <h3 style={legalStyles.h3}>Wichtige Risiken & Grenzen</h3>
+      <ul style={legalStyles.list}>
+        <li style={legalStyles.li}>KI-Antworten sind <strong style={legalStyles.strong}>nicht rechtsverbindlich</strong></li>
+        <li style={legalStyles.li}>KI-Systeme können Fehler machen oder veraltete Informationen liefern (sogenannte „Halluzinationen")</li>
+        <li style={legalStyles.li}>Bei akuten Symptomen <strong style={legalStyles.strong}>immer einen Tierarzt kontaktieren</strong> — nicht auf KI-Auskünfte allein verlassen</li>
+        <li style={legalStyles.li}>Eigenes Urteilsvermögen behalten — die KI ergänzt, ersetzt aber nicht den fachkundigen Rat</li>
+      </ul>
+
+      <h3 style={legalStyles.h3}>Datenverarbeitung beim KI-Service</h3>
+      <ul style={legalStyles.list}>
+        <li style={legalStyles.li}>Deine Nachrichten werden zur Bearbeitung an Anthropic übermittelt</li>
+        <li style={legalStyles.li}>Anthropic nutzt diese Daten nicht zum Training der KI-Modelle</li>
+        <li style={legalStyles.li}>Server-Standorte: EU/USA (Standard Contractual Clauses)</li>
+        <li style={legalStyles.li}>Details siehe Datenschutzerklärung (Footer)</li>
+      </ul>
+
+      <h3 style={legalStyles.h3}>Notfall-Hinweis</h3>
+      <p style={legalStyles.p}>
+        Bei Symptomen wie <strong style={legalStyles.strong}>Kolik, akuter Hufrehe, hohem Fieber, Atemnot,
+        Festliegen oder schwerer Verletzung</strong> sofort den Tierarzt oder eine
+        Pferdeklinik kontaktieren. Die KI ist ausdrücklich nicht für Notfälle geeignet.
+      </p>
+
+      <h3 style={legalStyles.h3}>Rechtliche Grundlage</h3>
+      <p style={legalStyles.p}>
+        Diese Hinweise erfüllen die Transparenzpflichten nach
+        <strong style={legalStyles.strong}> Artikel 50 der Verordnung (EU) 2024/1689</strong>{" "}
+        (EU AI Act / KI-Verordnung) sowie die einschlägigen Bestimmungen der DSGVO.
+      </p>
+
+      <p style={{...legalStyles.p, ...legalStyles.small, marginTop: "1.5rem"}}>
+        Stand: 2026
+      </p>
+    </>
   );
 }
 
