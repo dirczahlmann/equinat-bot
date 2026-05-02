@@ -212,7 +212,118 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:#070B05;color:var(--c
 </div>
 
 <script>
+// ─── CREDIT SYSTEM ───────────────────────────────────────────────
+var CREDITS_DEFAULT = 20;
+var STORAGE_KEY = 'eq_credits';
+
+// Boost codes — format: code -> credits to add
+// Share link: equinatbot.netlify.app?boost=CODE
+var BOOST_CODES = {
+  'EQ50':   50,
+  'EQ100':  100,
+  'EQ200':  200,
+  'EBONUS': 30,
+  'VIPTEST': 999,   // Unlimited für VIP Tester
+};
+
+// Load credits from localStorage (persists across reloads)
+function loadCredits() {
+  try {
+    var stored = localStorage.getItem(STORAGE_KEY);
+    return stored !== null ? parseInt(stored) : CREDITS_DEFAULT;
+  } catch(e) { return CREDITS_DEFAULT; }
+}
+
+function saveCredits(n) {
+  try { localStorage.setItem(STORAGE_KEY, n); } catch(e) {}
+}
+
+var credits = loadCredits();
 var hist=[],busy=false;
+
+// Generate persistent user ID
+function getUserId() {
+  try {
+    var id = localStorage.getItem('eq_user_id');
+    if (!id) { id = 'u_' + Math.random().toString(36).substring(2,10) + Date.now().toString(36); localStorage.setItem('eq_user_id', id); }
+    return id;
+  } catch(e) { return 'u_anon'; }
+}
+var USER_ID = getUserId();
+var MSG_COUNT = 0;
+
+// Check for boost code in URL on load
+function checkBoostCode() {
+  var params = new URLSearchParams(window.location.search);
+  var code = (params.get('boost') || '').toUpperCase();
+  if (!code) return;
+
+  if (BOOST_CODES[code] !== undefined) {
+    var add = BOOST_CODES[code];
+    if (add >= 999) {
+      credits = 999;
+    } else {
+      credits = Math.min(999, credits + add);
+    }
+    saveCredits(credits);
+    // Remove code from URL (clean)
+    var clean = window.location.pathname;
+    window.history.replaceState({}, '', clean);
+    // Show toast
+    showToast(add >= 999 ? '🎉 Unbegrenzter Zugang aktiviert!' : '🎉 +' + add + ' Nachrichten aufgeladen!');
+  } else if (code) {
+    showToast('❌ Ungültiger Code');
+  }
+}
+
+function showToast(msg) {
+  var t = document.createElement('div');
+  t.style.cssText = 'position:fixed;top:70px;left:50%;transform:translateX(-50%);'+
+    'background:#1B2F14;border:1px solid rgba(201,148,58,0.5);'+
+    'color:#E8B85A;padding:10px 22px;font-family:DM Sans,sans-serif;'+
+    'font-size:0.82rem;font-weight:600;z-index:999;border-radius:2px;'+
+    'box-shadow:0 4px 20px rgba(0,0,0,0.5);letter-spacing:0.04em;';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function(){ t.style.opacity='0';t.style.transition='opacity 0.5s'; }, 2500);
+  setTimeout(function(){ t.remove(); }, 3100);
+}
+
+function updateCredits(){
+  var bar = document.getElementById('creditBar');
+  var txt = document.getElementById('creditTxt');
+  if(!bar||!txt) return;
+  if(credits >= 999) {
+    bar.style.width = '100%';
+    bar.style.background = '#4ADE80';
+    txt.textContent = '✓ Unbegrenzt';
+    return;
+  }
+  var pct = Math.max(0, Math.min(100, (credits / CREDITS_DEFAULT) * 100));
+  bar.style.width = pct + '%';
+  bar.style.background = pct > 40 ? '#C9943A' : pct > 15 ? '#E8B85A' : '#ef4444';
+  txt.textContent = credits + ' Nachrichten verbleibend';
+}
+
+function showUpgrade(){
+  document.getElementById('inp').disabled = true;
+  document.getElementById('sbtn').disabled = true;
+  document.getElementById('inp').placeholder = 'Kontingent aufgebraucht — equinat.de';
+  var m = document.getElementById('msgs');
+  var w = document.getElementById('welcome'); if(w) w.remove();
+  var row = document.createElement('div');
+  row.className = 'row';
+  row.innerHTML = '<div class="av b">🐴</div><div class="mb"><div class="mn">EQUINAT PferdeBot®</div>'+
+    '<div class="bbl b" style="border-color:rgba(201,148,58,0.4);background:rgba(201,148,58,0.08);">'+
+    '<strong style="color:#E8B85A;">Dein Tester-Kontingent ist aufgebraucht 🐴</strong><br/><br/>'+
+    'Danke für dein wertvolles Feedback! So geht es weiter:<br/><br/>'+
+    '✦ <strong>Bot einzeln:</strong> ab €9,90/Monat oder €89/Jahr<br/>'+
+    '✦ <strong>EQUINAT COMPLETE® Abo:</strong> Bot dauerhaft kostenlos inklusive<br/><br/>'+
+    '💬 Aktive Tester erhalten von uns einen <strong style="color:#4ADE80;">Nachlade-Link</strong> per Telegram!<br/><br/>'+
+    '<a href="https://equinat.de" target="_blank" style="color:#E8B85A;font-weight:700;">→ Jetzt auf equinat.de upgraden</a>'+
+    '</div></div>';
+  m.appendChild(row); m.scrollTop = m.scrollHeight;
+}
 
 function toggleSb(){
   document.getElementById('sb').classList.toggle('open');
@@ -258,6 +369,7 @@ async function qa(text){
 async function send(){
   var inp=document.getElementById('inp'),msg=inp.value.trim();
   if(!msg||busy)return;
+  if(userType==='free' && credits<=0){showUpgrade();return;}
   inp.value='';busy=true;
   document.getElementById('sbtn').disabled=true;
   addMsg('u',msg);
@@ -267,7 +379,7 @@ async function send(){
     var r=await fetch('/.netlify/functions/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({messages:hist})
+      body:JSON.stringify({messages:hist,user_id:USER_ID,user_name:'Tester',msg_count:++MSG_COUNT})
     });
     var d=await r.json();
     hideTyping();
@@ -285,6 +397,14 @@ async function send(){
   busy=false;
   document.getElementById('sbtn').disabled=false;
 }
+updateCredits();
+checkBoostCode();
+updateCredits();
 </script>
+<!-- Hidden form for Netlify to detect eq-messages submissions -->
+<form name="eq-messages" netlify style="display:none;">
+  <input name="user_id"/><input name="user_name"/><input name="question"/>
+  <input name="answer"/><input name="timestamp"/><input name="msg_count"/>
+</form>
 </body>
 </html>
