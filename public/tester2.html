@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="de" style="background:#070B05;">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="theme-color" content="#070B05"/>
+<title>EQUINAT PferdeBot® — Tester werden</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background-color:#070B05;color:#F4EFE4;font-family:'DM Sans',system-ui,sans-serif;min-height:100vh;}
+
+nav{position:sticky;top:0;z-index:50;background:#060A04;
+  border-bottom:1px solid rgba(201,148,58,0.18);padding:0 1.25rem;height:56px;
+  display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:0.95rem;letter-spacing:0.2em;color:#E8B85A;}
+.nav-live{display:flex;align-items:center;gap:0.45rem;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(244,239,228,0.55);}
+.dot{width:6px;height:6px;background:#4ADE80;border-radius:50%;}
+
+.section{background-color:#070B05;padding:56px 1.25rem;}
+.section.alt{background-color:#060A04;}
+.section.dark{background-color:#040704;}
+.max{max-width:920px;margin:0 auto;}
+.max-sm{max-width:580px;margin:0 auto;}
+
+/* HERO */
+.hero{background-color:#070B05;padding:64px 1.25rem 48px;text-align:center;}
+.hero-badge{display:inline-flex;align-items:center;gap:0.55rem;
+  padding:0.42rem 1.1rem;background:rgba(201,148,58,0.15);
+  border:1px solid rgba(201,148,58,0.38);border-radius:100px;
+  font-size:0.67rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;
+  color:#E8B85A;margin-bottom:1.4rem;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,7vw,3.8rem);
+  font-weight:300;color:#FFFFFF;line-height:1.1;margin-bottom:1rem;}
+.hero h1 em{color:#E8B85A;font-style:italic;}
+.hero-sub{font-size:0.92rem;color:rgba(244,239,228,0.80);line-height:1.75;
+  max-width:500px;margin:0 auto 1.75rem;font-weight:300;}
+.perks{display:flex;flex-wrap:wrap;justify-content:center;gap:0.55rem;}
+.perk{display:flex;align-items:center;gap:0.42rem;padding:0.4rem 0.95rem;
+  background:rgba(201,148,58,0.10);border:1px solid rgba(201,148,58,0.25);
+  border-radius:100px;font-size:0.73rem;color:rgba(244,239,228,0.88);}
+.perk::before{content:'✓';color:#C9943A;font-weight:700;}
+
+.divider{height:1px;background:linear-gradient(to right,transparent,rgba(201,148,58,0.2),transparent);margin:0;}
+
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.7rem,5vw,2.6rem);
+  font-weight:300;color:#FFFFFF;text-align:center;margin-bottom:0.5rem;line-height:1.15;}
+.section-title em{color:#E8B85A;font-style:italic;}
+.section-sub{text-align:center;font-size:0.83rem;color:rgba(244,239,228,0.72);
+  max-width:480px;margin:0 auto 2.25rem;line-height:1.65;}
+
+/* BOT FEATURES */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:1px;background:rgba(201,148,58,0.14);border:1px solid rgba(201,148,58,0.14);}
+.feat{background:#070B05;padding:1.5rem;display:flex;flex-direction:column;gap:0.5rem;}
+.feat-icon{font-size:1.6rem;}
+.feat-name{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:#F4EFE4;font-weight:400;}
+.feat-desc{font-size:0.77rem;color:rgba(244,239,228,0.72);line-height:1.62;}
+
+/* PRODUKTE */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0.85rem;}
+.prod-card{background:rgba(27,47,20,0.30);border:1px solid rgba(201,148,58,0.20);
+  padding:1.5rem;display:flex;flex-direction:column;gap:0.55rem;position:relative;}
+.prod-top{height:3px;background:var(--pc);margin:-1.5rem -1.5rem 1rem;border-radius:0;}
+.prod-label{font-size:0.57rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--pc);}
+.prod-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#FFFFFF;line-height:1.2;}
+.prod-tagline{font-size:0.74rem;color:rgba(244,239,228,0.75);line-height:1.52;}
+.prod-ings{display:flex;flex-direction:column;gap:4px;margin-top:0.2rem;}
+.prod-ing{font-size:0.71rem;color:rgba(244,239,228,0.72);display:flex;align-items:center;gap:6px;}
+.prod-ing::before{content:'·';color:var(--pc);font-weight:700;font-size:1.1rem;}
+.prod-for{margin-top:0.5rem;padding-top:0.65rem;border-top:1px solid rgba(201,148,58,0.12);
+  font-size:0.68rem;color:rgba(244,239,228,0.60);font-style:italic;}
+
+/* FORM */
+.form-card{background:#0A0F08;border:1px solid rgba(201,148,58,0.28);padding:2rem 1.5rem;}
+.form-card h2{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:#fff;margin-bottom:0.35rem;}
+.form-sub{font-size:0.79rem;color:rgba(244,239,228,0.72);margin-bottom:1.6rem;line-height:1.6;}
+.field{margin-bottom:1rem;}
+label{display:block;font-size:0.67rem;font-weight:700;letter-spacing:0.14em;
+  text-transform:uppercase;color:rgba(201,148,58,0.72);margin-bottom:0.4rem;}
+input,select,textarea{
+  width:100%;background:#111608;
+  border:1px solid rgba(201,148,58,0.25);outline:none;
+  color:#F4EFE4;font-family:'DM Sans',system-ui;font-size:0.86rem;
+  padding:0.76rem 0.95rem;border-radius:2px;transition:border-color 0.2s;
+  -webkit-appearance:none;appearance:none;}
+input:focus,select:focus,textarea:focus{border-color:rgba(201,148,58,0.55);}
+input::placeholder,textarea::placeholder{color:rgba(244,239,228,0.28);}
+select option{background:#0A0F08;color:#F4EFE4;}
+textarea{resize:vertical;min-height:74px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;}
+.check-row{display:flex;align-items:flex-start;gap:0.65rem;margin-bottom:1.4rem;}
+.check-row input[type=checkbox]{width:18px;height:18px;flex-shrink:0;margin-top:2px;accent-color:#C9943A;}
+.check-txt{font-size:0.76rem;color:rgba(244,239,228,0.68);line-height:1.55;}
+.check-txt a{color:#E8B85A;text-decoration:none;}
+.btn{width:100%;padding:0.95rem;background:#C9943A;color:#060A04;border:none;
+  cursor:pointer;font-family:'DM Sans',system-ui;font-size:0.82rem;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;border-radius:2px;transition:background 0.18s;}
+.btn:hover{background:#E8B85A;}
+.btn:disabled{opacity:0.45;cursor:not-allowed;}
+
+.success{display:none;text-align:center;padding:2rem 0.5rem;}
+.success-icon{font-size:3rem;margin-bottom:0.85rem;}
+.success h3{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;color:#fff;margin-bottom:0.65rem;}
+.success p{font-size:0.84rem;color:rgba(244,239,228,0.72);line-height:1.8;}
+
+footer{background:#040704;border-top:1px solid rgba(201,148,58,0.12);
+  padding:1.75rem 1.25rem;text-align:center;font-size:0.6rem;
+  color:rgba(244,239,228,0.45);letter-spacing:0.04em;line-height:2;}
+
+@media(max-width:540px){
+  .row2{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body style="background-color:#070B05;color:#F4EFE4;">
+
+<nav>
+  <div class="nav-logo">EQUINAT COMPLETE®</div>
+  <div class="nav-live"><div class="dot"></div>PferdeBot® Tester werden</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🐴 Exklusive Testphase — Limitierte Plätze</div>
+  <h1>Dein digitaler Stallexperte.<br/><em>Jetzt kostenlos testen.</em></h1>
+  <p class="hero-sub">Der EQUINAT PferdeBot® beantwortet alle Fragen zu Pferdehaltung, Gesundheit und Fütterung — wissenschaftlich belegt, tierärztlich validiert, 24/7 verfügbar. Für ausgewählte Tester:innen in der Testphase komplett kostenlos.</p>
+  <div class="perks">
+    <div class="perk">Testphase 100% kostenlos</div>
+    <div class="perk">Tierärztlich validiert</div>
+    <div class="perk">Kein Abo nötig</div>
+    <div class="perk">Sofortiger Zugang</div>
+  </div>
+</div>
+
+<div style="background:#060A04;border-top:1px solid rgba(201,148,58,0.12);border-bottom:1px solid rgba(201,148,58,0.12);padding:1.5rem 1.25rem;text-align:center;">
+  <div style="max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:0.85rem;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#E8B85A;font-weight:300;">So funktioniert die Testphase</div>
+    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+      <div style="display:flex;align-items:flex-start;gap:0.75rem;text-align:left;">
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(201,148,58,0.15);border:1px solid rgba(201,148,58,0.35);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#E8B85A;flex-shrink:0;margin-top:1px;">1</div>
+        <div style="font-size:0.82rem;color:rgba(244,239,228,0.80);line-height:1.6;padding-top:3px;">Du trägst dich ein und wirst als Tester:in <strong style="color:#F4EFE4;">persönlich freigeschaltet</strong> — nicht jede Anmeldung wird automatisch angenommen.</div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:0.75rem;text-align:left;">
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(201,148,58,0.15);border:1px solid rgba(201,148,58,0.35);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#E8B85A;flex-shrink:0;margin-top:1px;">2</div>
+        <div style="font-size:0.82rem;color:rgba(244,239,228,0.80);line-height:1.6;padding-top:3px;">Du wirst in unsere <strong style="color:#F4EFE4;">exklusive Tester-Gruppe auf Telegram</strong> eingeladen 📱 — dort tauschen wir uns aus, du gibst uns Feedback und wir entwickeln den Bot gemeinsam mit euch weiter.</div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:0.75rem;text-align:left;">
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(201,148,58,0.15);border:1px solid rgba(201,148,58,0.35);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#E8B85A;flex-shrink:0;margin-top:1px;">3</div>
+        <div style="font-size:0.82rem;color:rgba(244,239,228,0.80);line-height:1.6;padding-top:3px;">Während der Testphase ist der PferdeBot® für dich <strong style="color:#F4EFE4;">komplett kostenlos</strong> — kein Abo, keine Kreditkarte, keine Verpflichtung.</div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:0.75rem;text-align:left;">
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(201,148,58,0.15);border:1px solid rgba(201,148,58,0.35);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#E8B85A;flex-shrink:0;margin-top:1px;">4</div>
+        <div style="font-size:0.82rem;color:rgba(244,239,228,0.80);line-height:1.6;padding-top:3px;">Nach der Testphase entscheidest <strong style="color:#F4EFE4;">du — frei und ohne Druck</strong>:<br/><br/>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:2px;">
+            <div style="display:flex;align-items:flex-start;gap:8px;">
+              <span style="color:#C9943A;font-size:1rem;flex-shrink:0;">✦</span>
+              <span>Den Bot <strong style="color:#F4EFE4;">eigenständig weiter nutzen</strong> — ab €9,90/Monat oder €89/Jahr</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;">
+              <span style="color:#C9943A;font-size:1rem;flex-shrink:0;">✦</span>
+              <span>Ein <strong style="color:#F4EFE4;">EQUINAT COMPLETE® Abo</strong> abschließen — dann bleibt der PferdeBot® für dich <strong style="color:#4ADE80;">dauerhaft kostenlos</strong> inklusive</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;">
+              <span style="color:rgba(244,239,228,0.3);font-size:1rem;flex-shrink:0;">✦</span>
+              <span style="color:rgba(244,239,228,0.55);">Oder du hörst einfach auf — kein Vertrag, keine Kündigung nötig</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- BOT FEATURES -->
+<div class="section alt">
+  <div class="max">
+    <div class="section-title">Was der <em>PferdeBot®</em> weiß</div>
+    <p class="section-sub">Validiert durch Equine Internisten (ECEIM), Tierernährungswissenschaftler und Reitsportprofis.</p>
+    <div class="feat-grid">
+      <div class="feat" style="background:#060A04;"><div class="feat-icon">🩺</div><div class="feat-name">Gesundheit & Krankheiten</div><div class="feat-desc">EMS, Cushing, RAO, Arthrose, Hufrehe, Lahmheit — mit Studienreferenzen und Dosierungen.</div></div>
+      <div class="feat" style="background:#060A04;"><div class="feat-icon">🌿</div><div class="feat-name">Fütterung & Supplemente</div><div class="feat-desc">Rationsplanung, Heu-Bedarf, NSC-Werte, Ergänzungsmittel — exakt und wissenschaftlich.</div></div>
+      <div class="feat" style="background:#060A04;"><div class="feat-icon">🏠</div><div class="feat-name">Stall & Haltung</div><div class="feat-desc">Einstreu, Lüftung, Boxenmaße, Offenstall, Weidemanagement — alles aus einer Quelle.</div></div>
+      <div class="feat" style="background:#060A04;"><div class="feat-icon">🏆</div><div class="feat-name">Training & Sport</div><div class="feat-desc">Trainingsaufbau, Regeneration, Muskelaufbau, Turniervorbereitung — evidenzbasiert.</div></div>
+      <div class="feat" style="background:#060A04;"><div class="feat-icon">💉</div><div class="feat-name">Vorsorge & Impfungen</div><div class="feat-desc">Impfplan, selektive Entwurmung, Zahnpflege — aktuell und leitliniengerecht.</div></div>
+      <div class="feat" style="background:#060A04;"><div class="feat-icon">🦴</div><div class="feat-name">Gelenke & Knie</div><div class="feat-desc">MSM, Teufelskralle, Kurkuma Meriva, Boswellia — Wirkung, Dosierung, Studienlage.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PRODUKTE -->
+<div class="section">
+  <div class="max">
+    <div class="section-title">EQUINAT COMPLETE®<br/><em>Das All-in-One System.</em></div>
+    <p class="section-sub">Das erste Bio-Pferdefutter-System mit tierärztlich validierten Wirkstoffen — vier spezialisierte Linien.</p>
+    <div class="prod-grid">
+      <div class="prod-card" style="--pc:#C9943A;">
+        <div class="prod-top"></div>
+        <div class="prod-label">Basis für alle</div>
+        <div class="prod-name">DAILY COMPLETE®</div>
+        <div class="prod-tagline">Vollständige Mineralstoffversorgung, Probiotika und Omega-3 — täglich für jedes Pferd.</div>
+        <div class="prod-ings">
+          <div class="prod-ing">Vollmineralversorgung</div>
+          <div class="prod-ing">Probiotika & Prebiotika</div>
+          <div class="prod-ing">Omega-3 (Leinöl)</div>
+          <div class="prod-ing">Biotin 20mg · Zink 400mg</div>
+        </div>
+        <div class="prod-for">Für: alle Pferde · Vitalität · glänzendes Fell</div>
+      </div>
+      <div class="prod-card" style="--pc:#E8B85A;">
+        <div class="prod-top"></div>
+        <div class="prod-label">Gelenke & Bewegung</div>
+        <div class="prod-name">JOINT COMPLETE®</div>
+        <div class="prod-tagline">Die stärkste natürliche Gelenkformel — wissenschaftlich belegt.</div>
+        <div class="prod-ings">
+          <div class="prod-ing">MSM 20g/Tag</div>
+          <div class="prod-ing">Teufelskralle (COX-2)</div>
+          <div class="prod-ing">Kurkuma Meriva (29× bio)</div>
+          <div class="prod-ing">Boswellia · Hagebutte (GOPO)</div>
+        </div>
+        <div class="prod-for">Für: Arthrose · Knie · Lahmheit · Sport</div>
+      </div>
+      <div class="prod-card" style="--pc:#7EC870;">
+        <div class="prod-top"></div>
+        <div class="prod-label">Atemwege & Allergie</div>
+        <div class="prod-name">RESPIRA COMPLETE®</div>
+        <div class="prod-tagline">Natürliche Atemwegsunterstützung bei RAO, Husten und Stauballergie.</div>
+        <div class="prod-ings">
+          <div class="prod-ing">Quercetin 3g/Tag</div>
+          <div class="prod-ing">NAC 10g/Tag</div>
+          <div class="prod-ing">Schwarzkümmel 30ml</div>
+          <div class="prod-ing">Bromelain · Vitamin C</div>
+        </div>
+        <div class="prod-for">Für: RAO · Husten · Stallallergie</div>
+      </div>
+      <div class="prod-card" style="--pc:#B8A040;">
+        <div class="prod-top"></div>
+        <div class="prod-label">Stoffwechsel & EMS</div>
+        <div class="prod-name">METABOLIC COMPLETE®</div>
+        <div class="prod-tagline">Für stoffwechselempfindliche Pferde und Ponys — NSC-arm, getreidefrei.</div>
+        <div class="prod-ings">
+          <div class="prod-ing">Chromhefe (Insulinsensitivität)</div>
+          <div class="prod-ing">Magnesium 15g</div>
+          <div class="prod-ing">Vitamin E nat. 2000 IU</div>
+          <div class="prod-ing">Biotin 20mg · Zink 400mg</div>
+        </div>
+        <div class="prod-for">Für: EMS · Cushing · Hufrehe · Ponys</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:1.25rem;font-size:0.76rem;color:rgba(244,239,228,0.45);">
+      Bio-zertifiziert · Tierärztlich validiert · Wissenschaftlich belegt · equinat.de
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- FORM -->
+<div class="section alt" id="tester">
+  <div class="max-sm">
+    <div class="form-card">
+      <div id="formInner">
+        <h2>Jetzt eintragen 🐴</h2>
+        <p class="form-sub">Trage dich ein und wir schalten dich kostenlos frei. Keine Kreditkarte, kein Abo.</p>
+        <form name="equinat-tester" netlify netlify-honeypot="bot-field" onsubmit="doSubmit(event)">
+          <input type="hidden" name="form-name" value="equinat-tester"/>
+          <div style="display:none;"><input name="bot-field"/></div>
+          <div class="row2">
+            <div class="field"><label>Vorname *</label><input type="text" name="vorname" placeholder="Dein Vorname" required/></div>
+            <div class="field"><label>Nachname *</label><input type="text" name="nachname" placeholder="Dein Nachname" required/></div>
+          </div>
+          <div class="field"><label>E-Mail *</label><input type="email" name="email" placeholder="deine@email.de" required/></div>
+          <div class="field"><label>Instagram Handle</label><input type="text" name="instagram" placeholder="@deinhandle (optional)"/></div>
+          <div class="row2">
+            <div class="field">
+              <label>Wie viele Pferde? *</label>
+              <select name="pferde" required>
+                <option value="" disabled selected>Bitte wählen</option>
+                <option>1 Pferd</option><option>2–3 Pferde</option>
+                <option>4–6 Pferde</option><option>7+ Pferde</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Hauptthema?</label>
+              <select name="thema">
+                <option value="" disabled selected>Optional</option>
+                <option>Gesundheit</option><option>Fütterung</option>
+                <option>Gelenke & Knie</option><option>Atemwege & RAO</option>
+                <option>EMS / Cushing</option><option>Training</option><option>Stall</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label>Deine Frage zu deinem Pferd?</label>
+            <textarea name="frage" placeholder="Optional — wir testen den Bot direkt mit deiner Frage!"></textarea>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" id="dsgvo" required/>
+            <label class="check-txt" for="dsgvo">Ich stimme zu, dass EQUINAT (Zafao GmbH) meine Daten zur Bereitstellung des Tester-Zugangs verwendet. <a href="#" onclick="openModal('datenschutzModal');return false;">Datenschutz</a></label>
+          </div>
+          <button type="submit" class="btn" id="submitBtn">✦ Kostenlos als Tester:in eintragen ✦</button>
+        </form>
+      </div>
+      <div class="success" id="successMsg">
+        <div class="success-icon">🐴</div>
+        <h3>Du bist dabei!</h3>
+        <p>Wir haben deine Anmeldung erhalten und schalten dich in Kürze frei.<br/><br/>
+        Folg uns auf Instagram <strong style="color:#E8B85A;">@equinat.complete</strong> damit du nichts verpasst.<br/><br/>
+        Bis bald im Stall! 🌿</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IMPRESSUM MODAL -->
+<div id="impressumModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;overflow-y:auto;padding:2rem 1rem;">
+  <div style="background:#0A0F08;border:1px solid rgba(201,148,58,0.25);max-width:560px;margin:0 auto;padding:2rem;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:#fff;font-weight:300;">Impressum</div>
+      <button onclick="closeModal('impressumModal')" style="background:transparent;border:none;color:rgba(244,239,228,0.5);font-size:1.5rem;cursor:pointer;">✕</button>
+    </div>
+    <div style="font-size:0.82rem;color:rgba(244,239,228,0.80);line-height:1.9;">
+      <strong style="color:#E8B85A;">Angaben gemäß § 5 TMG</strong><br/><br/>
+      <strong style="color:#F4EFE4;">Zafao GmbH</strong><br/>
+      Adolfsallee 22<br/>
+      65185 Wiesbaden<br/>
+      Deutschland<br/><br/>
+      <strong style="color:#F4EFE4;">Handelsregister</strong><br/>
+      Amtsgericht Wiesbaden<br/>
+      HRB 33239<br/><br/>
+      <strong style="color:#F4EFE4;">Geschäftsführerin</strong><br/>
+      Lea Zahlmann<br/><br/>
+      <strong style="color:#F4EFE4;">Kontakt</strong><br/>
+      E-Mail: info@zafao.world<br/>
+      Web: equinat.de<br/><br/>
+      <strong style="color:#E8B85A;">Haftungsausschluss</strong><br/>
+      Alle Inhalte des EQUINAT PferdeBot® dienen ausschließlich allgemeinen Informationszwecken und ersetzen keine tierärztliche Diagnose oder Behandlung. Bei gesundheitlichen Problemen Ihres Pferdes wenden Sie sich bitte an einen zugelassenen Tierarzt.<br/><br/>
+      <strong style="color:#E8B85A;">Urheberrecht</strong><br/>
+      Die durch Zafao GmbH erstellten Inhalte und Werke unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung und Verbreitung bedürfen der schriftlichen Genehmigung des Erstellers.
+    </div>
+  </div>
+</div>
+
+<!-- DATENSCHUTZ MODAL -->
+<div id="datenschutzModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;overflow-y:auto;padding:2rem 1rem;">
+  <div style="background:#0A0F08;border:1px solid rgba(201,148,58,0.25);max-width:560px;margin:0 auto;padding:2rem;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:#fff;font-weight:300;">Datenschutzerklärung</div>
+      <button onclick="closeModal('datenschutzModal')" style="background:transparent;border:none;color:rgba(244,239,228,0.5);font-size:1.5rem;cursor:pointer;">✕</button>
+    </div>
+    <div style="font-size:0.82rem;color:rgba(244,239,228,0.80);line-height:1.9;">
+      <strong style="color:#E8B85A;">Verantwortlicher (Art. 4 Abs. 7 DSGVO)</strong><br/>
+      Zafao GmbH · Adolfsallee 22 · 65185 Wiesbaden<br/>
+      E-Mail: info@zafao.world<br/><br/>
+
+      <strong style="color:#E8B85A;">Erhobene Daten bei der Tester-Anmeldung</strong><br/>
+      Wir erheben: Vor- und Nachname, E-Mail-Adresse, Instagram-Handle (optional), Anzahl Pferde, Interessensgebiet, freie Frage.<br/><br/>
+
+      <strong style="color:#E8B85A;">Zweck der Verarbeitung</strong><br/>
+      Die Daten werden ausschließlich zur Bereitstellung des kostenlosen Tester-Zugangs zum EQUINAT PferdeBot® sowie zur Information über Produktneuheiten verwendet.<br/><br/>
+
+      <strong style="color:#E8B85A;">Rechtsgrundlage</strong><br/>
+      Art. 6 Abs. 1 lit. a DSGVO (Einwilligung). Sie können Ihre Einwilligung jederzeit widerrufen.<br/><br/>
+
+      <strong style="color:#E8B85A;">Weitergabe an Dritte</strong><br/>
+      Ihre Daten werden nicht an Dritte weitergegeben. Die Speicherung erfolgt über Netlify Forms (Netlify Inc., USA) — Datenverarbeitung gemäß DSGVO-Standardvertragsklauseln.<br/><br/>
+
+      <strong style="color:#E8B85A;">Speicherdauer</strong><br/>
+      Bis zum Widerruf der Einwilligung oder nach Abschluss der Testphase, maximal 2 Jahre.<br/><br/>
+
+      <strong style="color:#E8B85A;">Ihre Rechte</strong><br/>
+      Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Widerspruch (Art. 21 DSGVO).<br/>
+      Anfragen an: info@zafao.world<br/><br/>
+
+      <strong style="color:#E8B85A;">Beschwerderecht</strong><br/>
+      Zuständige Aufsichtsbehörde: Der Hessische Beauftragte für Datenschutz und Informationsfreiheit (HBDI), Wiesbaden.
+    </div>
+  </div>
+</div>
+
+<footer style="background:#040704;border-top:1px solid rgba(201,148,58,0.12);padding:2rem 1.25rem;text-align:center;">
+  <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;letter-spacing:0.2em;color:#E8B85A;margin-bottom:0.75rem;">EQUINAT COMPLETE®</div>
+  <div style="font-size:0.68rem;color:rgba(244,239,228,0.50);line-height:2;margin-bottom:1rem;">
+    Zafao GmbH · Adolfsallee 22 · 65185 Wiesbaden · info@zafao.world<br/>
+    ⚕️ Allgemeine Informationen — kein Ersatz für tierärztliche Beratung
+  </div>
+  <div style="display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;">
+    <a href="#" onclick="openModal('impressumModal');return false;" style="font-size:0.7rem;color:rgba(201,148,58,0.65);text-decoration:none;letter-spacing:0.08em;">Impressum</a>
+    <a href="#" onclick="openModal('datenschutzModal');return false;" style="font-size:0.7rem;color:rgba(201,148,58,0.65);text-decoration:none;letter-spacing:0.08em;">Datenschutz</a>
+    <a href="mailto:info@zafao.world" style="font-size:0.7rem;color:rgba(201,148,58,0.65);text-decoration:none;letter-spacing:0.08em;">Kontakt</a>
+    <a href="https://equinat.de" style="font-size:0.7rem;color:rgba(201,148,58,0.65);text-decoration:none;letter-spacing:0.08em;">equinat.de</a>
+  </div>
+</footer>
+
+<script>
+function doSubmit(e) {
+  e.preventDefault();
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = 'Wird eingetragen...';
+  setTimeout(function() {
+    document.getElementById('formInner').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  }, 1000);
+}
+function openModal(id) {
+  document.getElementById(id).style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).style.display = 'none';
+  document.body.style.overflow = '';
+}
+</script>
+</body>
+</html>
