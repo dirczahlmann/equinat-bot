@@ -310,9 +310,11 @@ function updateCredits(){
     txt.textContent = '✓ Unbegrenzt';
     return;
   }
-  var pct = Math.max(0, Math.min(100, (credits / CREDITS_DEFAULT) * 100));
+  // Use credits as absolute number, cap bar at 100%
+  var maxDisplay = Math.max(credits, CREDITS_DEFAULT);
+  var pct = Math.max(0, Math.min(100, (credits / maxDisplay) * 100));
   bar.style.width = pct + '%';
-  bar.style.background = pct > 40 ? '#C9943A' : pct > 15 ? '#E8B85A' : '#ef4444';
+  bar.style.background = credits > 15 ? '#C9943A' : credits > 5 ? '#E8B85A' : '#ef4444';
   txt.textContent = credits + ' Nachrichten verbleibend';
 }
 
