@@ -3,6 +3,9 @@
  *
  * Wird vom Frontend aufgerufen, leitet an Anthropic API weiter,
  * und loggt jede Q&A in Netlify Forms (eq-messages).
+ *
+ * Felder im Log werden vom admin-v2.html erwartet:
+ *   user_id, email, user_name, question, answer, timestamp, msg_count, tokens
  */
 
 const https = require('https');
@@ -31,7 +34,7 @@ exports.handler = async function(event) {
 
   try {
     const body = JSON.parse(event.body);
-    const { system, messages, user_id, user_name, msg_count } = body;
+    const { system, messages, user_id, user_name, email, msg_count } = body;
 
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
@@ -81,15 +84,18 @@ exports.handler = async function(event) {
       const answer = (parsed.content && parsed.content[0] && parsed.content[0].text) ? parsed.content[0].text.slice(0, 2000) : '';
       const tokensIn = (parsed.usage && parsed.usage.input_tokens) || 0;
       const tokensOut = (parsed.usage && parsed.usage.output_tokens) || 0;
+      const totalTokens = tokensIn + tokensOut;
 
       logToNetlify({
         'form-name': 'eq-messages',
         user_id: user_id || 'anon',
+        email: email || '',
         user_name: user_name || 'Tester',
         question,
         answer,
         timestamp: new Date().toISOString(),
         msg_count: String(msg_count || 0),
+        tokens: String(totalTokens),
         tokens_in: String(tokensIn),
         tokens_out: String(tokensOut),
       }).catch(() => {}); // fire-and-forget
