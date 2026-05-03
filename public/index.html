@@ -44,11 +44,13 @@
 <form name="eq-messages" data-netlify="true" netlify-honeypot="bot-field" hidden>
   <input type="text" name="bot-field"/>
   <input type="text" name="user_id"/>
+  <input type="email" name="email"/>
   <input type="text" name="user_name"/>
   <input type="text" name="question"/>
   <input type="text" name="answer"/>
   <input type="text" name="timestamp"/>
   <input type="text" name="msg_count"/>
+  <input type="text" name="tokens"/>
   <input type="text" name="tokens_in"/>
   <input type="text" name="tokens_out"/>
 </form>
@@ -548,6 +550,7 @@ function Icon({ name, size = 16, color, style }) {
 const STORAGE_KEY = "equinat-pferdebot-v2";
 const USER_ID_KEY = "equinat-user-id";
 const USER_NAME_KEY = "equinat-user-name";
+const USER_EMAIL_KEY = "equinat-user-email";
 
 function getUserId() {
   try {
@@ -569,6 +572,15 @@ function getUserName() {
 
 function setUserName(n) {
   try { localStorage.setItem(USER_NAME_KEY, n); } catch (e) {}
+}
+
+function getUserEmail() {
+  try { return localStorage.getItem(USER_EMAIL_KEY) || ""; }
+  catch (e) { return ""; }
+}
+
+function setUserEmail(e) {
+  try { localStorage.setItem(USER_EMAIL_KEY, e); } catch (err) {}
 }
 function loadData() {
   try {
@@ -803,6 +815,7 @@ function PferdeBot() {
           messages: apiMessages,
           user_id: getUserId(),
           user_name: getUserName(),
+          email: getUserEmail(),
           msg_count: messageCount + 1,
         }),
       });
@@ -1526,6 +1539,17 @@ function SidebarTopicBtn({ topic, onClick }) {
 
 /* ── Welcome Screen ── */
 function Welcome({ onPick, project }) {
+  const [emailInput, setEmailInput] = useState(getUserEmail());
+  const [emailSaved, setEmailSaved] = useState(!!getUserEmail());
+
+  function saveEmail() {
+    const e = emailInput.trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) return;
+    setUserEmail(e);
+    setEmailSaved(true);
+    setTimeout(() => setEmailSaved(false), 3500);
+  }
+
   return (
     <div style={{
       flex: 1, display: "flex", flexDirection: "column",
@@ -1542,10 +1566,58 @@ function Welcome({ onPick, project }) {
       </h1>
       <p style={{
         fontSize: "0.88rem", color: T.dim, textAlign: "center",
-        maxWidth: "440px", margin: "0 0 2rem", lineHeight: 1.55,
+        maxWidth: "440px", margin: "0 0 1.6rem", lineHeight: 1.55,
       }}>
         Dein KI-Experte für Pferd, Stall, Futter und Gesundheit — validiert durch unser tierärztliches Beiratsnetzwerk.
       </p>
+
+      {/* Email registration — only shown if not yet saved */}
+      {!getUserEmail() && (
+        <div style={{
+          width: "100%", maxWidth: "440px",
+          padding: "0.85rem 1rem", marginBottom: "1.6rem",
+          background: T.hover, border: "1px solid " + T.border,
+          borderRadius: "2px",
+        }}>
+          <div style={{
+            fontSize: "0.66rem", color: T.gold, letterSpacing: "0.18em",
+            textTransform: "uppercase", marginBottom: "0.5rem", textAlign: "center",
+          }}>✦ Beta-Tester? Hinterleg deine Email</div>
+          <div style={{ fontSize: "0.74rem", color: T.dim, lineHeight: 1.5, marginBottom: "0.75rem", textAlign: "center" }}>
+            Damit dein Feedback dem EQUINAT-Team zugeordnet werden kann.
+          </div>
+          <div style={{ display: "flex", gap: "0.4rem" }}>
+            <input
+              type="email"
+              value={emailInput}
+              onChange={e => setEmailInput(e.target.value)}
+              onKeyDown={e => { if (e.key === "Enter") saveEmail(); }}
+              placeholder="deine@email.de"
+              style={{
+                flex: 1, padding: "0.55rem 0.7rem",
+                background: T.bg3, border: "1px solid " + T.borderS,
+                outline: "none", color: T.cream, fontFamily: T.fontBody,
+                fontSize: "0.8rem", borderRadius: "2px",
+              }}
+            />
+            <button onClick={saveEmail} style={{
+              padding: "0 0.85rem", background: T.gold, color: T.bg,
+              border: "none", borderRadius: "2px", cursor: "pointer",
+              fontFamily: T.fontBody, fontSize: "0.74rem", fontWeight: 600,
+              letterSpacing: "0.05em",
+            }}>OK</button>
+          </div>
+        </div>
+      )}
+
+      {emailSaved && (
+        <div style={{
+          padding: "0.45rem 0.85rem", marginBottom: "1.2rem",
+          background: "rgba(124,179,66,0.1)", border: "1px solid rgba(124,179,66,0.3)",
+          borderRadius: "2px", fontSize: "0.74rem", color: "#7CB342",
+        }}>✓ Email gespeichert — danke!</div>
+      )}
+
       <div style={{
         display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
         gap: "0.6rem", width: "100%", maxWidth: "640px",
