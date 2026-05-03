@@ -55,6 +55,15 @@
   <input type="text" name="tokens_out"/>
 </form>
 
+<!-- Hidden form for Netlify form detection (eq-codes — access codes for Beta) -->
+<form name="eq-codes" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="bot-field"/>
+  <input type="text" name="code"/>
+  <input type="email" name="email"/>
+  <input type="text" name="status"/>
+  <input type="text" name="created_at"/>
+</form>
+
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -582,6 +591,18 @@ function getUserEmail() {
 function setUserEmail(e) {
   try { localStorage.setItem(USER_EMAIL_KEY, e); } catch (err) {}
 }
+
+const ACCESS_CODE_KEY = "equinat-access-code";
+function getAccessCode() {
+  try { return localStorage.getItem(ACCESS_CODE_KEY) || ""; }
+  catch (e) { return ""; }
+}
+function setAccessCode(c) {
+  try { localStorage.setItem(ACCESS_CODE_KEY, c); } catch (e) {}
+}
+function clearAccessCode() {
+  try { localStorage.removeItem(ACCESS_CODE_KEY); } catch (e) {}
+}
 function loadData() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -816,9 +837,17 @@ function PferdeBot() {
           user_id: getUserId(),
           user_name: getUserName(),
           email: getUserEmail(),
+          access_code: getAccessCode(),
           msg_count: messageCount + 1,
         }),
       });
+
+      // ── If access code is rejected, force re-authentication ──
+      if (response.status === 401) {
+        clearAccessCode();
+        location.reload();
+        return;
+      }
 
       const data = await response.json();
       let reply = "Entschuldige, ich konnte gerade nicht antworten. Versuch es nochmal.";
@@ -869,6 +898,16 @@ function PferdeBot() {
   }, {});
   const groupOrder = ["Heute", "Gestern", "Diese Woche", "Diesen Monat", "Älter"];
   const activeProject = projects.find(p => p.id === activeProjectId);
+
+  /* ─── Access Code Lock-Screen ─── */
+  const [accessCode, setAccessCodeState] = useState(getAccessCode());
+  if (!accessCode) {
+    return <LockScreen onUnlock={(code, email) => {
+      setAccessCode(code);
+      if (email) setUserEmail(email);
+      setAccessCodeState(code);
+    }} />;
+  }
 
   /* ─── Render ─── */
   return (
@@ -1537,19 +1576,158 @@ function SidebarTopicBtn({ topic, onClick }) {
   );
 }
 
-/* ── Welcome Screen ── */
-function Welcome({ onPick, project }) {
-  const [emailInput, setEmailInput] = useState(getUserEmail());
-  const [emailSaved, setEmailSaved] = useState(!!getUserEmail());
+/* ── Lock Screen — Code-based Beta Access ── */
+function LockScreen({ onUnlock }) {
+  const [code, setCode] = useState("");
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [checking, setChecking] = useState(false);
 
-  function saveEmail() {
-    const e = emailInput.trim().toLowerCase();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) return;
-    setUserEmail(e);
-    setEmailSaved(true);
-    setTimeout(() => setEmailSaved(false), 3500);
+  async function tryUnlock() {
+    const c = code.trim().toUpperCase();
+    const e = email.trim().toLowerCase();
+    setError("");
+    if (!c || c.length < 4) { setError("Bitte gib deinen Zugangscode ein."); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) { setError("Bitte gib deine Email-Adresse ein."); return; }
+
+    setChecking(true);
+    try {
+      const r = await fetch("/.netlify/functions/verify-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: c, email: e }),
+      });
+      const data = await r.json();
+      if (data.valid) {
+        onUnlock(c, e);
+      } else {
+        setError(data.message || "Code ungültig oder abgelaufen.");
+        setChecking(false);
+      }
+    } catch (err) {
+      setError("Verbindungsfehler. Bitte erneut versuchen.");
+      setChecking(false);
+    }
   }
 
+  return (
+    <div style={{
+      width: "100%", height: "100%",
+      background: T.bg, color: T.cream, fontFamily: T.fontBody,
+      display: "flex", alignItems: "center", justifyContent: "center",
+      padding: "1.5rem", overflow: "auto",
+    }}>
+      <div style={{ width: "100%", maxWidth: "440px", textAlign: "center" }}>
+        {/* Logo */}
+        <div style={{
+          display: "inline-block", padding: "0.5rem 1.1rem",
+          background: "linear-gradient(135deg, " + T.gold + ", " + (T.goldD || "#8B6420") + ")",
+          color: T.bg, fontFamily: T.fontDisplay, fontWeight: 600,
+          letterSpacing: "0.22em", fontSize: "1.05rem", marginBottom: "1.5rem",
+        }}>EQUINAT</div>
+
+        <h1 style={{
+          fontFamily: T.fontDisplay, fontSize: "2rem", fontWeight: 400,
+          margin: "0 0 0.6rem", color: T.cream, letterSpacing: "0.01em",
+        }}>
+          Beta-Zugang erforderlich
+        </h1>
+        <p style={{ fontSize: "0.85rem", color: T.dim, lineHeight: 1.65, margin: "0 0 2rem" }}>
+          Der EQUINAT PferdeBot® befindet sich aktuell in der geschlossenen Beta-Testphase. 
+          Du brauchst einen <strong style={{ color: T.gold }}>persönlichen Zugangscode</strong>, 
+          den wir dir nach erfolgreicher Bewerbung per Email senden.
+        </p>
+
+        <div style={{
+          background: T.bg2 || "#0D1209", border: "1px solid " + T.border,
+          borderRadius: "2px", padding: "1.6rem 1.4rem",
+        }}>
+          <div style={{
+            fontSize: "0.62rem", letterSpacing: "0.22em",
+            color: T.gold, textTransform: "uppercase",
+            marginBottom: "1rem", fontWeight: 500,
+          }}>Zugangsdaten eingeben</div>
+
+          <input
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            onKeyDown={e => { if (e.key === "Enter") tryUnlock(); }}
+            placeholder="Deine Email-Adresse"
+            disabled={checking}
+            style={{
+              width: "100%", padding: "0.8rem 1rem",
+              background: T.bg3 || "#111808", border: "1px solid " + T.border,
+              outline: "none", color: T.cream, fontFamily: T.fontBody,
+              fontSize: "0.88rem", borderRadius: "2px", marginBottom: "0.7rem",
+              boxSizing: "border-box",
+            }}
+          />
+
+          <input
+            type="text"
+            value={code}
+            onChange={e => setCode(e.target.value.toUpperCase())}
+            onKeyDown={e => { if (e.key === "Enter") tryUnlock(); }}
+            placeholder="Zugangscode (z.B. EQ-7K3M)"
+            disabled={checking}
+            style={{
+              width: "100%", padding: "0.8rem 1rem",
+              background: T.bg3 || "#111808", border: "1px solid " + T.border,
+              outline: "none", color: T.gold, fontFamily: T.fontBody,
+              fontSize: "0.95rem", letterSpacing: "0.15em", borderRadius: "2px",
+              marginBottom: "0.85rem", textAlign: "center", fontWeight: 600,
+              boxSizing: "border-box",
+            }}
+          />
+
+          {error && (
+            <div style={{
+              padding: "0.6rem 0.8rem", marginBottom: "0.85rem",
+              background: "rgba(214,123,107,0.08)", border: "1px solid rgba(214,123,107,0.3)",
+              borderRadius: "2px", fontSize: "0.78rem", color: "#D67B6B",
+            }}>{error}</div>
+          )}
+
+          <button
+            onClick={tryUnlock}
+            disabled={checking}
+            style={{
+              width: "100%", padding: "0.85rem",
+              background: checking ? "rgba(201,148,58,0.3)" : T.gold,
+              color: T.bg, border: "none", borderRadius: "2px",
+              cursor: checking ? "default" : "pointer", fontFamily: T.fontBody,
+              fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.18em",
+              textTransform: "uppercase",
+            }}
+          >{checking ? "Wird geprüft..." : "→ Bot freischalten"}</button>
+        </div>
+
+        <div style={{ marginTop: "2rem" }}>
+          <div style={{ fontSize: "0.78rem", color: T.dim, lineHeight: 1.7 }}>
+            Noch keinen Zugang?
+          </div>
+          <a href="/tester-signup" style={{
+            display: "inline-block", marginTop: "0.5rem",
+            fontSize: "0.78rem", color: T.gold, textDecoration: "underline",
+            letterSpacing: "0.05em",
+          }}>→ Jetzt als Beta-Tester bewerben</a>
+        </div>
+
+        <div style={{
+          marginTop: "2.5rem", paddingTop: "1.5rem",
+          borderTop: "1px solid " + T.border,
+          fontSize: "0.66rem", color: T.dim, letterSpacing: "0.05em",
+        }}>
+          EQUINAT PferdeBot® · Beta-Testphase · Zafao GmbH
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Welcome Screen ── */
+function Welcome({ onPick, project }) {
   return (
     <div style={{
       flex: 1, display: "flex", flexDirection: "column",
@@ -1566,57 +1744,10 @@ function Welcome({ onPick, project }) {
       </h1>
       <p style={{
         fontSize: "0.88rem", color: T.dim, textAlign: "center",
-        maxWidth: "440px", margin: "0 0 1.6rem", lineHeight: 1.55,
+        maxWidth: "440px", margin: "0 0 2rem", lineHeight: 1.55,
       }}>
         Dein KI-Experte für Pferd, Stall, Futter und Gesundheit — validiert durch unser tierärztliches Beiratsnetzwerk.
       </p>
-
-      {/* Email registration — only shown if not yet saved */}
-      {!getUserEmail() && (
-        <div style={{
-          width: "100%", maxWidth: "440px",
-          padding: "0.85rem 1rem", marginBottom: "1.6rem",
-          background: T.hover, border: "1px solid " + T.border,
-          borderRadius: "2px",
-        }}>
-          <div style={{
-            fontSize: "0.66rem", color: T.gold, letterSpacing: "0.18em",
-            textTransform: "uppercase", marginBottom: "0.5rem", textAlign: "center",
-          }}>✦ Beta-Tester? Hinterleg deine Email</div>
-          <div style={{ fontSize: "0.74rem", color: T.dim, lineHeight: 1.5, marginBottom: "0.75rem", textAlign: "center" }}>
-            Damit dein Feedback dem EQUINAT-Team zugeordnet werden kann.
-          </div>
-          <div style={{ display: "flex", gap: "0.4rem" }}>
-            <input
-              type="email"
-              value={emailInput}
-              onChange={e => setEmailInput(e.target.value)}
-              onKeyDown={e => { if (e.key === "Enter") saveEmail(); }}
-              placeholder="deine@email.de"
-              style={{
-                flex: 1, padding: "0.55rem 0.7rem",
-                background: T.bg3, border: "1px solid " + T.borderS,
-                outline: "none", color: T.cream, fontFamily: T.fontBody,
-                fontSize: "0.8rem", borderRadius: "2px",
-              }}
-            />
-            <button onClick={saveEmail} style={{
-              padding: "0 0.85rem", background: T.gold, color: T.bg,
-              border: "none", borderRadius: "2px", cursor: "pointer",
-              fontFamily: T.fontBody, fontSize: "0.74rem", fontWeight: 600,
-              letterSpacing: "0.05em",
-            }}>OK</button>
-          </div>
-        </div>
-      )}
-
-      {emailSaved && (
-        <div style={{
-          padding: "0.45rem 0.85rem", marginBottom: "1.2rem",
-          background: "rgba(124,179,66,0.1)", border: "1px solid rgba(124,179,66,0.3)",
-          borderRadius: "2px", fontSize: "0.74rem", color: "#7CB342",
-        }}>✓ Email gespeichert — danke!</div>
-      )}
 
       <div style={{
         display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
