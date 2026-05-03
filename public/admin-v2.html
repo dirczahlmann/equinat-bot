@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>EQUINAT Admin · Backoffice</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#070B05;--bg2:#0D1209;--bg3:#111808;--bg4:#161D10;
+  --gold:#C9943A;--gold2:#E8B85A;--gold3:#F4DFA0;
+  --cream:#F4EFE4;--cream2:rgba(244,239,228,0.75);--cream3:rgba(244,239,228,0.40);
+  --border:rgba(201,148,58,0.15);--border2:rgba(201,148,58,0.35);
+  --green:#2D7A27;--green2:rgba(45,122,39,0.15);
+  --red:#9B3030;--red2:rgba(155,48,48,0.15);
+  --amber:#B87A20;--amber2:rgba(184,122,32,0.15);
+  --blue:#2A6080;--blue2:rgba(42,96,128,0.15);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:#070B05;}
+body{font-family:'Jost',sans-serif;font-weight:300;color:var(--cream);overflow:hidden;}
+
+/* ── LOGIN ── */
+#loginScreen{
+  position:fixed;inset:0;background:#070B05;
+  display:flex;align-items:center;justify-content:center;z-index:999;
+}
+.login-box{
+  background:var(--bg2);border:1px solid var(--border2);
+  padding:3rem 2.5rem;width:340px;text-align:center;
+}
+.login-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.65rem;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:2rem;
+}
+.login-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.8rem;font-weight:300;color:var(--cream);margin-bottom:0.5rem;
+}
+.login-sub{font-size:0.75rem;color:var(--cream3);margin-bottom:2rem;}
+.login-input{
+  width:100%;background:var(--bg);border:1px solid var(--border);
+  color:var(--cream);font-family:'Jost',sans-serif;font-size:0.85rem;
+  padding:0.8rem 1rem;margin-bottom:1rem;outline:none;
+  transition:border-color 0.2s;
+}
+.login-input:focus{border-color:var(--gold);}
+.login-btn{
+  width:100%;background:var(--gold);color:#070B05;border:none;
+  padding:0.9rem;font-family:'Jost',sans-serif;font-size:0.75rem;
+  font-weight:500;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;
+}
+.login-btn:hover{background:var(--gold2);}
+.login-err{font-size:0.75rem;color:var(--red);margin-top:0.5rem;display:none;}
+
+/* ── APP LAYOUT ── */
+#app{display:none;height:100vh;display:none;flex-direction:column;}
+#app.ready{display:flex;}
+.topbar{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:0 1.5rem;height:54px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.topbar-brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);
+  display:flex;align-items:center;gap:0.75rem;
+}
+.topbar-brand::before{
+  content:'';display:inline-block;width:8px;height:8px;
+  border-radius:50%;background:var(--green);
+  box-shadow:0 0 0 3px rgba(45,122,39,0.25);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(45,122,39,0.25);}50%{box-shadow:0 0 0 6px rgba(45,122,39,0.10);}}
+.topbar-right{display:flex;align-items:center;gap:1rem;}
+.topbar-time{font-size:0.72rem;color:var(--cream3);}
+.logout-btn{
+  font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--cream3);background:none;border:1px solid var(--border);
+  padding:0.35rem 0.75rem;cursor:pointer;font-family:'Jost',sans-serif;
+  transition:all 0.2s;
+}
+.logout-btn:hover{border-color:var(--border2);color:var(--cream);}
+
+/* ── MAIN ── */
+.main-layout{display:flex;flex:1;overflow:hidden;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:200px;min-width:200px;background:var(--bg2);
+  border-right:1px solid var(--border);
+  overflow-y:auto;flex-shrink:0;
+  padding:1.5rem 0;
+}
+.sidebar-section{
+  font-size:0.58rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--cream3);padding:0 1.25rem 0.5rem;
+}
+.nav-item{
+  display:flex;align-items:center;gap:0.65rem;
+  padding:0.65rem 1.25rem;cursor:pointer;font-size:0.78rem;
+  color:var(--cream3);transition:all 0.15s;border-left:2px solid transparent;
+}
+.nav-item:hover{background:var(--bg3);color:var(--cream);}
+.nav-item.active{
+  background:var(--bg3);color:var(--gold2);
+  border-left-color:var(--gold);
+}
+.nav-badge{
+  margin-left:auto;background:var(--gold);color:#070B05;
+  font-size:0.6rem;font-weight:500;padding:0.15rem 0.45rem;border-radius:10px;
+}
+.sidebar-divider{border:none;border-top:1px solid var(--border);margin:1rem 0;}
+
+/* ── CONTENT ── */
+.content{flex:1;overflow-y:auto;padding:1.5rem;}
+
+/* ── SETUP BOX ── */
+.setup-box{
+  background:var(--amber2);border:1px solid rgba(184,122,32,0.4);
+  padding:1.5rem;margin-bottom:1.5rem;
+}
+.setup-title{font-size:0.75rem;font-weight:500;color:var(--gold2);margin-bottom:1rem;}
+.setup-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin-bottom:1rem;}
+.setup-input{
+  background:var(--bg);border:1px solid var(--border);
+  color:var(--cream);font-family:'Jost',sans-serif;font-size:0.78rem;
+  padding:0.6rem 0.8rem;outline:none;width:100%;
+}
+.setup-input:focus{border-color:var(--gold);}
+.setup-save{
+  background:var(--gold);color:#070B05;border:none;
+  padding:0.6rem 1.5rem;font-family:'Jost',sans-serif;
+  font-size:0.72rem;font-weight:500;letter-spacing:0.15em;
+  text-transform:uppercase;cursor:pointer;
+}
+
+/* ── STAT CARDS ── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--border);margin-bottom:1.5rem;}
+.stat-card{background:var(--bg2);padding:1.25rem 1rem;}
+.stat-val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;font-weight:300;color:var(--gold2);line-height:1;
+}
+.stat-lbl{font-size:0.65rem;color:var(--cream3);letter-spacing:0.15em;text-transform:uppercase;margin-top:0.3rem;}
+.stat-delta{font-size:0.68rem;color:var(--green);margin-top:0.2rem;}
+
+/* ── FILTERS ── */
+.filter-bar{
+  display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap;
+}
+.filter-input{
+  background:var(--bg2);border:1px solid var(--border);
+  color:var(--cream);font-family:'Jost',sans-serif;font-size:0.78rem;
+  padding:0.5rem 0.8rem;outline:none;flex:1;min-width:180px;
+}
+.filter-input:focus{border-color:var(--gold);}
+.filter-select{
+  background:var(--bg2);border:1px solid var(--border);
+  color:var(--cream);font-family:'Jost',sans-serif;font-size:0.72rem;
+  padding:0.5rem 0.8rem;outline:none;cursor:pointer;
+}
+.filter-select option{background:#0D1209;}
+.btn-refresh{
+  background:var(--bg2);border:1px solid var(--border2);
+  color:var(--gold2);font-family:'Jost',sans-serif;font-size:0.72rem;
+  padding:0.5rem 1rem;cursor:pointer;white-space:nowrap;
+  transition:all 0.2s;
+}
+.btn-refresh:hover{background:var(--bg3);}
+.loading{font-size:0.78rem;color:var(--cream3);padding:1rem 0;}
+
+/* ── TABLE ── */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+thead th{
+  font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--cream3);padding:0.75rem 0.85rem;text-align:left;
+  border-bottom:1px solid var(--border);background:var(--bg2);
+  white-space:nowrap;
+}
+tbody tr{
+  border-bottom:1px solid rgba(201,148,58,0.07);
+  transition:background 0.15s;cursor:pointer;
+}
+tbody tr:hover{background:var(--bg3);}
+td{padding:0.8rem 0.85rem;font-size:0.78rem;color:var(--cream2);vertical-align:middle;}
+.td-name{color:var(--cream);font-weight:400;}
+.td-email{font-size:0.72rem;color:var(--cream3);}
+.td-count{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;color:var(--gold2);
+}
+.status-badge{
+  display:inline-block;font-size:0.62rem;letter-spacing:0.1em;
+  text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:2px;
+}
+.s-pending{background:var(--amber2);color:var(--gold2);border:1px solid rgba(184,122,32,0.3);}
+.s-approved{background:var(--green2);color:#4ADE80;border:1px solid rgba(45,122,39,0.3);}
+.s-rejected{background:var(--red2);color:#F87171;border:1px solid rgba(155,48,48,0.3);}
+.s-affiliate{background:var(--blue2);color:#60C8F0;border:1px solid rgba(42,96,128,0.3);}
+.td-actions{white-space:nowrap;}
+.action-btn{
+  font-size:0.62rem;padding:0.2rem 0.6rem;border:1px solid var(--border);
+  background:none;color:var(--cream3);cursor:pointer;font-family:'Jost',sans-serif;
+  margin-right:0.25rem;transition:all 0.15s;
+}
+.action-btn:hover{border-color:var(--border2);color:var(--cream);}
+.action-btn.approve{border-color:rgba(45,122,39,0.4);color:#4ADE80;}
+.action-btn.reject{border-color:rgba(155,48,48,0.4);color:#F87171;}
+.action-btn.affiliate{border-color:rgba(42,96,128,0.4);color:#60C8F0;}
+.action-btn.email-btn{border-color:var(--border2);color:var(--gold2);}
+.empty-state{
+  text-align:center;padding:3rem;
+  font-size:0.8rem;color:var(--cream3);
+}
+
+/* ── DETAIL MODAL ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.85);z-index:50;
+  overflow-y:auto;padding:2rem 1rem;
+}
+.modal-overlay.active{display:flex;align-items:flex-start;justify-content:center;}
+.modal-box{
+  background:var(--bg2);border:1px solid var(--border2);
+  max-width:780px;width:100%;margin:auto;
+  animation:slideIn 0.2s ease;
+}
+@keyframes slideIn{from{opacity:0;transform:translateY(15px);}to{opacity:1;transform:none;}}
+.modal-header{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:1.5rem;border-bottom:1px solid var(--border);
+}
+.modal-close{
+  background:none;border:none;color:var(--cream3);
+  font-size:1.2rem;cursor:pointer;
+}
+.modal-close:hover{color:var(--cream);}
+.modal-body{padding:1.5rem;}
+
+/* Contact Info */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;margin-bottom:1.5rem;}
+.contact-item{background:var(--bg3);padding:0.85rem 1rem;}
+.c-label{font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--cream3);margin-bottom:0.25rem;}
+.c-val{font-size:0.82rem;color:var(--cream);}
+.c-val a{color:var(--gold2);text-decoration:none;}
+.c-val a:hover{text-decoration:underline;}
+
+/* Chat transcript */
+.chat-section-title{
+  font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--cream3);margin-bottom:0.75rem;padding-top:1rem;
+  border-top:1px solid var(--border);
+}
+.chat-wrap{max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:0.5rem;}
+.msg{padding:0.6rem 0.85rem;max-width:90%;}
+.msg-user{background:rgba(201,148,58,0.08);border-left:2px solid var(--gold);align-self:flex-start;}
+.msg-bot{background:var(--bg3);border-left:2px solid rgba(244,239,228,0.1);align-self:flex-end;}
+.msg-role{font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--cream3);margin-bottom:0.25rem;}
+.msg-text{font-size:0.78rem;color:var(--cream2);line-height:1.6;}
+.msg-time{font-size:0.6rem;color:rgba(244,239,228,0.25);margin-top:0.25rem;}
+
+/* Form data */
+.form-data-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1rem;}
+.fd-item{background:var(--bg3);padding:0.75rem 1rem;}
+.fd-key{font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--cream3);margin-bottom:0.2rem;}
+.fd-val{font-size:0.8rem;color:var(--cream);}
+.fd-val.long{grid-column:1/-1;}
+
+/* ── CHAT TAB ── */
+.chat-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0.65rem 0.85rem;border-bottom:1px solid rgba(201,148,58,0.05);
+  cursor:pointer;transition:background 0.15s;
+}
+.chat-row:hover{background:var(--bg3);}
+.chat-uid{font-size:0.75rem;font-weight:400;color:var(--cream);font-family:'Cormorant Garamond',serif;}
+.chat-preview{font-size:0.72rem;color:var(--cream3);margin-top:0.15rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:350px;}
+.chat-meta{text-align:right;font-size:0.68rem;color:var(--cream3);}
+
+/* ── PAGE TABS ── */
+.page-view{display:none;}
+.page-view.active{display:block;}
+
+/* ── NOTES ── */
+.note-box{
+  width:100%;background:var(--bg);border:1px solid var(--border);
+  color:var(--cream);font-family:'Jost',sans-serif;font-size:0.78rem;
+  padding:0.75rem;resize:vertical;min-height:80px;outline:none;
+  margin-top:0.5rem;
+}
+.note-save{
+  background:var(--gold);color:#070B05;border:none;
+  padding:0.4rem 1rem;font-family:'Jost',sans-serif;font-size:0.68rem;
+  font-weight:500;letter-spacing:0.15em;text-transform:uppercase;
+  cursor:pointer;margin-top:0.5rem;
+}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(201,148,58,0.25);border-radius:2px;}
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">Equinat Complete</div>
+    <h1 class="login-title">Admin Panel</h1>
+    <p class="login-sub">Internes Backoffice · Zafao GmbH</p>
+    <input type="password" class="login-input" id="pwInput" placeholder="Passwort" autocomplete="current-password"/>
+    <button class="login-btn" onclick="doLogin()">Einloggen</button>
+    <p class="login-err" id="loginErr">Falsches Passwort</p>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-brand">EQUINAT · Admin Backoffice</div>
+    <div class="topbar-right">
+      <span class="topbar-time" id="clock"></span>
+      <button class="logout-btn" onclick="doLogout()">Abmelden</button>
+    </div>
+  </div>
+  <div class="main-layout">
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="sidebar-section">Übersicht</div>
+      <div class="nav-item active" data-page="dashboard" onclick="switchPage(this,'dashboard')">📊 Dashboard</div>
+      <hr class="sidebar-divider"/>
+      <div class="sidebar-section">Tester</div>
+      <div class="nav-item" data-page="tester" onclick="switchPage(this,'tester')">👥 Tester-Bewerbungen <span class="nav-badge" id="badgePending">0</span></div>
+      <div class="nav-item" data-page="approved" onclick="switchPage(this,'approved')">✅ Freigeschaltet</div>
+      <div class="nav-item" data-page="affiliate" onclick="switchPage(this,'affiliate')">⭐ Affiliates</div>
+      <hr class="sidebar-divider"/>
+      <div class="sidebar-section">Bot-Nutzung</div>
+      <div class="nav-item" data-page="chats" onclick="switchPage(this,'chats')">💬 Alle Chats</div>
+      <hr class="sidebar-divider"/>
+      <div class="sidebar-section">Einstellungen</div>
+      <div class="nav-item" data-page="settings" onclick="switchPage(this,'settings')">⚙️ API-Setup</div>
+    </nav>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- ══ DASHBOARD ══ -->
+      <div class="page-view active" id="page-dashboard">
+        <div id="setupBox" style="display:none;" class="setup-box">
+          <div class="setup-title">⚙️ Ersteinrichtung — Netlify API-Zugangsdaten eintragen</div>
+          <div class="setup-grid">
+            <div>
+              <div style="font-size:0.65rem;color:var(--cream3);margin-bottom:0.35rem;">Netlify Access Token</div>
+              <input type="password" id="cfgToken" class="setup-input" placeholder="nfp_xxx…"/>
+            </div>
+            <div>
+              <div style="font-size:0.65rem;color:var(--cream3);margin-bottom:0.35rem;">Form-ID: equinat-tester-v2</div>
+              <input type="text" id="cfgTesterForm" class="setup-input" placeholder="64a8b7…"/>
+            </div>
+            <div>
+              <div style="font-size:0.65rem;color:var(--cream3);margin-bottom:0.35rem;">Form-ID: eq-messages</div>
+              <input type="text" id="cfgMsgForm" class="setup-input" placeholder="64x9c2…"/>
+            </div>
+          </div>
+          <button class="setup-save" onclick="saveConfig()">Speichern & Laden</button>
+        </div>
+
+        <div class="stat-grid" id="statsGrid">
+          <div class="stat-card"><div class="stat-val" id="sTotal">—</div><div class="stat-lbl">Bewerbungen gesamt</div></div>
+          <div class="stat-card"><div class="stat-val" id="sPending">—</div><div class="stat-lbl">Ausstehend</div></div>
+          <div class="stat-card"><div class="stat-val" id="sApproved">—</div><div class="stat-lbl">Freigeschaltet</div></div>
+          <div class="stat-card"><div class="stat-val" id="sChats">—</div><div class="stat-lbl">Chat-Nachrichten</div></div>
+          <div class="stat-card"><div class="stat-val" id="sToday">—</div><div class="stat-lbl">Heute aktiv</div></div>
+          <div class="stat-card"><div class="stat-val" id="sAffiliate">—</div><div class="stat-lbl">Affiliates</div></div>
+        </div>
+
+        <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream3);margin-bottom:0.75rem;">Neueste Bewerbungen</div>
+        <div id="recentTesters" class="loading">Lade Daten…</div>
+      </div>
+
+      <!-- ══ TESTER BEWERBUNGEN ══ -->
+      <div class="page-view" id="page-tester">
+        <div class="filter-bar">
+          <input type="text" class="filter-input" id="testerSearch" placeholder="Suche nach Name, E-Mail, Instagram…" oninput="renderTesters()"/>
+          <select class="filter-select" id="testerFilter" onchange="renderTesters()">
+            <option value="all">Alle Status</option>
+            <option value="pending" selected>Ausstehend</option>
+            <option value="approved">Freigeschaltet</option>
+            <option value="rejected">Abgelehnt</option>
+            <option value="affiliate">Affiliate</option>
+          </select>
+          <button class="btn-refresh" onclick="loadAll()">↻ Aktualisieren</button>
+        </div>
+        <div class="table-wrap" id="testerTableWrap">
+          <div class="loading">Lade Tester-Daten…</div>
+        </div>
+      </div>
+
+      <!-- ══ FREIGESCHALTET ══ -->
+      <div class="page-view" id="page-approved">
+        <div class="filter-bar">
+          <input type="text" class="filter-input" id="approvedSearch" placeholder="Suche…" oninput="renderApproved()"/>
+          <button class="btn-refresh" onclick="loadAll()">↻ Aktualisieren</button>
+        </div>
+        <div id="approvedTableWrap" class="table-wrap"><div class="loading">Lade…</div></div>
+      </div>
+
+      <!-- ══ AFFILIATES ══ -->
+      <div class="page-view" id="page-affiliate">
+        <div id="affiliateTableWrap" class="table-wrap"><div class="loading">Lade…</div></div>
+      </div>
+
+      <!-- ══ CHATS ══ -->
+      <div class="page-view" id="page-chats">
+        <div class="filter-bar">
+          <input type="text" class="filter-input" id="chatSearch" placeholder="Suche in Nachrichten…" oninput="renderChats()"/>
+          <input type="date" class="filter-input" id="chatDate" style="max-width:150px;" onchange="renderChats()"/>
+          <button class="btn-refresh" onclick="loadAll()">↻ Aktualisieren</button>
+        </div>
+        <div id="chatListWrap"><div class="loading">Lade Chat-Daten…</div></div>
+      </div>
+
+      <!-- ══ SETTINGS ══ -->
+      <div class="page-view" id="page-settings">
+        <div style="max-width:600px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--cream);margin-bottom:1.5rem;">API-Einstellungen</div>
+          <div class="setup-box" style="display:block;">
+            <div class="setup-title">Netlify API-Zugangsdaten</div>
+            <div style="margin-bottom:0.75rem;">
+              <div style="font-size:0.65rem;color:var(--cream3);margin-bottom:0.35rem;">Netlify Access Token (app.netlify.com → User → Applications)</div>
+              <input type="password" id="cfgToken2" class="setup-input" style="width:100%;margin-bottom:0.75rem;" placeholder="nfp_xxx…"/>
+              <div style="font-size:0.65rem;color:var(--cream3);margin-bottom:0.35rem;">Form-ID: equinat-tester-v2</div>
+              <input type="text" id="cfgTesterForm2" class="setup-input" style="width:100%;margin-bottom:0.75rem;" placeholder="64a8b7…"/>
+              <div style="font-size:0.65rem;color:var(--cream3);margin-bottom:0.35rem;">Form-ID: eq-messages (Bot-Chat-Logs)</div>
+              <input type="text" id="cfgMsgForm2" class="setup-input" style="width:100%;" placeholder="64x9c2…"/>
+            </div>
+            <button class="setup-save" onclick="saveConfigFull()">Speichern</button>
+          </div>
+          <div style="margin-top:1.5rem;padding:1rem;background:var(--bg2);border:1px solid var(--border);font-size:0.75rem;color:var(--cream3);line-height:1.8;">
+            <strong style="color:var(--cream2);">Admin-Passwort ändern:</strong><br/>
+            Öffne <code style="color:var(--gold2);">admin-v2.html</code> und ersetze <code style="color:var(--gold2);">EQUINAT2026</code> in Zeile ~10 mit deinem neuen Passwort.<br/><br/>
+            <strong style="color:var(--cream2);">Netlify Token holen:</strong><br/>
+            app.netlify.com → oben rechts Profilbild → User settings → Applications → New access token
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DETAIL MODAL ══ -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div style="font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream3);margin-bottom:0.25rem;">Tester-Profil</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--cream);" id="modalName">—</div>
+      </div>
+      <button class="modal-close" onclick="closeDetailModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Status controls -->
+      <div style="display:flex;gap:0.5rem;margin-bottom:1.25rem;flex-wrap:wrap;" id="modalActions"></div>
+
+      <!-- Contact info -->
+      <div class="contact-grid" id="modalContact"></div>
+
+      <!-- Form data -->
+      <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream3);margin-bottom:0.5rem;">Bewerbungsdetails</div>
+      <div class="form-data-grid" id="modalFormData"></div>
+
+      <!-- Notes -->
+      <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream3);margin-bottom:0.35rem;margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem;">Interne Notizen</div>
+      <textarea class="note-box" id="modalNotes" placeholder="Interne Notizen zu diesem Tester…"></textarea>
+      <button class="note-save" onclick="saveNote()">Notiz speichern</button>
+
+      <!-- Chat transcript -->
+      <div class="chat-section-title" id="chatSectionTitle">Bot-Konversationen (lade…)</div>
+      <div class="chat-wrap" id="modalChats"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────
+const ADMIN_PASS = 'EQUINAT2026';  // ← Passwort hier ändern
+// ─────────────────────────────────────────
+
+const LS = {
+  get: k => localStorage.getItem('eq_admin_'+k),
+  set: (k,v) => localStorage.setItem('eq_admin_'+k,v),
+  getJson: k => { try{return JSON.parse(localStorage.getItem('eq_admin_'+k)||'null')}catch{return null} },
+  setJson: (k,v) => localStorage.setItem('eq_admin_'+k,JSON.stringify(v))
+};
+
+// STATE
+let testers = [];
+let messages = [];
+let statuses = {}; // { submissionId: 'approved'|'rejected'|'affiliate'|'pending' }
+let notes = {};
+let currentDetailId = null;
+
+// ── LOGIN ──
+function doLogin(){
+  const pw = document.getElementById('pwInput').value;
+  if(pw === ADMIN_PASS){
+    LS.set('auth','ok');
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('app').classList.add('ready');
+    init();
+  } else {
+    document.getElementById('loginErr').style.display='block';
+  }
+}
+document.getElementById('pwInput').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+
+function doLogout(){
+  LS.set('auth','');
+  location.reload();
+}
+
+// ── CLOCK ──
+function updateClock(){
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleString('de-DE',{hour:'2-digit',minute:'2-digit',weekday:'short',day:'2-digit',month:'2-digit'});
+}
+setInterval(updateClock,1000); updateClock();
+
+// ── INIT ──
+function init(){
+  statuses = LS.getJson('statuses') || {};
+  notes = LS.getJson('notes') || {};
+  loadConfig();
+  const token = LS.get('token');
+  if(!token){ showSetup(); } else { loadAll(); }
+  if(LS.get('auth')==='ok' && document.getElementById('loginScreen').style.display!=='none'){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('app').classList.add('ready');
+  }
+}
+
+// ── CONFIG ──
+function loadConfig(){
+  const t=LS.get('token'); const tf=LS.get('testerFormId'); const mf=LS.get('msgFormId');
+  if(t){ document.getElementById('cfgToken').value='***stored***'; document.getElementById('cfgToken2').value='***stored***'; }
+  if(tf){ document.getElementById('cfgTesterForm').value=tf; document.getElementById('cfgTesterForm2').value=tf; }
+  if(mf){ document.getElementById('cfgMsgForm').value=mf; document.getElementById('cfgMsgForm2').value=mf; }
+}
+function showSetup(){ document.getElementById('setupBox').style.display='block'; }
+function saveConfig(){
+  const t = document.getElementById('cfgToken').value;
+  const tf = document.getElementById('cfgTesterForm').value.trim();
+  const mf = document.getElementById('cfgMsgForm').value.trim();
+  if(t && t!=='***stored***') LS.set('token',t);
+  if(tf) LS.set('testerFormId',tf);
+  if(mf) LS.set('msgFormId',mf);
+  document.getElementById('setupBox').style.display='none';
+  loadAll();
+}
+function saveConfigFull(){
+  const t=document.getElementById('cfgToken2').value;
+  const tf=document.getElementById('cfgTesterForm2').value.trim();
+  const mf=document.getElementById('cfgMsgForm2').value.trim();
+  if(t&&t!=='***stored***') LS.set('token',t);
+  if(tf) LS.set('testerFormId',tf);
+  if(mf) LS.set('msgFormId',mf);
+  alert('Gespeichert! Daten werden beim nächsten Laden abgerufen.');
+  loadAll();
+}
+
+// ── API ──
+async function netlifyFetch(formId){
+  const token = LS.get('token');
+  if(!token||!formId) return [];
+  try{
+    const r = await fetch(`https://api.netlify.com/api/v1/forms/${formId}/submissions?per_page=200`,{
+      headers:{'Authorization':'Bearer '+token}
+    });
+    if(!r.ok) throw new Error('API '+r.status);
+    const data = await r.json();
+    return Array.isArray(data)?data:[];
+  }catch(err){
+    console.error('Netlify fetch error:',err);
+    return [];
+  }
+}
+
+async function loadAll(){
+  const testerFormId = LS.get('testerFormId');
+  const msgFormId = LS.get('msgFormId');
+  if(!LS.get('token')){ showSetup(); return; }
+
+  const [t, m] = await Promise.all([
+    testerFormId ? netlifyFetch(testerFormId) : Promise.resolve([]),
+    msgFormId ? netlifyFetch(msgFormId) : Promise.resolve([])
+  ]);
+
+  testers = t;
+  messages = m;
+  updateStats();
+  renderTesters();
+  renderApproved();
+  renderAffiliate();
+  renderChats();
+  renderRecentTesters();
+}
+
+// ── STATUS HELPERS ──
+function getStatus(id){ return statuses[id] || 'pending'; }
+function setStatus(id,s){ statuses[id]=s; LS.setJson('statuses',statuses); }
+function getStatusBadge(s){
+  const map={pending:'s-pending',approved:'s-approved',rejected:'s-rejected',affiliate:'s-affiliate'};
+  const lbl={pending:'Ausstehend',approved:'Freigeschaltet',rejected:'Abgelehnt',affiliate:'Affiliate'};
+  return `<span class="status-badge ${map[s]||'s-pending'}">${lbl[s]||s}</span>`;
+}
+
+// ── STATS ──
+function updateStats(){
+  const total = testers.length;
+  const pending = testers.filter(t=>getStatus(t.id)==='pending').length;
+  const approved = testers.filter(t=>getStatus(t.id)==='approved').length;
+  const affiliate = testers.filter(t=>getStatus(t.id)==='affiliate').length;
+  const today = messages.filter(m=>{
+    if(!m.created_at) return false;
+    const d=new Date(m.created_at); const now=new Date();
+    return d.toDateString()===now.toDateString();
+  }).length;
+
+  document.getElementById('sTotal').textContent = total;
+  document.getElementById('sPending').textContent = pending;
+  document.getElementById('sApproved').textContent = approved;
+  document.getElementById('sChats').textContent = messages.length;
+  document.getElementById('sToday').textContent = today;
+  document.getElementById('sAffiliate').textContent = affiliate;
+  document.getElementById('badgePending').textContent = pending;
+}
+
+// ── CHAT COUNT PER TESTER ──
+function chatCountForTester(tester){
+  const email = tester.data?.email || '';
+  const uid = tester.data?.user_id || '';
+  // Try to match by user_id or email in messages
+  return messages.filter(m=>{
+    const d = m.data || {};
+    return (uid && d.user_id===uid) || (email && d.email===email);
+  }).length;
+}
+
+// ── RENDER TESTERS TABLE ──
+function renderTesters(){
+  const search = (document.getElementById('testerSearch')||{value:''}).value.toLowerCase();
+  const statusFilter = (document.getElementById('testerFilter')||{value:'all'}).value;
+  let list = testers.filter(t=>{
+    const d = t.data||{};
+    const s = getStatus(t.id);
+    if(statusFilter!=='all' && s!==statusFilter) return false;
+    if(search){
+      const str = `${d.vorname||''} ${d.nachname||''} ${d.email||''} ${d.instagram||''}`.toLowerCase();
+      return str.includes(search);
+    }
+    return true;
+  });
+  const wrap = document.getElementById('testerTableWrap');
+  if(!list.length){ wrap.innerHTML='<div class="empty-state">Keine Einträge gefunden.</div>'; return; }
+  wrap.innerHTML = buildTesterTable(list);
+}
+
+function renderApproved(){
+  const search = (document.getElementById('approvedSearch')||{value:''}).value.toLowerCase();
+  let list = testers.filter(t=>{
+    const s=getStatus(t.id);
+    return s==='approved'||s==='affiliate';
+  }).filter(t=>{
+    if(!search) return true;
+    const d=t.data||{};
+    return `${d.vorname||''} ${d.nachname||''} ${d.email||''}`.toLowerCase().includes(search);
+  });
+  const wrap = document.getElementById('approvedTableWrap');
+  if(!list.length){wrap.innerHTML='<div class="empty-state">Noch keine freigeschalteten Tester.</div>';return;}
+  wrap.innerHTML = buildTesterTable(list, true);
+}
+
+function renderAffiliate(){
+  let list = testers.filter(t=>getStatus(t.id)==='affiliate');
+  const wrap = document.getElementById('affiliateTableWrap');
+  if(!list.length){wrap.innerHTML='<div class="empty-state">Noch keine Affiliates.</div>';return;}
+  wrap.innerHTML = buildTesterTable(list, true);
+}
+
+function buildTesterTable(list, showChats=false){
+  let html = `<table><thead><tr>
+    <th>Name</th><th>E-Mail</th><th>Instagram</th>
+    <th>Pferde</th><th>Budget</th>
+    ${showChats?'<th>Chats</th>':''}
+    <th>Datum</th><th>Status</th><th>Aktionen</th>
+  </tr></thead><tbody>`;
+  list.forEach(t=>{
+    const d = t.data||{};
+    const name = `${d.vorname||''} ${d.nachname||''}`.trim()||'—';
+    const status = getStatus(t.id);
+    const date = t.created_at ? new Date(t.created_at).toLocaleDateString('de-DE') : '—';
+    const chats = showChats ? `<td class="td-count">${chatCountForTester(t)||'—'}</td>` : '';
+    html += `<tr onclick="openDetailModal('${t.id}')">
+      <td class="td-name">${name}</td>
+      <td class="td-email">${d.email||'—'}</td>
+      <td style="font-size:0.72rem;color:var(--cream3);">${d.instagram||'—'}</td>
+      <td style="font-size:0.72rem;">${d.anzahl_pferde||'—'}</td>
+      <td style="font-size:0.72rem;">${d.budget||'—'}</td>
+      ${chats}
+      <td style="font-size:0.7rem;color:var(--cream3);">${date}</td>
+      <td>${getStatusBadge(status)}</td>
+      <td class="td-actions" onclick="event.stopPropagation()">
+        ${status!=='approved'?`<button class="action-btn approve" onclick="quickStatus('${t.id}','approved')">✓ Freischalten</button>`:''}
+        ${status!=='rejected'?`<button class="action-btn reject" onclick="quickStatus('${t.id}','rejected')">✗ Ablehnen</button>`:''}
+        ${status!=='affiliate'?`<button class="action-btn affiliate" onclick="quickStatus('${t.id}','affiliate')">★ Affiliate</button>`:''}
+        <button class="action-btn email-btn" onclick="mailTo('${d.email||''}','${name}','${status}')">📧</button>
+      </td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  return html;
+}
+
+function quickStatus(id,s){
+  setStatus(id,s);
+  updateStats();
+  renderTesters(); renderApproved(); renderAffiliate();
+}
+
+function mailTo(email,name,status){
+  if(!email) return;
+  const subjects = {
+    pending:'Deine EQUINAT Tester-Bewerbung',
+    approved:'🐴 Willkommen als EQUINAT Tester — Dein Zugang ist bereit',
+    rejected:'EQUINAT Tester-Bewerbung',
+    affiliate:'⭐ EQUINAT Affiliate-Einladung für dich'
+  };
+  const subj = subjects[status]||subjects.pending;
+  window.open(`mailto:${email}?subject=${encodeURIComponent(subj)}`);
+}
+
+// ── CHATS ──
+function renderChats(){
+  const search = (document.getElementById('chatSearch')||{value:''}).value.toLowerCase();
+  const dateFilter = (document.getElementById('chatDate')||{value:''}).value;
+  let list = messages.filter(m=>{
+    const d = m.data||{};
+    if(dateFilter){
+      const md = m.created_at ? new Date(m.created_at).toISOString().split('T')[0] : '';
+      if(md!==dateFilter) return false;
+    }
+    if(search){
+      const str = `${d.question||''} ${d.answer||''} ${d.user_id||''}`.toLowerCase();
+      return str.includes(search);
+    }
+    return true;
+  });
+  list = list.slice().sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
+  const wrap = document.getElementById('chatListWrap');
+  if(!list.length){wrap.innerHTML='<div class="empty-state">Keine Nachrichten gefunden.</div>';return;}
+  let html='';
+  list.forEach(m=>{
+    const d=m.data||{};
+    const q=d.question||'';
+    const date=m.created_at?new Date(m.created_at).toLocaleString('de-DE'):'';
+    html+=`<div class="chat-row" onclick="openChatDetail('${m.id}')">
+      <div>
+        <div class="chat-uid">🔵 ${d.user_id||'anonym'}</div>
+        <div class="chat-preview">${q.substring(0,80)}${q.length>80?'…':''}</div>
+      </div>
+      <div class="chat-meta">${date}<br/><span style="color:var(--gold2);font-size:0.65rem;">${d.tokens||''} tokens</span></div>
+    </div>`;
+  });
+  wrap.innerHTML=html;
+}
+
+function openChatDetail(id){
+  const m = messages.find(x=>x.id===id);
+  if(!m) return;
+  const d = m.data||{};
+  openDetailModalWithMsg(m);
+}
+
+// ── RECENT ──
+function renderRecentTesters(){
+  const wrap = document.getElementById('recentTesters');
+  const list = testers.slice().sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0)).slice(0,5);
+  if(!list.length){wrap.innerHTML='<div class="empty-state">Noch keine Bewerbungen.</div>';return;}
+  wrap.innerHTML=buildTesterTable(list);
+}
+
+// ── DETAIL MODAL ──
+function openDetailModal(id){
+  const t = testers.find(x=>x.id===id);
+  if(!t) return;
+  currentDetailId = id;
+  const d = t.data||{};
+  const name = `${d.vorname||''} ${d.nachname||''}`.trim()||'Tester';
+  const status = getStatus(id);
+
+  document.getElementById('modalName').textContent=name;
+
+  // Actions
+  document.getElementById('modalActions').innerHTML=`
+    <div>${getStatusBadge(status)}</div>
+    ${status!=='approved'?`<button class="action-btn approve" onclick="quickStatus('${id}','approved');document.getElementById('modalActions').innerHTML=getStatusBadge('approved')">✓ Freischalten</button>`:''}
+    ${status!=='rejected'?`<button class="action-btn reject" onclick="quickStatus('${id}','rejected');document.getElementById('modalActions').innerHTML=getStatusBadge('rejected')">✗ Ablehnen</button>`:''}
+    ${status!=='affiliate'?`<button class="action-btn affiliate" onclick="quickStatus('${id}','affiliate');document.getElementById('modalActions').innerHTML=getStatusBadge('affiliate')">★ Als Affiliate einladen</button>`:''}
+    <button class="action-btn email-btn" onclick="mailTo('${d.email||''}','${name}','${status}')">📧 E-Mail schreiben</button>
+  `;
+
+  // Contact
+  document.getElementById('modalContact').innerHTML=`
+    <div class="contact-item"><div class="c-label">E-Mail</div><div class="c-val"><a href="mailto:${d.email||''}">${d.email||'—'}</a></div></div>
+    <div class="contact-item"><div class="c-label">Telefon</div><div class="c-val">${d.telefon?`<a href="tel:${d.telefon}">${d.telefon}</a>`:'—'}</div></div>
+    <div class="contact-item"><div class="c-label">Instagram</div><div class="c-val">${d.instagram||'—'}</div></div>
+    <div class="contact-item"><div class="c-label">Anmeldedatum</div><div class="c-val">${t.created_at?new Date(t.created_at).toLocaleDateString('de-DE'):'—'}</div></div>
+  `;
+
+  // Form data
+  document.getElementById('modalFormData').innerHTML=`
+    <div class="fd-item"><div class="fd-key">Pferde</div><div class="fd-val">${d.anzahl_pferde||'—'}</div></div>
+    <div class="fd-item"><div class="fd-key">Monatsbudget</div><div class="fd-val">${d.budget||'—'}</div></div>
+    <div class="fd-item" style="grid-column:1/-1"><div class="fd-key">Herausforderung</div><div class="fd-val">${d.herausforderung||'—'}</div></div>
+    <div class="fd-item" style="grid-column:1/-1"><div class="fd-key">Motivation</div><div class="fd-val">${d.motivation||'—'}</div></div>
+    <div class="fd-item"><div class="fd-key">DSGVO akzeptiert</div><div class="fd-val" style="color:${d.check_dsgvo==='ja'?'#4ADE80':'#F87171'}">${d.check_dsgvo==='ja'?'✓ Ja':'✗ Nein'}</div></div>
+    <div class="fd-item"><div class="fd-key">Vertrag akzeptiert</div><div class="fd-val" style="color:${d.check_vertrag==='ja'?'#4ADE80':'#F87171'}">${d.check_vertrag==='ja'?'✓ Ja':'✗ Nein'}</div></div>
+    <div class="fd-item"><div class="fd-key">Affiliate-Interesse</div><div class="fd-val">${d.check_affiliate==='ja'?'✓ Ja':'—'}</div></div>
+    <div class="fd-item"><div class="fd-key">Newsletter</div><div class="fd-val">${d.check_newsletter==='ja'?'✓ Ja':'—'}</div></div>
+  `;
+
+  // Notes
+  document.getElementById('modalNotes').value = notes[id]||'';
+
+  // Chats
+  const userMsgs = messages.filter(m=>{
+    const md=m.data||{};
+    return md.user_id && (md.email===d.email || md.user_id===d.user_id);
+  });
+  const chatWrap = document.getElementById('modalChats');
+  document.getElementById('chatSectionTitle').textContent=`Bot-Konversationen (${userMsgs.length} Nachrichten)`;
+  if(!userMsgs.length){
+    chatWrap.innerHTML='<div style="font-size:0.75rem;color:var(--cream3);padding:0.5rem;">Noch keine Chat-Nachrichten gefunden. Bot-Tracking muss in chat.js eingebunden sein.</div>';
+  } else {
+    chatWrap.innerHTML = userMsgs.sort((a,b)=>new Date(a.created_at||0)-new Date(b.created_at||0)).map(m=>{
+      const md=m.data||{};
+      const date=m.created_at?new Date(m.created_at).toLocaleString('de-DE'):'';
+      return `<div class="msg msg-user"><div class="msg-role">Tester</div><div class="msg-text">${md.question||''}</div><div class="msg-time">${date}</div></div>
+      <div class="msg msg-bot"><div class="msg-role">PferdeBot</div><div class="msg-text">${(md.answer||'').substring(0,300)}${(md.answer||'').length>300?'…':''}</div><div class="msg-time">${md.tokens||''} tokens</div></div>`;
+    }).join('');
+  }
+
+  document.getElementById('detailModal').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+
+function openDetailModalWithMsg(m){
+  // Open a simple chat view for a single message
+  const d=m.data||{};
+  document.getElementById('modalName').textContent=`Chat: ${d.user_id||'anonym'}`;
+  document.getElementById('modalActions').innerHTML='';
+  document.getElementById('modalContact').innerHTML=`<div class="contact-item"><div class="c-label">User-ID</div><div class="c-val">${d.user_id||'—'}</div></div><div class="contact-item"><div class="c-label">Tokens</div><div class="c-val">${d.tokens||'—'}</div></div><div class="contact-item"><div class="c-label">Zeitstempel</div><div class="c-val">${m.created_at?new Date(m.created_at).toLocaleString('de-DE'):'—'}</div></div>`;
+  document.getElementById('modalFormData').innerHTML='';
+  document.getElementById('modalNotes').value='';
+  document.getElementById('chatSectionTitle').textContent='Nachricht';
+  document.getElementById('modalChats').innerHTML=`
+    <div class="msg msg-user"><div class="msg-role">Tester</div><div class="msg-text">${d.question||''}</div></div>
+    <div class="msg msg-bot"><div class="msg-role">PferdeBot</div><div class="msg-text">${d.answer||''}</div></div>
+  `;
+  document.getElementById('detailModal').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+
+function closeDetailModal(){
+  document.getElementById('detailModal').classList.remove('active');
+  document.body.style.overflow='';
+  currentDetailId=null;
+}
+document.getElementById('detailModal').addEventListener('click',e=>{if(e.target===document.getElementById('detailModal'))closeDetailModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetailModal();});
+
+function saveNote(){
+  if(!currentDetailId) return;
+  notes[currentDetailId]=document.getElementById('modalNotes').value;
+  LS.setJson('notes',notes);
+  document.getElementById('modalNotes').style.borderColor='var(--green)';
+  setTimeout(()=>document.getElementById('modalNotes').style.borderColor='',1500);
+}
+
+// ── PAGE SWITCH ──
+function switchPage(el,page){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.page-view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+}
+
+// ── AUTO-INIT ──
+window.addEventListener('load',()=>{
+  if(LS.get('auth')==='ok'){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('app').classList.add('ready');
+    init();
+  }
+});
+</script>
+</body>
+</html>
