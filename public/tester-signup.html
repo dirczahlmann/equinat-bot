@@ -48,21 +48,55 @@ body::after{
   border-bottom:1px solid var(--border);
   overflow:hidden;
 }
-.hero::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 80% 70% at 50% 30%,rgba(201,148,58,0.07) 0%,transparent 70%);
-  pointer-events:none;
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background-image:url('https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=1600&q=80');
+  background-size:cover;background-position:center 30%;
+  filter:blur(8px) brightness(0.22) saturate(0.6);
+  transform:scale(1.08);
 }
-.logo-mark{
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(to bottom,rgba(7,11,5,0.6) 0%,rgba(7,11,5,0.05) 35%,rgba(7,11,5,0.05) 65%,rgba(7,11,5,0.9) 100%),
+    radial-gradient(ellipse 80% 60% at 50% 40%,rgba(201,148,58,0.07) 0%,transparent 70%);
+}
+.hero > *:not(.hero-bg):not(.hero-overlay){position:relative;z-index:2;}
+.logo-wrap{
+  display:flex;flex-direction:column;align-items:center;
+  margin-bottom:2.5rem;
+}
+.logo-emblem{
+  width:88px;height:88px;border-radius:50%;
+  background:radial-gradient(circle at 38% 35%,#1C2E18,#0A1208);
+  border:1px solid rgba(201,148,58,0.50);
+  box-shadow:0 0 0 5px rgba(201,148,58,0.07),0 12px 40px rgba(0,0,0,0.7);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  margin-bottom:1rem;
+  position:relative;
+  transition:transform 0.4s ease,box-shadow 0.4s ease;
+}
+.logo-emblem:hover{transform:scale(1.04);box-shadow:0 0 0 7px rgba(201,148,58,0.10),0 16px 48px rgba(0,0,0,0.7);}
+.logo-emblem::before{
+  content:'';position:absolute;inset:4px;border-radius:50%;
+  border:1px solid rgba(201,148,58,0.15);pointer-events:none;z-index:1;
+}
+.logo-name{
   font-family:'Cormorant Garamond',serif;
-  font-size:0.65rem;letter-spacing:0.35em;text-transform:uppercase;
-  color:var(--gold);font-weight:500;margin-bottom:2.5rem;
-  display:flex;align-items:center;gap:1rem;
+  font-size:1.05rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--cream);font-weight:300;
+  display:flex;align-items:center;gap:0.85rem;
 }
-.logo-mark::before,.logo-mark::after{
-  content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));
+.logo-name::before,.logo-name::after{
+  content:'';width:24px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,148,58,0.55));
 }
-.logo-mark::after{background:linear-gradient(90deg,var(--gold),transparent);}
+.logo-name::after{background:linear-gradient(90deg,rgba(201,148,58,0.55),transparent);}
+.logo-tag{
+  font-size:0.52rem;letter-spacing:0.5em;text-transform:uppercase;
+  color:var(--gold);margin-top:0.35rem;font-weight:400;
+}
 .hero-badge{
   display:inline-block;
   background:rgba(201,148,58,0.10);border:1px solid var(--border2);
@@ -347,7 +381,29 @@ footer{
 
 <!-- ══════════════ HERO ══════════════ -->
 <section class="hero">
-  <div class="logo-mark">Equinat Complete</div>
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+
+  <!-- LOGO -->
+  <div class="logo-wrap">
+    <div class="logo-emblem">
+      <svg width="88" height="88" viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- outer ring -->
+        <circle cx="44" cy="44" r="42" stroke="#C9943A" stroke-width="0.8" stroke-opacity="0.5"/>
+        <!-- inner ring -->
+        <circle cx="44" cy="44" r="37" stroke="#C9943A" stroke-width="0.4" stroke-opacity="0.2"/>
+        <!-- EQUINAT text -->
+        <text x="44" y="41" font-family="Cormorant Garamond, serif" font-size="12" font-weight="400" letter-spacing="4" fill="#E8B85A" text-anchor="middle" dominant-baseline="middle">EQUINAT</text>
+        <!-- divider line -->
+        <line x1="26" y1="47" x2="62" y2="47" stroke="#C9943A" stroke-width="0.5" stroke-opacity="0.5"/>
+        <!-- COMPLETE text -->
+        <text x="44" y="56" font-family="Jost, sans-serif" font-size="6" font-weight="300" letter-spacing="3.5" fill="#C9943A" text-anchor="middle" dominant-baseline="middle">COMPLETE</text>
+      </svg>
+    </div>
+    <div class="logo-name">Equinat Complete</div>
+    <div class="logo-tag">PferdeBot® Beta-Testphase</div>
+  </div>
+
   <div class="hero-badge">✦ Beta-Testphase — Exklusiv & Kostenlos</div>
   <h1>Werde der Erste.<br/><em>Forme das System.</em></h1>
   <p class="hero-sub">
