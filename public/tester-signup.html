@@ -171,6 +171,94 @@ h1 em{color:var(--gold2);font-style:italic;}
 }
 .step-title{font-size:0.8rem;font-weight:500;color:var(--cream);letter-spacing:0.05em;margin-bottom:0.5rem;}
 .step-desc{font-size:0.78rem;color:var(--cream3);line-height:1.7;}
+.step-desc strong{color:var(--cream);font-weight:500;}
+.step-desc em{color:var(--gold2);font-style:normal;font-weight:500;}
+
+/* ── BOT FEATURES ── */
+.features-section{
+  position:relative;z-index:1;
+  background:linear-gradient(180deg,rgba(7,11,5,0) 0%,rgba(13,18,9,0.6) 100%);
+  border-top:1px solid var(--border);
+  padding:5rem 2rem;
+}
+.features-inner{max-width:1000px;margin:0 auto;}
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);
+}
+.feature{
+  background:var(--bg2);padding:2rem 1.75rem;
+  display:flex;flex-direction:column;gap:0.6rem;
+  transition:background 0.25s;
+}
+.feature:hover{background:var(--bg3);}
+.feature-icon{font-size:1.7rem;line-height:1;}
+.feature-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.15rem;font-weight:400;color:var(--cream);
+  line-height:1.2;
+}
+.feature-desc{font-size:0.78rem;color:var(--cream3);line-height:1.7;}
+
+/* ── PRODUCTS ── */
+.products-section{
+  position:relative;z-index:1;
+  padding:5rem 2rem;
+  border-top:1px solid var(--border);
+}
+.products-inner{max-width:1000px;margin:0 auto;}
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:1rem;
+}
+.product-card{
+  background:rgba(27,47,20,0.30);
+  border:1px solid var(--border);
+  padding:1.75rem 1.5rem;
+  display:flex;flex-direction:column;gap:0.65rem;
+  position:relative;
+  transition:transform 0.3s,border-color 0.3s;
+}
+.product-card:hover{
+  transform:translateY(-3px);
+  border-color:var(--border2);
+}
+.product-top{
+  position:absolute;top:0;left:0;right:0;
+  height:3px;background:var(--pc);
+}
+.product-label{
+  font-size:0.58rem;font-weight:500;
+  letter-spacing:0.22em;text-transform:uppercase;color:var(--pc);
+}
+.product-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.3rem;font-weight:400;color:var(--cream);
+  line-height:1.2;
+}
+.product-tagline{font-size:0.78rem;color:var(--cream2);line-height:1.6;}
+.product-ings{display:flex;flex-direction:column;gap:6px;margin-top:0.3rem;}
+.product-ing{
+  font-size:0.74rem;color:var(--cream2);
+  display:flex;align-items:center;gap:7px;
+}
+.product-ing::before{
+  content:'·';color:var(--pc);font-weight:700;font-size:1.2rem;line-height:1;
+}
+.product-for{
+  margin-top:0.5rem;padding-top:0.7rem;
+  border-top:1px solid var(--border);
+  font-size:0.7rem;color:var(--cream3);
+  font-style:italic;
+}
+.products-foot{
+  text-align:center;margin-top:1.5rem;
+  font-size:0.72rem;color:var(--cream3);
+  letter-spacing:0.05em;
+}
 
 /* ── AFFILIATE TEASER ── */
 .affiliate-section{
@@ -388,15 +476,10 @@ footer{
   <div class="logo-wrap">
     <div class="logo-emblem">
       <svg width="88" height="88" viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- outer ring -->
         <circle cx="44" cy="44" r="42" stroke="#C9943A" stroke-width="0.8" stroke-opacity="0.5"/>
-        <!-- inner ring -->
         <circle cx="44" cy="44" r="37" stroke="#C9943A" stroke-width="0.4" stroke-opacity="0.2"/>
-        <!-- EQUINAT text -->
         <text x="44" y="41" font-family="Cormorant Garamond, serif" font-size="12" font-weight="400" letter-spacing="4" fill="#E8B85A" text-anchor="middle" dominant-baseline="middle">EQUINAT</text>
-        <!-- divider line -->
         <line x1="26" y1="47" x2="62" y2="47" stroke="#C9943A" stroke-width="0.5" stroke-opacity="0.5"/>
-        <!-- COMPLETE text -->
         <text x="44" y="56" font-family="Jost, sans-serif" font-size="6" font-weight="300" letter-spacing="3.5" fill="#C9943A" text-anchor="middle" dominant-baseline="middle">COMPLETE</text>
       </svg>
     </div>
@@ -427,22 +510,136 @@ footer{
     <div class="step">
       <div class="step-num">01</div>
       <div class="step-title">Bewerbung einreichen</div>
-      <div class="step-desc">Fülle das Formular aus. Wir screenen persönlich — nur echte Pferdemenschen kommen rein. Noch 30 Plätze verfügbar.</div>
+      <div class="step-desc">Fülle das Formular aus. Wir screenen persönlich — nur echte Pferdemenschen kommen rein. Noch <strong>30 Plätze</strong> verfügbar.</div>
     </div>
     <div class="step">
       <div class="step-num">02</div>
       <div class="step-title">Persönliche Freischaltung</div>
-      <div class="step-desc">Du erhältst eine individuelle Einladung per E-Mail. Kein automatischer Zugang.</div>
+      <div class="step-desc">Du erhältst eine individuelle Einladung per E-Mail. Plus Zugang zu unserer <em>exklusiven Tester-Gruppe auf Telegram</em> 📱 — wo wir den Bot gemeinsam mit euch weiterentwickeln.</div>
     </div>
     <div class="step">
       <div class="step-num">03</div>
       <div class="step-title">Bot testen & Feedback geben</div>
-      <div class="step-desc">Nutze den Bot, teile dein ehrliches Feedback — per Formular, WhatsApp oder Video.</div>
+      <div class="step-desc">Während der Testphase ist der PferdeBot® für dich <strong>komplett kostenlos</strong> — kein Abo, keine Kreditkarte. Teile dein ehrliches Feedback per Formular, Telegram oder Video.</div>
     </div>
     <div class="step">
       <div class="step-num">04</div>
       <div class="step-title">Nach der Testphase</div>
-      <div class="step-desc">Kostenpflichtig weiternutzen, EQUINAT-Abo starten — oder einfach aufhören. Du entscheidest.</div>
+      <div class="step-desc">Du entscheidest frei: kostenpflichtig weiternutzen (€9,90/Mo · €89/Jahr), <em>EQUINAT-Abo starten</em> (Bot bleibt dann kostenlos inklusive) — oder einfach aufhören. Kein Vertrag.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ BOT FEATURES ══════════════ -->
+<section class="features-section fade-in">
+  <div class="features-inner">
+    <div class="section-label" style="text-align:center;">Was der Bot weiß</div>
+    <h2 class="section-title" style="text-align:center;">Dein <em style="color:var(--gold2);font-style:italic;">digitaler Stallexperte</em></h2>
+    <p style="text-align:center;font-size:0.85rem;color:var(--cream3);max-width:540px;margin:0 auto 2.75rem;line-height:1.7;">
+      Validiert durch Equine Internisten (ECEIM), Tierernährungswissenschaftler und Reitsportprofis — 
+      mit Studienreferenzen, Dosierungen und praxisnahen Empfehlungen.
+    </p>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">🩺</div>
+        <div class="feature-name">Gesundheit & Krankheiten</div>
+        <div class="feature-desc">EMS, Cushing, RAO, Arthrose, Hufrehe, Lahmheit — mit Studienreferenzen und Dosierungen.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🌿</div>
+        <div class="feature-name">Fütterung & Supplemente</div>
+        <div class="feature-desc">Rationsplanung, Heu-Bedarf, NSC-Werte, Ergänzungsmittel — exakt und wissenschaftlich.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🏠</div>
+        <div class="feature-name">Stall & Haltung</div>
+        <div class="feature-desc">Einstreu, Lüftung, Boxenmaße, Offenstall, Weidemanagement — alles aus einer Quelle.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🏆</div>
+        <div class="feature-name">Training & Sport</div>
+        <div class="feature-desc">Trainingsaufbau, Regeneration, Muskelaufbau, Turniervorbereitung — evidenzbasiert.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">💉</div>
+        <div class="feature-name">Vorsorge & Impfungen</div>
+        <div class="feature-desc">Impfplan, selektive Entwurmung, Zahnpflege — aktuell und leitliniengerecht.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🦴</div>
+        <div class="feature-name">Gelenke & Bewegung</div>
+        <div class="feature-desc">MSM, Teufelskralle, Kurkuma Meriva, Boswellia — Wirkung, Dosierung, Studienlage.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PRODUCTS ══════════════ -->
+<section class="products-section fade-in">
+  <div class="products-inner">
+    <div class="section-label" style="text-align:center;">EQUINAT COMPLETE®</div>
+    <h2 class="section-title" style="text-align:center;">Das <em style="color:var(--gold2);font-style:italic;">All-in-One System</em></h2>
+    <p style="text-align:center;font-size:0.85rem;color:var(--cream3);max-width:540px;margin:0 auto 2.75rem;line-height:1.7;">
+      Premium Pferdefutter mit tierärztlich validierten Wirkstoffen — vier spezialisierte Linien, 
+      die das Chaos von Einzelfuttern und Zusätzen in einem System bündeln.
+    </p>
+    <div class="products-grid">
+      <div class="product-card" style="--pc:#C9943A;">
+        <div class="product-top"></div>
+        <div class="product-label">Basis für alle</div>
+        <div class="product-name">DAILY COMPLETE®</div>
+        <div class="product-tagline">Vollständige Mineralstoffversorgung, Probiotika und Omega-3 — täglich für jedes Pferd.</div>
+        <div class="product-ings">
+          <div class="product-ing">Vollmineralversorgung</div>
+          <div class="product-ing">Probiotika & Prebiotika</div>
+          <div class="product-ing">Omega-3 (Leinöl)</div>
+          <div class="product-ing">Biotin · Zink · Selen</div>
+        </div>
+        <div class="product-for">Für: alle Pferde · Vitalität · glänzendes Fell</div>
+      </div>
+      <div class="product-card" style="--pc:#E8B85A;">
+        <div class="product-top"></div>
+        <div class="product-label">Gelenke & Bewegung</div>
+        <div class="product-name">JOINT COMPLETE®</div>
+        <div class="product-tagline">Die stärkste natürliche Gelenkformel — wissenschaftlich belegt.</div>
+        <div class="product-ings">
+          <div class="product-ing">MSM in therapeut. Dosis</div>
+          <div class="product-ing">Teufelskralle (COX-2)</div>
+          <div class="product-ing">Kurkuma Meriva® (29× bio)</div>
+          <div class="product-ing">Boswellia · Hagebutte (GOPO)</div>
+        </div>
+        <div class="product-for">Für: Arthrose · Lahmheit · Sport · Senior</div>
+      </div>
+      <div class="product-card" style="--pc:#7EC870;">
+        <div class="product-top"></div>
+        <div class="product-label">Atemwege & Allergie</div>
+        <div class="product-name">RESPIRA COMPLETE®</div>
+        <div class="product-tagline">Natürliche Atemwegsunterstützung bei RAO, Husten und Stauballergie.</div>
+        <div class="product-ings">
+          <div class="product-ing">Quercetin (anti-allergisch)</div>
+          <div class="product-ing">N-Acetylcystein (NAC)</div>
+          <div class="product-ing">Schwarzkümmel-Öl</div>
+          <div class="product-ing">Bromelain · Vitamin C</div>
+        </div>
+        <div class="product-for">Für: RAO · Husten · Stallallergie</div>
+      </div>
+      <div class="product-card" style="--pc:#B8A040;">
+        <div class="product-top"></div>
+        <div class="product-label">Stoffwechsel & EMS</div>
+        <div class="product-name">METABOLIC COMPLETE®</div>
+        <div class="product-tagline">Für stoffwechselempfindliche Pferde und Ponys — NSC-arm, getreidefrei.</div>
+        <div class="product-ings">
+          <div class="product-ing">Chromhefe (Insulin)</div>
+          <div class="product-ing">Magnesium</div>
+          <div class="product-ing">Mariendistel · Brennnessel</div>
+          <div class="product-ing">Zimtrinde · Vitamin E</div>
+        </div>
+        <div class="product-for">Für: EMS · Cushing · Hufrehe · Ponys</div>
+      </div>
+    </div>
+    <div class="products-foot">
+      Tierärztlich validiert · Wissenschaftlich belegt · 
+      <a href="https://equinat.de" target="_blank" style="color:var(--gold2);text-decoration:none;">equinat.de</a>
     </div>
   </div>
 </section>
@@ -725,7 +922,7 @@ footer{
       <h3>3. Zweck der Verarbeitung</h3>
       <ul>
         <li>Prüfung und Verwaltung der Tester-Bewerbung</li>
-        <li>Kommunikation im Rahmen der Testphase</li>
+        <li>Kommunikation im Rahmen der Testphase (inkl. Telegram-Tester-Gruppe bei Einwilligung)</li>
         <li>Qualitätssicherung und Produktentwicklung</li>
         <li>Optionale Newsletter-Kommunikation (nur bei Einwilligung)</li>
         <li>Optionale Affiliate-Programmkommunikation (nur bei Einwilligung)</li>
@@ -741,6 +938,7 @@ footer{
       <ul>
         <li><strong>Netlify Inc.</strong> (Hosting, Formular-Eingabe) — Standardvertragsklauseln Art. 46 DSGVO</li>
         <li><strong>Anthropic PBC</strong> (KI-Verarbeitung) — Daten werden nicht für Modelltraining verwendet</li>
+        <li><strong>Telegram FZ-LLC</strong> (Tester-Gruppen-Kommunikation, nur bei freiwilligem Beitritt)</li>
       </ul>
 
       <h3>7. Deine Rechte</h3>
@@ -904,6 +1102,7 @@ document.getElementById('testerForm').addEventListener('submit',function(e){
     .then(()=>{
       form.style.display='none';
       document.getElementById('successMsg').style.display='block';
+      window.scrollTo({top:document.getElementById('successMsg').offsetTop-100,behavior:'smooth'});
     })
     .catch(()=>{
       // Fallback for local testing
