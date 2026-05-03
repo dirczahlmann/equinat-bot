@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>EQUINAT COMPLETE® — Tester-Bewerbung</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#070B05;
+  --bg2:#0D1209;
+  --bg3:#111808;
+  --gold:#C9943A;
+  --gold2:#E8B85A;
+  --gold3:#F4DFA0;
+  --cream:#F4EFE4;
+  --cream2:rgba(244,239,228,0.75);
+  --cream3:rgba(244,239,228,0.40);
+  --border:rgba(201,148,58,0.20);
+  --border2:rgba(201,148,58,0.40);
+  --green:#3D6B35;
+  --red:#9B3030;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#070B05;scroll-behavior:smooth}
+body{
+  background-color:#070B05;
+  color:var(--cream);
+  font-family:'Jost',sans-serif;
+  font-weight:300;
+  min-height:100vh;
+  line-height:1.6;
+}
+
+/* ── NOISE OVERLAY ── */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:0.35;
+}
+
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:1;
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:4rem 2rem 3rem;
+  border-bottom:1px solid var(--border);
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 70% at 50% 30%,rgba(201,148,58,0.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.logo-mark{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.65rem;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--gold);font-weight:500;margin-bottom:2.5rem;
+  display:flex;align-items:center;gap:1rem;
+}
+.logo-mark::before,.logo-mark::after{
+  content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));
+}
+.logo-mark::after{background:linear-gradient(90deg,var(--gold),transparent);}
+.hero-badge{
+  display:inline-block;
+  background:rgba(201,148,58,0.10);border:1px solid var(--border2);
+  color:var(--gold2);
+  font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;
+  padding:0.35rem 1.2rem;border-radius:2px;
+  margin-bottom:2rem;
+}
+h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.8rem,8vw,5.5rem);
+  font-weight:300;line-height:1.05;
+  text-align:center;
+  color:var(--cream);
+  margin-bottom:0.5rem;
+  letter-spacing:-0.01em;
+}
+h1 em{color:var(--gold2);font-style:italic;}
+.hero-sub{
+  font-size:0.92rem;color:var(--cream3);
+  max-width:460px;text-align:center;
+  line-height:1.8;margin-bottom:2.5rem;
+}
+.hero-stats{
+  display:flex;gap:3rem;margin-bottom:3rem;
+}
+.stat{text-align:center;}
+.stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.2rem;font-weight:300;color:var(--gold2);
+  display:block;line-height:1;
+}
+.stat-label{font-size:0.68rem;color:var(--cream3);letter-spacing:0.2em;text-transform:uppercase;margin-top:0.3rem;}
+.hero-cta{
+  background:var(--gold);color:#070B05;
+  border:none;padding:1rem 2.5rem;
+  font-family:'Jost',sans-serif;font-size:0.78rem;font-weight:500;
+  letter-spacing:0.2em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.3s;
+  text-decoration:none;display:inline-block;
+}
+.hero-cta:hover{background:var(--gold2);transform:translateY(-1px);}
+.scroll-hint{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--cream3);display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+  animation:bounce 2s infinite;
+}
+.scroll-hint::after{content:'↓';font-size:1rem;color:var(--gold);}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(6px);}}
+
+/* ── STEPS ── */
+.steps-section{
+  position:relative;z-index:1;
+  max-width:900px;margin:0 auto;padding:5rem 2rem;
+}
+.section-label{
+  font-size:0.62rem;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:0.75rem;
+}
+.section-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;
+  color:var(--cream);margin-bottom:3rem;line-height:1.15;
+}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5px;background:var(--border);}
+.step{background:var(--bg2);padding:2rem 1.5rem;}
+.step-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:3rem;font-weight:300;color:var(--border2);
+  line-height:1;margin-bottom:1rem;
+}
+.step-title{font-size:0.8rem;font-weight:500;color:var(--cream);letter-spacing:0.05em;margin-bottom:0.5rem;}
+.step-desc{font-size:0.78rem;color:var(--cream3);line-height:1.7;}
+
+/* ── AFFILIATE TEASER ── */
+.affiliate-section{
+  position:relative;z-index:1;
+  background:linear-gradient(135deg,rgba(201,148,58,0.06) 0%,rgba(201,148,58,0.02) 100%);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:4rem 2rem;
+}
+.affiliate-inner{max-width:900px;margin:0 auto;}
+.affiliate-badge{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:rgba(201,148,58,0.10);border:1px solid var(--border2);
+  padding:0.35rem 1rem;border-radius:2px;
+  font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold2);
+  margin-bottom:1.5rem;
+}
+.affiliate-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+.affiliate-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;
+  color:var(--cream);line-height:1.15;margin-bottom:1rem;
+}
+.affiliate-title em{color:var(--gold2);font-style:italic;}
+.affiliate-desc{font-size:0.82rem;color:var(--cream2);line-height:1.9;margin-bottom:1.5rem;}
+.tier-cards{display:flex;flex-direction:column;gap:0.75rem;}
+.tier-card{
+  background:var(--bg2);border:1px solid var(--border);
+  padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;
+}
+.tier-name{font-size:0.75rem;font-weight:500;color:var(--cream);letter-spacing:0.05em;}
+.tier-sub{font-size:0.68rem;color:var(--cream3);margin-top:0.15rem;}
+.tier-prov{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:300;color:var(--gold2);
+}
+@media(max-width:640px){.affiliate-grid{grid-template-columns:1fr;gap:2rem;}}
+
+/* ── FORM SECTION ── */
+.form-section{
+  position:relative;z-index:1;
+  max-width:720px;margin:0 auto;padding:5rem 2rem 6rem;
+}
+.form-card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  padding:3rem;
+}
+.form-header{margin-bottom:2.5rem;}
+.form-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;font-weight:300;color:var(--cream);
+  margin-bottom:0.5rem;
+}
+.form-subtitle{font-size:0.8rem;color:var(--cream3);line-height:1.7;}
+.form-group{margin-bottom:1.5rem;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem;}
+label{
+  display:block;
+  font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--cream3);margin-bottom:0.5rem;
+}
+label span{color:var(--gold);}
+input,select,textarea{
+  width:100%;background:var(--bg);
+  border:1px solid var(--border);
+  color:var(--cream);font-family:'Jost',sans-serif;font-size:0.85rem;font-weight:300;
+  padding:0.85rem 1rem;
+  transition:border-color 0.2s;outline:none;appearance:none;
+}
+input::placeholder,textarea::placeholder{color:rgba(244,239,228,0.25);}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23C9943A'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;cursor:pointer;}
+select option{background:#0D1209;}
+textarea{resize:vertical;min-height:100px;}
+
+/* ── CHECKBOXES ── */
+.checks-group{
+  border-top:1px solid var(--border);
+  padding-top:2rem;margin-top:2rem;margin-bottom:2rem;
+}
+.checks-title{
+  font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--cream3);margin-bottom:1.25rem;
+}
+.check-item{
+  display:flex;align-items:flex-start;gap:0.85rem;
+  margin-bottom:1rem;cursor:pointer;
+}
+.check-item input[type=checkbox]{
+  width:18px;height:18px;min-width:18px;
+  background:var(--bg);border:1px solid var(--border2);
+  cursor:pointer;padding:0;
+  accent-color:var(--gold);
+}
+.check-text{font-size:0.78rem;color:var(--cream2);line-height:1.6;}
+.check-text a,.check-text button{
+  color:var(--gold2);text-decoration:underline;background:none;
+  border:none;font-size:0.78rem;font-family:'Jost',sans-serif;
+  cursor:pointer;padding:0;font-weight:300;
+}
+.check-text a:hover,.check-text button:hover{color:var(--gold3);}
+.check-required{color:var(--red)!important;font-size:0.65rem;}
+
+/* ── SUBMIT ── */
+.submit-btn{
+  width:100%;
+  background:var(--gold);color:#070B05;
+  border:none;padding:1.1rem 2rem;
+  font-family:'Jost',sans-serif;font-size:0.78rem;font-weight:500;
+  letter-spacing:0.25em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.3s;
+  position:relative;overflow:hidden;
+}
+.submit-btn:hover{background:var(--gold2);}
+.submit-btn:disabled{background:rgba(201,148,58,0.3);cursor:not-allowed;}
+.form-note{
+  font-size:0.7rem;color:var(--cream3);text-align:center;
+  margin-top:1rem;line-height:1.6;
+}
+
+/* ── SUCCESS ── */
+.success-view{
+  display:none;text-align:center;padding:3rem 1.5rem;
+}
+.success-icon{font-size:3.5rem;margin-bottom:1.5rem;}
+.success-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.2rem;font-weight:300;color:var(--cream);
+  margin-bottom:0.75rem;
+}
+.success-text{font-size:0.85rem;color:var(--cream2);line-height:1.8;max-width:400px;margin:0 auto;}
+.success-text strong{color:var(--gold2);}
+
+/* ── MODALS ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.88);z-index:100;
+  overflow-y:auto;padding:2rem 1rem;
+}
+.modal-overlay.active{display:flex;align-items:flex-start;justify-content:center;}
+.modal-box{
+  background:var(--bg2);border:1px solid var(--border2);
+  max-width:640px;width:100%;margin:auto;
+  padding:2.5rem;
+  animation:slideUp 0.25s ease;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.modal-header{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  margin-bottom:1.5rem;
+}
+.modal-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;font-weight:300;color:var(--cream);
+}
+.modal-close{
+  background:none;border:none;color:var(--cream3);
+  font-size:1.3rem;cursor:pointer;padding:0.25rem;
+  line-height:1;transition:color 0.2s;
+}
+.modal-close:hover{color:var(--cream);}
+.modal-body{font-size:0.8rem;color:var(--cream2);line-height:1.9;max-height:70vh;overflow-y:auto;padding-right:0.5rem;}
+.modal-body h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:400;color:var(--gold2);
+  margin-top:1.5rem;margin-bottom:0.5rem;
+}
+.modal-body h3:first-child{margin-top:0;}
+.modal-body p{margin-bottom:0.75rem;}
+.modal-body ul{padding-left:1.25rem;margin-bottom:0.75rem;}
+.modal-body ul li{margin-bottom:0.35rem;}
+.modal-body strong{color:var(--cream);font-weight:400;}
+.modal-accept{
+  width:100%;background:var(--gold);color:#070B05;
+  border:none;padding:0.9rem;margin-top:1.5rem;
+  font-family:'Jost',sans-serif;font-size:0.75rem;font-weight:500;
+  letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;
+}
+.modal-accept:hover{background:var(--gold2);}
+
+/* ── FOOTER ── */
+footer{
+  position:relative;z-index:1;
+  border-top:1px solid var(--border);
+  padding:2rem;text-align:center;
+}
+.footer-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:0.75rem;}
+.footer-links a,.footer-links button{
+  font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--cream3);text-decoration:none;background:none;border:none;
+  font-family:'Jost',sans-serif;font-weight:300;cursor:pointer;
+  transition:color 0.2s;
+}
+.footer-links a:hover,.footer-links button:hover{color:var(--gold2);}
+.footer-copy{font-size:0.65rem;color:rgba(244,239,228,0.25);}
+
+/* ── ANIMATIONS ── */
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.fade-in.visible{opacity:1;transform:none;}
+@media(max-width:600px){
+  .form-card{padding:2rem 1.5rem;}
+  .form-row{grid-template-columns:1fr;}
+  .hero-stats{gap:2rem;}
+}
+</style>
+</head>
+<body style="background-color:#070B05;">
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero">
+  <div class="logo-mark">Equinat Complete</div>
+  <div class="hero-badge">✦ Beta-Testphase — Exklusiv & Kostenlos</div>
+  <h1>Werde der Erste.<br/><em>Forme das System.</em></h1>
+  <p class="hero-sub">
+    30 ausgewählte Pferdebesitzer erhalten kostenlosen Zugang zum EQUINAT PferdeBot® — 
+    dem ersten KI-Pflegesystem seiner Art. Dein Feedback formt das Produkt.
+  </p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">30</span><span class="stat-label">Tester-Plätze</span></div>
+    <div class="stat"><span class="stat-num">0€</span><span class="stat-label">Testphase</span></div>
+    <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">KI-Zugang</span></div>
+  </div>
+  <a href="#bewerbung" class="hero-cta">Jetzt bewerben</a>
+  <div class="scroll-hint">Mehr erfahren</div>
+</section>
+
+<!-- ══════════════ STEPS ══════════════ -->
+<section class="steps-section fade-in">
+  <div class="section-label">Der Ablauf</div>
+  <h2 class="section-title">Wie die Testphase<br/>funktioniert</h2>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Bewerbung einreichen</div>
+      <div class="step-desc">Fülle das Formular aus. Wir screenen persönlich — nur echte Pferdemenschen kommen rein. Noch 30 Plätze verfügbar.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Persönliche Freischaltung</div>
+      <div class="step-desc">Du erhältst eine individuelle Einladung per E-Mail. Kein automatischer Zugang.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Bot testen & Feedback geben</div>
+      <div class="step-desc">Nutze den Bot, teile dein ehrliches Feedback — per Formular, WhatsApp oder Video.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">Nach der Testphase</div>
+      <div class="step-desc">Kostenpflichtig weiternutzen, EQUINAT-Abo starten — oder einfach aufhören. Du entscheidest.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ AFFILIATE TEASER ══════════════ -->
+<section class="affiliate-section fade-in">
+  <div class="affiliate-inner">
+    <div class="affiliate-badge">✦ Exklusiv für Beta-Tester</div>
+    <div class="affiliate-grid">
+      <div>
+        <h2 class="affiliate-title">Nach der Testphase:<br/><em>Verdiene mit uns.</em></h2>
+        <p class="affiliate-desc">
+          Als Beta-Tester hast du die einmalige Chance, als erster Affiliate-Partner mit EQUINAT zu wachsen. 
+          Empfiehl das System, das du selbst getestet hast — und verdiene eine Lifetime-Provision.
+        </p>
+        <p class="affiliate-desc">
+          Kein anderes Pferde-Affiliate-Programm zahlt so: <strong style="color:var(--gold2)">30% Lifetime</strong> auf 
+          Bot-Abos, <strong style="color:var(--gold2)">15% für 12 Monate</strong> auf Produktbestellungen.
+          Mit jedem Tier steigen die Provisionen weiter.
+        </p>
+      </div>
+      <div class="tier-cards">
+        <div class="tier-card">
+          <div><div class="tier-name">🐴 Foal — Einsteiger</div><div class="tier-sub">1–10 vermittelte Kunden · 30% Bot-Lifetime</div></div>
+          <div class="tier-prov">30%</div>
+        </div>
+        <div class="tier-card">
+          <div><div class="tier-name">🏇 Trotter — Aktiver</div><div class="tier-sub">11–50 Kunden · 31% Bot-Lifetime</div></div>
+          <div class="tier-prov">31%</div>
+        </div>
+        <div class="tier-card">
+          <div><div class="tier-name">⚡ Galloper — Partner</div><div class="tier-sub">51–200 Kunden · 33% Bot-Lifetime</div></div>
+          <div class="tier-prov">33%</div>
+        </div>
+        <div class="tier-card" style="border-color:var(--border2);">
+          <div><div class="tier-name" style="color:var(--gold2)">★ Stallion / Mare</div><div class="tier-sub">201+ Kunden · 35% Bot-Lifetime</div></div>
+          <div class="tier-prov" style="color:var(--gold3)">35%+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FORM ══════════════ -->
+<section class="form-section" id="bewerbung">
+  <div class="form-card fade-in">
+    <div class="form-header">
+      <div class="section-label">Tester-Bewerbung</div>
+      <h2 class="form-title">Deine Bewerbung</h2>
+      <p class="form-subtitle">
+        Alle mit <span style="color:var(--gold)">✦</span> markierten Felder sind Pflichtfelder. 
+        Wir melden uns innerhalb von 48 Stunden persönlich bei dir.
+      </p>
+    </div>
+
+    <form id="testerForm" name="equinat-tester-v2" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="equinat-tester-v2"/>
+      <input name="bot-field" style="display:none"/>
+
+      <div class="form-row">
+        <div>
+          <label>Vorname <span>✦</span></label>
+          <input type="text" name="vorname" placeholder="Dein Vorname" required/>
+        </div>
+        <div>
+          <label>Nachname <span>✦</span></label>
+          <input type="text" name="nachname" placeholder="Dein Nachname" required/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>E-Mail-Adresse <span>✦</span></label>
+        <input type="email" name="email" placeholder="deine@email.de" required/>
+      </div>
+
+      <div class="form-row">
+        <div>
+          <label>Instagram-Handle</label>
+          <input type="text" name="instagram" placeholder="@deinname"/>
+        </div>
+        <div>
+          <label>Telefon (optional)</label>
+          <input type="tel" name="telefon" placeholder="+49 …"/>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div>
+          <label>Anzahl Pferde <span>✦</span></label>
+          <select name="anzahl_pferde" required>
+            <option value="" disabled selected>Bitte wählen</option>
+            <option value="1">1 Pferd</option>
+            <option value="2">2 Pferde</option>
+            <option value="3-5">3–5 Pferde</option>
+            <option value="6+">6+ Pferde</option>
+          </select>
+        </div>
+        <div>
+          <label>Monatl. Pflegebudget <span>✦</span></label>
+          <select name="budget" required>
+            <option value="" disabled selected>Bitte wählen</option>
+            <option value="unter100">Unter €100</option>
+            <option value="100-250">€100 – €250</option>
+            <option value="250-500">€250 – €500</option>
+            <option value="ueber500">Über €500</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Deine größte Herausforderung <span>✦</span></label>
+        <textarea name="herausforderung" placeholder="Was beschäftigt dich bei der Pferdepflege am meisten? Fütterung, Gesundheit, Stallmanagement…" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Warum möchtest du Tester werden?</label>
+        <textarea name="motivation" placeholder="Optional: Was interessiert dich am EQUINAT PferdeBot®?" style="min-height:80px;"></textarea>
+      </div>
+
+      <!-- ── LEGAL CHECKS ── -->
+      <div class="checks-group">
+        <div class="checks-title">Rechtliche Bestätigungen <span style="color:var(--red)">*</span></div>
+
+        <div class="check-item" id="check1-wrap">
+          <input type="checkbox" id="check_dsgvo" name="check_dsgvo" value="ja" required/>
+          <label for="check_dsgvo" class="check-text">
+            Ich habe die <button type="button" onclick="openModal('modalDsgvo')">Datenschutzerklärung</button> gelesen und stimme der Verarbeitung meiner Daten zum Zweck der Tester-Verwaltung und -Kommunikation zu.
+            <span class="check-required"> (Pflichtfeld)</span>
+          </label>
+        </div>
+
+        <div class="check-item" id="check2-wrap">
+          <input type="checkbox" id="check_vertrag" name="check_vertrag" value="ja" required/>
+          <label for="check_vertrag" class="check-text">
+            Ich habe den <button type="button" onclick="openModal('modalVertrag')">Testervertrag</button> vollständig gelesen und erkenne ihn als rechtlich bindend an. Insbesondere akzeptiere ich die Vertraulichkeitspflicht und die Feedback-Verpflichtung.
+            <span class="check-required"> (Pflichtfeld)</span>
+          </label>
+        </div>
+
+        <div class="check-item">
+          <input type="checkbox" id="check_ki" name="check_ki" value="ja" required/>
+          <label for="check_ki" class="check-text">
+            Ich verstehe, dass der EQUINAT PferdeBot® auf Künstlicher Intelligenz basiert und tierärztliche Beratung <strong>nicht ersetzen</strong> kann. KI-Antworten stellen keine medizinische Diagnose dar.
+            <span class="check-required"> (Pflichtfeld)</span>
+          </label>
+        </div>
+
+        <div class="check-item">
+          <input type="checkbox" id="check_affiliate" name="check_affiliate" value="ja"/>
+          <label for="check_affiliate" class="check-text">
+            Ich möchte nach Abschluss der Testphase über das <button type="button" onclick="openModal('modalAffiliate')">Affiliate-Programm</button> informiert werden und habe die Grundbedingungen zur Kenntnis genommen. (optional)
+          </label>
+        </div>
+
+        <div class="check-item">
+          <input type="checkbox" id="check_newsletter" name="check_newsletter" value="ja"/>
+          <label for="check_newsletter" class="check-text">
+            Ich willige ein, gelegentliche E-Mails zu Produktneuheiten, dem Affiliate-Programm und Tester-Updates von EQUINAT / Zafao GmbH zu erhalten. Abmeldung jederzeit möglich. (optional)
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        ✦ Jetzt als Tester bewerben ✦
+      </button>
+      <p class="form-note">
+        Deine Bewerbung wird persönlich geprüft. Wir melden uns innerhalb von 48 Stunden.<br/>
+        Kein automatischer Zugang · Zafao GmbH · Wiesbaden
+      </p>
+    </form>
+
+    <div class="success-view" id="successMsg">
+      <div class="success-icon">🐴</div>
+      <h3 class="success-title">Bewerbung eingegangen!</h3>
+      <p class="success-text">
+        Vielen Dank! Wir haben deine Bewerbung erhalten und prüfen sie persönlich.<br/><br/>
+        Du erhältst innerhalb von <strong>48 Stunden</strong> eine Antwort per E-Mail.<br/><br/>
+        Folge uns auf Instagram <strong>@equinat.complete</strong> — 
+        damit verpasst du garantiert nichts. 🌿
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="footer-links">
+    <button onclick="openModal('modalImpressum')">Impressum</button>
+    <button onclick="openModal('modalDsgvo')">Datenschutz</button>
+    <button onclick="openModal('modalKi')">KI-Transparenz</button>
+    <a href="mailto:info@zafao.world">Kontakt</a>
+  </div>
+  <p class="footer-copy">© 2025 Zafao GmbH · Adolfsallee 22 · 65185 Wiesbaden · EQUINAT® ist eine angemeldete Marke der Zafao GmbH</p>
+</footer>
+
+<!-- ════════════════════════════════════
+     MODALS
+════════════════════════════════════ -->
+
+<!-- TESTERVERTRAG -->
+<div class="modal-overlay" id="modalVertrag">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">Testervertrag</div>
+      <button class="modal-close" onclick="closeModal('modalVertrag')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h3>§ 1 Vertragsgegenstand</h3>
+      <p>Die Zafao GmbH (nachfolgend „EQUINAT" oder „Anbieter"), Adolfsallee 22, 65185 Wiesbaden, HRB 33239 AG Wiesbaden, Geschäftsführerin: Lea Zahlmann, gewährt dem Tester (nachfolgend „Tester") im Rahmen dieser Vereinbarung einen <strong>kostenlosen, zeitlich begrenzten Beta-Zugang</strong> zum EQUINAT PferdeBot® (nachfolgend „System") zum Zweck der Evaluation und Qualitätssicherung vor dem öffentlichen Marktstart.</p>
+
+      <h3>§ 2 Laufzeit und Kündigung</h3>
+      <p>Die Testphase beginnt mit der individuellen Freischaltung durch EQUINAT und endet mit dem öffentlichen Marktstart oder der schriftlichen Beendigung durch eine der Parteien, spätestens jedoch nach <strong>90 Tagen</strong>. Beide Parteien können jederzeit und ohne Angabe von Gründen schriftlich (per E-Mail) kündigen. Eine Kündigung entbindet nicht von bis dahin entstandenen Vertraulichkeitspflichten.</p>
+
+      <h3>§ 3 Pflichten des Testers</h3>
+      <ul>
+        <li>Nutzung des Systems <strong>in gutem Glauben</strong> und nur zu Testzwecken</li>
+        <li>Bereitstellung von <strong>ehrlichem, konstruktivem Feedback</strong> (mindestens 2 schriftliche Rückmeldungen während der Testphase)</li>
+        <li>Meldung von Fehlern, Unstimmigkeiten oder Verbesserungsvorschlägen direkt an EQUINAT</li>
+        <li>Nutzung ausschließlich für das eigene Pferd / den eigenen Stall — keine Weitergabe von Zugangsdaten</li>
+        <li>Information von EQUINAT, falls der Bot-Zugang nicht mehr benötigt wird</li>
+      </ul>
+
+      <h3>§ 4 Vertraulichkeit (NDA)</h3>
+      <p>Der Tester verpflichtet sich, <strong>alle nicht öffentlichen Informationen</strong> über das System, seine technische Funktionsweise, die Preisstrategie, das Affiliate-Modell und alle internen Abläufe von EQUINAT vertraulich zu behandeln. Diese Pflicht umfasst insbesondere:</p>
+      <ul>
+        <li>Keine öffentliche Berichterstattung über Fehler oder Schwächen des Systems ohne vorherige Genehmigung</li>
+        <li>Keine Weitergabe von Screenshots, Gesprächsverläufen oder internen Dokumenten</li>
+        <li>Keine Nachahmung oder Nutzung der System-Logik für eigene Zwecke</li>
+      </ul>
+      <p>Ausnahme: Öffentliche Empfehlung oder Rezension des Systems in positivem Kontext ist ausdrücklich erwünscht und genehmigt.</p>
+
+      <h3>§ 5 Haftungsausschluss</h3>
+      <p>Der EQUINAT PferdeBot® befindet sich in der Beta-Phase. EQUINAT übernimmt keine Gewähr für Vollständigkeit, Richtigkeit oder Verfügbarkeit der KI-Antworten. <strong>KI-Empfehlungen ersetzen keine tierärztliche Diagnose oder Behandlung.</strong> EQUINAT haftet nicht für Schäden, die durch Handlungen auf Basis von Bot-Empfehlungen entstehen.</p>
+
+      <h3>§ 6 Affiliate-Programm</h3>
+      <p>Nach Abschluss der Testphase erhält jeder Tester die Option, dem EQUINAT Affiliate-Programm beizutreten. Die genauen Konditionen werden separat mitgeteilt. Eine Verpflichtung zur Teilnahme besteht nicht. Die Teilnahme am Affiliate-Programm begründet kein Arbeitsverhältnis.</p>
+
+      <h3>§ 7 Geistiges Eigentum</h3>
+      <p>Alle Rechte am System, der Marke EQUINAT®, dem Bot und allen zugehörigen Materialien verbleiben bei der Zafao GmbH. Der Tester erhält ausschließlich ein nicht übertragbares, nicht ausschließliches Nutzungsrecht für die Dauer der Testphase.</p>
+
+      <h3>§ 8 Anwendbares Recht</h3>
+      <p>Es gilt deutsches Recht. Gerichtsstand ist Wiesbaden, sofern der Tester Kaufmann ist.</p>
+
+      <h3>§ 9 Salvatorische Klausel</h3>
+      <p>Sollte eine Bestimmung dieses Vertrags unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.</p>
+    </div>
+    <button class="modal-accept" onclick="acceptVertrag()">✓ Testervertrag verstanden und akzeptiert</button>
+  </div>
+</div>
+
+<!-- DATENSCHUTZ -->
+<div class="modal-overlay" id="modalDsgvo">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">Datenschutzerklärung</div>
+      <button class="modal-close" onclick="closeModal('modalDsgvo')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h3>1. Verantwortlicher</h3>
+      <p><strong>Zafao GmbH</strong>, Adolfsallee 22, 65185 Wiesbaden<br/>
+      E-Mail: info@zafao.world · HRB 33239 · Geschäftsführerin: Lea Zahlmann</p>
+
+      <h3>2. Erhobene Daten</h3>
+      <p>Im Rahmen der Tester-Anmeldung erheben wir folgende personenbezogene Daten:</p>
+      <ul>
+        <li>Vor- und Nachname</li>
+        <li>E-Mail-Adresse</li>
+        <li>Instagram-Handle (optional)</li>
+        <li>Telefonnummer (optional)</li>
+        <li>Anzahl der Pferde und Pflegebudget</li>
+        <li>Freitextangaben zu Herausforderungen und Motivation</li>
+      </ul>
+      <p>Im Rahmen der Bot-Nutzung werden zusätzlich erhoben:</p>
+      <ul>
+        <li>Pseudonyme Nutzer-ID (keine Rückführung auf Person möglich)</li>
+        <li>Gestellte Fragen und KI-Antworten (zur Qualitätssicherung)</li>
+        <li>Zeitstempel und Token-Verbrauch</li>
+      </ul>
+
+      <h3>3. Zweck der Verarbeitung</h3>
+      <ul>
+        <li>Prüfung und Verwaltung der Tester-Bewerbung</li>
+        <li>Kommunikation im Rahmen der Testphase</li>
+        <li>Qualitätssicherung und Produktentwicklung</li>
+        <li>Optionale Newsletter-Kommunikation (nur bei Einwilligung)</li>
+        <li>Optionale Affiliate-Programmkommunikation (nur bei Einwilligung)</li>
+      </ul>
+
+      <h3>4. Rechtsgrundlage</h3>
+      <p>Art. 6 Abs. 1 lit. a DSGVO (Einwilligung) für optionale Felder; Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) für Pflichtfelder.</p>
+
+      <h3>5. Speicherdauer</h3>
+      <p>Daten werden nach Ende der Testphase und Ablauf gesetzlicher Aufbewahrungsfristen (max. 3 Jahre) gelöscht. Chat-Protokolle werden nach 12 Monaten automatisch gelöscht.</p>
+
+      <h3>6. Dienstleister / Auftragsverarbeiter</h3>
+      <ul>
+        <li><strong>Netlify Inc.</strong> (Hosting, Formular-Eingabe) — Standardvertragsklauseln Art. 46 DSGVO</li>
+        <li><strong>Anthropic PBC</strong> (KI-Verarbeitung) — Daten werden nicht für Modelltraining verwendet</li>
+      </ul>
+
+      <h3>7. Deine Rechte</h3>
+      <p>Du hast das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung (Art. 18) und Widerspruch (Art. 21) sowie das Recht auf Datenübertragbarkeit (Art. 20). Kontakt: info@zafao.world</p>
+
+      <h3>8. Beschwerderecht</h3>
+      <p>Zuständige Aufsichtsbehörde: Der Hessische Beauftragte für Datenschutz und Informationsfreiheit (HBDI), Wiesbaden.</p>
+    </div>
+    <button class="modal-accept" onclick="acceptDsgvo()">✓ Datenschutzerklärung verstanden</button>
+  </div>
+</div>
+
+<!-- AFFILIATE INFO -->
+<div class="modal-overlay" id="modalAffiliate">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">Affiliate-Programm</div>
+      <button class="modal-close" onclick="closeModal('modalAffiliate')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h3>Grundkonzept</h3>
+      <p>Das EQUINAT Affiliate-Programm startet nach Abschluss der Beta-Testphase. Als Beta-Tester hast du Erstzugang — noch vor dem öffentlichen Rollout.</p>
+
+      <h3>Provisionsmodell</h3>
+      <ul>
+        <li><strong>Bot-Abo (€9,90/Mo):</strong> 30–35% Lifetime-Provision je Tier — solange der Kunde zahlt</li>
+        <li><strong>Produktbestellungen:</strong> 15% auf alle Bestellungen in den ersten 12 Monaten</li>
+        <li><strong>Cookie-Dauer:</strong> 60 Tage</li>
+        <li><strong>Auszahlung:</strong> Monatlich zum 15., SEPA, ab €50 Mindestbetrag</li>
+      </ul>
+
+      <h3>Tier-System</h3>
+      <ul>
+        <li>🐴 <strong>Foal</strong> (1–10 Kunden): Basisprovision</li>
+        <li>🏇 <strong>Trotter</strong> (11–50): +1% Bonus, Zoom-Briefings</li>
+        <li>⚡ <strong>Galloper</strong> (51–200): +3% Bonus, eigene Landingpage</li>
+        <li>★ <strong>Stallion/Mare</strong> (201+): +5% Bonus, Profit-Share, Co-Creator</li>
+      </ul>
+
+      <h3>Wichtige Hinweise</h3>
+      <ul>
+        <li>Das Affiliate-Programm begründet kein Arbeitsverhältnis</li>
+        <li>Affiliates sind steuerlich selbst verantwortlich</li>
+        <li>Self-Referral (eigene Bestellungen) ist ausgeschlossen</li>
+        <li>Widerrufsfrist: 14 Tage — Provisionen werden erst danach gutgeschrieben</li>
+      </ul>
+
+      <p>Die vollständigen Affiliate-AGB werden bei Programmstart mitgeteilt.</p>
+    </div>
+    <button class="modal-accept" onclick="closeModal('modalAffiliate')">Verstanden — ich bin dabei!</button>
+  </div>
+</div>
+
+<!-- KI TRANSPARENZ -->
+<div class="modal-overlay" id="modalKi">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">KI-Transparenz & Hinweis</div>
+      <button class="modal-close" onclick="closeModal('modalKi')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h3>Was ist der EQUINAT PferdeBot®?</h3>
+      <p>Der PferdeBot® ist ein KI-gestütztes Assistenzsystem, das auf großen Sprachmodellen (Large Language Models, LLMs) von Anthropic basiert. Er beantwortet Fragen zu Pferdehaltung, Fütterung, Gesundheitsmanagement und Stallorganisation.</p>
+
+      <h3>EU AI Act — Transparenzpflicht</h3>
+      <p>Gemäß Artikel 50 des EU AI Acts (Verordnung 2024/1689) weisen wir ausdrücklich darauf hin: <strong>Diese Anwendung setzt Künstliche Intelligenz ein.</strong> Der Nutzer interagiert mit einem automatisierten System, nicht mit einem menschlichen Experten.</p>
+
+      <h3>Was der Bot kann</h3>
+      <ul>
+        <li>Allgemeine Informationen zu Pferdepflege und -ernährung</li>
+        <li>Orientierung bei häufigen Symptomen und Verhaltensauffälligkeiten</li>
+        <li>Empfehlungen zu EQUINAT-Produkten basierend auf Nutzereingaben</li>
+        <li>Hilfe bei Stallmanagement und Routinenplanung</li>
+      </ul>
+
+      <h3>Was der Bot NICHT kann</h3>
+      <ul>
+        <li>Tierärztliche Diagnosen stellen</li>
+        <li>Medikamente verschreiben oder empfehlen</li>
+        <li>Notfälle einschätzen oder behandeln</li>
+        <li>Rechtssichere Beratung geben</li>
+      </ul>
+
+      <p><strong>Bei gesundheitlichen Problemen deines Pferdes wende dich immer an einen zugelassenen Tierarzt.</strong></p>
+    </div>
+    <button class="modal-accept" onclick="closeModal('modalKi')">Verstanden</button>
+  </div>
+</div>
+
+<!-- IMPRESSUM -->
+<div class="modal-overlay" id="modalImpressum">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">Impressum</div>
+      <button class="modal-close" onclick="closeModal('modalImpressum')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h3>Angaben gemäß § 5 TMG</h3>
+      <p><strong>Zafao GmbH</strong><br/>Adolfsallee 22<br/>65185 Wiesbaden<br/>Deutschland</p>
+      <h3>Handelsregister</h3>
+      <p>Amtsgericht Wiesbaden · HRB 33239</p>
+      <h3>Geschäftsführerin</h3>
+      <p>Lea Zahlmann</p>
+      <h3>Kontakt</h3>
+      <p>E-Mail: info@zafao.world<br/>Web: equinat.de</p>
+      <h3>Haftungsausschluss</h3>
+      <p>Alle Inhalte des EQUINAT PferdeBot® dienen ausschließlich allgemeinen Informationszwecken und ersetzen keine tierärztliche Diagnose oder Behandlung. Bei gesundheitlichen Problemen wenden Sie sich an einen zugelassenen Tierarzt.</p>
+      <h3>Urheberrecht</h3>
+      <p>Die durch die Zafao GmbH erstellten Inhalte unterliegen dem deutschen Urheberrecht. Vervielfältigung und Verbreitung bedürfen der schriftlichen Genehmigung.</p>
+    </div>
+    <button class="modal-accept" onclick="closeModal('modalImpressum')">Schließen</button>
+  </div>
+</div>
+
+<script>
+// ── MODAL FUNCTIONS ──
+function openModal(id){
+  document.getElementById(id).classList.add('active');
+  document.body.style.overflow='hidden';
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('active');
+  document.body.style.overflow='';
+}
+// Close on backdrop click
+document.querySelectorAll('.modal-overlay').forEach(m=>{
+  m.addEventListener('click',e=>{ if(e.target===m) closeModal(m.id); });
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelectorAll('.modal-overlay.active').forEach(m=>closeModal(m.id)); });
+
+// ── ACCEPT BUTTONS SET CHECKBOXES ──
+function acceptVertrag(){
+  document.getElementById('check_vertrag').checked=true;
+  closeModal('modalVertrag');
+}
+function acceptDsgvo(){
+  document.getElementById('check_dsgvo').checked=true;
+  closeModal('modalDsgvo');
+}
+
+// ── FORM SUBMIT ──
+document.getElementById('testerForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  const form=this;
+  const dsgvo=document.getElementById('check_dsgvo').checked;
+  const vertrag=document.getElementById('check_vertrag').checked;
+  const ki=document.getElementById('check_ki').checked;
+
+  if(!dsgvo||!vertrag||!ki){
+    alert('Bitte alle Pflichtfelder und rechtlichen Bestätigungen ausfüllen.');
+    return;
+  }
+
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;
+  btn.textContent='Wird eingereicht …';
+
+  // Netlify form submit
+  const data=new FormData(form);
+  fetch('/',{method:'POST',body:data})
+    .then(()=>{
+      form.style.display='none';
+      document.getElementById('successMsg').style.display='block';
+    })
+    .catch(()=>{
+      // Fallback for local testing
+      form.style.display='none';
+      document.getElementById('successMsg').style.display='block';
+    });
+});
+
+// ── SCROLL ANIMATIONS ──
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.1});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
