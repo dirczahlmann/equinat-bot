@@ -2,358 +2,614 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>EQUINAT Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>EQUINAT Admin Panel</title>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-html,body{background:#070B05;color:#F4EFE4;font-family:'DM Sans',system-ui;min-height:100vh;}
-input,select,textarea,button{font-family:inherit;}
+  *, *::before, *::after { box-sizing: border-box; }
+  :root {
+    --bg: #0D130A;
+    --bg2: #0A0F08;
+    --bg3: #161B12;
+    --gold: #C9943A;
+    --goldL: #E8B85A;
+    --goldD: #8B6420;
+    --cream: #F4EFE4;
+    --dim: rgba(244,239,228,0.45);
+    --dim2: rgba(244,239,228,0.25);
+    --border: rgba(201,148,58,0.15);
+    --borderS: rgba(201,148,58,0.08);
+    --hover: rgba(201,148,58,0.07);
+    --active: rgba(201,148,58,0.14);
+    --green: #7CB342;
+    --red: #D67B6B;
+    --display: 'Cormorant Garamond', Georgia, serif;
+    --body: 'DM Sans', system-ui, sans-serif;
+  }
+  html, body { margin: 0; padding: 0; min-height: 100vh; background: var(--bg); color: var(--cream); font-family: var(--body); -webkit-font-smoothing: antialiased; }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(201,148,58,0.18); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(201,148,58,0.32); }
 
-/* LOGIN */
-#loginScreen{position:fixed;inset:0;background:#070B05;display:flex;align-items:center;justify-content:center;z-index:999;}
-.login-card{background:#0A0F08;border:1px solid rgba(201,148,58,0.3);padding:2.5rem;width:100%;max-width:380px;text-align:center;}
-.login-card h1{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#E8B85A;margin-bottom:0.4rem;}
-.login-card p{font-size:0.8rem;color:rgba(244,239,228,0.5);margin-bottom:1.8rem;}
-.login-card input{width:100%;background:#111608;border:1px solid rgba(201,148,58,0.25);color:#F4EFE4;padding:0.8rem 1rem;font-size:0.9rem;outline:none;margin-bottom:0.85rem;border-radius:2px;}
-.login-card input:focus{border-color:rgba(201,148,58,0.55);}
-.login-card input::placeholder{color:rgba(244,239,228,0.25);}
-.login-card button{width:100%;padding:0.85rem;background:#C9943A;color:#060A04;border:none;cursor:pointer;font-weight:700;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;border-radius:2px;}
-.login-card button:hover{background:#E8B85A;}
-.err{color:#ef4444;font-size:0.75rem;margin-top:0.5rem;}
+  /* ── LOGIN ── */
+  .login-wrap { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1rem; }
+  .login-card { width: 100%; max-width: 420px; background: var(--bg2); border: 1px solid var(--border); border-radius: 3px; padding: 2.2rem 2rem; }
+  .login-brand { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.6rem; }
+  .login-pill { padding: 0.5rem 0.85rem; background: linear-gradient(135deg, var(--gold), var(--goldD)); color: var(--bg); font-family: var(--display); font-weight: 600; letter-spacing: 0.18em; font-size: 0.95rem; border-radius: 2px; }
+  .login-title { font-family: var(--display); font-size: 1.4rem; color: var(--cream); margin: 0; }
+  .login-sub { font-size: 0.7rem; color: var(--dim); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 4px; }
+  .login-card h1 { font-family: var(--display); font-size: 1.5rem; font-weight: 500; margin: 0 0 0.4rem; color: var(--cream); }
+  .login-card p { font-size: 0.85rem; color: var(--dim); margin: 0 0 1.4rem; }
+  .login-card input { width: 100%; padding: 0.75rem 0.9rem; background: var(--bg3); border: 1px solid var(--border); border-radius: 2px; color: var(--cream); font-family: var(--body); font-size: 0.9rem; outline: none; transition: border-color 0.15s; }
+  .login-card input:focus { border-color: var(--gold); }
+  .login-card button { width: 100%; padding: 0.75rem; margin-top: 0.85rem; background: var(--gold); border: none; border-radius: 2px; color: var(--bg); font-family: var(--body); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: background 0.15s; letter-spacing: 0.02em; }
+  .login-card button:hover { background: var(--goldL); }
+  .err { color: var(--red); font-size: 0.8rem; margin-top: 0.6rem; min-height: 1em; }
 
-/* MAIN */
-#app{display:none;}
-nav{background:#060A04;border-bottom:1px solid rgba(201,148,58,0.15);padding:0 1.5rem;height:56px;display:flex;align-items:center;justify-content:space-between;}
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1rem;letter-spacing:0.2em;color:#E8B85A;}
-.nav-r{display:flex;align-items:center;gap:1rem;}
-.nav-btn{background:rgba(201,148,58,0.1);border:1px solid rgba(201,148,58,0.25);color:#E8B85A;padding:0.35rem 0.9rem;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;}
-.nav-btn:hover{background:rgba(201,148,58,0.2);}
+  /* ── APP ── */
+  #app { display: none; min-height: 100vh; }
+  nav { padding: 0.85rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--bg2); position: sticky; top: 0; z-index: 10; }
+  .nav-l { display: flex; align-items: center; gap: 0.7rem; }
+  .nav-pill { padding: 0.4rem 0.7rem; background: linear-gradient(135deg, var(--gold), var(--goldD)); color: var(--bg); font-family: var(--display); font-weight: 600; letter-spacing: 0.18em; font-size: 0.85rem; border-radius: 2px; }
+  .nav-title { font-family: var(--display); font-size: 1.05rem; }
+  .nav-r { display: flex; align-items: center; gap: 0.85rem; }
+  .nav-info { font-size: 0.7rem; color: var(--dim); }
+  .nav-btn { padding: 0.45rem 0.85rem; background: transparent; border: 1px solid var(--border); border-radius: 2px; color: var(--cream); font-family: var(--body); font-size: 0.78rem; cursor: pointer; transition: all 0.15s; }
+  .nav-btn:hover { border-color: var(--gold); color: var(--gold); }
 
-.main{padding:1.5rem;}
+  .main { padding: 1.5rem; max-width: 1400px; margin: 0 auto; }
 
-/* STATS ROW */
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0.85rem;margin-bottom:1.5rem;}
-.stat{background:#0A0F08;border:1px solid rgba(201,148,58,0.15);padding:1.25rem;text-align:center;}
-.stat-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:400;color:#E8B85A;line-height:1;}
-.stat-lbl{font-size:0.68rem;color:rgba(244,239,228,0.5);margin-top:0.35rem;letter-spacing:0.1em;text-transform:uppercase;}
+  /* ── STATS ── */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.85rem; margin-bottom: 1.5rem; }
+  .stat { padding: 1.1rem 1.2rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 2px; }
+  .stat-val { font-family: var(--display); font-size: 1.95rem; font-weight: 500; color: var(--gold); line-height: 1; margin-bottom: 0.3rem; font-variant-numeric: tabular-nums; }
+  .stat-lbl { font-size: 0.65rem; color: var(--dim); letter-spacing: 0.14em; text-transform: uppercase; }
 
-/* FILTERS */
-.filters{display:flex;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center;}
-.filters input,.filters select{background:#0A0F08;border:1px solid rgba(201,148,58,0.2);color:#F4EFE4;padding:0.55rem 0.85rem;font-size:0.82rem;outline:none;border-radius:2px;}
-.filters input:focus,.filters select:focus{border-color:rgba(201,148,58,0.45);}
-.filters input::placeholder{color:rgba(244,239,228,0.25);}
-.filters select option{background:#0A0F08;}
-.refresh-btn{background:#C9943A;color:#060A04;border:none;padding:0.55rem 1.1rem;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;}
-.refresh-btn:hover{background:#E8B85A;}
+  /* ── FILTERS ── */
+  .filters { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-bottom: 1rem; }
+  .filters input, .filters select { padding: 0.55rem 0.75rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 2px; color: var(--cream); font-family: var(--body); font-size: 0.82rem; outline: none; }
+  .filters input { flex: 1; min-width: 200px; }
+  .filters input:focus, .filters select:focus { border-color: var(--gold); }
+  .filters button { padding: 0.55rem 0.9rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 2px; color: var(--cream); font-family: var(--body); font-size: 0.82rem; cursor: pointer; transition: all 0.15s; }
+  .filters button:hover { border-color: var(--gold); color: var(--gold); }
+  .filters .primary { background: var(--gold); color: var(--bg); border-color: var(--gold); font-weight: 600; }
+  .filters .primary:hover { background: var(--goldL); border-color: var(--goldL); color: var(--bg); }
 
-/* TABLE */
-.table-wrap{background:#0A0F08;border:1px solid rgba(201,148,58,0.15);overflow-x:auto;}
-table{width:100%;border-collapse:collapse;font-size:0.8rem;}
-thead{background:rgba(201,148,58,0.08);}
-th{padding:0.75rem 1rem;text-align:left;font-size:0.65rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(201,148,58,0.7);border-bottom:1px solid rgba(201,148,58,0.12);white-space:nowrap;}
-td{padding:0.7rem 1rem;border-bottom:1px solid rgba(201,148,58,0.07);vertical-align:top;color:rgba(244,239,228,0.85);line-height:1.5;}
-tr:hover td{background:rgba(27,47,20,0.2);}
-tr:last-child td{border-bottom:none;}
-.msg-q{color:rgba(244,239,228,0.9);max-width:280px;}
-.msg-a{color:rgba(244,239,228,0.6);max-width:280px;font-size:0.75rem;}
-.truncate{overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
-.expand-btn{background:none;border:none;color:rgba(201,148,58,0.6);cursor:pointer;font-size:0.7rem;padding:2px 0;text-decoration:underline;}
-.user-chip{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;background:rgba(201,148,58,0.1);border:1px solid rgba(201,148,58,0.2);border-radius:100px;font-size:0.7rem;color:#E8B85A;white-space:nowrap;}
-.ts{font-size:0.68rem;color:rgba(244,239,228,0.35);white-space:nowrap;}
-.cnt-badge{display:inline-block;padding:2px 8px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.2);border-radius:100px;font-size:0.68rem;color:#4ADE80;}
+  /* ── TABS ── */
+  .tabs { display: flex; gap: 4px; margin-bottom: 1rem; border-bottom: 1px solid var(--borderS); }
+  .tab { padding: 0.7rem 1.1rem; background: transparent; border: none; color: var(--dim); font-family: var(--body); font-size: 0.85rem; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; letter-spacing: 0.02em; }
+  .tab:hover { color: var(--cream); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
 
-/* USER VIEW */
-#userDetail{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:500;overflow-y:auto;padding:2rem 1rem;}
-.ud-card{background:#0A0F08;border:1px solid rgba(201,148,58,0.25);max-width:680px;margin:0 auto;padding:1.75rem;}
-.ud-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;}
-.ud-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:#fff;}
-.ud-close{background:none;border:none;color:rgba(244,239,228,0.5);font-size:1.5rem;cursor:pointer;}
-.chat-log{display:flex;flex-direction:column;gap:0.75rem;}
-.cl-q{background:rgba(201,148,58,0.1);border:1px solid rgba(201,148,58,0.2);padding:0.75rem 1rem;font-size:0.83rem;align-self:flex-end;max-width:85%;border-radius:3px;}
-.cl-a{background:rgba(27,47,20,0.5);border:1px solid rgba(201,148,58,0.1);padding:0.75rem 1rem;font-size:0.83rem;max-width:90%;border-radius:3px;color:rgba(244,239,228,0.82);}
-.cl-ts{font-size:0.62rem;color:rgba(244,239,228,0.3);text-align:center;padding:4px 0;}
+  /* ── TABLE ── */
+  .table-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  thead { background: var(--bg3); }
+  th { text-align: left; padding: 0.75rem 0.95rem; font-size: 0.62rem; color: var(--dim); letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500; border-bottom: 1px solid var(--border); }
+  td { padding: 0.85rem 0.95rem; font-size: 0.82rem; border-bottom: 1px solid var(--borderS); vertical-align: top; }
+  tr:hover td { background: var(--hover); cursor: pointer; }
+  tr:last-child td { border-bottom: none; }
+  .col-time { color: var(--dim); white-space: nowrap; font-variant-numeric: tabular-nums; font-size: 0.74rem; }
+  .col-user { color: var(--gold); font-weight: 500; white-space: nowrap; }
+  .col-q, .col-a { max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .col-num { color: var(--dim2); font-variant-numeric: tabular-nums; text-align: center; }
 
-.empty{text-align:center;padding:3rem;color:rgba(244,239,228,0.3);font-size:0.85rem;}
-.loading{text-align:center;padding:2rem;color:rgba(201,148,58,0.5);}
+  .empty, .loading { padding: 3rem 1rem; text-align: center; color: var(--dim); font-style: italic; }
+  .loading::after { content: "⌛"; display: inline-block; margin-left: 8px; animation: spin 1.2s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── DETAIL MODAL ── */
+  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+  .modal { width: 100%; max-width: 720px; max-height: 85vh; background: var(--bg2); border: 1px solid var(--border); border-radius: 3px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+  .modal-h { padding: 1rem 1.4rem; background: var(--bg3); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .modal-t { font-family: var(--display); font-size: 1.2rem; color: var(--cream); margin: 0; }
+  .modal-c { background: transparent; border: none; color: var(--dim); cursor: pointer; padding: 4px; font-size: 1.4rem; line-height: 1; }
+  .modal-c:hover { color: var(--gold); }
+  .modal-b { padding: 1.4rem; overflow-y: auto; flex: 1; }
+  .qa { margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--borderS); }
+  .qa:last-child { border-bottom: none; margin-bottom: 0; }
+  .qa-meta { font-size: 0.7rem; color: var(--dim); letter-spacing: 0.05em; margin-bottom: 0.4rem; display: flex; gap: 0.7rem; }
+  .qa-q { padding: 0.7rem 0.9rem; background: var(--hover); border: 1px solid var(--borderS); border-radius: 2px; font-size: 0.85rem; line-height: 1.5; margin-bottom: 0.55rem; }
+  .qa-a { padding: 0.7rem 0.9rem; background: var(--bg3); border: 1px solid var(--borderS); border-radius: 2px; font-size: 0.85rem; line-height: 1.55; white-space: pre-wrap; }
+  .qa-q::before { content: "Frage"; display: block; font-size: 0.6rem; color: var(--dim); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 4px; }
+  .qa-a::before { content: "Antwort"; display: block; font-size: 0.6rem; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 4px; }
+
+  /* ── SETUP NOTICE ── */
+  .setup { padding: 1.4rem 1.6rem; background: var(--bg2); border: 1px solid var(--gold); border-radius: 2px; margin-bottom: 1.5rem; }
+  .setup h2 { font-family: var(--display); font-size: 1.3rem; color: var(--gold); margin: 0 0 0.6rem; font-weight: 500; }
+  .setup p { font-size: 0.85rem; line-height: 1.6; color: var(--cream); margin: 0 0 0.6rem; }
+  .setup code { background: rgba(201,148,58,0.12); padding: 2px 6px; border-radius: 2px; font-family: 'Courier New', monospace; font-size: 0.82em; color: var(--goldL); }
+  .setup ol { margin: 0.5rem 0 0; padding-left: 1.4rem; font-size: 0.85rem; line-height: 1.7; color: var(--cream); }
+  .setup ol li { margin-bottom: 0.3rem; }
+  .setup a { color: var(--gold); }
+
+  /* ── TESTERS TABLE (alternative tab) ── */
+  .tester-card { padding: 1rem 1.2rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 2px; margin-bottom: 0.6rem; }
+  .tester-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .tester-name { font-family: var(--display); font-size: 1.1rem; color: var(--cream); }
+  .tester-meta { font-size: 0.72rem; color: var(--dim); letter-spacing: 0.04em; }
+  .tester-stats { display: flex; gap: 1rem; align-items: center; }
+  .tester-stat { text-align: right; }
+  .tester-stat-v { font-family: var(--display); font-size: 1.3rem; color: var(--gold); }
+  .tester-stat-l { font-size: 0.6rem; color: var(--dim); letter-spacing: 0.16em; text-transform: uppercase; }
+
+  @media (max-width: 768px) {
+    .col-q, .col-a { max-width: 140px; }
+    th:nth-child(5), td:nth-child(5) { display: none; }
+    .filters input { min-width: 140px; }
+  }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="loginScreen">
+<!-- ═══ LOGIN ═══ -->
+<div class="login-wrap" id="loginWrap">
   <div class="login-card">
-    <div style="font-size:2rem;margin-bottom:0.75rem;">🐴</div>
-    <h1>EQUINAT Admin</h1>
-    <p>Zugangsdaten eingeben</p>
-    <input type="password" id="pwInput" placeholder="Passwort" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <div class="login-brand">
+      <div class="login-pill">EQUINAT</div>
+      <div>
+        <div class="login-title">Admin</div>
+        <div class="login-sub">Geschützter Bereich</div>
+      </div>
+    </div>
+    <h1>Anmelden</h1>
+    <p>Bitte gib das Admin-Passwort ein.</p>
+    <input type="password" id="pwInput" placeholder="Passwort"/>
     <button onclick="doLogin()">→ Einloggen</button>
     <div class="err" id="loginErr"></div>
   </div>
 </div>
 
-<!-- APP -->
+<!-- ═══ APP ═══ -->
 <div id="app">
   <nav>
-    <div class="nav-logo">EQUINAT Admin Panel</div>
+    <div class="nav-l">
+      <div class="nav-pill">EQUINAT</div>
+      <div class="nav-title">Admin Panel</div>
+    </div>
     <div class="nav-r">
-      <span id="navInfo" style="font-size:0.72rem;color:rgba(244,239,228,0.4);"></span>
+      <span class="nav-info" id="navInfo"></span>
+      <button class="nav-btn" onclick="loadData()">↻ Aktualisieren</button>
       <button class="nav-btn" onclick="logout()">Logout</button>
     </div>
   </nav>
+
   <div class="main">
+
+    <!-- Setup notice if API not configured -->
+    <div class="setup" id="setupNotice" style="display:none;">
+      <h2>⚙️ Einmalige Einrichtung erforderlich</h2>
+      <p>Damit das Admin-Panel deine Tester-Daten anzeigen kann, brauchst du einen <strong>Netlify Personal Access Token</strong> und die <strong>Form-IDs</strong>.</p>
+      <ol>
+        <li>Öffne <a href="https://app.netlify.com/user/applications" target="_blank">app.netlify.com/user/applications</a></li>
+        <li>Klicke <strong>"New access token"</strong> → Name: "EQUINAT Admin" → erstellen → Token kopieren</li>
+        <li>Gehe zu deinem Projekt → <strong>Forms</strong> → Klick auf <code>eq-messages</code> → ID aus URL kopieren (lange Zeichenfolge nach <code>/forms/</code>)</li>
+        <li>Optional: ID von <code>equinat-tester</code> auch kopieren</li>
+        <li>Hier unten eintragen und speichern (wird verschlüsselt im Browser gespeichert)</li>
+      </ol>
+      <div style="margin-top:1rem;display:grid;gap:0.6rem;max-width:600px;">
+        <input id="setupToken" type="password" placeholder="Netlify Personal Access Token" style="padding:0.6rem 0.8rem;background:var(--bg3);border:1px solid var(--border);border-radius:2px;color:var(--cream);font-family:var(--body);font-size:0.84rem;outline:none;"/>
+        <input id="setupMsgFormId" type="text" placeholder="Form-ID von eq-messages" style="padding:0.6rem 0.8rem;background:var(--bg3);border:1px solid var(--border);border-radius:2px;color:var(--cream);font-family:var(--body);font-size:0.84rem;outline:none;"/>
+        <input id="setupTesterFormId" type="text" placeholder="Form-ID von equinat-tester (optional)" style="padding:0.6rem 0.8rem;background:var(--bg3);border:1px solid var(--border);border-radius:2px;color:var(--cream);font-family:var(--body);font-size:0.84rem;outline:none;"/>
+        <button onclick="saveSetup()" style="padding:0.6rem 1rem;background:var(--gold);border:none;border-radius:2px;color:var(--bg);font-family:var(--body);font-size:0.84rem;font-weight:600;cursor:pointer;">Speichern & Daten laden</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
     <div class="stats" id="statsRow">
-      <div class="stat"><div class="stat-val" id="s1">—</div><div class="stat-lbl">Gesamt Nachrichten</div></div>
+      <div class="stat"><div class="stat-val" id="s1">—</div><div class="stat-lbl">Nachrichten gesamt</div></div>
       <div class="stat"><div class="stat-val" id="s2">—</div><div class="stat-lbl">Aktive Tester</div></div>
       <div class="stat"><div class="stat-val" id="s3">—</div><div class="stat-lbl">Heute</div></div>
-      <div class="stat"><div class="stat-val" id="s4">—</div><div class="stat-lbl">Diese Woche</div></div>
+      <div class="stat"><div class="stat-val" id="s4">—</div><div class="stat-lbl">Letzte 7 Tage</div></div>
+      <div class="stat"><div class="stat-val" id="s5">—</div><div class="stat-lbl">Tester registriert</div></div>
     </div>
 
-    <div class="filters">
-      <input type="text" id="searchInp" placeholder="Suche in Fragen..." oninput="filterTable()"/>
-      <select id="userFilter" onchange="filterTable()"><option value="">Alle Tester</option></select>
-      <select id="dateFilter" onchange="filterTable()">
-        <option value="">Alle Zeit</option>
-        <option value="today">Heute</option>
-        <option value="week">Diese Woche</option>
-        <option value="month">Diesen Monat</option>
-      </select>
-      <button class="refresh-btn" onclick="loadData()">↻ Aktualisieren</button>
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" id="tab-msgs" onclick="switchTab('msgs')">💬 Nachrichten</button>
+      <button class="tab" id="tab-testers" onclick="switchTab('testers')">👥 Tester</button>
     </div>
 
-    <div class="table-wrap">
-      <div id="loadingMsg" class="loading">Lade Daten...</div>
-      <table id="mainTable" style="display:none;">
-        <thead>
-          <tr>
-            <th>Zeit</th>
-            <th>Tester</th>
-            <th>Frage</th>
-            <th>Antwort (Auszug)</th>
-            <th>Nachr. #</th>
-            <th>Details</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-      <div id="emptyMsg" class="empty" style="display:none;">Keine Einträge gefunden.</div>
+    <!-- ── MESSAGES TAB ── -->
+    <div id="view-msgs">
+      <div class="filters">
+        <input type="text" id="searchInp" placeholder="🔍 Suche in Fragen oder Antworten…" oninput="renderMessages()"/>
+        <select id="userFilter" onchange="renderMessages()"><option value="">Alle Tester</option></select>
+        <select id="dateFilter" onchange="renderMessages()">
+          <option value="">Alle Zeit</option>
+          <option value="today">Heute</option>
+          <option value="week">Diese Woche</option>
+          <option value="month">Diesen Monat</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <div id="msgsLoading" class="loading">Lade Nachrichten</div>
+        <table id="msgsTable" style="display:none;">
+          <thead>
+            <tr>
+              <th>Zeit</th>
+              <th>Tester</th>
+              <th>Frage</th>
+              <th>Antwort (Auszug)</th>
+              <th>#</th>
+            </tr>
+          </thead>
+          <tbody id="msgsBody"></tbody>
+        </table>
+        <div id="msgsEmpty" class="empty" style="display:none;">Keine Nachrichten gefunden.</div>
+      </div>
+    </div>
+
+    <!-- ── TESTERS TAB ── -->
+    <div id="view-testers" style="display:none;">
+      <div class="filters">
+        <input type="text" id="testerSearch" placeholder="🔍 Tester durchsuchen…" oninput="renderTesters()"/>
+      </div>
+      <div id="testersList">
+        <div class="loading">Lade Tester</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- USER DETAIL -->
-<div id="userDetail">
-  <div class="ud-card">
-    <div class="ud-header">
-      <div class="ud-title" id="udTitle">Tester</div>
-      <button class="ud-close" onclick="closeDetail()">✕</button>
-    </div>
-    <div class="chat-log" id="udLog"></div>
-  </div>
-</div>
+<!-- ═══ DETAIL MODAL ═══ -->
+<div id="modal" style="display:none;"></div>
 
 <script>
-// ── CONFIG ──────────────────────────────────────────────
-// Admin password (change this!)
-var ADMIN_PASS = 'EQUINAT2026';
+// ═══ CONFIG ═══
+const ADMIN_PASS = 'EQUINAT2026';        // ← ändern wenn nötig
+const SESSION_KEY = 'eq_admin_session';
+const CONFIG_KEY = 'eq_admin_config';
+const SITE_NAME = 'equinatbot.netlify.app'; // ← falls anders, hier ändern
 
-// Netlify API config — set these after getting them from Netlify
-// 1. Go to app.netlify.com → User settings → Applications → Personal access tokens
-// 2. Create token, paste below
-// 3. Get form ID from Netlify → your site → Forms → click eq-messages → URL contains form ID
-var NETLIFY_TOKEN = ''; // Paste your token here
-var NETLIFY_FORM_ID = ''; // Paste form ID here
-// ────────────────────────────────────────────────────────
+// ═══ STATE ═══
+let state = {
+  messages: [],
+  testers: [],
+  currentTab: 'msgs',
+};
 
-var allData = [];
-
+// ═══ AUTH ═══
 function doLogin() {
-  var pw = document.getElementById('pwInput').value;
+  const pw = document.getElementById('pwInput').value;
   if (pw === ADMIN_PASS) {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    document.getElementById('navInfo').textContent = '🟢 Eingeloggt';
-    loadData();
+    sessionStorage.setItem(SESSION_KEY, '1');
+    showApp();
   } else {
-    document.getElementById('loginErr').textContent = '❌ Falsches Passwort';
+    document.getElementById('loginErr').textContent = 'Falsches Passwort.';
     document.getElementById('pwInput').value = '';
   }
 }
-
 function logout() {
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('pwInput').value = '';
+  sessionStorage.removeItem(SESSION_KEY);
+  location.reload();
 }
-
-async function loadData() {
-  document.getElementById('loadingMsg').style.display = 'block';
-  document.getElementById('mainTable').style.display = 'none';
-  document.getElementById('emptyMsg').style.display = 'none';
-
-  if (!NETLIFY_TOKEN || !NETLIFY_FORM_ID) {
-    showSetupInstructions();
-    return;
-  }
-
-  try {
-    var page = 1;
-    var all = [];
-    while (true) {
-      var res = await fetch(
-        'https://api.netlify.com/api/v1/forms/' + NETLIFY_FORM_ID + '/submissions?per_page=100&page=' + page,
-        { headers: { 'Authorization': 'Bearer ' + NETLIFY_TOKEN } }
-      );
-      if (!res.ok) throw new Error('API Fehler: ' + res.status);
-      var data = await res.json();
-      if (!data.length) break;
-      all = all.concat(data);
-      if (data.length < 100) break;
-      page++;
-    }
-    allData = all;
-    updateStats(all);
-    populateUserFilter(all);
-    renderTable(all);
-  } catch(e) {
-    document.getElementById('loadingMsg').innerHTML =
-      '<span style="color:#ef4444;">Fehler: ' + e.message + '</span><br/><br/>' +
-      '<small style="color:rgba(244,239,228,0.4);">Prüfe NETLIFY_TOKEN und NETLIFY_FORM_ID im Code.</small>';
-  }
+function checkAuth() {
+  return sessionStorage.getItem(SESSION_KEY) === '1';
 }
-
-function showSetupInstructions() {
-  document.getElementById('loadingMsg').innerHTML = `
-    <div style="text-align:left;max-width:560px;margin:0 auto;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:#E8B85A;margin-bottom:1rem;">⚙️ Einmalige Einrichtung nötig</div>
-      <div style="font-size:0.82rem;color:rgba(244,239,228,0.75);line-height:1.9;">
-        <strong style="color:#F4EFE4;">Schritt 1: Netlify Personal Access Token</strong><br/>
-        → app.netlify.com → dein Avatar → User settings → Applications<br/>
-        → "New access token" → Namen eingeben → Token kopieren<br/><br/>
-        <strong style="color:#F4EFE4;">Schritt 2: Form ID holen</strong><br/>
-        → Netlify → equinat-bot Projekt → Forms → "eq-messages" anklicken<br/>
-        → In der URL steht die Form ID (langer String)<br/><br/>
-        <strong style="color:#F4EFE4;">Schritt 3: In diese Datei eintragen</strong><br/>
-        → In admin.html oben: NETLIFY_TOKEN und NETLIFY_FORM_ID eintragen<br/>
-        → Datei erneut in GitHub hochladen<br/><br/>
-        <strong style="color:#F4EFE4;">Schritt 4: SITE_URL in Netlify setzen</strong><br/>
-        → Netlify → Project configuration → Environment variables<br/>
-        → SITE_URL = https://equinatbot.netlify.app hinzufügen
-      </div>
-    </div>`;
-}
-
-function updateStats(data) {
-  var today = new Date(); today.setHours(0,0,0,0);
-  var week = new Date(today); week.setDate(week.getDate() - 7);
-  var todayCount = data.filter(d => new Date(d.created_at) >= today).length;
-  var weekCount  = data.filter(d => new Date(d.created_at) >= week).length;
-  var users = new Set(data.map(d => d.data && d.data.user_id).filter(Boolean));
-  document.getElementById('s1').textContent = data.length;
-  document.getElementById('s2').textContent = users.size;
-  document.getElementById('s3').textContent = todayCount;
-  document.getElementById('s4').textContent = weekCount;
-}
-
-function populateUserFilter(data) {
-  var users = {};
-  data.forEach(d => {
-    if (d.data && d.data.user_id) {
-      var id = d.data.user_id;
-      var name = d.data.user_name || id.substring(0,8);
-      users[id] = name;
-    }
-  });
-  var sel = document.getElementById('userFilter');
-  sel.innerHTML = '<option value="">Alle Tester</option>';
-  Object.entries(users).forEach(([id, name]) => {
-    sel.innerHTML += '<option value="' + id + '">' + name + ' (' + id.substring(0,8) + '...)</option>';
-  });
-}
-
-function filterTable() {
-  var search = document.getElementById('searchInp').value.toLowerCase();
-  var userId = document.getElementById('userFilter').value;
-  var dateF  = document.getElementById('dateFilter').value;
-  var now = new Date();
-  var filtered = allData.filter(d => {
-    if (!d.data) return false;
-    if (search && !(d.data.question || '').toLowerCase().includes(search) &&
-                  !(d.data.answer   || '').toLowerCase().includes(search)) return false;
-    if (userId && d.data.user_id !== userId) return false;
-    if (dateF) {
-      var dt = new Date(d.created_at);
-      if (dateF === 'today') {
-        var t = new Date(now); t.setHours(0,0,0,0);
-        if (dt < t) return false;
-      } else if (dateF === 'week') {
-        var w = new Date(now); w.setDate(w.getDate()-7);
-        if (dt < w) return false;
-      } else if (dateF === 'month') {
-        var m = new Date(now); m.setMonth(m.getMonth()-1);
-        if (dt < m) return false;
-      }
-    }
-    return true;
-  });
-  renderTable(filtered);
-}
-
-function renderTable(data) {
-  document.getElementById('loadingMsg').style.display = 'none';
-  if (!data.length) {
-    document.getElementById('mainTable').style.display = 'none';
-    document.getElementById('emptyMsg').style.display = 'block';
-    return;
-  }
-  document.getElementById('mainTable').style.display = 'table';
-  document.getElementById('emptyMsg').style.display = 'none';
-
-  var rows = data.slice().reverse().map(d => {
-    var dt = d.data || {};
-    var ts = new Date(d.created_at).toLocaleString('de-DE', {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
-    var name = dt.user_name || 'Unbekannt';
-    var uid  = (dt.user_id  || '').substring(0,8);
-    var q = (dt.question || '—').replace(/</g,'&lt;');
-    var a = (dt.answer   || '—').replace(/</g,'&lt;');
-    var cnt = dt.msg_count || '?';
-    return '<tr>' +
-      '<td class="ts">' + ts + '</td>' +
-      '<td><div class="user-chip">🐴 ' + name + '</div><div style="font-size:0.62rem;color:rgba(244,239,228,0.3);margin-top:3px;">' + uid + '...</div></td>' +
-      '<td class="msg-q"><div class="truncate">' + q + '</div></td>' +
-      '<td class="msg-a"><div class="truncate">' + a + '</div></td>' +
-      '<td><span class="cnt-badge">#' + cnt + '</span></td>' +
-      '<td><button class="expand-btn" onclick=\'showDetail("' + (dt.user_id||'') + '")\'>→ Alle</button></td>' +
-      '</tr>';
-  }).join('');
-  document.getElementById('tableBody').innerHTML = rows;
-}
-
-function showDetail(userId) {
-  var userMsgs = allData.filter(d => d.data && d.data.user_id === userId).slice().reverse();
-  if (!userMsgs.length) return;
-  var name = userMsgs[0].data.user_name || userId.substring(0,8);
-  document.getElementById('udTitle').textContent = '🐴 ' + name + ' — Alle Nachrichten (' + userMsgs.length + ')';
-  var html = userMsgs.map(d => {
-    var dt = d.data || {};
-    var ts = new Date(d.created_at).toLocaleString('de-DE');
-    return '<div class="cl-ts">' + ts + '</div>' +
-           '<div class="cl-q">' + (dt.question||'').replace(/</g,'&lt;') + '</div>' +
-           '<div class="cl-a">' + (dt.answer||'').replace(/</g,'&lt;') + '</div>';
-  }).join('');
-  document.getElementById('udLog').innerHTML = html;
-  document.getElementById('userDetail').style.display = 'block';
-  document.body.style.overflow = 'hidden';
-}
-
-function closeDetail() {
-  document.getElementById('userDetail').style.display = 'none';
-  document.body.style.overflow = '';
-}
-
-document.getElementById('pwInput').addEventListener('keydown', function(e) {
+document.getElementById('pwInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') doLogin();
 });
+
+// ═══ SETUP ═══
+function getConfig() {
+  try {
+    const raw = localStorage.getItem(CONFIG_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) { return null; }
+}
+function saveConfig(c) {
+  localStorage.setItem(CONFIG_KEY, JSON.stringify(c));
+}
+function saveSetup() {
+  const token = document.getElementById('setupToken').value.trim();
+  const msgFormId = document.getElementById('setupMsgFormId').value.trim();
+  const testerFormId = document.getElementById('setupTesterFormId').value.trim();
+  if (!token || !msgFormId) {
+    alert('Token und mindestens die Form-ID von eq-messages sind nötig.');
+    return;
+  }
+  saveConfig({ token, msgFormId, testerFormId });
+  document.getElementById('setupNotice').style.display = 'none';
+  loadData();
+}
+
+// ═══ APP SHOW ═══
+function showApp() {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('navInfo').textContent = 'Eingeloggt';
+
+  const cfg = getConfig();
+  if (!cfg) {
+    document.getElementById('setupNotice').style.display = 'block';
+    document.getElementById('msgsLoading').textContent = 'Bitte zuerst Setup oben ausfüllen.';
+    return;
+  }
+  loadData();
+}
+
+// ═══ DATA LOAD ═══
+async function loadData() {
+  const cfg = getConfig();
+  if (!cfg) {
+    document.getElementById('setupNotice').style.display = 'block';
+    return;
+  }
+  document.getElementById('setupNotice').style.display = 'none';
+
+  // Reset UI
+  document.getElementById('msgsLoading').style.display = 'block';
+  document.getElementById('msgsLoading').textContent = 'Lade Nachrichten';
+  document.getElementById('msgsTable').style.display = 'none';
+  document.getElementById('msgsEmpty').style.display = 'none';
+  document.getElementById('testersList').innerHTML = '<div class="loading">Lade Tester</div>';
+
+  // Fetch messages
+  try {
+    const msgs = await fetchForm(cfg.token, cfg.msgFormId);
+    state.messages = msgs.map(m => ({
+      id: m.id,
+      created_at: m.created_at,
+      ...m.data,
+    })).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+  } catch (e) {
+    console.error('Messages fetch failed:', e);
+    document.getElementById('msgsLoading').textContent = '⚠️ Fehler beim Laden — Token oder Form-ID falsch?';
+    return;
+  }
+
+  // Fetch testers (optional)
+  if (cfg.testerFormId) {
+    try {
+      const t = await fetchForm(cfg.token, cfg.testerFormId);
+      state.testers = t.map(m => ({
+        id: m.id,
+        created_at: m.created_at,
+        ...m.data,
+      })).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    } catch (e) {
+      state.testers = [];
+    }
+  }
+
+  updateStats();
+  populateUserFilter();
+  renderMessages();
+  renderTesters();
+}
+
+async function fetchForm(token, formId) {
+  // Netlify API: list submissions for a form
+  const res = await fetch(`https://api.netlify.com/api/v1/forms/${formId}/submissions?per_page=1000`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error('API ' + res.status);
+  return await res.json();
+}
+
+// ═══ STATS ═══
+function updateStats() {
+  const now = new Date();
+  const startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const startWeek = new Date(now - 7 * 86400000);
+  const uniqueUsers = new Set(state.messages.map(m => m.user_id || m.user_name || 'anon'));
+  const today = state.messages.filter(m => new Date(m.created_at) >= startToday).length;
+  const week = state.messages.filter(m => new Date(m.created_at) >= startWeek).length;
+
+  document.getElementById('s1').textContent = state.messages.length.toLocaleString('de-DE');
+  document.getElementById('s2').textContent = uniqueUsers.size;
+  document.getElementById('s3').textContent = today;
+  document.getElementById('s4').textContent = week;
+  document.getElementById('s5').textContent = state.testers.length;
+}
+
+function populateUserFilter() {
+  const sel = document.getElementById('userFilter');
+  const users = new Map();
+  state.messages.forEach(m => {
+    const id = m.user_id || 'anon';
+    const name = m.user_name || id;
+    if (!users.has(id)) users.set(id, name);
+  });
+  sel.innerHTML = '<option value="">Alle Tester</option>' +
+    [...users.entries()].map(([id, name]) =>
+      `<option value="${escapeAttr(id)}">${escapeHtml(name)} (${escapeHtml(id.slice(0, 10))})</option>`
+    ).join('');
+}
+
+// ═══ MESSAGES VIEW ═══
+function renderMessages() {
+  const search = document.getElementById('searchInp').value.toLowerCase().trim();
+  const userFilter = document.getElementById('userFilter').value;
+  const dateFilter = document.getElementById('dateFilter').value;
+
+  let filtered = state.messages.slice();
+
+  if (userFilter) filtered = filtered.filter(m => (m.user_id || 'anon') === userFilter);
+
+  if (dateFilter) {
+    const now = new Date();
+    let cutoff;
+    if (dateFilter === 'today') cutoff = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    else if (dateFilter === 'week') cutoff = new Date(now - 7 * 86400000);
+    else if (dateFilter === 'month') cutoff = new Date(now - 30 * 86400000);
+    if (cutoff) filtered = filtered.filter(m => new Date(m.created_at) >= cutoff);
+  }
+
+  if (search) {
+    filtered = filtered.filter(m =>
+      (m.question || '').toLowerCase().includes(search) ||
+      (m.answer || '').toLowerCase().includes(search) ||
+      (m.user_name || '').toLowerCase().includes(search)
+    );
+  }
+
+  document.getElementById('msgsLoading').style.display = 'none';
+
+  if (filtered.length === 0) {
+    document.getElementById('msgsTable').style.display = 'none';
+    document.getElementById('msgsEmpty').style.display = 'block';
+    return;
+  }
+
+  document.getElementById('msgsEmpty').style.display = 'none';
+  document.getElementById('msgsTable').style.display = 'table';
+
+  document.getElementById('msgsBody').innerHTML = filtered.map(m => `
+    <tr onclick="openMsgDetail('${escapeAttr(m.id || '')}')">
+      <td class="col-time">${fmtDate(m.created_at)}</td>
+      <td class="col-user">${escapeHtml(m.user_name || 'Tester')}</td>
+      <td class="col-q" title="${escapeAttr(m.question || '')}">${escapeHtml((m.question || '').slice(0, 80))}</td>
+      <td class="col-a" title="${escapeAttr(m.answer || '')}">${escapeHtml((m.answer || '').slice(0, 80))}</td>
+      <td class="col-num">${escapeHtml(m.msg_count || '')}</td>
+    </tr>
+  `).join('');
+}
+
+function openMsgDetail(id) {
+  const msg = state.messages.find(m => m.id === id);
+  if (!msg) return;
+  // Find all messages from same user
+  const userId = msg.user_id || 'anon';
+  const userMsgs = state.messages
+    .filter(m => (m.user_id || 'anon') === userId)
+    .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+  showModal(
+    `${msg.user_name || 'Tester'} · ${userMsgs.length} Nachricht${userMsgs.length === 1 ? '' : 'en'}`,
+    userMsgs.map(m => `
+      <div class="qa">
+        <div class="qa-meta">
+          <span>${fmtDate(m.created_at)}</span>
+          ${m.tokens_in ? `<span>📥 ${m.tokens_in} tk in</span>` : ''}
+          ${m.tokens_out ? `<span>📤 ${m.tokens_out} tk out</span>` : ''}
+          ${m.msg_count ? `<span>#${m.msg_count}</span>` : ''}
+        </div>
+        <div class="qa-q">${escapeHtml(m.question || '')}</div>
+        <div class="qa-a">${escapeHtml(m.answer || '')}</div>
+      </div>
+    `).join('')
+  );
+}
+
+// ═══ TESTERS VIEW ═══
+function renderTesters() {
+  const search = (document.getElementById('testerSearch')?.value || '').toLowerCase().trim();
+  const list = document.getElementById('testersList');
+
+  if (state.testers.length === 0) {
+    list.innerHTML = '<div class="empty">Keine registrierten Tester (oder Form-ID fehlt im Setup).</div>';
+    return;
+  }
+
+  let filtered = state.testers;
+  if (search) {
+    filtered = state.testers.filter(t =>
+      Object.values(t).some(v => String(v).toLowerCase().includes(search))
+    );
+  }
+
+  // Compute message count per tester (matches by name — best effort)
+  const msgsByName = {};
+  state.messages.forEach(m => {
+    const k = (m.user_name || '').toLowerCase().trim();
+    msgsByName[k] = (msgsByName[k] || 0) + 1;
+  });
+
+  list.innerHTML = filtered.map(t => {
+    const name = t.name || t.Name || 'Unbekannt';
+    const email = t.email || t.Email || t['E-Mail'] || '';
+    const insta = t.instagram || t.Instagram || '';
+    const horses = t.pferde || t.Pferde || '';
+    const msgs = msgsByName[name.toLowerCase().trim()] || 0;
+
+    return `
+      <div class="tester-card">
+        <div class="tester-row">
+          <div>
+            <div class="tester-name">${escapeHtml(name)}</div>
+            <div class="tester-meta">
+              ${email ? `📧 ${escapeHtml(email)}` : ''}
+              ${insta ? ` · 📷 ${escapeHtml(insta)}` : ''}
+              ${horses ? ` · 🐴 ${escapeHtml(horses)}` : ''}
+            </div>
+            <div class="tester-meta" style="margin-top:4px;">
+              Registriert: ${fmtDate(t.created_at)}
+            </div>
+          </div>
+          <div class="tester-stats">
+            <div class="tester-stat">
+              <div class="tester-stat-v">${msgs}</div>
+              <div class="tester-stat-l">Nachrichten</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ═══ TABS ═══
+function switchTab(t) {
+  state.currentTab = t;
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + t).classList.add('active');
+  document.getElementById('view-msgs').style.display = (t === 'msgs') ? 'block' : 'none';
+  document.getElementById('view-testers').style.display = (t === 'testers') ? 'block' : 'none';
+}
+
+// ═══ MODAL ═══
+function showModal(title, contentHtml) {
+  document.getElementById('modal').innerHTML = `
+    <div class="modal-bg" onclick="closeModal(event)">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-h">
+          <h2 class="modal-t">${escapeHtml(title)}</h2>
+          <button class="modal-c" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-b">${contentHtml}</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (e && e.target.closest('.modal') && !e.target.closest('.modal-bg')) return;
+  document.getElementById('modal').style.display = 'none';
+  document.getElementById('modal').innerHTML = '';
+  document.body.style.overflow = '';
+}
+window.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ═══ HELPERS ═══
+function fmtDate(s) {
+  if (!s) return '';
+  const d = new Date(s);
+  const now = new Date();
+  const diff = (now - d) / 1000 / 60;
+  if (diff < 1) return 'gerade eben';
+  if (diff < 60) return Math.floor(diff) + ' Min';
+  if (diff < 1440) return d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+  return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }) + ' ' +
+         d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+}
+function escapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escapeAttr(s) {
+  return escapeHtml(s);
+}
+
+// ═══ INIT ═══
+if (checkAuth()) showApp();
 </script>
 </body>
 </html>

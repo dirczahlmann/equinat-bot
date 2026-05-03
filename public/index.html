@@ -40,6 +40,19 @@
   </div>
 </div>
 
+<!-- Hidden form for Netlify form detection (eq-messages logging) -->
+<form name="eq-messages" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="bot-field"/>
+  <input type="text" name="user_id"/>
+  <input type="text" name="user_name"/>
+  <input type="text" name="question"/>
+  <input type="text" name="answer"/>
+  <input type="text" name="timestamp"/>
+  <input type="text" name="msg_count"/>
+  <input type="text" name="tokens_in"/>
+  <input type="text" name="tokens_out"/>
+</form>
+
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -533,6 +546,30 @@ function Icon({ name, size = 16, color, style }) {
 
 /* ── localStorage helpers ── */
 const STORAGE_KEY = "equinat-pferdebot-v2";
+const USER_ID_KEY = "equinat-user-id";
+const USER_NAME_KEY = "equinat-user-name";
+
+function getUserId() {
+  try {
+    let id = localStorage.getItem(USER_ID_KEY);
+    if (!id) {
+      id = "u_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+      localStorage.setItem(USER_ID_KEY, id);
+    }
+    return id;
+  } catch (e) {
+    return "u_anon";
+  }
+}
+
+function getUserName() {
+  try { return localStorage.getItem(USER_NAME_KEY) || "Tester"; }
+  catch (e) { return "Tester"; }
+}
+
+function setUserName(n) {
+  try { localStorage.setItem(USER_NAME_KEY, n); } catch (e) {}
+}
 function loadData() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -761,7 +798,13 @@ function PferdeBot() {
       const response = await fetch("/.netlify/functions/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ system: SYSTEM, messages: apiMessages }),
+        body: JSON.stringify({
+          system: SYSTEM,
+          messages: apiMessages,
+          user_id: getUserId(),
+          user_name: getUserName(),
+          msg_count: messageCount + 1,
+        }),
       });
 
       const data = await response.json();
