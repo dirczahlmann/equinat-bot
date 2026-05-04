@@ -341,6 +341,7 @@ let messages = [];
 let codes = [];
 let statuses = {};
 let notes = {};
+let testerLangs = {};
 let currentDetailId = null;
 
 // ─── LOGIN ───
@@ -366,6 +367,7 @@ setInterval(updateClock,1000); updateClock();
 function init(){
   statuses = LS.getJson('statuses') || {};
   notes = LS.getJson('notes') || {};
+  testerLangs = LS.getJson('testerLangs') || {};
   loadConfig();
   if(!LS.get('token')) showSetup(); else loadAll();
 }
@@ -483,6 +485,13 @@ function findActiveCodeForEmail(email){
 // ─── STATUS ───
 function getStatus(id){ return statuses[id] || 'pending'; }
 function setStatusLocal(id,s){ statuses[id]=s; LS.setJson('statuses',statuses); }
+function getTesterLang(id){ return testerLangs[id] || 'de'; }
+function setTesterLang(id,lang){ testerLangs[id]=lang; LS.setJson('testerLangs',testerLangs); }
+function toggleTesterLang(id, lang){
+  setTesterLang(id, lang);
+  // Re-render modal to update button states + button labels
+  openDetailModal(id);
+}
 function getStatusBadge(s){
   const map={pending:'s-pending',approved:'s-approved',rejected:'s-rejected',affiliate:'s-affiliate'};
   const lbl={pending:'Ausstehend',approved:'Freigeschaltet',rejected:'Abgelehnt',affiliate:'Affiliate'};
@@ -640,29 +649,45 @@ function telegramToFromRow(testerId){
   const status = getStatus(testerId);
   const codeRecord = findActiveCodeForEmail(d.email);
   const codeStr = codeRecord ? (codeRecord.data?.code || '—') : '—';
-  telegramTo(d.telegram||'', name, status, codeStr);
+  const lang = getTesterLang(testerId);
+  telegramTo(d.telegram||'', name, status, codeStr, lang);
 }
 
-function telegramTo(telegram, name, status, code){
+function telegramTo(telegram, name, status, code, lang){
   if(!telegram){
-    alert('Kein Telegram-Kontakt hinterlegt.');
+    alert(lang==='en' ? 'No Telegram contact provided.' : 'Kein Telegram-Kontakt hinterlegt.');
     return;
   }
 
-  // Build message based on status
+  // Build message based on status + language
   const firstName = name ? name.split(' ')[0] : '';
   let message = '';
 
-  if(status === 'approved' && code && code !== '—'){
-    message = `🐴 Hallo ${firstName}!\n\nWillkommen in der EQUINAT PferdeBot® Beta-Familie!\n\nDein persönlicher Zugangscode:\n${code}\n\nSo geht's:\n1. Öffne https://equinatbot.netlify.app\n2. Email + Code eingeben\n3. Bot ist freigeschaltet — viel Spaß beim Testen!\n\nIch lade dich gleich in unsere exklusive Tester-Gruppe ein. Da entwickeln wir den Bot gemeinsam mit euch weiter — dein Feedback fließt direkt ins Produkt.\n\nBei Fragen einfach hier melden.\n\nLea, Dirc & das EQUINAT-Team 🌿`;
-  } else if(status === 'pending'){
-    message = `Hallo ${firstName}!\n\nDanke für deine EQUINAT PferdeBot® Tester-Bewerbung. Wir prüfen sie gerade und melden uns innerhalb der nächsten 48 Stunden.\n\nLea, Dirc & das EQUINAT-Team 🐴`;
-  } else if(status === 'rejected'){
-    message = `Hallo ${firstName},\n\nvielen Dank für dein Interesse am EQUINAT PferdeBot®. Aktuell sind unsere 30 Beta-Plätze leider bereits vergeben.\n\nWir melden uns gerne, sobald die nächste Tester-Welle startet.\n\nLea, Dirc & das EQUINAT-Team 🐴`;
-  } else if(status === 'affiliate'){
-    message = `Hallo ${firstName}!\n\nWir würden dich gerne als EQUINAT Affiliate-Partner begrüßen. Du hast den Bot ausgiebig getestet und passt perfekt zu unserer Marke.\n\nMagst du dich kurz mit mir verabreden, um die Konditionen zu besprechen?\n\nLea, Dirc & das EQUINAT-Team ⭐`;
+  if(lang === 'en'){
+    if(status === 'approved' && code && code !== '—'){
+      message = `🐴 Hi ${firstName}!\n\nWelcome to the EQUINAT PferdeBot® Beta family!\n\nYour personal access code:\n${code}\n\nHow it works:\n1. Open https://equinatbot.netlify.app\n2. Enter your email + code\n3. Bot is unlocked — enjoy testing!\n\nI'll invite you to our exclusive tester group shortly. That's where we develop the bot together with you — your feedback flows straight into the product.\n\nFeel free to reach out anytime.\n\nLea, Dirc & the EQUINAT team 🌿`;
+    } else if(status === 'pending'){
+      message = `Hi ${firstName}!\n\nThanks for your EQUINAT PferdeBot® tester application. We're reviewing it right now and will get back to you within 48 hours.\n\nLea, Dirc & the EQUINAT team 🐴`;
+    } else if(status === 'rejected'){
+      message = `Hi ${firstName},\n\nthank you for your interest in the EQUINAT PferdeBot®. Unfortunately, our 30 beta slots are currently filled.\n\nWe'd love to reach out again as soon as the next tester wave starts.\n\nLea, Dirc & the EQUINAT team 🐴`;
+    } else if(status === 'affiliate'){
+      message = `Hi ${firstName}!\n\nWe'd love to welcome you as an EQUINAT affiliate partner. You've extensively tested the bot and you fit our brand perfectly.\n\nWould you have time for a short call to discuss the conditions?\n\nLea, Dirc & the EQUINAT team ⭐`;
+    } else {
+      message = `Hi ${firstName}!\n\nDirc from EQUINAT here — getting in touch about your tester application.\n\n🐴`;
+    }
   } else {
-    message = `Hallo ${firstName}!\n\nDirc von EQUINAT hier — ich melde mich wegen deiner Tester-Bewerbung.\n\n🐴`;
+    // DE (default)
+    if(status === 'approved' && code && code !== '—'){
+      message = `🐴 Hallo ${firstName}!\n\nWillkommen in der EQUINAT PferdeBot® Beta-Familie!\n\nDein persönlicher Zugangscode:\n${code}\n\nSo geht's:\n1. Öffne https://equinatbot.netlify.app\n2. Email + Code eingeben\n3. Bot ist freigeschaltet — viel Spaß beim Testen!\n\nIch lade dich gleich in unsere exklusive Tester-Gruppe ein. Da entwickeln wir den Bot gemeinsam mit euch weiter — dein Feedback fließt direkt ins Produkt.\n\nBei Fragen einfach hier melden.\n\nLea, Dirc & das EQUINAT-Team 🌿`;
+    } else if(status === 'pending'){
+      message = `Hallo ${firstName}!\n\nDanke für deine EQUINAT PferdeBot® Tester-Bewerbung. Wir prüfen sie gerade und melden uns innerhalb der nächsten 48 Stunden.\n\nLea, Dirc & das EQUINAT-Team 🐴`;
+    } else if(status === 'rejected'){
+      message = `Hallo ${firstName},\n\nvielen Dank für dein Interesse am EQUINAT PferdeBot®. Aktuell sind unsere 30 Beta-Plätze leider bereits vergeben.\n\nWir melden uns gerne, sobald die nächste Tester-Welle startet.\n\nLea, Dirc & das EQUINAT-Team 🐴`;
+    } else if(status === 'affiliate'){
+      message = `Hallo ${firstName}!\n\nWir würden dich gerne als EQUINAT Affiliate-Partner begrüßen. Du hast den Bot ausgiebig getestet und passt perfekt zu unserer Marke.\n\nMagst du dich kurz mit mir verabreden, um die Konditionen zu besprechen?\n\nLea, Dirc & das EQUINAT-Team ⭐`;
+    } else {
+      message = `Hallo ${firstName}!\n\nDirc von EQUINAT hier — ich melde mich wegen deiner Tester-Bewerbung.\n\n🐴`;
+    }
   }
 
   const tg = String(telegram).trim();
@@ -675,18 +700,22 @@ function telegramTo(telegram, name, status, code){
     return;
   }
 
-  // Case 2: phone number — Telegram doesn't support direct prefill via phone,
-  // so we copy text to clipboard and show instructions
+  // Case 2: phone number — Telegram doesn't support direct prefill via phone
   if(tg.startsWith('+') || /^\d/.test(tg)){
-    // Copy message to clipboard
+    const alertTxt = lang==='en'
+      ? `📋 Telegram message copied to clipboard.\n\nNext steps:\n\n1. Open Telegram\n2. Search the contact: ${tg}\n3. Paste the copied message in chat (Ctrl/Cmd+V)\n4. Send — done!\n\nIf the contact is not in your Telegram contacts, you may need to save them in your address book first.`
+      : `📋 Telegram-Nachricht wurde in die Zwischenablage kopiert.\n\nNächste Schritte:\n\n1. Öffne Telegram\n2. Suche den Kontakt: ${tg}\n3. Füge die kopierte Nachricht im Chat ein (Strg/Cmd+V)\n4. Senden — fertig!\n\nFalls der Kontakt nicht in deinen Telegram-Kontakten ist, musst du ihn ggf. zuerst in deinem Adressbuch speichern.`;
+    const promptTxt = lang==='en'
+      ? '📋 Copy this text and send it to '+tg+' on Telegram:'
+      : '📋 Kopiere folgenden Text und sende ihn an '+tg+' in Telegram:';
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(message).then(()=>{
-        alert(`📋 Telegram-Nachricht wurde in die Zwischenablage kopiert.\n\nNächste Schritte:\n\n1. Öffne Telegram\n2. Suche den Kontakt: ${tg}\n3. Füge die kopierte Nachricht im Chat ein (Strg/Cmd+V)\n4. Senden — fertig!\n\nFalls der Kontakt nicht in deinen Telegram-Kontakten ist, musst du ihn ggf. zuerst in deinem Adressbuch speichern.`);
+        alert(alertTxt);
       }).catch(()=>{
-        prompt('📋 Kopiere folgenden Text und sende ihn an '+tg+' in Telegram:', message);
+        prompt(promptTxt, message);
       });
     } else {
-      prompt('📋 Kopiere folgenden Text und sende ihn an '+tg+' in Telegram:', message);
+      prompt(promptTxt, message);
     }
     return;
   }
@@ -704,23 +733,38 @@ function mailToFromRow(testerId){
   const status = getStatus(testerId);
   const codeRecord = findActiveCodeForEmail(d.email);
   const codeStr = codeRecord ? (codeRecord.data?.code || '—') : '—';
-  mailTo(d.email||'', name, status, codeStr, d.telegram||'');
+  const lang = getTesterLang(testerId);
+  mailTo(d.email||'', name, status, codeStr, d.telegram||'', lang);
 }
 
-function mailTo(email,name,status,code,telegram){
+function mailTo(email,name,status,code,telegram,lang){
   if(!email) return;
-  const subjects={
+  const subjectsDE={
     pending:'Deine EQUINAT Tester-Bewerbung',
     approved:'🐴 Willkommen als EQUINAT Tester — Dein Zugangscode',
     rejected:'EQUINAT Tester-Bewerbung',
     affiliate:'⭐ EQUINAT Affiliate-Einladung für dich'
   };
+  const subjectsEN={
+    pending:'Your EQUINAT Tester Application',
+    approved:'🐴 Welcome as an EQUINAT Tester — Your Access Code',
+    rejected:'EQUINAT Tester Application',
+    affiliate:'⭐ EQUINAT Affiliate Invitation for you'
+  };
+  const subjects = lang==='en' ? subjectsEN : subjectsDE;
   let body = '';
   if(status === 'approved' && code && code !== '—'){
-    const telegramLine = telegram && telegram !== '—'
-      ? `\n\n📱 TELEGRAM-EINLADUNG\nIch lade dich heute noch persönlich in unsere exklusive Tester-Telegram-Gruppe ein (auf ${telegram}). Dort entwickeln wir den Bot gemeinsam mit allen Tester:innen weiter — dein Feedback fließt direkt ins Produkt.`
-      : '\n\n📱 TELEGRAM-EINLADUNG\nIch melde mich separat per Telegram bei dir, um dich in unsere exklusive Tester-Gruppe einzuladen — dort entwickeln wir den Bot gemeinsam weiter.';
-    body = `Hallo ${name?name.split(' ')[0]:''},\n\nherzlich willkommen in der EQUINAT PferdeBot® Beta!\n\nDein persönlicher Zugangscode lautet:\n\n  ${code}\n\nSo geht's:\n1. Öffne https://equinatbot.netlify.app\n2. Gib deine Email (${email}) und den Code oben ein\n3. Bot ist freigeschaltet — viel Spaß beim Testen!${telegramLine}\n\nFeedback bitte an info@zafao.world\n\nLiebe Grüße,\nLea, Dirc & das EQUINAT-Team`;
+    if(lang === 'en'){
+      const telegramLine = telegram && telegram !== '—'
+        ? `\n\n📱 TELEGRAM INVITATION\nI'll personally invite you to our exclusive tester Telegram group today (via ${telegram}). That's where we develop the bot together with all testers — your feedback flows straight into the product.`
+        : '\n\n📱 TELEGRAM INVITATION\nI\'ll get in touch separately via Telegram to invite you to our exclusive tester group — where we develop the bot together.';
+      body = `Hi ${name?name.split(' ')[0]:''},\n\nwelcome to the EQUINAT PferdeBot® Beta!\n\nYour personal access code:\n\n  ${code}\n\nHow it works:\n1. Open https://equinatbot.netlify.app\n2. Enter your email (${email}) and the code above\n3. Bot unlocked — enjoy testing!${telegramLine}\n\nFeedback to info@zafao.world\n\nBest regards,\nLea, Dirc & the EQUINAT team`;
+    } else {
+      const telegramLine = telegram && telegram !== '—'
+        ? `\n\n📱 TELEGRAM-EINLADUNG\nIch lade dich heute noch persönlich in unsere exklusive Tester-Telegram-Gruppe ein (auf ${telegram}). Dort entwickeln wir den Bot gemeinsam mit allen Tester:innen weiter — dein Feedback fließt direkt ins Produkt.`
+        : '\n\n📱 TELEGRAM-EINLADUNG\nIch melde mich separat per Telegram bei dir, um dich in unsere exklusive Tester-Gruppe einzuladen — dort entwickeln wir den Bot gemeinsam weiter.';
+      body = `Hallo ${name?name.split(' ')[0]:''},\n\nherzlich willkommen in der EQUINAT PferdeBot® Beta!\n\nDein persönlicher Zugangscode lautet:\n\n  ${code}\n\nSo geht's:\n1. Öffne https://equinatbot.netlify.app\n2. Gib deine Email (${email}) und den Code oben ein\n3. Bot ist freigeschaltet — viel Spaß beim Testen!${telegramLine}\n\nFeedback bitte an info@zafao.world\n\nLiebe Grüße,\nLea, Dirc & das EQUINAT-Team`;
+    }
   }
   const subj = subjects[status]||subjects.pending;
   let url = `mailto:${email}?subject=${encodeURIComponent(subj)}`;
@@ -809,13 +853,19 @@ function openDetailModal(id){
   }
 
   // Actions
+  const currentLang = getTesterLang(id);
   document.getElementById('modalActions').innerHTML=`
     <div>${getStatusBadge(status)}</div>
     ${status!=='approved'?`<button class="action-btn approve" onclick="approveAndCreateCode('${id}');closeDetailModal();">✓ Freischalten + Code erstellen</button>`:''}
     ${status!=='rejected'?`<button class="action-btn reject" onclick="quickStatus('${id}','rejected');document.getElementById('modalActions').innerHTML='${getStatusBadge('rejected').replace(/'/g,"\\'")}'">✗ Ablehnen</button>`:''}
     ${status!=='affiliate'?`<button class="action-btn affiliate" onclick="quickStatus('${id}','affiliate');document.getElementById('modalActions').innerHTML='${getStatusBadge('affiliate').replace(/'/g,"\\'")}'">★ Als Affiliate</button>`:''}
-    <button class="action-btn email-btn" onclick="mailToFromRow('${t.id}')">📧 Email mit Code</button>
-    ${d.telegram?`<button class="action-btn telegram-btn" onclick="telegramToFromRow('${t.id}')">💬 Telegram mit Code</button>`:''}
+    <span style="display:inline-flex;align-items:center;gap:4px;margin-left:0.5rem;padding:0.25rem 0.5rem;background:rgba(201,148,58,0.06);border:1px solid var(--border);border-radius:3px;">
+      <span style="font-size:0.65rem;color:var(--cream3);letter-spacing:0.1em;">SPRACHE:</span>
+      <button class="lang-toggle-btn ${currentLang==='de'?'active':''}" onclick="toggleTesterLang('${id}','de')" style="background:${currentLang==='de'?'var(--gold)':'transparent'};color:${currentLang==='de'?'var(--bg)':'var(--cream3)'};border:none;padding:2px 8px;border-radius:2px;font-size:0.7rem;font-weight:600;cursor:pointer;font-family:'Jost',sans-serif;letter-spacing:0.05em;">🇩🇪 DE</button>
+      <button class="lang-toggle-btn ${currentLang==='en'?'active':''}" onclick="toggleTesterLang('${id}','en')" style="background:${currentLang==='en'?'var(--gold)':'transparent'};color:${currentLang==='en'?'var(--bg)':'var(--cream3)'};border:none;padding:2px 8px;border-radius:2px;font-size:0.7rem;font-weight:600;cursor:pointer;font-family:'Jost',sans-serif;letter-spacing:0.05em;">🇬🇧 EN</button>
+    </span>
+    <button class="action-btn email-btn" onclick="mailToFromRow('${t.id}')">📧 ${currentLang==='en'?'Email with code':'Email mit Code'}</button>
+    ${d.telegram?`<button class="action-btn telegram-btn" onclick="telegramToFromRow('${t.id}')">💬 ${currentLang==='en'?'Telegram with code':'Telegram mit Code'}</button>`:''}
   `;
 
   // Contact
