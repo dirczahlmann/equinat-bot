@@ -48,80 +48,138 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 
 /* SIDEBAR */
 .sidebar{width:280px;flex-shrink:0;background:var(--sb-bg);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100%;}
-.sb-head{padding:18px 18px 14px;border-bottom:1px solid var(--border);}
-.sb-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;letter-spacing:4px;color:var(--cream);}
+.sb-head{padding:14px 18px 12px;border-bottom:1px solid var(--border);}
+.sb-head-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.sb-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;letter-spacing:4px;color:var(--cream);}
 .sb-logo span{color:var(--gold);}
-.sb-tag{font-size:9.5px;color:var(--muted);letter-spacing:1.5px;margin-top:3px;}
-.sb-scroll{flex:1;overflow-y:auto;padding:12px 12px 8px;scrollbar-width:thin;scrollbar-color:rgba(201,148,58,0.15) transparent;}
+.sb-tag{font-size:9px;color:var(--muted);letter-spacing:1.5px;}
+.sb-newchat-btn{
+  width:100%;padding:9px 12px;
+  background:linear-gradient(135deg,var(--fmid),var(--forest));
+  border:1px solid var(--border);
+  color:var(--gold-l);font-family:'DM Sans',sans-serif;
+  font-size:11.5px;font-weight:500;letter-spacing:0.5px;
+  border-radius:4px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:.2s;
+}
+.sb-newchat-btn:hover{background:linear-gradient(135deg,#3d6028,#2d4a1e);border-color:var(--gold);}
+.sb-newchat-btn svg{width:13px;height:13px;fill:var(--gold-l);}
+
+.sb-scroll{flex:1;overflow-y:auto;padding:10px 12px 8px;scrollbar-width:thin;scrollbar-color:rgba(201,148,58,0.15) transparent;}
 .sb-scroll::-webkit-scrollbar{width:4px;}
 .sb-scroll::-webkit-scrollbar-thumb{background:rgba(201,148,58,0.15);border-radius:2px;}
 
 /* HORSE PICKER */
-.sb-horses{margin-bottom:14px;}
-.sb-horses-head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 4px 8px;
-}
-.sb-horses-title{font-size:9.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);font-weight:500;}
-.sb-horses-add{
-  background:none;border:1px solid var(--border);color:var(--muted);
-  font-size:14px;width:22px;height:22px;border-radius:50%;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;line-height:1;
-  font-family:'DM Sans',sans-serif;
-}
+.sb-horses{margin-bottom:12px;}
+.sb-horses-head{display:flex;align-items:center;justify-content:space-between;padding:0 4px 6px;}
+.sb-horses-title{font-size:9px;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);font-weight:500;}
+.sb-horses-add{background:none;border:1px solid var(--border);color:var(--muted);font-size:13px;width:20px;height:20px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;font-family:'DM Sans',sans-serif;}
 .sb-horses-add:hover:not(:disabled){border-color:var(--gold);color:var(--gold);}
 .sb-horses-add:disabled{opacity:0.3;cursor:not-allowed;}
 
-.sb-horse-item{
-  display:flex;align-items:center;gap:10px;
-  padding:9px 10px;border-radius:4px;
-  border:1px solid transparent;
-  cursor:pointer;transition:.15s;
-  margin:2px 0;
-  background:rgba(201,148,58,0.03);
-}
+.sb-horse-item{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:4px;border:1px solid transparent;cursor:pointer;transition:.15s;margin:1px 0;background:rgba(201,148,58,0.03);}
 .sb-horse-item:hover{background:var(--sb-hover);}
-.sb-horse-item.active{
-  background:linear-gradient(135deg,rgba(201,148,58,0.12),rgba(201,148,58,0.04));
-  border-color:rgba(201,148,58,0.3);
-}
-.sb-horse-icon{font-size:18px;flex-shrink:0;width:20px;text-align:center;}
+.sb-horse-item.active{background:linear-gradient(135deg,rgba(201,148,58,0.12),rgba(201,148,58,0.04));border-color:rgba(201,148,58,0.3);}
+.sb-horse-icon{font-size:15px;flex-shrink:0;width:18px;text-align:center;}
 .sb-horse-info{flex:1;min-width:0;}
-.sb-horse-name{font-size:12.5px;font-weight:500;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sb-horse-name{font-size:11.5px;font-weight:500;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .sb-horse-item.active .sb-horse-name{color:var(--gold-l);}
-.sb-horse-meta{font-size:10px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sb-horse-meta{font-size:9.5px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .sb-horse-edit{font-size:10px;color:var(--muted);opacity:0;transition:.15s;flex-shrink:0;padding:0 2px;}
 .sb-horse-item:hover .sb-horse-edit{opacity:1;}
 
-.sb-horse-empty{
-  display:flex;align-items:center;gap:10px;
-  padding:10px 12px;border-radius:4px;
-  background:linear-gradient(135deg,rgba(201,148,58,0.08),rgba(201,148,58,0.02));
-  border:1px solid var(--border);cursor:pointer;transition:.2s;
-}
+.sb-horse-empty{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:4px;background:linear-gradient(135deg,rgba(201,148,58,0.08),rgba(201,148,58,0.02));border:1px solid var(--border);cursor:pointer;transition:.2s;}
 .sb-horse-empty:hover{border-color:var(--gold);}
-.sb-horse-empty-icon{font-size:24px;flex-shrink:0;}
+.sb-horse-empty-icon{font-size:20px;flex-shrink:0;}
 .sb-horse-empty-text{flex:1;}
-.sb-horse-empty-h{font-size:11.5px;font-weight:500;color:var(--gold);letter-spacing:0.5px;}
-.sb-horse-empty-d{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.3;}
+.sb-horse-empty-h{font-size:11px;font-weight:500;color:var(--gold);letter-spacing:0.5px;}
+.sb-horse-empty-d{font-size:9.5px;color:var(--muted);margin-top:2px;line-height:1.3;}
 
-.sb-search{display:flex;align-items:center;gap:8px;padding:8px 10px;margin-bottom:14px;background:rgba(201,148,58,0.05);border:1px solid var(--border);border-radius:3px;}
-.sb-search svg{width:13px;height:13px;fill:var(--muted);flex-shrink:0;}
-.sb-search input{flex:1;background:none;border:none;outline:none;color:var(--cream);font-family:'DM Sans',sans-serif;font-size:12px;}
+/* SEARCH */
+.sb-search{display:flex;align-items:center;gap:8px;padding:7px 10px;margin-bottom:12px;background:rgba(201,148,58,0.05);border:1px solid var(--border);border-radius:3px;}
+.sb-search svg{width:12px;height:12px;fill:var(--muted);flex-shrink:0;}
+.sb-search input{flex:1;background:none;border:none;outline:none;color:var(--cream);font-family:'DM Sans',sans-serif;font-size:11.5px;}
 .sb-search input::placeholder{color:var(--muted);}
-.sb-section-title{font-size:9.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);font-weight:500;padding:14px 8px 6px;}
-.sb-item{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:3px;font-size:12.5px;color:rgba(244,239,228,0.78);cursor:pointer;transition:.15s;margin:1px 0;}
-.sb-item:hover{background:var(--sb-hover);color:var(--cream);}
-.sb-item-icon{font-size:14px;flex-shrink:0;width:18px;text-align:center;}
-.sb-item-time{font-size:10px;color:var(--muted);font-style:italic;padding:6px 10px 2px;}
-.sb-empty{font-size:11px;color:var(--muted);padding:6px 10px;font-style:italic;}
+.sb-search-clear{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:0 2px;display:none;}
+.sb-search-clear.show{display:block;}
+.sb-search-clear:hover{color:var(--gold);}
 
-.sb-foot{padding:12px 18px 14px;border-top:1px solid var(--border);background:var(--darker);flex-shrink:0;}
-.sb-lang-toggle{display:flex;gap:4px;background:rgba(201,148,58,0.05);border:1px solid var(--border);border-radius:99px;padding:3px;margin-bottom:10px;}
+/* SECTION TITLES */
+.sb-section{margin-bottom:6px;}
+.sb-section-head{display:flex;align-items:center;justify-content:space-between;padding:10px 8px 5px;}
+.sb-section-title{font-size:9px;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);font-weight:500;display:flex;align-items:center;gap:6px;}
+.sb-section-title-count{color:var(--muted);font-weight:400;}
+.sb-section-actions{display:flex;gap:3px;}
+.sb-section-btn{background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;padding:0 3px;line-height:1;}
+.sb-section-btn:hover{color:var(--gold);}
+
+/* TOPIC ITEMS */
+.sb-item{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:3px;font-size:12px;color:rgba(244,239,228,0.78);cursor:pointer;transition:.15s;margin:1px 0;}
+.sb-item:hover{background:var(--sb-hover);color:var(--cream);}
+.sb-item-icon{font-size:13px;flex-shrink:0;width:16px;text-align:center;}
+
+/* CHAT ITEMS */
+.sb-chat-item{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 10px;border-radius:3px;
+  font-size:11.5px;color:rgba(244,239,228,0.78);
+  cursor:pointer;transition:.15s;margin:1px 0;
+  border:1px solid transparent;
+  position:relative;
+}
+.sb-chat-item:hover{background:var(--sb-hover);color:var(--cream);}
+.sb-chat-item.active{
+  background:linear-gradient(90deg,rgba(201,148,58,0.10),rgba(201,148,58,0.02));
+  border-color:rgba(201,148,58,0.20);
+  color:var(--cream);
+}
+.sb-chat-icon{flex-shrink:0;font-size:13px;width:16px;text-align:center;color:var(--muted);}
+.sb-chat-item.active .sb-chat-icon{color:var(--gold);}
+.sb-chat-info{flex:1;min-width:0;}
+.sb-chat-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500;font-size:12px;}
+.sb-chat-meta{font-size:9.5px;color:var(--muted);margin-top:1px;display:flex;align-items:center;gap:6px;}
+.sb-chat-actions{display:flex;gap:2px;flex-shrink:0;opacity:0;transition:.15s;}
+.sb-chat-item:hover .sb-chat-actions{opacity:1;}
+.sb-chat-action{background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;padding:2px 4px;border-radius:2px;line-height:1;}
+.sb-chat-action:hover{color:var(--gold);background:rgba(201,148,58,0.1);}
+.sb-chat-action.danger:hover{color:var(--red);}
+
+/* FOLDER ITEMS */
+.sb-folder{margin:1px 0;}
+.sb-folder-head{
+  display:flex;align-items:center;gap:7px;
+  padding:6px 8px;border-radius:3px;
+  cursor:pointer;transition:.15s;
+  user-select:none;
+}
+.sb-folder-head:hover{background:var(--sb-hover);}
+.sb-folder-arrow{font-size:9px;color:var(--muted);transition:transform .2s;flex-shrink:0;}
+.sb-folder.expanded .sb-folder-arrow{transform:rotate(90deg);}
+.sb-folder-icon{font-size:13px;flex-shrink:0;}
+.sb-folder-name{flex:1;font-size:11.5px;font-weight:500;color:var(--cream);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sb-folder-count{font-size:9.5px;color:var(--muted);}
+.sb-folder-actions{display:flex;gap:2px;opacity:0;transition:.15s;}
+.sb-folder-head:hover .sb-folder-actions{opacity:1;}
+.sb-folder-children{display:none;padding-left:14px;}
+.sb-folder.expanded .sb-folder-children{display:block;}
+
+/* SEARCH RESULT HIGHLIGHT */
+.sb-chat-snippet{
+  font-size:10px;color:var(--muted);margin-top:2px;line-height:1.3;
+  padding:3px 6px;background:rgba(201,148,58,0.05);
+  border-left:2px solid var(--gold);border-radius:2px;
+}
+.sb-chat-snippet mark{background:rgba(201,148,58,0.3);color:var(--gold-l);padding:0 1px;}
+
+.sb-empty{font-size:10.5px;color:var(--muted);padding:8px 10px;font-style:italic;text-align:center;}
+
+.sb-foot{padding:10px 18px 12px;border-top:1px solid var(--border);background:var(--darker);flex-shrink:0;}
+.sb-lang-toggle{display:flex;gap:4px;background:rgba(201,148,58,0.05);border:1px solid var(--border);border-radius:99px;padding:3px;margin-bottom:8px;}
 .sb-lang-btn{flex:1;padding:5px;font-size:10px;color:var(--muted);background:none;border:none;cursor:pointer;border-radius:99px;letter-spacing:1px;font-family:'DM Sans',sans-serif;}
 .sb-lang-btn.active{background:var(--gold);color:var(--dark);font-weight:600;}
-.sb-foot-links{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;}
-.sb-foot-link{font-size:10.5px;color:var(--muted);text-decoration:none;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;text-align:left;padding:0;}
+.sb-foot-links{display:flex;flex-direction:column;gap:4px;margin-bottom:8px;}
+.sb-foot-link{font-size:10px;color:var(--muted);text-decoration:none;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;text-align:left;padding:0;}
 .sb-foot-link:hover{color:var(--gold);}
 .sb-foot-credit{font-size:9px;color:rgba(244,239,228,0.25);letter-spacing:0.5px;line-height:1.5;}
 
@@ -131,12 +189,17 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .hdr-burger{display:none;width:32px;height:32px;border:1px solid var(--border);background:none;border-radius:3px;cursor:pointer;flex-shrink:0;align-items:center;justify-content:center;flex-direction:column;gap:3px;}
 .hdr-burger span{width:14px;height:1.5px;background:var(--gold);}
 .hdr-title{flex:1;min-width:0;}
-.hdr-h{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--cream);letter-spacing:1px;}
-.hdr-sub{font-size:10px;color:var(--muted);letter-spacing:0.8px;margin-top:1px;}
-.hdr-active-horse{
-  font-size:10.5px;color:var(--gold-l);
-  margin-top:2px;letter-spacing:0.5px;font-weight:500;
+.hdr-h{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--cream);letter-spacing:1px;display:flex;align-items:center;gap:8px;}
+.hdr-h-text{
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
+.hdr-rename-btn{
+  background:none;border:none;color:var(--muted);
+  font-size:12px;padding:0 4px;cursor:pointer;flex-shrink:0;
+}
+.hdr-rename-btn:hover{color:var(--gold);}
+.hdr-sub{font-size:10px;color:var(--muted);letter-spacing:0.8px;margin-top:1px;}
+.hdr-active-horse{font-size:10.5px;color:var(--gold-l);margin-top:2px;letter-spacing:0.5px;font-weight:500;}
 .hdr-dot{display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(74,222,128,0.7);letter-spacing:1px;}
 .dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.85);}}
@@ -181,12 +244,6 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .bbl-action{background:rgba(201,148,58,0.06);border:1px solid var(--border);color:var(--muted);font-size:10px;padding:3px 8px;border-radius:3px;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:0.3px;display:flex;align-items:center;gap:4px;transition:.15s;}
 .bbl-action:hover{border-color:var(--gold);color:var(--gold);}
 .bbl-action.active{background:var(--gold);color:var(--dark);border-color:var(--gold);}
-
-.typing{display:flex;gap:4px;padding:12px 14px;align-items:center;}
-.typing span{width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:.4;animation:ty 1.2s infinite;}
-.typing span:nth-child(2){animation-delay:.2s;}
-.typing span:nth-child(3){animation-delay:.4s;}
-@keyframes ty{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-5px);opacity:1;}}
 
 .welcome{text-align:center;padding:40px 16px 24px;}
 .welcome-horse{font-size:46px;margin-bottom:14px;}
@@ -237,39 +294,6 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .modal-body strong{color:var(--cream);}
 .modal-body a{color:var(--gold);text-decoration:underline;}
 
-/* HORSE LIST IN MODAL */
-.horse-list{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
-.horse-card{
-  display:flex;align-items:center;gap:12px;
-  padding:12px 14px;border:1px solid var(--border);border-radius:4px;
-  background:rgba(201,148,58,0.04);cursor:pointer;transition:.2s;
-}
-.horse-card:hover{border-color:rgba(201,148,58,0.35);}
-.horse-card-icon{font-size:22px;flex-shrink:0;}
-.horse-card-info{flex:1;min-width:0;}
-.horse-card-name{font-size:13.5px;font-weight:500;color:var(--cream);}
-.horse-card-meta{font-size:11px;color:var(--muted);margin-top:2px;}
-.horse-card-actions{display:flex;gap:4px;flex-shrink:0;}
-.horse-card-btn{
-  background:none;border:1px solid var(--border);color:var(--muted);
-  font-size:12px;padding:5px 10px;border-radius:3px;
-  font-family:'DM Sans',sans-serif;cursor:pointer;
-}
-.horse-card-btn:hover{border-color:var(--gold);color:var(--gold);}
-.horse-card-btn.danger:hover{border-color:var(--red);color:var(--red);}
-
-.horse-add-btn{
-  width:100%;padding:11px;background:none;border:1px dashed var(--border);
-  color:var(--gold);font-family:'DM Sans',sans-serif;font-size:12px;
-  letter-spacing:1px;border-radius:4px;cursor:pointer;
-}
-.horse-add-btn:hover:not(:disabled){border-color:var(--gold);background:rgba(201,148,58,0.05);}
-.horse-add-btn:disabled{opacity:0.4;cursor:not-allowed;}
-.horse-add-hint{
-  text-align:center;font-size:11px;color:var(--muted);
-  margin-top:8px;font-style:italic;
-}
-
 .profile-form{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
 .profile-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .profile-field label{display:block;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;margin-bottom:4px;font-weight:500;}
@@ -296,6 +320,24 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .modal-btn-secondary:hover{border-color:var(--gold);color:var(--gold);}
 .modal-btn-danger{background:none;border:1px solid rgba(214,123,107,0.4);color:var(--red);}
 .modal-btn-danger:hover{border-color:var(--red);background:rgba(214,123,107,0.08);}
+
+/* FOLDER PICKER MODAL */
+.folder-picker{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;max-height:340px;overflow-y:auto;}
+.folder-pick-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border:1px solid var(--border);border-radius:4px;
+  background:rgba(201,148,58,0.04);cursor:pointer;transition:.2s;
+}
+.folder-pick-item:hover{border-color:var(--gold);background:rgba(201,148,58,0.08);}
+.folder-pick-item.current{border-color:rgba(74,222,128,0.4);background:rgba(74,222,128,0.06);}
+.folder-pick-icon{font-size:16px;flex-shrink:0;}
+.folder-pick-name{flex:1;font-size:13px;font-weight:500;color:var(--cream);}
+.folder-pick-current{font-size:9.5px;letter-spacing:1px;color:rgba(74,222,128,0.8);text-transform:uppercase;}
+.folder-create-form{display:flex;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+.folder-create-form input{flex:1;padding:8px 12px;background:#111808;border:1px solid var(--border);outline:none;color:var(--cream);font-family:'DM Sans',sans-serif;font-size:12.5px;border-radius:3px;}
+.folder-create-form input:focus{border-color:var(--gold);}
+.folder-create-btn{padding:8px 16px;background:var(--gold);color:var(--dark);border:none;font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer;border-radius:3px;font-family:'DM Sans',sans-serif;}
+.folder-create-btn:hover{background:var(--gold-l);}
 
 .modal-close{display:block;margin:20px auto 0;background:none;border:1px solid var(--border);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1px;padding:8px 24px;cursor:pointer;border-radius:2px;}
 .modal-close:hover{border-color:var(--gold);color:var(--gold);}
@@ -350,8 +392,16 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sb-head">
-      <div class="sb-logo">EQUINAT<span>®</span></div>
-      <div class="sb-tag" id="sbTag">PFERDEBOT · KI-PFERDEEXPERTE</div>
+      <div class="sb-head-row">
+        <div>
+          <div class="sb-logo">EQUINAT<span>®</span></div>
+          <div class="sb-tag" id="sbTag">PFERDEBOT</div>
+        </div>
+      </div>
+      <button class="sb-newchat-btn" onclick="newChat()" title="Neuer Chat" id="newChatBtn">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+        <span id="newChatBtnText">Neuer Chat</span>
+      </button>
     </div>
 
     <div class="sb-scroll">
@@ -367,16 +417,11 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 
       <div class="sb-search">
         <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-        <input type="text" id="sbSearch" oninput="filterTopics(this.value)"/>
+        <input type="text" id="sbSearch" oninput="onSearchInput(this.value)"/>
+        <button class="sb-search-clear" id="sbSearchClear" onclick="clearSearch()">✕</button>
       </div>
 
-      <div class="sb-section-title" id="sbTopicsTitle">Themengebiete</div>
-      <div id="topicList"></div>
-
-      <div class="sb-section-title" id="sbHistoryTitle">Verlauf</div>
-      <div id="historyList">
-        <div class="sb-empty" id="sbHistoryEmpty">Noch keine Unterhaltungen</div>
-      </div>
+      <div id="sidebarContent"></div>
 
     </div>
 
@@ -391,7 +436,7 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
         <button class="sb-foot-link" onclick="openModal('ki')" id="footKi">KI-Transparenz</button>
         <button class="sb-foot-link" onclick="openModal('kontakt')" id="footKontakt">Kontakt</button>
       </div>
-      <div class="sb-foot-credit">© 2026 Zafao GmbH<br/>Beta · v8.0</div>
+      <div class="sb-foot-credit">© 2026 Zafao GmbH<br/>Beta · v9.0</div>
     </div>
   </aside>
 
@@ -401,7 +446,10 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
     <div class="hdr">
       <button class="hdr-burger" onclick="openSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
       <div class="hdr-title">
-        <div class="hdr-h">PferdeBot®</div>
+        <div class="hdr-h">
+          <span class="hdr-h-text" id="hdrChatTitle">PferdeBot®</span>
+          <button class="hdr-rename-btn" id="hdrRenameBtn" onclick="renameCurrentChat()" title="Umbenennen" style="display:none;">✎</button>
+        </div>
         <div class="hdr-sub" id="hdrSub">Dein KI-Pferdeexperte</div>
         <div class="hdr-active-horse" id="hdrActiveHorse"></div>
       </div>
@@ -477,10 +525,18 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 var MONTHLY_LIMIT = 500;
 var STORAGE_PREFIX = 'eq2_';
 var MAX_HORSES = 5;
+var MAX_CHATS = 200;          // Hard limit to keep localStorage manageable
 var BOOST_CODES = {'EQ50':50,'EQ100':100,'EQ200':200,'EQ500':500,'EQ1000':1000,'VIPTEST':9999};
-var hist = [], busy = false;
+
+// Runtime state (not persisted)
+var hist = [];                 // Current chat's messages (sent to API)
+var busy = false;
 var pendingImage = null, pendingImageName = '', pendingImageType = '';
 var editingHorseId = null;
+var currentChatId = null;      // Active chat ID
+var movingChatId = null;       // For folder picker
+var searchQuery = '';
+var expandedFolders = {};      // folderId → true/false
 
 // ═══════════════════════════════════════════════
 // I18N
@@ -495,22 +551,29 @@ var I18N = {
     lockBtn:'→ Bot freischalten',
     lockChecking:'Wird geprüft…',
     lockFoot:'Noch keinen Zugang?<br/><a href="/tester-signup">→ Jetzt als Beta-Tester bewerben</a>',
-    sbTag:'PFERDEBOT · KI-PFERDEEXPERTE',
+    sbTag:'PFERDEBOT',
+    newChatBtn:'Neuer Chat',
     sbHorsesTitle:'Meine Pferde',
     sbHorsesAdd:'+ Pferd anlegen',
     sbHorsesEmpty:'Noch kein Pferd angelegt',
     sbHorsesEmptySub:'Für personalisierte Antworten',
     sbHorsesMax:'Maximum 5 Pferde erreicht',
-    sbSearchPh:'Themen durchsuchen…',
+    sbSearchPh:'Chats & Themen suchen…',
+    sbProjectsTitle:'Projekte',
+    sbProjectsAdd:'+ Projekt',
+    sbChatsTitle:'Chats',
+    sbChatsUnsorted:'Lose Chats',
     sbTopicsTitle:'Themengebiete',
-    sbHistoryTitle:'Verlauf',
-    sbHistoryEmpty:'Noch keine Unterhaltungen',
+    sbHistoryEmpty:'Noch keine Chats',
+    sbSearchEmpty:'Keine Treffer für',
+    sbSearchResults:'Suchergebnisse',
     footImpressum:'Impressum',
     footDatenschutz:'Datenschutz',
     footKi:'KI-Transparenz',
     footKontakt:'Kontakt',
     hdrSub:'Dein KI-Pferdeexperte',
     hdrActiveLabel:'Aktiv: ',
+    hdrNewChat:'Neuer Chat',
     inpPh:'Frag mich alles rund ums Pferd …',
     inpHint:'EQUINAT PferdeBot® · Kein Ersatz für tierärztliche Diagnose',
     welcomeTitle:'Hallo! Ich bin der EQUINAT PferdeBot®',
@@ -518,7 +581,6 @@ var I18N = {
     usageRem:'<rem> von <total> Nachrichten diesen Monat',
     usageEmpty:'Kontingent aufgebraucht',
     usageBuy:'+ Pakete',
-    today:'Heute', yesterday:'Gestern', thisweek:'Diese Woche', older:'Älter',
     voiceUnsupported:'Spracheingabe wird im Browser nicht unterstützt.',
     voiceListening:'Spreche jetzt…',
     voiceErr:'Spracheingabe fehlgeschlagen.',
@@ -526,16 +588,11 @@ var I18N = {
     imgWrongType:'Ungültiges Bildformat (JPG, PNG, WEBP, GIF).',
     imgPreviewLabel:'Bild bereit zum Senden',
     copied:'Kopiert!',
-    horseModalTitleAll:'Meine Pferde',
     horseModalTagAll:'Profile',
-    horseModalSubAll:'Bis zu 5 Pferde — Bot personalisiert Antworten anhand des aktiven Pferdes.',
-    horseModalAddBtn:'+ Pferd anlegen',
-    horseModalActivate:'Aktivieren',
-    horseModalEdit:'Bearbeiten',
-    horseModalNewTitle:'Neues Pferd',
-    horseModalEditTitle:'Pferd bearbeiten',
     horseModalNewTag:'Profil-Anlage',
     horseModalEditTag:'Profil bearbeiten',
+    horseModalNewTitle:'Neues Pferd',
+    horseModalEditTitle:'Pferd bearbeiten',
     horseModalNewSub:'Je mehr du angibst, desto präziser werden die Antworten.',
     horseModalSave:'Speichern',
     horseModalCancel:'Abbrechen',
@@ -545,20 +602,30 @@ var I18N = {
     horseDeleted:'Profil gelöscht',
     horseActivated:'<name> ist jetzt aktiv',
     horseMaxReached:'Maximum 5 Pferde erreicht',
-    fields:{
-      name:'Name', rasse:'Rasse', alter:'Alter (Jahre)', kgw:'Körpergewicht (kg)',
-      geschlecht:'Geschlecht', haltung:'Haltung', nutzung:'Nutzung',
-      diagnosen:'Bekannte Diagnosen', fuetterung:'Aktuelle Fütterung'
-    },
+    fields:{name:'Name',rasse:'Rasse',alter:'Alter (Jahre)',kgw:'Körpergewicht (kg)',geschlecht:'Geschlecht',haltung:'Haltung',nutzung:'Nutzung',diagnosen:'Bekannte Diagnosen',fuetterung:'Aktuelle Fütterung'},
     sexOptions:['—','Stute','Wallach','Hengst'],
     haltungOptions:['—','Box mit Weide','Offenstall','Robusthaltung','Aktivstall','Box ohne Weide'],
     nutzungOptions:['—','Freizeit','Dressur','Springen','Vielseitigkeit','Western','Distanz','Zucht','Senior/Beistellpferd'],
-    placeholders:{
-      name:'z.B. Hugo',
-      rasse:'z.B. Warmblut, Tinker, Pony',
-      diagnosen:'z.B. EMS, leichte Arthrose, Sommerekzem',
-      fuetterung:'z.B. 8kg Heu, Mineralfutter, Leinöl, Bierhefe'
-    },
+    placeholders:{name:'z.B. Hugo',rasse:'z.B. Warmblut, Tinker, Pony',diagnosen:'z.B. EMS, leichte Arthrose, Sommerekzem',fuetterung:'z.B. 8kg Heu, Mineralfutter, Leinöl, Bierhefe'},
+    chatRename:'Umbenennen',
+    chatMove:'In Projekt verschieben',
+    chatDelete:'Chat löschen',
+    chatDeleteConfirm:'Diesen Chat wirklich löschen?',
+    chatRenamePrompt:'Neuer Chat-Titel:',
+    chatNew:'Neuer Chat',
+    chatNoMessages:'Noch keine Nachrichten',
+    folderModalTitle:'Chat in Projekt verschieben',
+    folderModalSub:'Wähle ein bestehendes Projekt oder erstelle ein neues.',
+    folderUnsorted:'Lose Chats (kein Projekt)',
+    folderCurrent:'Aktuell hier',
+    folderNewPh:'Name für neues Projekt',
+    folderCreateBtn:'Anlegen',
+    folderRename:'Umbenennen',
+    folderDelete:'Projekt löschen',
+    folderRenamePrompt:'Neuer Projekt-Name:',
+    folderDeleteConfirm:'Projekt "<name>" löschen? Die enthaltenen Chats bleiben erhalten und werden zu "Lose Chats".',
+    folderCreatePrompt:'Name für neues Projekt:',
+    chatMoved:'Chat verschoben ✓',
     quickTopics:[
       {q:'Was ist EQUINAT DAILY COMPLETE®?', l:'🌿 DAILY'},
       {q:'Was ist JOINT COMPLETE® bei Arthrose?', l:'🦴 JOINT'},
@@ -569,16 +636,16 @@ var I18N = {
       {q:'Wann muss ich beim Pferd sofort den Tierarzt rufen?', l:'🚨 Notfall'}
     ],
     sidebarTopics:[
-      {q:'Wie sollte ich mein Pferd richtig füttern? Bitte mache eine konkrete Tagesmenge-Berechnung.', i:'🥗', l:'Fütterung & Tagesmenge', t:'fütterung gras heu menge'},
-      {q:'Mein Pferd zeigt Krankheitssymptome — was tun?', i:'🩺', l:'Gesundheit', t:'gesundheit krank tierarzt'},
-      {q:'Mein Pferd hat EMS oder Cushing — was füttern?', i:'⚖️', l:'EMS &amp; Cushing', t:'ems cushing hufrehe metabolic'},
-      {q:'Mein Pferd hustet — was hilft?', i:'💨', l:'Atemwege &amp; RAO', t:'atemwege rao husten allergie'},
-      {q:'Mein Pferd hat Gelenkprobleme — was hilft?', i:'🦴', l:'Gelenke', t:'gelenke arthrose joint lahm'},
-      {q:'Mein Senior-Pferd verliert Gewicht — was hilft?', i:'🌾', l:'Senioren &amp; Mash', t:'senior alt zahn mash'},
-      {q:'Was füttern bei Sport und Schwitzen?', i:'🏆', l:'Sport &amp; Turnier', t:'sport turnier schwitzen elektrolyte'},
-      {q:'Wie kann ich mein aktuelles Futterregime mit EQUINAT vergleichen? Was würde ich sparen?', i:'💰', l:'Sparrechner', t:'sparen vergleich kosten'},
-      {q:'Wie sollte mein Pferd gehalten werden?', i:'🏡', l:'Haltung &amp; Stall', t:'stall haltung weide'},
-      {q:'Was gehört zur Pferde-Vorsorge?', i:'💉', l:'Vorsorge', t:'vorsorge wurmkur impfung'}
+      {q:'Wie sollte ich mein Pferd richtig füttern? Bitte mache eine konkrete Tagesmenge-Berechnung.', i:'🥗', l:'Fütterung & Tagesmenge'},
+      {q:'Mein Pferd zeigt Krankheitssymptome — was tun?', i:'🩺', l:'Gesundheit'},
+      {q:'Mein Pferd hat EMS oder Cushing — was füttern?', i:'⚖️', l:'EMS &amp; Cushing'},
+      {q:'Mein Pferd hustet — was hilft?', i:'💨', l:'Atemwege &amp; RAO'},
+      {q:'Mein Pferd hat Gelenkprobleme — was hilft?', i:'🦴', l:'Gelenke'},
+      {q:'Mein Senior-Pferd verliert Gewicht — was hilft?', i:'🌾', l:'Senioren'},
+      {q:'Was füttern bei Sport und Schwitzen?', i:'🏆', l:'Sport &amp; Turnier'},
+      {q:'Wie kann ich mein aktuelles Futterregime mit EQUINAT vergleichen? Was würde ich sparen?', i:'💰', l:'Sparrechner'},
+      {q:'Wie sollte mein Pferd gehalten werden?', i:'🏡', l:'Haltung'},
+      {q:'Was gehört zur Pferde-Vorsorge?', i:'💉', l:'Vorsorge'}
     ],
     welcomeTips:[
       {h:'Sparrechner', d:'Was kostet dein aktuelles Futter — und mit EQUINAT?', q:'Vergleiche meine aktuelle Fütterung mit EQUINAT — was würde ich pro Monat sparen?'},
@@ -604,7 +671,8 @@ var I18N = {
     networkErr:'🐴 Verbindungsfehler. Bitte überprüfe deine Internetverbindung.',
     fetchErr:'🐴 Fehler beim Senden.',
     accessRevoked:'🐴 Dein Zugang ist nicht mehr aktiv. Bitte logge dich neu ein.',
-    confirmLogout:'Möchtest du dich wirklich ausloggen?'
+    confirmLogout:'Möchtest du dich wirklich ausloggen?',
+    today:'Heute',yesterday:'Gestern',thisweek:'Diese Woche',older:'Älter'
   },
   en: {
     lockTitle:'Beta access required',
@@ -614,23 +682,30 @@ var I18N = {
     lockCodePh:'Access code (e.g. EQ-7K3M)',
     lockBtn:'→ Unlock bot',
     lockChecking:'Checking…',
-    lockFoot:'Don\'t have access yet?<br/><a href="/tester-signup">→ Apply to become a beta tester</a>',
-    sbTag:'PFERDEBOT · AI HORSE EXPERT',
+    lockFoot:'Don\u2019t have access yet?<br/><a href="/tester-signup">→ Apply to become a beta tester</a>',
+    sbTag:'PFERDEBOT',
+    newChatBtn:'New chat',
     sbHorsesTitle:'My horses',
     sbHorsesAdd:'+ Add horse',
     sbHorsesEmpty:'No horse added yet',
     sbHorsesEmptySub:'For personalized answers',
     sbHorsesMax:'Maximum 5 horses reached',
-    sbSearchPh:'Search topics…',
+    sbSearchPh:'Search chats & topics…',
+    sbProjectsTitle:'Projects',
+    sbProjectsAdd:'+ Project',
+    sbChatsTitle:'Chats',
+    sbChatsUnsorted:'Unsorted chats',
     sbTopicsTitle:'Topics',
-    sbHistoryTitle:'History',
-    sbHistoryEmpty:'No conversations yet',
+    sbHistoryEmpty:'No chats yet',
+    sbSearchEmpty:'No results for',
+    sbSearchResults:'Search results',
     footImpressum:'Imprint',
     footDatenschutz:'Privacy',
     footKi:'AI Transparency',
     footKontakt:'Contact',
     hdrSub:'Your AI horse expert',
     hdrActiveLabel:'Active: ',
+    hdrNewChat:'New chat',
     inpPh:'Ask me anything about your horse…',
     inpHint:'EQUINAT PferdeBot® · No replacement for veterinary diagnosis',
     welcomeTitle:'Hello! I am the EQUINAT PferdeBot®',
@@ -638,7 +713,6 @@ var I18N = {
     usageRem:'<rem> of <total> messages this month',
     usageEmpty:'Quota exhausted',
     usageBuy:'+ Packages',
-    today:'Today', yesterday:'Yesterday', thisweek:'This week', older:'Older',
     voiceUnsupported:'Voice input is not supported in your browser.',
     voiceListening:'Speak now…',
     voiceErr:'Voice input failed.',
@@ -646,16 +720,11 @@ var I18N = {
     imgWrongType:'Invalid image format (JPG, PNG, WEBP, GIF).',
     imgPreviewLabel:'Image ready to send',
     copied:'Copied!',
-    horseModalTitleAll:'My horses',
     horseModalTagAll:'Profiles',
-    horseModalSubAll:'Up to 5 horses — bot personalizes answers based on the active horse.',
-    horseModalAddBtn:'+ Add horse',
-    horseModalActivate:'Activate',
-    horseModalEdit:'Edit',
-    horseModalNewTitle:'New horse',
-    horseModalEditTitle:'Edit horse',
     horseModalNewTag:'Create profile',
     horseModalEditTag:'Edit profile',
+    horseModalNewTitle:'New horse',
+    horseModalEditTitle:'Edit horse',
     horseModalNewSub:'The more you provide, the more precise answers become.',
     horseModalSave:'Save',
     horseModalCancel:'Cancel',
@@ -665,20 +734,30 @@ var I18N = {
     horseDeleted:'Profile deleted',
     horseActivated:'<name> is now active',
     horseMaxReached:'Maximum 5 horses reached',
-    fields:{
-      name:'Name', rasse:'Breed', alter:'Age (years)', kgw:'Body weight (kg)',
-      geschlecht:'Sex', haltung:'Housing', nutzung:'Use',
-      diagnosen:'Known diagnoses', fuetterung:'Current feeding'
-    },
+    fields:{name:'Name',rasse:'Breed',alter:'Age (years)',kgw:'Body weight (kg)',geschlecht:'Sex',haltung:'Housing',nutzung:'Use',diagnosen:'Known diagnoses',fuetterung:'Current feeding'},
     sexOptions:['—','Mare','Gelding','Stallion'],
     haltungOptions:['—','Box with paddock','Open stable','Pasture-kept','Active stable','Box only'],
     nutzungOptions:['—','Leisure','Dressage','Show jumping','Eventing','Western','Endurance','Breeding','Senior/Companion'],
-    placeholders:{
-      name:'e.g. Hugo',
-      rasse:'e.g. Warmblood, Tinker, Pony',
-      diagnosen:'e.g. EMS, mild arthritis, sweet itch',
-      fuetterung:'e.g. 8kg hay, mineral feed, linseed oil, brewer\'s yeast'
-    },
+    placeholders:{name:'e.g. Hugo',rasse:'e.g. Warmblood, Tinker, Pony',diagnosen:'e.g. EMS, mild arthritis, sweet itch',fuetterung:'e.g. 8kg hay, mineral feed, linseed oil'},
+    chatRename:'Rename',
+    chatMove:'Move to project',
+    chatDelete:'Delete chat',
+    chatDeleteConfirm:'Really delete this chat?',
+    chatRenamePrompt:'New chat title:',
+    chatNew:'New chat',
+    chatNoMessages:'No messages yet',
+    folderModalTitle:'Move chat to project',
+    folderModalSub:'Pick an existing project or create a new one.',
+    folderUnsorted:'Unsorted (no project)',
+    folderCurrent:'Currently here',
+    folderNewPh:'Name for new project',
+    folderCreateBtn:'Create',
+    folderRename:'Rename',
+    folderDelete:'Delete project',
+    folderRenamePrompt:'New project name:',
+    folderDeleteConfirm:'Delete project "<name>"? Its chats stay and become "Unsorted".',
+    folderCreatePrompt:'Name for new project:',
+    chatMoved:'Chat moved ✓',
     quickTopics:[
       {q:'What is EQUINAT DAILY COMPLETE®?', l:'🌿 DAILY'},
       {q:'What is JOINT COMPLETE® for arthritis?', l:'🦴 JOINT'},
@@ -689,16 +768,16 @@ var I18N = {
       {q:'When should I call the vet immediately?', l:'🚨 Emergency'}
     ],
     sidebarTopics:[
-      {q:'How should I feed my horse correctly? Please calculate a concrete daily amount.', i:'🥗', l:'Feeding &amp; daily amount', t:'feeding hay amount'},
-      {q:'My horse shows symptoms — what should I do?', i:'🩺', l:'Health', t:'health sick vet'},
-      {q:'My horse has EMS or Cushing — what to feed?', i:'⚖️', l:'EMS &amp; Cushing', t:'ems cushing laminitis'},
-      {q:'My horse coughs — what helps?', i:'💨', l:'Airways &amp; RAO', t:'airways rao cough'},
-      {q:'My horse has joint issues — what helps?', i:'🦴', l:'Joints', t:'joints arthritis lame'},
-      {q:'My senior horse is losing weight — what helps?', i:'🌾', l:'Seniors &amp; Mash', t:'senior old teeth mash'},
-      {q:'What to feed during sports and sweating?', i:'🏆', l:'Sport &amp; Show', t:'sport sweat electrolytes'},
-      {q:'Compare my current feeding with EQUINAT — how much would I save per month?', i:'💰', l:'Savings calc', t:'save compare cost'},
-      {q:'How should my horse be housed?', i:'🏡', l:'Housing', t:'stable housing pasture'},
-      {q:'What about horse healthcare prevention?', i:'💉', l:'Prevention', t:'prevention worming'}
+      {q:'How should I feed my horse correctly? Please calculate a concrete daily amount.', i:'🥗', l:'Feeding &amp; daily amount'},
+      {q:'My horse shows symptoms — what should I do?', i:'🩺', l:'Health'},
+      {q:'My horse has EMS or Cushing — what to feed?', i:'⚖️', l:'EMS &amp; Cushing'},
+      {q:'My horse coughs — what helps?', i:'💨', l:'Airways &amp; RAO'},
+      {q:'My horse has joint issues — what helps?', i:'🦴', l:'Joints'},
+      {q:'My senior horse is losing weight — what helps?', i:'🌾', l:'Seniors'},
+      {q:'What to feed during sports and sweating?', i:'🏆', l:'Sport &amp; Show'},
+      {q:'Compare my current feeding with EQUINAT — how much would I save per month?', i:'💰', l:'Savings calc'},
+      {q:'How should my horse be housed?', i:'🏡', l:'Housing'},
+      {q:'What about horse healthcare prevention?', i:'💉', l:'Prevention'}
     ],
     welcomeTips:[
       {h:'Savings calc', d:'What does your current feeding cost vs EQUINAT?', q:'Compare my current feeding with EQUINAT — how much would I save per month?'},
@@ -724,17 +803,18 @@ var I18N = {
     networkErr:'🐴 Connection error. Please check your internet.',
     fetchErr:'🐴 Send error.',
     accessRevoked:'🐴 Your access is no longer active. Please log in again.',
-    confirmLogout:'Do you really want to log out?'
+    confirmLogout:'Do you really want to log out?',
+    today:'Today',yesterday:'Yesterday',thisweek:'This week',older:'Older'
   }
 };
 
 function t(key){var lang=getLanguage();var d=I18N[lang]||I18N.de;return d[key]!==undefined?d[key]:(I18N.de[key]||'');}
 
 // ═══════════════════════════════════════════════
-// STATE — including horses[] + activeHorseId
+// STATE — Multi-Pferd + Multi-Chat + Folders
 // ═══════════════════════════════════════════════
 function currentMonth(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');}
-function uuid(){return 'h_'+Math.random().toString(36).substr(2,8)+Date.now().toString(36);}
+function uuid(prefix){return (prefix||'x_')+Math.random().toString(36).substr(2,8)+Date.now().toString(36);}
 
 function getState(){
   try{
@@ -744,22 +824,48 @@ function getState(){
     if(s.month!==now){s.month=now;s.used=0;}
     if(!s.extra)s.extra=0;
     if(!s.userId)s.userId='u_'+Math.random().toString(36).substr(2,8)+Date.now().toString(36);
-    if(!s.history)s.history=[];
     if(!s.lang)s.lang='de';
     if(!Array.isArray(s.horses))s.horses=[];
+    if(!Array.isArray(s.chats))s.chats=[];
+    if(!Array.isArray(s.folders))s.folders=[];
+
     // Migration: legacy single profile → horses array
     if(s.profile && typeof s.profile==='object' && Object.keys(s.profile).length>0 && s.horses.length===0){
-      var migrated=Object.assign({id:uuid()},s.profile);
+      var migrated=Object.assign({id:uuid('h_')},s.profile);
       s.horses=[migrated];
       s.activeHorseId=migrated.id;
+      delete s.profile;
+    }
+    // Migration: legacy history (just question strings) → discard, can't reconstruct chats
+    if(s.history && !s.historyMigrated){
+      delete s.history;
+      s.historyMigrated=true;
     }
     if(!s.activeHorseId && s.horses.length>0)s.activeHorseId=s.horses[0].id;
     return s;
-  }catch(e){return{month:currentMonth(),used:0,extra:0,userId:'u_anon',history:[],lang:'de',horses:[],activeHorseId:null};}
+  }catch(e){return{month:currentMonth(),used:0,extra:0,userId:'u_anon',lang:'de',horses:[],activeHorseId:null,chats:[],folders:[]};}
 }
-function saveState(s){try{localStorage.setItem(STORAGE_PREFIX+'state',JSON.stringify(s));}catch(e){}}
+function saveState(s){
+  try{
+    // Trim chats if exceeded
+    if(s.chats && s.chats.length>MAX_CHATS){
+      // Sort by updatedAt desc and keep newest
+      s.chats.sort(function(a,b){return (b.updatedAt||0)-(a.updatedAt||0);});
+      s.chats=s.chats.slice(0,MAX_CHATS);
+    }
+    localStorage.setItem(STORAGE_PREFIX+'state',JSON.stringify(s));
+  }catch(e){
+    // Quota exceeded — try to free up by trimming oldest chats
+    if(e.name==='QuotaExceededError' && s.chats && s.chats.length>20){
+      s.chats.sort(function(a,b){return (b.updatedAt||0)-(a.updatedAt||0);});
+      s.chats=s.chats.slice(0,Math.floor(s.chats.length*0.7));
+      try{localStorage.setItem(STORAGE_PREFIX+'state',JSON.stringify(s));}catch(e2){console.error(e2);}
+    }
+  }
+}
 function remaining(s){return Math.max(0,(MONTHLY_LIMIT-s.used)+s.extra);}
 function getActiveHorse(){var s=getState();if(!s.activeHorseId)return null;return s.horses.find(function(h){return h.id===s.activeHorseId;})||null;}
+function getCurrentChat(){if(!currentChatId)return null;var s=getState();return s.chats.find(function(c){return c.id===currentChatId;})||null;}
 
 function getLanguage(){var s=getState();return s.lang||'de';}
 function setLanguage(lang){
@@ -786,11 +892,9 @@ function applyLockTranslations(){
 
 function applyTranslations(){
   document.getElementById('sbTag').textContent=t('sbTag');
+  document.getElementById('newChatBtnText').textContent=t('newChatBtn');
   document.getElementById('sbHorsesTitle').textContent=t('sbHorsesTitle');
   document.getElementById('sbSearch').placeholder=t('sbSearchPh');
-  document.getElementById('sbTopicsTitle').textContent=t('sbTopicsTitle');
-  document.getElementById('sbHistoryTitle').textContent=t('sbHistoryTitle');
-  if(document.getElementById('sbHistoryEmpty'))document.getElementById('sbHistoryEmpty').textContent=t('sbHistoryEmpty');
   document.getElementById('footImpressum').textContent=t('footImpressum');
   document.getElementById('footDatenschutz').textContent=t('footDatenschutz');
   document.getElementById('footKi').textContent=t('footKi');
@@ -800,7 +904,8 @@ function applyTranslations(){
   document.getElementById('inpHint').textContent=t('inpHint');
   if(document.getElementById('welcomeTitle'))document.getElementById('welcomeTitle').innerHTML=t('welcomeTitle').replace(/®/g,'<span style="color:var(--gold)">®</span>');
   if(document.getElementById('welcomeSub'))document.getElementById('welcomeSub').innerHTML=t('welcomeSub');
-  renderTopics();renderSidebarTopics();renderWelcomeTips();renderHorses();renderActiveHorseLabel();renderHistory();updateUsageBar();
+  if(!currentChatId)document.getElementById('hdrChatTitle').textContent='PferdeBot®';
+  renderTopics();renderWelcomeTips();renderHorses();renderActiveHorseLabel();renderSidebar();updateUsageBar();
 }
 
 // ═══════════════════════════════════════════════
@@ -847,45 +952,24 @@ function openSidebar(){document.getElementById('sidebar').classList.add('open');
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbBackdrop').classList.remove('open');}
 
 // ═══════════════════════════════════════════════
-// HORSES — render list in sidebar
+// HORSES
 // ═══════════════════════════════════════════════
 function renderHorses(){
   var s=getState();var list=document.getElementById('sbHorsesList');var addBtn=document.getElementById('sbHorsesAddBtn');
   if(!list)return;
-  // Toggle add button
   addBtn.disabled=s.horses.length>=MAX_HORSES;
   addBtn.title=addBtn.disabled?t('sbHorsesMax'):t('sbHorsesAdd');
-
   if(s.horses.length===0){
-    list.innerHTML='<div class="sb-horse-empty" onclick="openHorseEditor(null)">'+
-      '<div class="sb-horse-empty-icon">🐴</div>'+
-      '<div class="sb-horse-empty-text">'+
-        '<div class="sb-horse-empty-h">'+t('sbHorsesEmpty')+'</div>'+
-        '<div class="sb-horse-empty-d">'+t('sbHorsesEmptySub')+'</div>'+
-      '</div>'+
-      '<div class="sb-horse-edit">+</div>'+
-    '</div>';
+    list.innerHTML='<div class="sb-horse-empty" onclick="openHorseEditor(null)"><div class="sb-horse-empty-icon">🐴</div><div class="sb-horse-empty-text"><div class="sb-horse-empty-h">'+t('sbHorsesEmpty')+'</div><div class="sb-horse-empty-d">'+t('sbHorsesEmptySub')+'</div></div><div class="sb-horse-edit">+</div></div>';
     return;
   }
-
   var html='';
   s.horses.forEach(function(h){
     var isActive=h.id===s.activeHorseId;
-    var meta=[];
-    if(h.rasse)meta.push(h.rasse);
-    if(h.alter)meta.push(h.alter+(getLanguage()==='en'?' yrs':' J.'));
-    if(h.kgw)meta.push(h.kgw+'kg');
+    var meta=[];if(h.rasse)meta.push(h.rasse);if(h.alter)meta.push(h.alter+(getLanguage()==='en'?' yrs':' J.'));if(h.kgw)meta.push(h.kgw+'kg');
     var metaStr=meta.join(' · ');
-    var safeName=(h.name||'—').replace(/'/g,"\\'").replace(/"/g,'&quot;');
     var displayName=(h.name||'—').replace(/</g,'&lt;');
-    html+='<div class="sb-horse-item'+(isActive?' active':'')+'" onclick="setActiveHorse(\''+h.id+'\')">'+
-      '<div class="sb-horse-icon">🐴</div>'+
-      '<div class="sb-horse-info">'+
-        '<div class="sb-horse-name">'+displayName+'</div>'+
-        (metaStr?'<div class="sb-horse-meta">'+metaStr+'</div>':'')+
-      '</div>'+
-      '<button class="sb-horse-edit" onclick="event.stopPropagation();openHorseEditor(\''+h.id+'\')" title="'+t('horseModalEdit')+'">✎</button>'+
-    '</div>';
+    html+='<div class="sb-horse-item'+(isActive?' active':'')+'" onclick="setActiveHorse(\''+h.id+'\')"><div class="sb-horse-icon">🐴</div><div class="sb-horse-info"><div class="sb-horse-name">'+displayName+'</div>'+(metaStr?'<div class="sb-horse-meta">'+metaStr+'</div>':'')+'</div><button class="sb-horse-edit" onclick="event.stopPropagation();openHorseEditor(\''+h.id+'\')" title="'+t('chatRename')+'">✎</button></div>';
   });
   list.innerHTML=html;
 }
@@ -900,46 +984,25 @@ function renderActiveHorseLabel(){
 
 function setActiveHorse(id){
   var s=getState();
-  if(s.activeHorseId===id){
-    // Already active — open editor on second click
-    openHorseEditor(id);
-    return;
-  }
+  if(s.activeHorseId===id){openHorseEditor(id);return;}
   s.activeHorseId=id;saveState(s);
   renderHorses();renderActiveHorseLabel();
   var h=s.horses.find(function(x){return x.id===id;});
   if(h&&h.name)showToast(t('horseActivated').replace('<name>',h.name),2000);
 }
 
-function openHorseEditor(horseId){
-  editingHorseId=horseId;
-  closeSidebar();
-  openModal('horseEdit');
-}
+function openHorseEditor(horseId){editingHorseId=horseId;closeSidebar();openModal('horseEdit');}
 
 function saveHorseFromForm(){
   var s=getState();
-  var data={
-    name:document.getElementById('pName').value.trim(),
-    rasse:document.getElementById('pRasse').value.trim(),
-    alter:document.getElementById('pAlter').value.trim(),
-    kgw:document.getElementById('pKgw').value.trim(),
-    geschlecht:document.getElementById('pGeschlecht').value,
-    haltung:document.getElementById('pHaltung').value,
-    nutzung:document.getElementById('pNutzung').value,
-    diagnosen:document.getElementById('pDiagnosen').value.trim(),
-    fuetterung:document.getElementById('pFuetterung').value.trim()
-  };
+  var data={name:document.getElementById('pName').value.trim(),rasse:document.getElementById('pRasse').value.trim(),alter:document.getElementById('pAlter').value.trim(),kgw:document.getElementById('pKgw').value.trim(),geschlecht:document.getElementById('pGeschlecht').value,haltung:document.getElementById('pHaltung').value,nutzung:document.getElementById('pNutzung').value,diagnosen:document.getElementById('pDiagnosen').value.trim(),fuetterung:document.getElementById('pFuetterung').value.trim()};
   ['geschlecht','haltung','nutzung'].forEach(function(k){if(data[k]==='—')data[k]='';});
   if(editingHorseId){
-    // Edit existing
     var idx=s.horses.findIndex(function(h){return h.id===editingHorseId;});
     if(idx>=0){data.id=editingHorseId;s.horses[idx]=data;}
   }else{
-    // New horse
     if(s.horses.length>=MAX_HORSES){showToast(t('horseMaxReached'),3000);closeModal();return;}
-    data.id=uuid();
-    s.horses.push(data);
+    data.id=uuid('h_');s.horses.push(data);
     if(!s.activeHorseId)s.activeHorseId=data.id;
   }
   saveState(s);editingHorseId=null;
@@ -954,16 +1017,464 @@ function deleteHorseFromForm(){
   var name=h?(h.name||'—'):'';
   if(!confirm(t('horseDeleteConfirm').replace('<name>',name)))return;
   s.horses=s.horses.filter(function(x){return x.id!==editingHorseId;});
-  if(s.activeHorseId===editingHorseId){
-    s.activeHorseId=s.horses.length>0?s.horses[0].id:null;
-  }
+  if(s.activeHorseId===editingHorseId){s.activeHorseId=s.horses.length>0?s.horses[0].id:null;}
   saveState(s);editingHorseId=null;
   renderHorses();renderActiveHorseLabel();closeModal();
   showToast(t('horseDeleted'),2000);
 }
 
 // ═══════════════════════════════════════════════
-// TOPICS / SEARCH
+// CHAT MANAGEMENT
+// ═══════════════════════════════════════════════
+function newChat(){
+  // Cancel any pending image
+  removeImage();
+  // Just clear the UI — chat will be created on first message
+  currentChatId=null;
+  hist=[];
+  renderEmptyChat();
+  document.getElementById('hdrChatTitle').textContent=t('hdrNewChat');
+  document.getElementById('hdrRenameBtn').style.display='none';
+  renderSidebar();
+  closeSidebar();
+  document.getElementById('inp').focus();
+}
+
+function renderEmptyChat(){
+  var msgs=document.getElementById('msgs');
+  var welcomeHtml=
+    '<div class="welcome" id="welcome">'+
+      '<div class="welcome-horse">🐴</div>'+
+      '<div class="welcome-title" id="welcomeTitle">'+t('welcomeTitle').replace(/®/g,'<span style="color:var(--gold)">®</span>')+'</div>'+
+      '<div class="welcome-sub" id="welcomeSub">'+t('welcomeSub')+'</div>'+
+      '<div class="welcome-tips" id="welcomeTips"></div>'+
+    '</div>';
+  msgs.innerHTML=welcomeHtml;
+  renderWelcomeTips();
+}
+
+function loadChat(chatId){
+  var s=getState();
+  var chat=s.chats.find(function(c){return c.id===chatId;});
+  if(!chat)return;
+
+  currentChatId=chatId;
+  hist=(chat.messages||[]).slice(); // Clone
+
+  // Restore active horse if it was different
+  if(chat.horseId && chat.horseId!==s.activeHorseId){
+    if(s.horses.find(function(h){return h.id===chat.horseId;})){
+      s.activeHorseId=chat.horseId;saveState(s);renderHorses();renderActiveHorseLabel();
+    }
+  }
+
+  // Render messages
+  var msgs=document.getElementById('msgs');
+  msgs.innerHTML='';
+  if(!chat.messages||chat.messages.length===0){
+    renderEmptyChat();
+  }else{
+    chat.messages.forEach(function(m){
+      if(m.role==='user'){
+        // Check for image content
+        var text='', imgData=null;
+        if(typeof m.content==='string'){text=m.content;}
+        else if(Array.isArray(m.content)){
+          var textPart=m.content.find(function(c){return c.type==='text';});
+          var imgPart=m.content.find(function(c){return c.type==='image';});
+          text=textPart?textPart.text:'';
+          if(imgPart && imgPart.source && imgPart.source.data){
+            imgData='data:'+(imgPart.source.media_type||'image/jpeg')+';base64,'+imgPart.source.data;
+          }
+        }
+        addMsg('u',text,imgData);
+      }else if(m.role==='assistant'){
+        var bbl=addMsg('b','');
+        bbl.innerHTML=fmtBubble(m.content);
+        addBubbleActions(bbl, m.content);
+      }
+    });
+    msgs.scrollTop=msgs.scrollHeight;
+  }
+
+  // Update header
+  document.getElementById('hdrChatTitle').textContent=chat.title||t('hdrNewChat');
+  document.getElementById('hdrRenameBtn').style.display='inline-block';
+  renderSidebar();
+  closeSidebar();
+}
+
+function generateChatTitle(firstMessage){
+  if(!firstMessage)return t('hdrNewChat');
+  var clean=String(firstMessage).replace(/[\r\n]+/g,' ').trim();
+  if(clean.length<=42)return clean;
+  return clean.slice(0,40)+'…';
+}
+
+function ensureCurrentChat(firstUserMsg){
+  // Called after user submits first message — creates chat if none active
+  if(currentChatId){return getCurrentChat();}
+  var s=getState();
+  var newChatObj={
+    id:uuid('c_'),
+    title:generateChatTitle(firstUserMsg),
+    horseId:s.activeHorseId||null,
+    folderId:null,
+    createdAt:Date.now(),
+    updatedAt:Date.now(),
+    messages:[]
+  };
+  s.chats.unshift(newChatObj);
+  currentChatId=newChatObj.id;
+  saveState(s);
+  document.getElementById('hdrChatTitle').textContent=newChatObj.title;
+  document.getElementById('hdrRenameBtn').style.display='inline-block';
+  return newChatObj;
+}
+
+function persistCurrentChatMessages(){
+  if(!currentChatId)return;
+  var s=getState();
+  var chat=s.chats.find(function(c){return c.id===currentChatId;});
+  if(!chat)return;
+  chat.messages=hist.slice();
+  chat.updatedAt=Date.now();
+  // Move to top
+  s.chats=s.chats.filter(function(c){return c.id!==currentChatId;});
+  s.chats.unshift(chat);
+  saveState(s);
+  renderSidebar();
+}
+
+function renameCurrentChat(){
+  if(!currentChatId)return;
+  var s=getState();
+  var chat=s.chats.find(function(c){return c.id===currentChatId;});
+  if(!chat)return;
+  var newTitle=prompt(t('chatRenamePrompt'),chat.title||'');
+  if(newTitle===null)return;
+  newTitle=newTitle.trim();
+  if(!newTitle)return;
+  chat.title=newTitle.slice(0,80);
+  saveState(s);
+  document.getElementById('hdrChatTitle').textContent=chat.title;
+  renderSidebar();
+}
+
+function renameChatById(chatId){
+  var s=getState();
+  var chat=s.chats.find(function(c){return c.id===chatId;});
+  if(!chat)return;
+  var newTitle=prompt(t('chatRenamePrompt'),chat.title||'');
+  if(newTitle===null)return;
+  newTitle=newTitle.trim();
+  if(!newTitle)return;
+  chat.title=newTitle.slice(0,80);
+  saveState(s);
+  if(chatId===currentChatId)document.getElementById('hdrChatTitle').textContent=chat.title;
+  renderSidebar();
+}
+
+function deleteChat(chatId){
+  if(!confirm(t('chatDeleteConfirm')))return;
+  var s=getState();
+  s.chats=s.chats.filter(function(c){return c.id!==chatId;});
+  saveState(s);
+  if(chatId===currentChatId){
+    currentChatId=null;hist=[];
+    renderEmptyChat();
+    document.getElementById('hdrChatTitle').textContent='PferdeBot®';
+    document.getElementById('hdrRenameBtn').style.display='none';
+  }
+  renderSidebar();
+}
+
+function moveChatToFolder(chatId){
+  movingChatId=chatId;
+  openModal('folderPicker');
+}
+
+function setChatFolder(chatId, folderId){
+  var s=getState();
+  var chat=s.chats.find(function(c){return c.id===chatId;});
+  if(!chat)return;
+  chat.folderId=folderId;
+  chat.updatedAt=Date.now();
+  saveState(s);
+  closeModal();
+  renderSidebar();
+  showToast(t('chatMoved'),1800);
+}
+
+// ═══════════════════════════════════════════════
+// FOLDERS
+// ═══════════════════════════════════════════════
+function createFolderPrompt(){
+  var name=prompt(t('folderCreatePrompt'),'');
+  if(name===null)return;
+  name=name.trim();
+  if(!name)return;
+  var s=getState();
+  var folder={id:uuid('f_'),name:name.slice(0,40),createdAt:Date.now()};
+  s.folders.push(folder);
+  saveState(s);
+  expandedFolders[folder.id]=true;
+  renderSidebar();
+}
+
+function createFolderInline(){
+  var inp=document.getElementById('folderNewInput');
+  if(!inp)return;
+  var name=inp.value.trim();
+  if(!name)return;
+  var s=getState();
+  var folder={id:uuid('f_'),name:name.slice(0,40),createdAt:Date.now()};
+  s.folders.push(folder);
+  if(movingChatId){
+    var chat=s.chats.find(function(c){return c.id===movingChatId;});
+    if(chat){chat.folderId=folder.id;chat.updatedAt=Date.now();}
+  }
+  saveState(s);
+  expandedFolders[folder.id]=true;
+  if(movingChatId){closeModal();showToast(t('chatMoved'),1800);renderSidebar();}
+  else{
+    // Re-render modal with new folder
+    document.getElementById('modalContent').innerHTML=MODAL_CONTENT.folderPicker();
+  }
+}
+
+function renameFolder(folderId){
+  var s=getState();
+  var folder=s.folders.find(function(f){return f.id===folderId;});
+  if(!folder)return;
+  var newName=prompt(t('folderRenamePrompt'),folder.name||'');
+  if(newName===null)return;
+  newName=newName.trim();
+  if(!newName)return;
+  folder.name=newName.slice(0,40);
+  saveState(s);renderSidebar();
+}
+
+function deleteFolder(folderId){
+  var s=getState();
+  var folder=s.folders.find(function(f){return f.id===folderId;});
+  if(!folder)return;
+  if(!confirm(t('folderDeleteConfirm').replace('<name>',folder.name||'')))return;
+  // Move all chats in this folder to unsorted
+  s.chats.forEach(function(c){if(c.folderId===folderId)c.folderId=null;});
+  s.folders=s.folders.filter(function(f){return f.id!==folderId;});
+  delete expandedFolders[folderId];
+  saveState(s);renderSidebar();
+}
+
+function toggleFolder(folderId){
+  expandedFolders[folderId]=!expandedFolders[folderId];
+  renderSidebar();
+}
+
+// ═══════════════════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════════════════
+function onSearchInput(value){
+  searchQuery=String(value||'').trim().toLowerCase();
+  document.getElementById('sbSearchClear').classList.toggle('show',searchQuery.length>0);
+  renderSidebar();
+}
+function clearSearch(){
+  searchQuery='';
+  document.getElementById('sbSearch').value='';
+  document.getElementById('sbSearchClear').classList.remove('show');
+  renderSidebar();
+}
+
+function searchInChats(query){
+  // Returns array of { chat, snippet, matchScore }
+  var s=getState();
+  var q=query.toLowerCase();
+  var results=[];
+  s.chats.forEach(function(chat){
+    var titleHit=(chat.title||'').toLowerCase().indexOf(q)>=0;
+    var bestSnippet=null;
+    var bestScore=0;
+    if(titleHit){bestScore=10;}
+    if(Array.isArray(chat.messages)){
+      for(var i=0;i<chat.messages.length;i++){
+        var m=chat.messages[i];
+        var text='';
+        if(typeof m.content==='string'){text=m.content;}
+        else if(Array.isArray(m.content)){
+          var tp=m.content.find(function(c){return c.type==='text';});
+          text=tp?tp.text:'';
+        }
+        var lower=text.toLowerCase();
+        var idx=lower.indexOf(q);
+        if(idx>=0){
+          if(!bestSnippet){
+            // Build snippet: ~40 chars around match
+            var start=Math.max(0,idx-25);
+            var end=Math.min(text.length,idx+q.length+25);
+            var snip=(start>0?'…':'')+text.slice(start,end)+(end<text.length?'…':'');
+            bestSnippet=snip;
+          }
+          bestScore+=(m.role==='user'?2:1);
+        }
+      }
+    }
+    if(bestScore>0){
+      results.push({chat:chat,snippet:bestSnippet,score:bestScore});
+    }
+  });
+  results.sort(function(a,b){return b.score-a.score;});
+  return results;
+}
+
+function highlightMatch(text,query){
+  if(!query||!text)return text;
+  var lower=text.toLowerCase();
+  var qLower=query.toLowerCase();
+  var idx=lower.indexOf(qLower);
+  if(idx<0)return escapeHTML(text);
+  return escapeHTML(text.slice(0,idx))+'<mark>'+escapeHTML(text.slice(idx,idx+query.length))+'</mark>'+escapeHTML(text.slice(idx+query.length));
+}
+
+// ═══════════════════════════════════════════════
+// SIDEBAR RENDER (Folders + Chats + Topics)
+// ═══════════════════════════════════════════════
+function renderSidebar(){
+  var container=document.getElementById('sidebarContent');
+  if(!container)return;
+  var s=getState();
+
+  // ─── SEARCH MODE ───
+  if(searchQuery.length>0){
+    var results=searchInChats(searchQuery);
+    var topics=I18N[getLanguage()].sidebarTopics||I18N.de.sidebarTopics;
+    var matchedTopics=topics.filter(function(top){
+      var hay=(top.l+' '+top.q).toLowerCase().replace(/&amp;/g,'&');
+      return hay.indexOf(searchQuery)>=0;
+    });
+
+    var html='';
+    html+='<div class="sb-section"><div class="sb-section-head"><div class="sb-section-title">'+t('sbSearchResults')+' <span class="sb-section-title-count">('+results.length+')</span></div></div>';
+    if(results.length===0 && matchedTopics.length===0){
+      html+='<div class="sb-empty">'+t('sbSearchEmpty')+' "'+escapeHTML(searchQuery)+'"</div>';
+    }else{
+      results.forEach(function(r){
+        var isActive=r.chat.id===currentChatId;
+        var titleHtml=highlightMatch(r.chat.title||t('hdrNewChat'),searchQuery);
+        html+='<div class="sb-chat-item'+(isActive?' active':'')+'" onclick="loadChat(\''+r.chat.id+'\')">'+
+          '<div class="sb-chat-icon">💬</div>'+
+          '<div class="sb-chat-info"><div class="sb-chat-title">'+titleHtml+'</div>'+
+          (r.snippet?'<div class="sb-chat-snippet">'+highlightMatch(r.snippet,searchQuery)+'</div>':'')+
+          '</div></div>';
+      });
+    }
+    html+='</div>';
+
+    if(matchedTopics.length>0){
+      html+='<div class="sb-section"><div class="sb-section-head"><div class="sb-section-title">'+t('sbTopicsTitle')+'</div></div>';
+      matchedTopics.forEach(function(item){
+        var safeQ=item.q.replace(/'/g,"\\'");
+        html+='<div class="sb-item" onclick="askTopic(\''+safeQ+'\')"><span class="sb-item-icon">'+item.i+'</span>'+item.l+'</div>';
+      });
+      html+='</div>';
+    }
+    container.innerHTML=html;
+    return;
+  }
+
+  // ─── NORMAL MODE: Projects → Chats → Topics ───
+  var html='';
+
+  // PROJECTS
+  html+='<div class="sb-section"><div class="sb-section-head"><div class="sb-section-title">'+t('sbProjectsTitle')+' <span class="sb-section-title-count">('+s.folders.length+')</span></div><div class="sb-section-actions"><button class="sb-section-btn" onclick="createFolderPrompt()" title="'+t('sbProjectsAdd')+'">+</button></div></div>';
+
+  if(s.folders.length===0){
+    html+='<div class="sb-empty">'+(getLanguage()==='en'?'No projects yet':'Noch keine Projekte')+'</div>';
+  }else{
+    s.folders.forEach(function(folder){
+      var folderChats=s.chats.filter(function(c){return c.folderId===folder.id;});
+      var isExpanded=!!expandedFolders[folder.id];
+      html+='<div class="sb-folder'+(isExpanded?' expanded':'')+'">'+
+        '<div class="sb-folder-head" onclick="toggleFolder(\''+folder.id+'\')">'+
+          '<span class="sb-folder-arrow">▶</span>'+
+          '<span class="sb-folder-icon">📁</span>'+
+          '<span class="sb-folder-name">'+escapeHTML(folder.name)+'</span>'+
+          '<span class="sb-folder-count">'+folderChats.length+'</span>'+
+          '<div class="sb-folder-actions">'+
+            '<button class="sb-section-btn" onclick="event.stopPropagation();renameFolder(\''+folder.id+'\')" title="'+t('folderRename')+'">✎</button>'+
+            '<button class="sb-section-btn" onclick="event.stopPropagation();deleteFolder(\''+folder.id+'\')" title="'+t('folderDelete')+'">🗑</button>'+
+          '</div>'+
+        '</div>'+
+        '<div class="sb-folder-children">';
+      if(folderChats.length===0){
+        html+='<div class="sb-empty" style="padding:5px 10px;">'+(getLanguage()==='en'?'Empty — drag chats here via menu':'Leer — Chats hier hinein verschieben')+'</div>';
+      }else{
+        folderChats.forEach(function(c){
+          html+=renderChatItem(c);
+        });
+      }
+      html+='</div></div>';
+    });
+  }
+  html+='</div>';
+
+  // UNSORTED CHATS
+  var unsortedChats=s.chats.filter(function(c){return !c.folderId;});
+  html+='<div class="sb-section"><div class="sb-section-head"><div class="sb-section-title">'+t('sbChatsUnsorted')+' <span class="sb-section-title-count">('+unsortedChats.length+')</span></div></div>';
+  if(unsortedChats.length===0){
+    html+='<div class="sb-empty">'+t('sbHistoryEmpty')+'</div>';
+  }else{
+    unsortedChats.forEach(function(c){
+      html+=renderChatItem(c);
+    });
+  }
+  html+='</div>';
+
+  // TOPICS
+  html+='<div class="sb-section"><div class="sb-section-head"><div class="sb-section-title">'+t('sbTopicsTitle')+'</div></div>';
+  var topics=I18N[getLanguage()].sidebarTopics||I18N.de.sidebarTopics;
+  topics.forEach(function(item){
+    var safeQ=item.q.replace(/'/g,"\\'");
+    html+='<div class="sb-item" onclick="askTopic(\''+safeQ+'\')"><span class="sb-item-icon">'+item.i+'</span>'+item.l+'</div>';
+  });
+  html+='</div>';
+
+  container.innerHTML=html;
+}
+
+function renderChatItem(chat){
+  var isActive=chat.id===currentChatId;
+  var title=chat.title||t('hdrNewChat');
+  var meta='';
+  if(chat.updatedAt){
+    var d=new Date(chat.updatedAt);
+    var diff=Date.now()-chat.updatedAt;
+    var lang=getLanguage();
+    if(diff<86400000)meta=t('today');
+    else if(diff<172800000)meta=t('yesterday');
+    else if(diff<604800000)meta=t('thisweek');
+    else meta=d.getDate()+'.'+(d.getMonth()+1)+'.'+String(d.getFullYear()).slice(2);
+  }
+  var msgCount=Array.isArray(chat.messages)?Math.floor(chat.messages.length/2):0;
+  if(msgCount>0)meta+=(meta?' · ':'')+msgCount+' '+(getLanguage()==='en'?'msgs':'Nachr.');
+
+  return '<div class="sb-chat-item'+(isActive?' active':'')+'" onclick="loadChat(\''+chat.id+'\')">'+
+    '<div class="sb-chat-icon">💬</div>'+
+    '<div class="sb-chat-info">'+
+      '<div class="sb-chat-title">'+escapeHTML(title)+'</div>'+
+      (meta?'<div class="sb-chat-meta">'+meta+'</div>':'')+
+    '</div>'+
+    '<div class="sb-chat-actions">'+
+      '<button class="sb-chat-action" onclick="event.stopPropagation();renameChatById(\''+chat.id+'\')" title="'+t('chatRename')+'">✎</button>'+
+      '<button class="sb-chat-action" onclick="event.stopPropagation();moveChatToFolder(\''+chat.id+'\')" title="'+t('chatMove')+'">📁</button>'+
+      '<button class="sb-chat-action danger" onclick="event.stopPropagation();deleteChat(\''+chat.id+'\')" title="'+t('chatDelete')+'">🗑</button>'+
+    '</div>'+
+  '</div>';
+}
+
+// ═══════════════════════════════════════════════
+// TOPICS RENDERING (top bar + welcome)
 // ═══════════════════════════════════════════════
 function renderTopics(){
   var topics=I18N[getLanguage()].quickTopics||I18N.de.quickTopics;
@@ -971,46 +1482,13 @@ function renderTopics(){
   topics.forEach(function(t){var safeQ=t.q.replace(/'/g,"\\'");html+='<div class="topic" onclick="setQ(\''+safeQ+'\')">'+t.l+'</div>';});
   document.getElementById('topTopics').innerHTML=html;
 }
-function renderSidebarTopics(){
-  var topics=I18N[getLanguage()].sidebarTopics||I18N.de.sidebarTopics;
-  var html='';
-  topics.forEach(function(item){var safeQ=item.q.replace(/'/g,"\\'");html+='<div class="sb-item" data-topic="'+item.t+'" onclick="askTopic(\''+safeQ+'\')"><span class="sb-item-icon">'+item.i+'</span>'+item.l+'</div>';});
-  document.getElementById('topicList').innerHTML=html;
-}
 function renderWelcomeTips(){
   var tips=I18N[getLanguage()].welcomeTips||I18N.de.welcomeTips;
   var html='';
   tips.forEach(function(tip){var safeQ=tip.q.replace(/'/g,"\\'");html+='<div class="welcome-tip" onclick="setQ(\''+safeQ+'\')"><strong>'+tip.h+'</strong>'+tip.d+'</div>';});
   if(document.getElementById('welcomeTips'))document.getElementById('welcomeTips').innerHTML=html;
 }
-function filterTopics(query){
-  query=(query||'').toLowerCase().trim();
-  document.querySelectorAll('#topicList .sb-item').forEach(function(item){
-    if(!query){item.style.display='';return;}
-    var topic=(item.getAttribute('data-topic')||'')+' '+item.textContent.toLowerCase();
-    item.style.display=topic.indexOf(query)>=0?'':'none';
-  });
-}
 function askTopic(question){closeSidebar();setQ(question);setTimeout(send,150);}
-
-// ═══════════════════════════════════════════════
-// HISTORY
-// ═══════════════════════════════════════════════
-function timeAgo(ts){var diff=Date.now()-ts;var m=Math.floor(diff/60000);var h=Math.floor(m/60);var d=Math.floor(h/24);if(d>=7)return t('older');if(d>=2)return t('thisweek');if(d>=1)return t('yesterday');return t('today');}
-function addToHistory(question){var s=getState();if(!s.history)s.history=[];s.history.unshift({q:question.slice(0,80),ts:Date.now()});if(s.history.length>30)s.history=s.history.slice(0,30);saveState(s);renderHistory();}
-function renderHistory(){
-  var s=getState();var list=document.getElementById('historyList');if(!list)return;
-  if(!s.history||s.history.length===0){list.innerHTML='<div class="sb-empty">'+t('sbHistoryEmpty')+'</div>';return;}
-  var groups={};groups[t('today')]=[];groups[t('yesterday')]=[];groups[t('thisweek')]=[];groups[t('older')]=[];
-  s.history.forEach(function(h){var when=timeAgo(h.ts);if(!groups[when])groups[when]=[];groups[when].push(h);});
-  var html='';
-  [t('today'),t('yesterday'),t('thisweek'),t('older')].forEach(function(k){
-    if(!groups[k]||groups[k].length===0)return;
-    html+='<div class="sb-item-time">'+k+'</div>';
-    groups[k].forEach(function(h){var safe=h.q.replace(/'/g,"&#39;").replace(/"/g,'&quot;');var safeQ=h.q.replace(/'/g,"\\'");html+='<div class="sb-item" onclick="askTopic(\''+safeQ+'\')" title="'+safe+'"><span class="sb-item-icon">💬</span>'+safe+'</div>';});
-  });
-  list.innerHTML=html;
-}
 
 // ═══════════════════════════════════════════════
 // USAGE BAR
@@ -1040,7 +1518,7 @@ var MODAL_CONTENT={
     var pw=lang==='en'?'Power package':'Power Paket';
     var dur=lang==='en'?'· valid 30 days':'· gültig 30 Tage';
     var aboName=lang==='en'?'EQUINAT product subscription':'EQUINAT Produktabo';
-    var aboDesc=lang==='en'?'Bot permanently free included — from €39/month':'Bot dauerhaft kostenlos inklusive — ab €39/Monat';
+    var aboDesc=lang==='en'?'Bot permanently free included':'Bot dauerhaft kostenlos inklusive';
     var noteLine1=lang==='en'?'After purchase you receive an unlock code by email.':'Nach dem Kauf erhältst du einen Freischalt-Code per E-Mail.';
     var noteLine2=lang==='en'?'Enter code directly in chat:':'Code eingeben direkt im Chat:';
     var closeT=lang==='en'?'Close':'Schließen';
@@ -1058,17 +1536,11 @@ var MODAL_CONTENT={
   },
 
   horseEdit:function(){
-    var s=getState();
-    var lang=getLanguage();
-    var f=I18N[lang].fields;
-    var ph=I18N[lang].placeholders;
+    var s=getState();var lang=getLanguage();
+    var f=I18N[lang].fields;var ph=I18N[lang].placeholders;
     var sexOpts=I18N[lang].sexOptions;var halOpts=I18N[lang].haltungOptions;var nutzOpts=I18N[lang].nutzungOptions;
-    var p={};
-    var isNew=true;
-    if(editingHorseId){
-      var found=s.horses.find(function(x){return x.id===editingHorseId;});
-      if(found){p=found;isNew=false;}
-    }
+    var p={};var isNew=true;
+    if(editingHorseId){var found=s.horses.find(function(x){return x.id===editingHorseId;});if(found){p=found;isNew=false;}}
     function selOpt(arr,curr){return arr.map(function(o){return '<option value="'+o+'"'+(curr===o?' selected':'')+'>'+o+'</option>';}).join('');}
     var deleteBtn=isNew?'':'<button class="modal-btn modal-btn-danger" onclick="deleteHorseFromForm()">'+t('horseModalDelete')+'</button>';
     return '<div class="modal-tag">'+(isNew?t('horseModalNewTag'):t('horseModalEditTag'))+'</div>'+
@@ -1076,124 +1548,70 @@ var MODAL_CONTENT={
       '<div class="modal-sub">'+t('horseModalNewSub')+'</div>'+
       '<div class="profile-form">'+
         '<div class="profile-field"><label>'+f.name+'</label><input id="pName" type="text" value="'+(p.name||'').replace(/"/g,'&quot;')+'" placeholder="'+ph.name+'"/></div>'+
-        '<div class="profile-row">'+
-          '<div class="profile-field"><label>'+f.rasse+'</label><input id="pRasse" type="text" value="'+(p.rasse||'').replace(/"/g,'&quot;')+'" placeholder="'+ph.rasse+'"/></div>'+
-          '<div class="profile-field"><label>'+f.alter+'</label><input id="pAlter" type="number" min="0" max="40" value="'+(p.alter||'')+'"/></div>'+
-        '</div>'+
-        '<div class="profile-row">'+
-          '<div class="profile-field"><label>'+f.kgw+'</label><input id="pKgw" type="number" min="50" max="1200" value="'+(p.kgw||'')+'"/></div>'+
-          '<div class="profile-field"><label>'+f.geschlecht+'</label><select id="pGeschlecht">'+selOpt(sexOpts,p.geschlecht||'—')+'</select></div>'+
-        '</div>'+
-        '<div class="profile-row">'+
-          '<div class="profile-field"><label>'+f.haltung+'</label><select id="pHaltung">'+selOpt(halOpts,p.haltung||'—')+'</select></div>'+
-          '<div class="profile-field"><label>'+f.nutzung+'</label><select id="pNutzung">'+selOpt(nutzOpts,p.nutzung||'—')+'</select></div>'+
-        '</div>'+
+        '<div class="profile-row"><div class="profile-field"><label>'+f.rasse+'</label><input id="pRasse" type="text" value="'+(p.rasse||'').replace(/"/g,'&quot;')+'" placeholder="'+ph.rasse+'"/></div><div class="profile-field"><label>'+f.alter+'</label><input id="pAlter" type="number" min="0" max="40" value="'+(p.alter||'')+'"/></div></div>'+
+        '<div class="profile-row"><div class="profile-field"><label>'+f.kgw+'</label><input id="pKgw" type="number" min="50" max="1200" value="'+(p.kgw||'')+'"/></div><div class="profile-field"><label>'+f.geschlecht+'</label><select id="pGeschlecht">'+selOpt(sexOpts,p.geschlecht||'—')+'</select></div></div>'+
+        '<div class="profile-row"><div class="profile-field"><label>'+f.haltung+'</label><select id="pHaltung">'+selOpt(halOpts,p.haltung||'—')+'</select></div><div class="profile-field"><label>'+f.nutzung+'</label><select id="pNutzung">'+selOpt(nutzOpts,p.nutzung||'—')+'</select></div></div>'+
         '<div class="profile-field"><label>'+f.diagnosen+'</label><textarea id="pDiagnosen" placeholder="'+ph.diagnosen+'">'+(p.diagnosen||'').replace(/</g,'&lt;')+'</textarea></div>'+
         '<div class="profile-field"><label>'+f.fuetterung+'</label><textarea id="pFuetterung" placeholder="'+ph.fuetterung+'">'+(p.fuetterung||'').replace(/</g,'&lt;')+'</textarea></div>'+
       '</div>'+
-      '<div class="modal-btns">'+
-        deleteBtn+
-        '<button class="modal-btn modal-btn-secondary" onclick="closeModal()">'+t('horseModalCancel')+'</button>'+
-        '<button class="modal-btn modal-btn-primary" onclick="saveHorseFromForm()">'+t('horseModalSave')+'</button>'+
+      '<div class="modal-btns">'+deleteBtn+'<button class="modal-btn modal-btn-secondary" onclick="closeModal()">'+t('horseModalCancel')+'</button><button class="modal-btn modal-btn-primary" onclick="saveHorseFromForm()">'+t('horseModalSave')+'</button></div>';
+  },
+
+  folderPicker:function(){
+    var s=getState();
+    var chat=s.chats.find(function(c){return c.id===movingChatId;});
+    var currentFolderId=chat?chat.folderId:null;
+    var html='<div class="modal-tag">'+t('chatMove')+'</div>'+
+      '<div class="modal-title">'+t('folderModalTitle')+'</div>'+
+      '<div class="modal-sub">'+t('folderModalSub')+'</div>'+
+      '<div class="folder-picker">';
+    // Unsorted option
+    html+='<div class="folder-pick-item'+(currentFolderId===null?' current':'')+'" onclick="setChatFolder(\''+movingChatId+'\',null)">'+
+      '<span class="folder-pick-icon">📥</span>'+
+      '<span class="folder-pick-name">'+t('folderUnsorted')+'</span>'+
+      (currentFolderId===null?'<span class="folder-pick-current">'+t('folderCurrent')+'</span>':'')+
+    '</div>';
+    s.folders.forEach(function(f){
+      var isCur=f.id===currentFolderId;
+      html+='<div class="folder-pick-item'+(isCur?' current':'')+'" onclick="setChatFolder(\''+movingChatId+'\',\''+f.id+'\')">'+
+        '<span class="folder-pick-icon">📁</span>'+
+        '<span class="folder-pick-name">'+escapeHTML(f.name)+'</span>'+
+        (isCur?'<span class="folder-pick-current">'+t('folderCurrent')+'</span>':'')+
       '</div>';
+    });
+    html+='</div>'+
+    '<div class="folder-create-form">'+
+      '<input id="folderNewInput" type="text" placeholder="'+t('folderNewPh')+'" onkeydown="if(event.key===\'Enter\')createFolderInline()"/>'+
+      '<button class="folder-create-btn" onclick="createFolderInline()">'+t('folderCreateBtn')+'</button>'+
+    '</div>'+
+    '<button class="modal-close" onclick="closeModal()">'+(getLanguage()==='en'?'Cancel':'Abbrechen')+'</button>';
+    return html;
   },
 
   impressum:function(){
     var lang=getLanguage();
-    if(lang==='en'){
-      return '<div class="modal-tag">Legal</div><div class="modal-title">Imprint</div>'+
-        '<div class="modal-body">'+
-          '<h4>Information per § 5 TMG</h4><p><strong>Zafao GmbH</strong><br/>Adolfsallee 22<br/>65185 Wiesbaden<br/>Germany</p>'+
-          '<h4>Contact</h4><p>Email: <a href="mailto:info@zafao.world">info@zafao.world</a></p>'+
-          '<h4>Trade Register</h4><p>Local Court Wiesbaden · HRB 33239</p>'+
-          '<h4>Managing Director</h4><p>Lea Zahlmann</p>'+
-          '<h4>Disclaimer</h4><p>Content of the EQUINAT PferdeBot® serves general information purposes only and <strong>does not replace veterinary diagnosis or treatment</strong>. In case of illness, always consult a vet.</p>'+
-        '</div><button class="modal-close" onclick="closeModal()">Close</button>';
-    }
-    return '<div class="modal-tag">Rechtliches</div><div class="modal-title">Impressum</div>'+
-      '<div class="modal-body">'+
-        '<h4>Angaben gemäß § 5 TMG</h4><p><strong>Zafao GmbH</strong><br/>Adolfsallee 22<br/>65185 Wiesbaden<br/>Deutschland</p>'+
-        '<h4>Kontakt</h4><p>E-Mail: <a href="mailto:info@zafao.world">info@zafao.world</a></p>'+
-        '<h4>Handelsregister</h4><p>Amtsgericht Wiesbaden · HRB 33239</p>'+
-        '<h4>Geschäftsführung</h4><p>Lea Zahlmann</p>'+
-        '<h4>Haftungsausschluss</h4><p>Die Inhalte des EQUINAT PferdeBot® dienen ausschließlich der allgemeinen Information und ersetzen <strong>keine tierärztliche Diagnose oder Behandlung</strong>. Im Krankheitsfall ist immer ein Tierarzt zu konsultieren.</p>'+
-      '</div><button class="modal-close" onclick="closeModal()">Schließen</button>';
+    if(lang==='en')return '<div class="modal-tag">Legal</div><div class="modal-title">Imprint</div><div class="modal-body"><h4>Information per § 5 TMG</h4><p><strong>Zafao GmbH</strong><br/>Adolfsallee 22<br/>65185 Wiesbaden<br/>Germany</p><h4>Contact</h4><p>Email: <a href="mailto:info@zafao.world">info@zafao.world</a></p><h4>Trade Register</h4><p>Local Court Wiesbaden · HRB 33239</p><h4>Managing Director</h4><p>Lea Zahlmann</p><h4>Disclaimer</h4><p>Content of the EQUINAT PferdeBot® serves general information purposes only and <strong>does not replace veterinary diagnosis or treatment</strong>.</p></div><button class="modal-close" onclick="closeModal()">Close</button>';
+    return '<div class="modal-tag">Rechtliches</div><div class="modal-title">Impressum</div><div class="modal-body"><h4>Angaben gemäß § 5 TMG</h4><p><strong>Zafao GmbH</strong><br/>Adolfsallee 22<br/>65185 Wiesbaden<br/>Deutschland</p><h4>Kontakt</h4><p>E-Mail: <a href="mailto:info@zafao.world">info@zafao.world</a></p><h4>Handelsregister</h4><p>Amtsgericht Wiesbaden · HRB 33239</p><h4>Geschäftsführung</h4><p>Lea Zahlmann</p><h4>Haftungsausschluss</h4><p>Die Inhalte des EQUINAT PferdeBot® dienen ausschließlich der allgemeinen Information und ersetzen <strong>keine tierärztliche Diagnose oder Behandlung</strong>.</p></div><button class="modal-close" onclick="closeModal()">Schließen</button>';
   },
   datenschutz:function(){
     var lang=getLanguage();
-    if(lang==='en'){
-      return '<div class="modal-tag">GDPR</div><div class="modal-title">Privacy Policy</div>'+
-        '<div class="modal-body">'+
-          '<h4>1. Controller</h4><p>Zafao GmbH, Adolfsallee 22, 65185 Wiesbaden, Germany — <a href="mailto:info@zafao.world">info@zafao.world</a></p>'+
-          '<h4>2. Data processed</h4><p>When using the PferdeBot®, we process: your email, access code, your questions and AI responses, an anonymized user ID, technical data (timestamp, message count, model variant), and optionally horse profiles you choose to enter (up to 5).</p>'+
-          '<h4>3. Purpose</h4><p>Beta-test delivery, response quality, abuse detection. Legal basis: Art. 6(1)(b) and (f) GDPR.</p>'+
-          '<h4>4. Recipients</h4><p>Processors: <strong>Anthropic</strong> (USA, SCCs) for AI processing, <strong>Netlify</strong> (USA, SCCs) for hosting.</p>'+
-          '<h4>5. Storage</h4><p>Logs stored during beta phase, deleted at most 90 days after beta end. Local browser data deleted on logout.</p>'+
-          '<h4>6. Your rights</h4><p>Access, rectification, erasure, restriction, objection, portability. Requests: <a href="mailto:info@zafao.world">info@zafao.world</a>.</p>'+
-          '<h4>7. Cookies / LocalStorage</h4><p>Only technically necessary local storage. No tracking cookies.</p>'+
-          '<h4>8. Voice / Image data</h4><p>Voice input is processed by your browser only — never sent to our servers (Web Speech API, on-device). Images you upload are sent to Anthropic for AI analysis and logged for quality assurance during beta.</p>'+
-        '</div><button class="modal-close" onclick="closeModal()">Close</button>';
-    }
-    return '<div class="modal-tag">DSGVO</div><div class="modal-title">Datenschutzerklärung</div>'+
-      '<div class="modal-body">'+
-        '<h4>1. Verantwortlich</h4><p>Zafao GmbH, Adolfsallee 22, 65185 Wiesbaden — <a href="mailto:info@zafao.world">info@zafao.world</a></p>'+
-        '<h4>2. Welche Daten werden verarbeitet?</h4><p>Bei der Nutzung des PferdeBot® werden folgende Daten verarbeitet: deine Email-Adresse, dein Zugangscode, deine Fragen und KI-Antworten, ein anonymer Nutzer-ID, technische Daten (Zeitpunkt, Anzahl Nachrichten, Modell-Variante) und optional die Pferde-Profile die du eingibst (bis zu 5).</p>'+
-        '<h4>3. Zweck</h4><p>Bereitstellung des Beta-Tests, Qualitätsverbesserung, Missbrauchserkennung. Rechtsgrundlage: Art. 6 Abs. 1 lit. b und f DSGVO.</p>'+
-        '<h4>4. Empfänger</h4><p>Auftragsverarbeiter: <strong>Anthropic</strong> (USA, SCC) für KI, <strong>Netlify</strong> (USA, SCC) für Hosting.</p>'+
-        '<h4>5. Speicherdauer</h4><p>Chat-Logs während Beta-Phase, spätestens 90 Tage nach Beta-Ende gelöscht. Lokale Daten bei Logout gelöscht.</p>'+
-        '<h4>6. Deine Rechte</h4><p><strong>Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch, Datenübertragbarkeit</strong>. Anfragen an <a href="mailto:info@zafao.world">info@zafao.world</a>.</p>'+
-        '<h4>7. Cookies / LocalStorage</h4><p>Nur technisch notwendiger Browser-Speicher. Keine Tracking-Cookies.</p>'+
-        '<h4>8. Sprach- und Bilddaten</h4><p>Spracheingabe wird ausschließlich von deinem Browser verarbeitet (Web Speech API) — nicht an unsere Server. Bilder die du hochlädst werden zur KI-Analyse an Anthropic gesendet.</p>'+
-      '</div><button class="modal-close" onclick="closeModal()">Schließen</button>';
+    if(lang==='en')return '<div class="modal-tag">GDPR</div><div class="modal-title">Privacy Policy</div><div class="modal-body"><h4>1. Controller</h4><p>Zafao GmbH, Adolfsallee 22, 65185 Wiesbaden — <a href="mailto:info@zafao.world">info@zafao.world</a></p><h4>2. Data processed</h4><p>When using the PferdeBot®, we process: your email, access code, your questions and AI responses, an anonymized user ID, technical data, and optionally horse profiles you choose to enter (up to 5).</p><h4>3. Local storage</h4><p>Your chats and horse profiles are stored exclusively in your browser (localStorage). They are <strong>not</strong> sent to our servers as a database. Only your individual messages travel to the AI for response generation.</p><h4>4. Recipients</h4><p><strong>Anthropic</strong> (USA, SCCs) for AI processing, <strong>Netlify</strong> (USA, SCCs) for hosting.</p><h4>5. Your rights</h4><p>Access, rectification, erasure, restriction, objection, portability. Requests: <a href="mailto:info@zafao.world">info@zafao.world</a>.</p><h4>6. Voice / Image data</h4><p>Voice input is processed by your browser only. Images are sent to Anthropic for AI analysis.</p></div><button class="modal-close" onclick="closeModal()">Close</button>';
+    return '<div class="modal-tag">DSGVO</div><div class="modal-title">Datenschutzerklärung</div><div class="modal-body"><h4>1. Verantwortlich</h4><p>Zafao GmbH, Adolfsallee 22, 65185 Wiesbaden — <a href="mailto:info@zafao.world">info@zafao.world</a></p><h4>2. Welche Daten werden verarbeitet?</h4><p>Bei der Nutzung des PferdeBot® werden folgende Daten verarbeitet: deine Email-Adresse, dein Zugangscode, deine Fragen und KI-Antworten, ein anonymer Nutzer-ID, technische Daten und optional die Pferde-Profile (bis 5).</p><h4>3. Lokale Speicherung</h4><p>Deine Chats und Pferde-Profile werden ausschließlich in deinem Browser gespeichert (localStorage). Sie werden <strong>nicht</strong> als Datenbank an unsere Server gesendet. Nur deine einzelnen Nachrichten gehen an die KI zur Antwortgenerierung.</p><h4>4. Empfänger</h4><p><strong>Anthropic</strong> (USA, SCC) für KI, <strong>Netlify</strong> (USA, SCC) für Hosting.</p><h4>5. Deine Rechte</h4><p><strong>Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch, Datenübertragbarkeit</strong>. Anfragen: <a href="mailto:info@zafao.world">info@zafao.world</a>.</p><h4>6. Sprach- und Bilddaten</h4><p>Spracheingabe läuft im Browser. Bilder gehen an Anthropic.</p></div><button class="modal-close" onclick="closeModal()">Schließen</button>';
   },
   ki:function(){
     var lang=getLanguage();
-    if(lang==='en'){
-      return '<div class="modal-tag">AI Notice</div><div class="modal-title">AI Transparency</div>'+
-        '<div class="modal-body">'+
-          '<h4>You\'re talking to an AI</h4><p>The EQUINAT PferdeBot® is an AI system based on a large language model from Anthropic (Claude family). It is <strong>not a human vet or advisor</strong>.</p>'+
-          '<h4>What the AI can do</h4><p>Provide general information on horse health, nutrition, housing and EQUINAT products. Trained with extensive equine veterinary, nutritional and research knowledge.</p>'+
-          '<h4>What the AI cannot do</h4><p><strong>No diagnosis</strong>, no personal knowledge of your horse, no prescriptions, no behavioral observation. In emergencies <strong>always call a vet</strong>.</p>'+
-          '<h4>Image analysis</h4><p>You can send photos. The AI describes what it sees but never diagnoses. Conservative, vet-referral biased.</p>'+
-          '<h4>Voice features</h4><p>Voice input and text-to-speech run locally in your browser via Web Speech API. No audio is sent to our servers.</p>'+
-          '<h4>Model variants</h4><p>During beta we test 3 model variants in parallel (Group A/B/C). You\'re assigned automatically based on your email hash. The badge top right shows which.</p>'+
-          '<h4>Hallucinations</h4><p>AI models may rarely <strong>invent false information</strong>. We minimize this through careful prompts. Still: for important decisions, verify with a vet.</p>'+
-        '</div><button class="modal-close" onclick="closeModal()">Close</button>';
-    }
-    return '<div class="modal-tag">KI-Hinweis</div><div class="modal-title">KI-Transparenz</div>'+
-      '<div class="modal-body">'+
-        '<h4>Du sprichst mit einer KI</h4><p>Der EQUINAT PferdeBot® ist ein KI-System auf Basis eines großen Sprachmodells von Anthropic (Claude-Familie). Es ist <strong>kein menschlicher Tierarzt oder Berater</strong>.</p>'+
-        '<h4>Was die KI kann</h4><p>Allgemeine Informationen zu Pferdegesundheit, Ernährung, Haltung und EQUINAT-Produkten. Trainiert mit umfangreichem Fachwissen aus Tiermedizin, Tierernährung und equiner Forschung.</p>'+
-        '<h4>Was die KI NICHT kann</h4><p><strong>Keine Diagnose</strong>, kein persönliches Pferd kennen, keine Medikamente verschreiben. Bei Notfällen <strong>immer Tierarzt rufen</strong>.</p>'+
-        '<h4>Bildanalyse</h4><p>Du kannst Fotos schicken. Die KI beschreibt was sie sieht, stellt aber nie eine Diagnose. Konservativ, Tierarzt-Verweis-orientiert.</p>'+
-        '<h4>Sprach-Features</h4><p>Spracheingabe und Vorlesen laufen lokal im Browser via Web Speech API. Keine Audio-Daten an unsere Server.</p>'+
-        '<h4>Modell-Varianten</h4><p>Während der Beta testen wir 3 Modell-Varianten parallel (Gruppe A/B/C). Zuweisung automatisch nach Email-Hash. Das Badge oben rechts zeigt welches.</p>'+
-        '<h4>Halluzinationen</h4><p>KI-Modelle können in seltenen Fällen <strong>falsche Informationen erfinden</strong>. Wir minimieren das durch sorgfältige Prompts. Trotzdem: bei wichtigen Entscheidungen mit Tierarzt rückversichern.</p>'+
-      '</div><button class="modal-close" onclick="closeModal()">Schließen</button>';
+    if(lang==='en')return '<div class="modal-tag">AI Notice</div><div class="modal-title">AI Transparency</div><div class="modal-body"><h4>You\u2019re talking to an AI</h4><p>The EQUINAT PferdeBot® is an AI system based on a large language model from Anthropic. It is <strong>not a human vet</strong>.</p><h4>What the AI cannot do</h4><p><strong>No diagnosis</strong>, no prescriptions. In emergencies <strong>always call a vet</strong>.</p><h4>Image analysis</h4><p>You can send photos. The AI describes what it sees but never diagnoses.</p><h4>Hallucinations</h4><p>AI models may rarely <strong>invent false information</strong>. For important decisions, verify with a vet.</p></div><button class="modal-close" onclick="closeModal()">Close</button>';
+    return '<div class="modal-tag">KI-Hinweis</div><div class="modal-title">KI-Transparenz</div><div class="modal-body"><h4>Du sprichst mit einer KI</h4><p>Der EQUINAT PferdeBot® ist ein KI-System auf Basis eines Sprachmodells von Anthropic. Es ist <strong>kein menschlicher Tierarzt</strong>.</p><h4>Was die KI NICHT kann</h4><p><strong>Keine Diagnose</strong>, keine Medikamente verschreiben. Bei Notfällen <strong>immer Tierarzt rufen</strong>.</p><h4>Bildanalyse</h4><p>Du kannst Fotos schicken. Die KI beschreibt was sie sieht, stellt aber nie eine Diagnose.</p><h4>Halluzinationen</h4><p>KI-Modelle können in seltenen Fällen <strong>falsche Informationen erfinden</strong>. Bei wichtigen Entscheidungen mit Tierarzt rückversichern.</p></div><button class="modal-close" onclick="closeModal()">Schließen</button>';
   },
   kontakt:function(){
     var lang=getLanguage();
-    if(lang==='en'){
-      return '<div class="modal-tag">Contact</div><div class="modal-title">Get in touch</div>'+
-        '<div class="modal-body">'+
-          '<h4>General inquiries</h4><p><a href="mailto:info@zafao.world">info@zafao.world</a></p>'+
-          '<h4>Bot feedback / bugs</h4><p>Send us a screenshot describing your concern. Beta-tester feedback is gold for us.<br/><a href="mailto:info@zafao.world?subject=PferdeBot%20Feedback">info@zafao.world</a></p>'+
-          '<h4>Become a beta tester</h4><p>Know someone with horse experience? <a href="/tester-signup">→ Apply as beta tester</a></p>'+
-          '<h4>Postal address</h4><p>Zafao GmbH<br/>Adolfsallee 22<br/>65185 Wiesbaden<br/>Germany</p>'+
-        '</div><button class="modal-close" onclick="closeModal()">Close</button>';
-    }
-    return '<div class="modal-tag">Kontakt</div><div class="modal-title">So erreichst du uns</div>'+
-      '<div class="modal-body">'+
-        '<h4>Allgemeine Anfragen</h4><p><a href="mailto:info@zafao.world">info@zafao.world</a></p>'+
-        '<h4>Bot-Feedback / Bugs</h4><p>Schick uns gerne einen Screenshot mit deinem Anliegen. Beta-Tester:innen-Feedback ist für uns Gold wert.<br/><a href="mailto:info@zafao.world?subject=PferdeBot%20Feedback">info@zafao.world</a></p>'+
-        '<h4>Beta-Tester werden</h4><p>Du kennst jemanden mit Pferdeerfahrung, der den Bot auch testen möchte? <a href="/tester-signup">→ Bewerbung als Beta-Tester</a></p>'+
-        '<h4>Postanschrift</h4><p>Zafao GmbH<br/>Adolfsallee 22<br/>65185 Wiesbaden<br/>Deutschland</p>'+
-      '</div><button class="modal-close" onclick="closeModal()">Schließen</button>';
+    if(lang==='en')return '<div class="modal-tag">Contact</div><div class="modal-title">Get in touch</div><div class="modal-body"><h4>General inquiries</h4><p><a href="mailto:info@zafao.world">info@zafao.world</a></p><h4>Bot feedback / bugs</h4><p><a href="mailto:info@zafao.world?subject=PferdeBot%20Feedback">info@zafao.world</a></p><h4>Become a beta tester</h4><p><a href="/tester-signup">→ Apply as beta tester</a></p></div><button class="modal-close" onclick="closeModal()">Close</button>';
+    return '<div class="modal-tag">Kontakt</div><div class="modal-title">So erreichst du uns</div><div class="modal-body"><h4>Allgemeine Anfragen</h4><p><a href="mailto:info@zafao.world">info@zafao.world</a></p><h4>Bot-Feedback / Bugs</h4><p><a href="mailto:info@zafao.world?subject=PferdeBot%20Feedback">info@zafao.world</a></p><h4>Beta-Tester werden</h4><p><a href="/tester-signup">→ Bewerbung als Beta-Tester</a></p></div><button class="modal-close" onclick="closeModal()">Schließen</button>';
   }
 };
 
 function openModal(type){var content=MODAL_CONTENT[type];if(!content)return;document.getElementById('modalContent').innerHTML=content();document.getElementById('modalBg').classList.add('open');document.body.style.overflow='hidden';closeSidebar();}
-function closeModal(){document.getElementById('modalBg').classList.remove('open');document.body.style.overflow='';editingHorseId=null;}
+function closeModal(){document.getElementById('modalBg').classList.remove('open');document.body.style.overflow='';editingHorseId=null;movingChatId=null;}
 function showToast(msg,duration){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},duration||3000);}
 
 // ═══════════════════════════════════════════════
@@ -1216,7 +1634,7 @@ function toggleVoiceInput(){
 }
 
 // ═══════════════════════════════════════════════
-// TTS
+// TTS / COPY / REGEN
 // ═══════════════════════════════════════════════
 var currentUtterance=null;
 function speak(text,btn){
@@ -1229,19 +1647,11 @@ function speak(text,btn){
   currentUtterance=u;if(btn){btn.classList.add('active');btn.innerHTML='⏹ '+t('bblStop');btn._wasActive=true;}
   window.speechSynthesis.speak(u);
 }
-
-// ═══════════════════════════════════════════════
-// COPY
-// ═══════════════════════════════════════════════
 function copyAnswer(text){
   var clean=text.replace(/\*\*/g,'').replace(/<[^>]+>/g,'');
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(clean).then(function(){showToast(t('copied'),1500);});}
   else{var ta=document.createElement('textarea');ta.value=clean;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');showToast(t('copied'),1500);}catch(e){}document.body.removeChild(ta);}
 }
-
-// ═══════════════════════════════════════════════
-// REGENERATE
-// ═══════════════════════════════════════════════
 function regenerate(){
   if(busy)return;
   var lastUserIdx=-1;
@@ -1290,7 +1700,7 @@ function lockInput(){var inp=document.getElementById('inp');var btn=document.get
 function unlockInput(){var inp=document.getElementById('inp');var btn=document.getElementById('sbtn');if(inp){inp.disabled=false;inp.placeholder=t('inpPh');}if(btn)btn.disabled=false;var wall=document.getElementById('limitWall');if(wall)wall.remove();}
 
 // ═══════════════════════════════════════════════
-// CHAT
+// CHAT RENDER
 // ═══════════════════════════════════════════════
 function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,110)+'px';}
 function setQ(q){var inp=document.getElementById('inp');if(!inp||inp.disabled)return;inp.value=q;autoResize(inp);inp.focus();}
@@ -1321,15 +1731,21 @@ function addBotBubble(){
   mb.appendChild(mn);mb.appendChild(bbl);row.appendChild(avatar);row.appendChild(mb);msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;return bbl;
 }
 
-function finalizeBotBubble(bbl,fullText){
-  bbl.innerHTML=fmtBubble(fullText);
+function addBubbleActions(bbl, fullText){
+  if(!bbl||!bbl.parentNode)return;
   var actions=document.createElement('div');actions.className='bbl-actions';
   var copyBtn=document.createElement('button');copyBtn.className='bbl-action';copyBtn.innerHTML='📋 '+t('bblCopy');copyBtn.onclick=function(){copyAnswer(fullText);};
   var speakBtn=document.createElement('button');speakBtn.className='bbl-action';speakBtn.innerHTML='🔊 '+t('bblSpeak');speakBtn.onclick=function(){speak(fullText,speakBtn);};
   var regenBtn=document.createElement('button');regenBtn.className='bbl-action';regenBtn.innerHTML='🔄 '+t('bblRegen');regenBtn.onclick=function(){regenerate();};
   actions.appendChild(copyBtn);actions.appendChild(speakBtn);actions.appendChild(regenBtn);
   bbl.parentNode.appendChild(actions);
-  var row=document.getElementById('current-bot-row');if(row)row.removeAttribute('id');bbl.removeAttribute('id');
+}
+
+function finalizeBotBubble(bbl,fullText){
+  bbl.innerHTML=fmtBubble(fullText);
+  addBubbleActions(bbl, fullText);
+  var row=document.getElementById('current-bot-row');if(row)row.removeAttribute('id');
+  bbl.removeAttribute('id');
 }
 
 async function send(){
@@ -1343,14 +1759,22 @@ async function send(){
   }
   var s=getState();
   if(remaining(s)<=0){showLimitWall();return;}
+
+  // Build user message
   var userContent;var imgPreviewDataForUI=null;
   if(pendingImage){var b64=pendingImage.replace(/^data:[^;]+;base64,/,'');userContent=[{type:'image',source:{type:'base64',media_type:pendingImageType,data:b64}},{type:'text',text:msg||(getLanguage()==='en'?'Please analyze this photo of my horse.':'Bitte analysiere dieses Foto von meinem Pferd.')}];imgPreviewDataForUI=pendingImage;}
   else{userContent=msg;}
+
   inp.value='';inp.style.height='auto';
   addMsg('u',msg,imgPreviewDataForUI);
-  if(msg)addToHistory(msg);
+
+  // Ensure chat exists (create on first message)
+  ensureCurrentChat(msg||(getLanguage()==='en'?'Image':'Bild'));
+
   hist.push({role:'user',content:userContent});
+
   if(pendingImage){removeImage();}
+
   await sendToApi(false);
 }
 
@@ -1403,6 +1827,7 @@ async function sendToApi(isRegenerate){
     await streamReveal(bbl,fullText);
     finalizeBotBubble(bbl,fullText);
     hist.push({role:'assistant',content:fullText});
+    persistCurrentChatMessages();
   }catch(e){bbl.innerHTML=fmtBubble(t('networkErr'));}
   finally{
     busy=false;document.getElementById('sbtn').disabled=false;document.getElementById('inp').disabled=false;document.getElementById('inp').focus();
@@ -1433,6 +1858,10 @@ function initApp(){
   applyTranslations();
   if(s.modelGroup&&s.modelLabel){var badge=document.getElementById('modelBadge');if(badge){badge.textContent=(getLanguage()==='en'?'Group ':'Gruppe ')+s.modelGroup+' · '+s.modelLabel;badge.className='model-badge '+s.modelGroup;}}
   if(remaining(s)<=0)setTimeout(showLimitWall,300);
+  // Auto-load last chat if exists
+  if(s.chats && s.chats.length>0){
+    loadChat(s.chats[0].id);
+  }
 }
 
 (function(){var s=getState();setLockLang(s.lang||'de');if(isUnlocked()){unlockApp();}else{document.getElementById('lockEmail').focus();}})();
