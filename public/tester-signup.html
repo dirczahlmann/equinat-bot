@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" id="htmlRoot">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>EQUINAT COMPLETE® — Tester-Bewerbung</title>
+<title>EQUINAT COMPLETE® — Tester Application</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -38,6 +38,28 @@ body::after{
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
   opacity:0.35;
 }
+
+/* ── LANGUAGE TOGGLE (fixed top right) ── */
+.lang-toggle-fixed{
+  position:fixed;top:1.25rem;right:1.25rem;z-index:50;
+  display:flex;gap:4px;
+  background:rgba(13,18,9,0.85);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--border2);
+  border-radius:99px;padding:4px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.4);
+}
+.lang-toggle-fixed button{
+  padding:6px 14px;font-size:11px;
+  color:var(--cream3);background:none;border:none;
+  cursor:pointer;border-radius:99px;letter-spacing:1.5px;
+  font-family:'Jost',sans-serif;font-weight:400;
+  transition:all 0.2s;
+}
+.lang-toggle-fixed button.active{
+  background:var(--gold);color:var(--bg);font-weight:600;
+}
+.lang-toggle-fixed button:hover:not(.active){color:var(--cream);}
 
 /* ── HERO ── */
 .hero{
@@ -464,10 +486,17 @@ footer{
   .form-card{padding:2rem 1.5rem;}
   .form-row{grid-template-columns:1fr;}
   .hero-stats{gap:2rem;}
+  .lang-toggle-fixed{top:0.75rem;right:0.75rem;}
 }
 </style>
 </head>
 <body style="background-color:#070B05;">
+
+<!-- ══════════════ LANGUAGE TOGGLE ══════════════ -->
+<div class="lang-toggle-fixed">
+  <button data-lang="de" class="active" onclick="setLang('de')">DE</button>
+  <button data-lang="en" onclick="setLang('en')">EN</button>
+</div>
 
 <!-- ══════════════ HERO ══════════════ -->
 <section class="hero">
@@ -486,48 +515,45 @@ footer{
       </svg>
     </div>
     <div class="logo-name">Equinat Complete</div>
-    <div class="logo-tag">PferdeBot® Beta-Testphase</div>
+    <div class="logo-tag" data-i18n="logoTag">PferdeBot® Beta-Testphase</div>
   </div>
 
-  <div class="hero-badge">✦ Beta-Testphase — Exklusiv & Kostenlos</div>
-  <h1>Werde Teil der Familie.<br/><em>Gestalte mit.</em></h1>
-  <p class="hero-sub">
-    30 ausgewählte Pferdemenschen erhalten kostenlosen Zugang zum EQUINAT PferdeBot® — 
-    dem ersten KI-Pflegesystem seiner Art. Dein Feedback formt das Produkt.
-  </p>
+  <div class="hero-badge" data-i18n="heroBadge">✦ Beta-Testphase — Exklusiv & Kostenlos</div>
+  <h1><span data-i18n="heroTitle1">Werde Teil der Familie.</span><br/><em data-i18n="heroTitle2">Gestalte mit.</em></h1>
+  <p class="hero-sub" data-i18n="heroSub">30 ausgewählte Pferdemenschen erhalten kostenlosen Zugang zum EQUINAT PferdeBot® — dem ersten KI-Pflegesystem seiner Art. Dein Feedback formt das Produkt.</p>
   <div class="hero-stats">
-    <div class="stat"><span class="stat-num">30</span><span class="stat-label">Tester-Plätze</span></div>
-    <div class="stat"><span class="stat-num">0€</span><span class="stat-label">Testphase</span></div>
-    <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">KI-Zugang</span></div>
+    <div class="stat"><span class="stat-num">30</span><span class="stat-label" data-i18n="statSlots">Tester-Plätze</span></div>
+    <div class="stat"><span class="stat-num">0€</span><span class="stat-label" data-i18n="statPrice">Testphase</span></div>
+    <div class="stat"><span class="stat-num">24/7</span><span class="stat-label" data-i18n="statAccess">KI-Zugang</span></div>
   </div>
-  <a href="#bewerbung" class="hero-cta">Jetzt bewerben</a>
-  <div class="scroll-hint">Mehr erfahren</div>
+  <a href="#bewerbung" class="hero-cta" data-i18n="heroCta">Jetzt bewerben</a>
+  <div class="scroll-hint" data-i18n="scrollHint">Mehr erfahren</div>
 </section>
 
 <!-- ══════════════ STEPS ══════════════ -->
 <section class="steps-section fade-in">
-  <div class="section-label">Der Ablauf</div>
-  <h2 class="section-title">Wie die Testphase<br/>funktioniert</h2>
+  <div class="section-label" data-i18n="stepsLabel">Der Ablauf</div>
+  <h2 class="section-title"><span data-i18n="stepsTitle1">Wie die Testphase</span><br/><span data-i18n="stepsTitle2">funktioniert</span></h2>
   <div class="steps-grid">
     <div class="step">
       <div class="step-num">01</div>
-      <div class="step-title">Bewerbung einreichen</div>
-      <div class="step-desc">Fülle das Formular aus. Wir screenen persönlich — nur echte Pferdemenschen kommen rein. Noch <strong>30 Plätze</strong> verfügbar.</div>
+      <div class="step-title" data-i18n="step1Title">Bewerbung einreichen</div>
+      <div class="step-desc" data-i18n="step1Desc">Fülle das Formular aus. Wir screenen persönlich — nur echte Pferdemenschen kommen rein. Noch <strong>30 Plätze</strong> verfügbar.</div>
     </div>
     <div class="step">
       <div class="step-num">02</div>
-      <div class="step-title">Persönliche Freischaltung</div>
-      <div class="step-desc">Du erhältst eine individuelle Einladung per E-Mail. Plus Zugang zu unserer <em>exklusiven Tester-Gruppe auf Telegram</em> 📱 — wo wir den Bot gemeinsam mit euch weiterentwickeln.</div>
+      <div class="step-title" data-i18n="step2Title">Persönliche Freischaltung</div>
+      <div class="step-desc" data-i18n="step2Desc">Du erhältst eine individuelle Einladung per E-Mail. Plus Zugang zu unserer <em>exklusiven Tester-Gruppe auf Telegram</em> 📱 — wo wir den Bot gemeinsam mit euch weiterentwickeln.</div>
     </div>
     <div class="step">
       <div class="step-num">03</div>
-      <div class="step-title">Bot testen & Feedback geben</div>
-      <div class="step-desc">Während der Testphase ist der PferdeBot® für dich <strong>komplett kostenlos</strong> — kein Abo, keine Kreditkarte. Teile dein ehrliches Feedback per Formular, Telegram oder Video.</div>
+      <div class="step-title" data-i18n="step3Title">Bot testen & Feedback geben</div>
+      <div class="step-desc" data-i18n="step3Desc">Während der Testphase ist der PferdeBot® für dich <strong>komplett kostenlos</strong> — kein Abo, keine Kreditkarte. Teile dein ehrliches Feedback per Formular, Telegram oder Video.</div>
     </div>
     <div class="step">
       <div class="step-num">04</div>
-      <div class="step-title">Nach der Testphase</div>
-      <div class="step-desc">Du entscheidest frei: kostenpflichtig weiternutzen (€9,90/Mo · €89/Jahr), <em>EQUINAT-Abo starten</em> (Bot bleibt dann kostenlos inklusive) — oder einfach aufhören. Kein Vertrag.</div>
+      <div class="step-title" data-i18n="step4Title">Nach der Testphase</div>
+      <div class="step-desc" data-i18n="step4Desc">Du entscheidest frei: kostenpflichtig weiternutzen (€9,90/Mo · €89/Jahr), <em>EQUINAT-Abo starten</em> (Bot bleibt dann kostenlos inklusive) — oder einfach aufhören. Kein Vertrag.</div>
     </div>
   </div>
 </section>
@@ -535,42 +561,39 @@ footer{
 <!-- ══════════════ BOT FEATURES ══════════════ -->
 <section class="features-section fade-in">
   <div class="features-inner">
-    <div class="section-label" style="text-align:center;">Was der Bot weiß</div>
-    <h2 class="section-title" style="text-align:center;">Dein <em style="color:var(--gold2);font-style:italic;">digitaler Stallexperte</em></h2>
-    <p style="text-align:center;font-size:0.85rem;color:var(--cream3);max-width:540px;margin:0 auto 2.75rem;line-height:1.7;">
-      Validiert durch Equine Internisten (ECEIM), Tierernährungswissenschaftler und Reitsportprofis — 
-      mit Studienreferenzen, Dosierungen und praxisnahen Empfehlungen.
-    </p>
+    <div class="section-label" style="text-align:center;" data-i18n="featuresLabel">Was der Bot weiß</div>
+    <h2 class="section-title" style="text-align:center;"><span data-i18n="featuresTitle1">Dein</span> <em style="color:var(--gold2);font-style:italic;" data-i18n="featuresTitle2">digitaler Stallexperte</em></h2>
+    <p style="text-align:center;font-size:0.85rem;color:var(--cream3);max-width:540px;margin:0 auto 2.75rem;line-height:1.7;" data-i18n="featuresSub">Validiert durch Equine Internisten (ECEIM), Tierernährungswissenschaftler und Reitsportprofis — mit Studienreferenzen, Dosierungen und praxisnahen Empfehlungen.</p>
     <div class="features-grid">
       <div class="feature">
         <div class="feature-icon">🩺</div>
-        <div class="feature-name">Gesundheit & Krankheiten</div>
-        <div class="feature-desc">EMS, Cushing, RAO, Arthrose, Hufrehe, Lahmheit — mit Studienreferenzen und Dosierungen.</div>
+        <div class="feature-name" data-i18n="feat1Name">Gesundheit & Krankheiten</div>
+        <div class="feature-desc" data-i18n="feat1Desc">EMS, Cushing, RAO, Arthrose, Hufrehe, Lahmheit — mit Studienreferenzen und Dosierungen.</div>
       </div>
       <div class="feature">
         <div class="feature-icon">🌿</div>
-        <div class="feature-name">Fütterung & Supplemente</div>
-        <div class="feature-desc">Rationsplanung, Heu-Bedarf, NSC-Werte, Ergänzungsmittel — exakt und wissenschaftlich.</div>
+        <div class="feature-name" data-i18n="feat2Name">Fütterung & Supplemente</div>
+        <div class="feature-desc" data-i18n="feat2Desc">Rationsplanung, Heu-Bedarf, NSC-Werte, Ergänzungsmittel — exakt und wissenschaftlich.</div>
       </div>
       <div class="feature">
         <div class="feature-icon">🏠</div>
-        <div class="feature-name">Stall & Haltung</div>
-        <div class="feature-desc">Einstreu, Lüftung, Boxenmaße, Offenstall, Weidemanagement — alles aus einer Quelle.</div>
+        <div class="feature-name" data-i18n="feat3Name">Stall & Haltung</div>
+        <div class="feature-desc" data-i18n="feat3Desc">Einstreu, Lüftung, Boxenmaße, Offenstall, Weidemanagement — alles aus einer Quelle.</div>
       </div>
       <div class="feature">
         <div class="feature-icon">🏆</div>
-        <div class="feature-name">Training & Sport</div>
-        <div class="feature-desc">Trainingsaufbau, Regeneration, Muskelaufbau, Turniervorbereitung — evidenzbasiert.</div>
+        <div class="feature-name" data-i18n="feat4Name">Training & Sport</div>
+        <div class="feature-desc" data-i18n="feat4Desc">Trainingsaufbau, Regeneration, Muskelaufbau, Turniervorbereitung — evidenzbasiert.</div>
       </div>
       <div class="feature">
         <div class="feature-icon">💉</div>
-        <div class="feature-name">Vorsorge & Impfungen</div>
-        <div class="feature-desc">Impfplan, selektive Entwurmung, Zahnpflege — aktuell und leitliniengerecht.</div>
+        <div class="feature-name" data-i18n="feat5Name">Vorsorge & Impfungen</div>
+        <div class="feature-desc" data-i18n="feat5Desc">Impfplan, selektive Entwurmung, Zahnpflege — aktuell und leitliniengerecht.</div>
       </div>
       <div class="feature">
         <div class="feature-icon">🦴</div>
-        <div class="feature-name">Gelenke & Bewegung</div>
-        <div class="feature-desc">MSM, Teufelskralle, Kurkuma Meriva, Boswellia — Wirkung, Dosierung, Studienlage.</div>
+        <div class="feature-name" data-i18n="feat6Name">Gelenke & Bewegung</div>
+        <div class="feature-desc" data-i18n="feat6Desc">MSM, Teufelskralle, Kurkuma Meriva, Boswellia — Wirkung, Dosierung, Studienlage.</div>
       </div>
     </div>
   </div>
@@ -580,67 +603,64 @@ footer{
 <section class="products-section fade-in">
   <div class="products-inner">
     <div class="section-label" style="text-align:center;">EQUINAT COMPLETE®</div>
-    <h2 class="section-title" style="text-align:center;">Das <em style="color:var(--gold2);font-style:italic;">All-in-One System</em></h2>
-    <p style="text-align:center;font-size:0.85rem;color:var(--cream3);max-width:540px;margin:0 auto 2.75rem;line-height:1.7;">
-      Premium Pferdefutter mit tierärztlich validierten Wirkstoffen — vier spezialisierte Linien, 
-      die das Chaos von Einzelfuttern und Zusätzen in einem System bündeln.
-    </p>
+    <h2 class="section-title" style="text-align:center;"><span data-i18n="prodTitle1">Das</span> <em style="color:var(--gold2);font-style:italic;" data-i18n="prodTitle2">All-in-One System</em></h2>
+    <p style="text-align:center;font-size:0.85rem;color:var(--cream3);max-width:540px;margin:0 auto 2.75rem;line-height:1.7;" data-i18n="prodSub">Premium Pferdefutter mit tierärztlich validierten Wirkstoffen — vier spezialisierte Linien, die das Chaos von Einzelfuttern und Zusätzen in einem System bündeln.</p>
     <div class="products-grid">
       <div class="product-card" style="--pc:#C9943A;">
         <div class="product-top"></div>
-        <div class="product-label">Basis für alle</div>
+        <div class="product-label" data-i18n="prod1Label">Basis für alle</div>
         <div class="product-name">DAILY COMPLETE®</div>
-        <div class="product-tagline">Vollständige Mineralstoffversorgung, Probiotika und Omega-3 — täglich für jedes Pferd.</div>
+        <div class="product-tagline" data-i18n="prod1Tag">Vollständige Mineralstoffversorgung, Probiotika und Omega-3 — täglich für jedes Pferd.</div>
         <div class="product-ings">
-          <div class="product-ing">Vollmineralversorgung</div>
-          <div class="product-ing">Probiotika & Prebiotika</div>
-          <div class="product-ing">Omega-3 (Leinöl)</div>
-          <div class="product-ing">Biotin · Zink · Selen</div>
+          <div class="product-ing" data-i18n="prod1Ing1">Vollmineralversorgung</div>
+          <div class="product-ing" data-i18n="prod1Ing2">Probiotika & Prebiotika</div>
+          <div class="product-ing" data-i18n="prod1Ing3">Omega-3 (Leinöl)</div>
+          <div class="product-ing" data-i18n="prod1Ing4">Biotin · Zink · Selen</div>
         </div>
-        <div class="product-for">Für: alle Pferde · Vitalität · glänzendes Fell</div>
+        <div class="product-for" data-i18n="prod1For">Für: alle Pferde · Vitalität · glänzendes Fell</div>
       </div>
       <div class="product-card" style="--pc:#E8B85A;">
         <div class="product-top"></div>
-        <div class="product-label">Gelenke & Bewegung</div>
+        <div class="product-label" data-i18n="prod2Label">Gelenke & Bewegung</div>
         <div class="product-name">JOINT COMPLETE®</div>
-        <div class="product-tagline">Die stärkste natürliche Gelenkformel — wissenschaftlich belegt.</div>
+        <div class="product-tagline" data-i18n="prod2Tag">Die stärkste natürliche Gelenkformel — wissenschaftlich belegt.</div>
         <div class="product-ings">
-          <div class="product-ing">MSM in therapeut. Dosis</div>
-          <div class="product-ing">Teufelskralle (COX-2)</div>
-          <div class="product-ing">Kurkuma Meriva® (29× bio)</div>
-          <div class="product-ing">Boswellia · Hagebutte (GOPO)</div>
+          <div class="product-ing" data-i18n="prod2Ing1">MSM in therapeut. Dosis</div>
+          <div class="product-ing" data-i18n="prod2Ing2">Teufelskralle (COX-2)</div>
+          <div class="product-ing" data-i18n="prod2Ing3">Kurkuma Meriva® (29× bio)</div>
+          <div class="product-ing" data-i18n="prod2Ing4">Boswellia · Hagebutte (GOPO)</div>
         </div>
-        <div class="product-for">Für: Arthrose · Lahmheit · Sport · Senior</div>
+        <div class="product-for" data-i18n="prod2For">Für: Arthrose · Lahmheit · Sport · Senior</div>
       </div>
       <div class="product-card" style="--pc:#7EC870;">
         <div class="product-top"></div>
-        <div class="product-label">Atemwege & Allergie</div>
+        <div class="product-label" data-i18n="prod3Label">Atemwege & Allergie</div>
         <div class="product-name">RESPIRA COMPLETE®</div>
-        <div class="product-tagline">Natürliche Atemwegsunterstützung bei RAO, Husten und Stauballergie.</div>
+        <div class="product-tagline" data-i18n="prod3Tag">Natürliche Atemwegsunterstützung bei RAO, Husten und Stauballergie.</div>
         <div class="product-ings">
-          <div class="product-ing">Quercetin (anti-allergisch)</div>
-          <div class="product-ing">N-Acetylcystein (NAC)</div>
-          <div class="product-ing">Schwarzkümmel-Öl</div>
-          <div class="product-ing">Bromelain · Vitamin C</div>
+          <div class="product-ing" data-i18n="prod3Ing1">Quercetin (anti-allergisch)</div>
+          <div class="product-ing" data-i18n="prod3Ing2">N-Acetylcystein (NAC)</div>
+          <div class="product-ing" data-i18n="prod3Ing3">Schwarzkümmel-Öl</div>
+          <div class="product-ing" data-i18n="prod3Ing4">Bromelain · Vitamin C</div>
         </div>
-        <div class="product-for">Für: RAO · Husten · Stallallergie</div>
+        <div class="product-for" data-i18n="prod3For">Für: RAO · Husten · Stallallergie</div>
       </div>
       <div class="product-card" style="--pc:#B8A040;">
         <div class="product-top"></div>
-        <div class="product-label">Stoffwechsel & EMS</div>
+        <div class="product-label" data-i18n="prod4Label">Stoffwechsel & EMS</div>
         <div class="product-name">METABOLIC COMPLETE®</div>
-        <div class="product-tagline">Für stoffwechselempfindliche Pferde und Ponys — NSC-arm, getreidefrei.</div>
+        <div class="product-tagline" data-i18n="prod4Tag">Für stoffwechselempfindliche Pferde und Ponys — NSC-arm, getreidefrei.</div>
         <div class="product-ings">
-          <div class="product-ing">Chromhefe (Insulin)</div>
-          <div class="product-ing">Magnesium</div>
-          <div class="product-ing">Mariendistel · Brennnessel</div>
-          <div class="product-ing">Zimtrinde · Vitamin E</div>
+          <div class="product-ing" data-i18n="prod4Ing1">Chromhefe (Insulin)</div>
+          <div class="product-ing" data-i18n="prod4Ing2">Magnesium</div>
+          <div class="product-ing" data-i18n="prod4Ing3">Mariendistel · Brennnessel</div>
+          <div class="product-ing" data-i18n="prod4Ing4">Zimtrinde · Vitamin E</div>
         </div>
-        <div class="product-for">Für: EMS · Cushing · Hufrehe · Ponys</div>
+        <div class="product-for" data-i18n="prod4For">Für: EMS · Cushing · Hufrehe · Ponys</div>
       </div>
     </div>
     <div class="products-foot">
-      Tierärztlich validiert · Wissenschaftlich belegt · 
+      <span data-i18n="prodFoot">Tierärztlich validiert · Wissenschaftlich belegt</span> · 
       <a href="https://equinat.de" target="_blank" style="color:var(--gold2);text-decoration:none;">equinat.de</a>
     </div>
   </div>
@@ -649,36 +669,29 @@ footer{
 <!-- ══════════════ AFFILIATE TEASER ══════════════ -->
 <section class="affiliate-section fade-in">
   <div class="affiliate-inner">
-    <div class="affiliate-badge">✦ Exklusiv für Beta-Tester</div>
+    <div class="affiliate-badge" data-i18n="affBadge">✦ Exklusiv für Beta-Tester</div>
     <div class="affiliate-grid">
       <div>
-        <h2 class="affiliate-title">Nach der Testphase:<br/><em>Verdiene mit uns.</em></h2>
-        <p class="affiliate-desc">
-          Als Beta-Tester hast du die einmalige Chance, als erster Affiliate-Partner mit EQUINAT zu wachsen. 
-          Empfiehl das System, das du selbst getestet hast — und verdiene eine Lifetime-Provision.
-        </p>
-        <p class="affiliate-desc">
-          Kein anderes Pferde-Affiliate-Programm zahlt so: <strong style="color:var(--gold2)">30% Lifetime</strong> auf 
-          Bot-Abos, <strong style="color:var(--gold2)">15% für 12 Monate</strong> auf Produktbestellungen.
-          Mit jedem Tier steigen die Provisionen weiter.
-        </p>
+        <h2 class="affiliate-title"><span data-i18n="affTitle1">Nach der Testphase:</span><br/><em data-i18n="affTitle2">Verdiene mit uns.</em></h2>
+        <p class="affiliate-desc" data-i18n="affDesc1">Als Beta-Tester hast du die einmalige Chance, als erster Affiliate-Partner mit EQUINAT zu wachsen. Empfiehl das System, das du selbst getestet hast — und verdiene eine Lifetime-Provision.</p>
+        <p class="affiliate-desc" data-i18n="affDesc2">Differenzierte Provision je nach Bestelltyp: <strong style="color:var(--gold2)">bis zu 15% für 12 Monate</strong> auf Einmalkäufe, <strong style="color:var(--gold2)">bis zu 10% Lifetime</strong> auf Subscription-Bestellungen, <strong style="color:var(--gold2)">bis zu 30% degressiv</strong> auf Bot-only-Abos (30% Jahr 1, 20% Jahr 2-3). Mit jedem Tier steigen die Provisionen weiter. <em style="color:var(--cream3);font-size:0.95em;">Finale Konditionen werden bei Programmstart mitgeteilt.</em></p>
       </div>
       <div class="tier-cards">
         <div class="tier-card">
-          <div><div class="tier-name">🐴 Foal — Einsteiger</div><div class="tier-sub">1–10 vermittelte Kunden · 30% Bot-Lifetime</div></div>
-          <div class="tier-prov">30%</div>
+          <div><div class="tier-name" data-i18n="tier1Name">🐴 Foal — Einsteiger</div><div class="tier-sub" data-i18n="tier1Sub">1–10 vermittelte Kunden · Basis-Provision</div></div>
+          <div class="tier-prov">Foal</div>
         </div>
         <div class="tier-card">
-          <div><div class="tier-name">🏇 Trotter — Aktiver</div><div class="tier-sub">11–50 Kunden · 31% Bot-Lifetime</div></div>
-          <div class="tier-prov">31%</div>
+          <div><div class="tier-name" data-i18n="tier2Name">🏇 Trotter — Aktiver</div><div class="tier-sub" data-i18n="tier2Sub">11–50 Kunden · +1% Bonus</div></div>
+          <div class="tier-prov">+1%</div>
         </div>
         <div class="tier-card">
-          <div><div class="tier-name">⚡ Galloper — Partner</div><div class="tier-sub">51–200 Kunden · 33% Bot-Lifetime</div></div>
-          <div class="tier-prov">33%</div>
+          <div><div class="tier-name" data-i18n="tier3Name">⚡ Galloper — Partner</div><div class="tier-sub" data-i18n="tier3Sub">51–200 Kunden · +3% Bonus</div></div>
+          <div class="tier-prov">+3%</div>
         </div>
         <div class="tier-card" style="border-color:var(--border2);">
-          <div><div class="tier-name" style="color:var(--gold2)">★ Stallion / Mare</div><div class="tier-sub">201+ Kunden · 35% Bot-Lifetime</div></div>
-          <div class="tier-prov" style="color:var(--gold3)">35%+</div>
+          <div><div class="tier-name" data-i18n="tier4Name" style="color:var(--gold2)">★ Stallion / Mare</div><div class="tier-sub" data-i18n="tier4Sub">201+ Kunden · +5% + Profit-Share</div></div>
+          <div class="tier-prov" style="color:var(--gold3)">+5%</div>
         </div>
       </div>
     </div>
@@ -689,12 +702,9 @@ footer{
 <section class="form-section" id="bewerbung">
   <div class="form-card fade-in">
     <div class="form-header">
-      <div class="section-label">Tester-Bewerbung</div>
-      <h2 class="form-title">Deine Bewerbung</h2>
-      <p class="form-subtitle">
-        Alle mit <span style="color:var(--gold)">✦</span> markierten Felder sind Pflichtfelder. 
-        Wir melden uns innerhalb von 48 Stunden persönlich bei dir.
-      </p>
+      <div class="section-label" data-i18n="formLabel">Tester-Bewerbung</div>
+      <h2 class="form-title" data-i18n="formTitle">Deine Bewerbung</h2>
+      <p class="form-subtitle" data-i18n="formSub">Alle mit <span style="color:var(--gold)">✦</span> markierten Felder sind Pflichtfelder. Wir melden uns innerhalb von 48 Stunden persönlich bei dir.</p>
     </div>
 
     <form id="testerForm" name="equinat-tester-v2" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
@@ -703,111 +713,119 @@ footer{
 
       <div class="form-row">
         <div>
-          <label>Vorname <span>✦</span></label>
-          <input type="text" name="vorname" placeholder="Dein Vorname" required/>
+          <label data-i18n="lblFirstname">Vorname <span>✦</span></label>
+          <input type="text" name="vorname" data-i18n-ph="phFirstname" placeholder="Dein Vorname" required/>
         </div>
         <div>
-          <label>Nachname <span>✦</span></label>
-          <input type="text" name="nachname" placeholder="Dein Nachname" required/>
+          <label data-i18n="lblLastname">Nachname <span>✦</span></label>
+          <input type="text" name="nachname" data-i18n-ph="phLastname" placeholder="Dein Nachname" required/>
         </div>
       </div>
 
       <div class="form-group">
-        <label>E-Mail-Adresse <span>✦</span></label>
-        <input type="email" name="email" placeholder="deine@email.de" required/>
+        <label data-i18n="lblEmail">E-Mail-Adresse <span>✦</span></label>
+        <input type="email" name="email" data-i18n-ph="phEmail" placeholder="deine@email.de" required/>
       </div>
 
       <div class="form-row">
         <div>
-          <label>Instagram-Handle</label>
-          <input type="text" name="instagram" placeholder="@deinname"/>
+          <label data-i18n="lblInstagram">Instagram-Handle</label>
+          <input type="text" name="instagram" data-i18n-ph="phInstagram" placeholder="@deinname"/>
         </div>
         <div>
-          <label>Telefon (optional)</label>
+          <label data-i18n="lblPhone">Telefon (optional)</label>
           <input type="tel" name="telefon" placeholder="+49 …"/>
         </div>
       </div>
 
       <div class="form-row">
         <div>
-          <label>Anzahl Pferde <span>✦</span></label>
-          <select name="anzahl_pferde" required>
-            <option value="" disabled selected>Bitte wählen</option>
-            <option value="1">1 Pferd</option>
-            <option value="2">2 Pferde</option>
-            <option value="3-5">3–5 Pferde</option>
-            <option value="6+">6+ Pferde</option>
+          <label data-i18n="lblHorses">Anzahl Pferde <span>✦</span></label>
+          <select name="anzahl_pferde" id="selHorses" required>
+            <option value="" disabled selected data-i18n="optChoose">Bitte wählen</option>
+            <option value="1" data-i18n="opt1Horse">1 Pferd</option>
+            <option value="2" data-i18n="opt2Horses">2 Pferde</option>
+            <option value="3-5" data-i18n="opt35Horses">3–5 Pferde</option>
+            <option value="6+" data-i18n="opt6Horses">6+ Pferde</option>
           </select>
         </div>
         <div>
-          <label>Monatl. Pflegebudget <span>✦</span></label>
-          <select name="budget" required>
-            <option value="" disabled selected>Bitte wählen</option>
-            <option value="unter100">Unter €100</option>
-            <option value="100-250">€100 – €250</option>
-            <option value="250-500">€250 – €500</option>
-            <option value="ueber500">Über €500</option>
+          <label data-i18n="lblBudget">Monatl. Pflegebudget <span>✦</span></label>
+          <select name="budget" id="selBudget" required>
+            <option value="" disabled selected data-i18n="optChoose">Bitte wählen</option>
+            <option value="unter100" data-i18n="optBudget1">Unter €100</option>
+            <option value="100-250" data-i18n="optBudget2">€100 – €250</option>
+            <option value="250-500" data-i18n="optBudget3">€250 – €500</option>
+            <option value="ueber500" data-i18n="optBudget4">Über €500</option>
           </select>
         </div>
       </div>
 
       <div class="form-group">
-        <label>Deine größte Herausforderung <span>✦</span></label>
-        <textarea name="herausforderung" placeholder="Was beschäftigt dich bei der Pferdepflege am meisten? Fütterung, Gesundheit, Stallmanagement…" required></textarea>
+        <label data-i18n="lblChallenge">Deine größte Herausforderung <span>✦</span></label>
+        <textarea name="herausforderung" data-i18n-ph="phChallenge" placeholder="Was beschäftigt dich bei der Pferdepflege am meisten? Fütterung, Gesundheit, Stallmanagement…" required></textarea>
       </div>
 
       <div class="form-group">
-        <label>Warum möchtest du Tester werden?</label>
-        <textarea name="motivation" placeholder="Optional: Was interessiert dich am EQUINAT PferdeBot®?" style="min-height:80px;"></textarea>
+        <label data-i18n="lblMotivation">Warum möchtest du Tester werden?</label>
+        <textarea name="motivation" data-i18n-ph="phMotivation" placeholder="Optional: Was interessiert dich am EQUINAT PferdeBot®?" style="min-height:80px;"></textarea>
       </div>
 
       <!-- ── LEGAL CHECKS ── -->
       <div class="checks-group">
-        <div class="checks-title">Rechtliche Bestätigungen <span style="color:var(--red)">*</span></div>
+        <div class="checks-title"><span data-i18n="legalTitle">Rechtliche Bestätigungen</span> <span style="color:var(--red)">*</span></div>
 
         <div class="check-item" id="check1-wrap">
           <input type="checkbox" id="check_dsgvo" name="check_dsgvo" value="ja" required/>
           <label for="check_dsgvo" class="check-text">
-            Ich habe die <button type="button" onclick="openModal('modalDsgvo')">Datenschutzerklärung</button> gelesen und stimme der Verarbeitung meiner Daten zum Zweck der Tester-Verwaltung und -Kommunikation zu.
-            <span class="check-required"> (Pflichtfeld)</span>
+            <span data-i18n="checkDsgvo1">Ich habe die</span>
+            <button type="button" onclick="openModal('modalDsgvo')" data-i18n="checkDsgvoLink">Datenschutzerklärung</button>
+            <span data-i18n="checkDsgvo2">gelesen und stimme der Verarbeitung meiner Daten zum Zweck der Tester-Verwaltung und -Kommunikation zu.</span>
+            <span class="check-required" data-i18n="checkRequired"> (Pflichtfeld)</span>
           </label>
         </div>
 
         <div class="check-item" id="check2-wrap">
           <input type="checkbox" id="check_vertrag" name="check_vertrag" value="ja" required/>
           <label for="check_vertrag" class="check-text">
-            Ich habe den <button type="button" onclick="openModal('modalVertrag')">Testervertrag</button> vollständig gelesen und erkenne ihn als rechtlich bindend an. Insbesondere akzeptiere ich die Vertraulichkeitspflicht und die Feedback-Verpflichtung.
-            <span class="check-required"> (Pflichtfeld)</span>
+            <span data-i18n="checkVertrag1">Ich habe den</span>
+            <button type="button" onclick="openModal('modalVertrag')" data-i18n="checkVertragLink">Testervertrag</button>
+            <span data-i18n="checkVertrag2">vollständig gelesen und erkenne ihn als rechtlich bindend an. Insbesondere akzeptiere ich die Vertraulichkeitspflicht und die Feedback-Verpflichtung.</span>
+            <span class="check-required" data-i18n="checkRequired"> (Pflichtfeld)</span>
           </label>
         </div>
 
         <div class="check-item">
           <input type="checkbox" id="check_ki" name="check_ki" value="ja" required/>
           <label for="check_ki" class="check-text">
-            Ich verstehe, dass der EQUINAT PferdeBot® auf Künstlicher Intelligenz basiert und tierärztliche Beratung <strong>nicht ersetzen</strong> kann. KI-Antworten stellen keine medizinische Diagnose dar.
-            <span class="check-required"> (Pflichtfeld)</span>
+            <span data-i18n="checkKi">Ich verstehe, dass der EQUINAT PferdeBot® auf Künstlicher Intelligenz basiert und tierärztliche Beratung <strong>nicht ersetzen</strong> kann. KI-Antworten stellen keine medizinische Diagnose dar.</span>
+            <span class="check-required" data-i18n="checkRequired"> (Pflichtfeld)</span>
           </label>
         </div>
 
         <div class="check-item">
           <input type="checkbox" id="check_affiliate" name="check_affiliate" value="ja"/>
           <label for="check_affiliate" class="check-text">
-            Ich möchte nach Abschluss der Testphase über das <button type="button" onclick="openModal('modalAffiliate')">Affiliate-Programm</button> informiert werden und habe die Grundbedingungen zur Kenntnis genommen. (optional)
+            <span data-i18n="checkAff1">Ich möchte nach Abschluss der Testphase über das</span>
+            <button type="button" onclick="openModal('modalAffiliate')" data-i18n="checkAffLink">Affiliate-Programm</button>
+            <span data-i18n="checkAff2">informiert werden und habe die Grundbedingungen zur Kenntnis genommen.</span>
+            <span data-i18n="checkOptional">(optional)</span>
           </label>
         </div>
 
         <div class="check-item">
           <input type="checkbox" id="check_newsletter" name="check_newsletter" value="ja"/>
           <label for="check_newsletter" class="check-text">
-            Ich willige ein, gelegentliche E-Mails zu Produktneuheiten, dem Affiliate-Programm und Tester-Updates von EQUINAT / Zafao GmbH zu erhalten. Abmeldung jederzeit möglich. (optional)
+            <span data-i18n="checkNl">Ich willige ein, gelegentliche E-Mails zu Produktneuheiten, dem Affiliate-Programm und Tester-Updates von EQUINAT / Zafao GmbH zu erhalten. Abmeldung jederzeit möglich.</span>
+            <span data-i18n="checkOptional">(optional)</span>
           </label>
         </div>
       </div>
 
-      <button type="submit" class="submit-btn" id="submitBtn">
+      <button type="submit" class="submit-btn" id="submitBtn" data-i18n="submitBtn">
         ✦ Jetzt als Tester bewerben ✦
       </button>
-      <p class="form-note">
+      <p class="form-note" data-i18n="formNote">
         Deine Bewerbung wird persönlich geprüft. Wir melden uns innerhalb von 48 Stunden.<br/>
         Kein automatischer Zugang · Zafao GmbH · Wiesbaden
       </p>
@@ -815,12 +833,11 @@ footer{
 
     <div class="success-view" id="successMsg">
       <div class="success-icon">🐴</div>
-      <h3 class="success-title">Bewerbung eingegangen!</h3>
-      <p class="success-text">
+      <h3 class="success-title" data-i18n="successTitle">Bewerbung eingegangen!</h3>
+      <p class="success-text" data-i18n="successText">
         Vielen Dank! Wir haben deine Bewerbung erhalten und prüfen sie persönlich.<br/><br/>
         Du erhältst innerhalb von <strong>48 Stunden</strong> eine Antwort per E-Mail.<br/><br/>
-        Folge uns auf Instagram <strong>@equinat.complete</strong> — 
-        damit verpasst du garantiert nichts. 🌿
+        Folge uns auf Instagram <strong>@equinat.complete</strong> — damit verpasst du garantiert nichts. 🌿
       </p>
     </div>
   </div>
@@ -829,295 +846,704 @@ footer{
 <!-- ══════════════ FOOTER ══════════════ -->
 <footer>
   <div class="footer-links">
-    <button onclick="openModal('modalImpressum')">Impressum</button>
-    <button onclick="openModal('modalDsgvo')">Datenschutz</button>
-    <button onclick="openModal('modalKi')">KI-Transparenz</button>
-    <a href="mailto:info@zafao.world">Kontakt</a>
+    <button onclick="openModal('modalImpressum')" data-i18n="footImpressum">Impressum</button>
+    <button onclick="openModal('modalDsgvo')" data-i18n="footDatenschutz">Datenschutz</button>
+    <button onclick="openModal('modalKi')" data-i18n="footKi">KI-Transparenz</button>
+    <a href="mailto:info@zafao.world" data-i18n="footKontakt">Kontakt</a>
   </div>
-  <p class="footer-copy">© 2025 Zafao GmbH · Adolfsallee 22 · 65185 Wiesbaden · EQUINAT® ist eine angemeldete Marke der Zafao GmbH</p>
+  <p class="footer-copy" data-i18n="footCopy">© 2026 Zafao GmbH · Adolfsallee 22 · 65185 Wiesbaden · EQUINAT® ist eine angemeldete Marke der Zafao GmbH</p>
 </footer>
 
 <!-- ════════════════════════════════════
-     MODALS
+     MODALS — content rendered by JS based on language
 ════════════════════════════════════ -->
 
-<!-- TESTERVERTRAG -->
-<div class="modal-overlay" id="modalVertrag">
-  <div class="modal-box">
-    <div class="modal-header">
-      <div class="modal-title">Testervertrag</div>
-      <button class="modal-close" onclick="closeModal('modalVertrag')">✕</button>
-    </div>
-    <div class="modal-body">
-      <h3>§ 1 Vertragsgegenstand</h3>
-      <p>Die Zafao GmbH (nachfolgend „EQUINAT" oder „Anbieter"), Adolfsallee 22, 65185 Wiesbaden, HRB 33239 AG Wiesbaden, Geschäftsführerin: Lea Zahlmann, gewährt dem Tester (nachfolgend „Tester") im Rahmen dieser Vereinbarung einen <strong>kostenlosen, zeitlich begrenzten Beta-Zugang</strong> zum EQUINAT PferdeBot® (nachfolgend „System") zum Zweck der Evaluation und Qualitätssicherung vor dem öffentlichen Marktstart.</p>
-
-      <h3>§ 2 Laufzeit und Kündigung</h3>
-      <p>Die Testphase beginnt mit der individuellen Freischaltung durch EQUINAT und endet mit dem öffentlichen Marktstart oder der schriftlichen Beendigung durch eine der Parteien, spätestens jedoch nach <strong>90 Tagen</strong>. Beide Parteien können jederzeit und ohne Angabe von Gründen schriftlich (per E-Mail) kündigen. Eine Kündigung entbindet nicht von bis dahin entstandenen Vertraulichkeitspflichten.</p>
-
-      <h3>§ 3 Pflichten des Testers</h3>
-      <ul>
-        <li>Nutzung des Systems <strong>in gutem Glauben</strong> und nur zu Testzwecken</li>
-        <li>Bereitstellung von <strong>ehrlichem, konstruktivem Feedback</strong> (mindestens 2 schriftliche Rückmeldungen während der Testphase)</li>
-        <li>Meldung von Fehlern, Unstimmigkeiten oder Verbesserungsvorschlägen direkt an EQUINAT</li>
-        <li>Nutzung ausschließlich für das eigene Pferd / den eigenen Stall — keine Weitergabe von Zugangsdaten</li>
-        <li>Information von EQUINAT, falls der Bot-Zugang nicht mehr benötigt wird</li>
-      </ul>
-
-      <h3>§ 4 Vertraulichkeit (NDA)</h3>
-      <p>Der Tester verpflichtet sich, <strong>alle nicht öffentlichen Informationen</strong> über das System, seine technische Funktionsweise, die Preisstrategie, das Affiliate-Modell und alle internen Abläufe von EQUINAT vertraulich zu behandeln. Diese Pflicht umfasst insbesondere:</p>
-      <ul>
-        <li>Keine öffentliche Berichterstattung über Fehler oder Schwächen des Systems ohne vorherige Genehmigung</li>
-        <li>Keine Weitergabe von Screenshots, Gesprächsverläufen oder internen Dokumenten</li>
-        <li>Keine Nachahmung oder Nutzung der System-Logik für eigene Zwecke</li>
-      </ul>
-      <p>Ausnahme: Öffentliche Empfehlung oder Rezension des Systems in positivem Kontext ist ausdrücklich erwünscht und genehmigt.</p>
-
-      <h3>§ 5 Haftungsausschluss</h3>
-      <p>Der EQUINAT PferdeBot® befindet sich in der Beta-Phase. EQUINAT übernimmt keine Gewähr für Vollständigkeit, Richtigkeit oder Verfügbarkeit der KI-Antworten. <strong>KI-Empfehlungen ersetzen keine tierärztliche Diagnose oder Behandlung.</strong> EQUINAT haftet nicht für Schäden, die durch Handlungen auf Basis von Bot-Empfehlungen entstehen.</p>
-
-      <h3>§ 6 Affiliate-Programm</h3>
-      <p>Nach Abschluss der Testphase erhält jeder Tester die Option, dem EQUINAT Affiliate-Programm beizutreten. Die genauen Konditionen werden separat mitgeteilt. Eine Verpflichtung zur Teilnahme besteht nicht. Die Teilnahme am Affiliate-Programm begründet kein Arbeitsverhältnis.</p>
-
-      <h3>§ 7 Geistiges Eigentum</h3>
-      <p>Alle Rechte am System, der Marke EQUINAT®, dem Bot und allen zugehörigen Materialien verbleiben bei der Zafao GmbH. Der Tester erhält ausschließlich ein nicht übertragbares, nicht ausschließliches Nutzungsrecht für die Dauer der Testphase.</p>
-
-      <h3>§ 8 Anwendbares Recht</h3>
-      <p>Es gilt deutsches Recht. Gerichtsstand ist Wiesbaden, sofern der Tester Kaufmann ist.</p>
-
-      <h3>§ 9 Salvatorische Klausel</h3>
-      <p>Sollte eine Bestimmung dieses Vertrags unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.</p>
-    </div>
-    <button class="modal-accept" onclick="acceptVertrag()">✓ Testervertrag verstanden und akzeptiert</button>
-  </div>
-</div>
-
-<!-- DATENSCHUTZ -->
-<div class="modal-overlay" id="modalDsgvo">
-  <div class="modal-box">
-    <div class="modal-header">
-      <div class="modal-title">Datenschutzerklärung</div>
-      <button class="modal-close" onclick="closeModal('modalDsgvo')">✕</button>
-    </div>
-    <div class="modal-body">
-      <h3>1. Verantwortlicher</h3>
-      <p><strong>Zafao GmbH</strong>, Adolfsallee 22, 65185 Wiesbaden<br/>
-      E-Mail: info@zafao.world · HRB 33239 · Geschäftsführerin: Lea Zahlmann</p>
-
-      <h3>2. Erhobene Daten</h3>
-      <p>Im Rahmen der Tester-Anmeldung erheben wir folgende personenbezogene Daten:</p>
-      <ul>
-        <li>Vor- und Nachname</li>
-        <li>E-Mail-Adresse</li>
-        <li>Instagram-Handle (optional)</li>
-        <li>Telefonnummer (optional)</li>
-        <li>Anzahl der Pferde und Pflegebudget</li>
-        <li>Freitextangaben zu Herausforderungen und Motivation</li>
-      </ul>
-      <p>Im Rahmen der Bot-Nutzung werden zusätzlich erhoben:</p>
-      <ul>
-        <li>Pseudonyme Nutzer-ID (keine Rückführung auf Person möglich)</li>
-        <li>Gestellte Fragen und KI-Antworten (zur Qualitätssicherung)</li>
-        <li>Zeitstempel und Token-Verbrauch</li>
-      </ul>
-
-      <h3>3. Zweck der Verarbeitung</h3>
-      <ul>
-        <li>Prüfung und Verwaltung der Tester-Bewerbung</li>
-        <li>Kommunikation im Rahmen der Testphase (inkl. Telegram-Tester-Gruppe bei Einwilligung)</li>
-        <li>Qualitätssicherung und Produktentwicklung</li>
-        <li>Optionale Newsletter-Kommunikation (nur bei Einwilligung)</li>
-        <li>Optionale Affiliate-Programmkommunikation (nur bei Einwilligung)</li>
-      </ul>
-
-      <h3>4. Rechtsgrundlage</h3>
-      <p>Art. 6 Abs. 1 lit. a DSGVO (Einwilligung) für optionale Felder; Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) für Pflichtfelder.</p>
-
-      <h3>5. Speicherdauer</h3>
-      <p>Daten werden nach Ende der Testphase und Ablauf gesetzlicher Aufbewahrungsfristen (max. 3 Jahre) gelöscht. Chat-Protokolle werden nach 12 Monaten automatisch gelöscht.</p>
-
-      <h3>6. Dienstleister / Auftragsverarbeiter</h3>
-      <ul>
-        <li><strong>Netlify Inc.</strong> (Hosting, Formular-Eingabe) — Standardvertragsklauseln Art. 46 DSGVO</li>
-        <li><strong>Anthropic PBC</strong> (KI-Verarbeitung) — Daten werden nicht für Modelltraining verwendet</li>
-        <li><strong>Telegram FZ-LLC</strong> (Tester-Gruppen-Kommunikation, nur bei freiwilligem Beitritt)</li>
-      </ul>
-
-      <h3>7. Deine Rechte</h3>
-      <p>Du hast das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung (Art. 18) und Widerspruch (Art. 21) sowie das Recht auf Datenübertragbarkeit (Art. 20). Kontakt: info@zafao.world</p>
-
-      <h3>8. Beschwerderecht</h3>
-      <p>Zuständige Aufsichtsbehörde: Der Hessische Beauftragte für Datenschutz und Informationsfreiheit (HBDI), Wiesbaden.</p>
-    </div>
-    <button class="modal-accept" onclick="acceptDsgvo()">✓ Datenschutzerklärung verstanden</button>
-  </div>
-</div>
-
-<!-- AFFILIATE INFO -->
-<div class="modal-overlay" id="modalAffiliate">
-  <div class="modal-box">
-    <div class="modal-header">
-      <div class="modal-title">Affiliate-Programm</div>
-      <button class="modal-close" onclick="closeModal('modalAffiliate')">✕</button>
-    </div>
-    <div class="modal-body">
-      <h3>Grundkonzept</h3>
-      <p>Das EQUINAT Affiliate-Programm startet nach Abschluss der Beta-Testphase. Als Beta-Tester hast du Erstzugang — noch vor dem öffentlichen Rollout.</p>
-
-      <h3>Provisionsmodell</h3>
-      <ul>
-        <li><strong>Bot-Abo (€9,90/Mo):</strong> 30–35% Lifetime-Provision je Tier — solange der Kunde zahlt</li>
-        <li><strong>Produktbestellungen:</strong> 15% auf alle Bestellungen in den ersten 12 Monaten</li>
-        <li><strong>Cookie-Dauer:</strong> 60 Tage</li>
-        <li><strong>Auszahlung:</strong> Monatlich zum 15., SEPA, ab €50 Mindestbetrag</li>
-      </ul>
-
-      <h3>Tier-System</h3>
-      <ul>
-        <li>🐴 <strong>Foal</strong> (1–10 Kunden): Basisprovision</li>
-        <li>🏇 <strong>Trotter</strong> (11–50): +1% Bonus, Zoom-Briefings</li>
-        <li>⚡ <strong>Galloper</strong> (51–200): +3% Bonus, eigene Landingpage</li>
-        <li>★ <strong>Stallion/Mare</strong> (201+): +5% Bonus, Profit-Share, Co-Creator</li>
-      </ul>
-
-      <h3>Wichtige Hinweise</h3>
-      <ul>
-        <li>Das Affiliate-Programm begründet kein Arbeitsverhältnis</li>
-        <li>Affiliates sind steuerlich selbst verantwortlich</li>
-        <li>Self-Referral (eigene Bestellungen) ist ausgeschlossen</li>
-        <li>Widerrufsfrist: 14 Tage — Provisionen werden erst danach gutgeschrieben</li>
-      </ul>
-
-      <p>Die vollständigen Affiliate-AGB werden bei Programmstart mitgeteilt.</p>
-    </div>
-    <button class="modal-accept" onclick="closeModal('modalAffiliate')">Verstanden — ich bin dabei!</button>
-  </div>
-</div>
-
-<!-- KI TRANSPARENZ -->
-<div class="modal-overlay" id="modalKi">
-  <div class="modal-box">
-    <div class="modal-header">
-      <div class="modal-title">KI-Transparenz & Hinweis</div>
-      <button class="modal-close" onclick="closeModal('modalKi')">✕</button>
-    </div>
-    <div class="modal-body">
-      <h3>Was ist der EQUINAT PferdeBot®?</h3>
-      <p>Der PferdeBot® ist ein KI-gestütztes Assistenzsystem, das auf großen Sprachmodellen (Large Language Models, LLMs) von Anthropic basiert. Er beantwortet Fragen zu Pferdehaltung, Fütterung, Gesundheitsmanagement und Stallorganisation.</p>
-
-      <h3>EU AI Act — Transparenzpflicht</h3>
-      <p>Gemäß Artikel 50 des EU AI Acts (Verordnung 2024/1689) weisen wir ausdrücklich darauf hin: <strong>Diese Anwendung setzt Künstliche Intelligenz ein.</strong> Der Nutzer interagiert mit einem automatisierten System, nicht mit einem menschlichen Experten.</p>
-
-      <h3>Was der Bot kann</h3>
-      <ul>
-        <li>Allgemeine Informationen zu Pferdepflege und -ernährung</li>
-        <li>Orientierung bei häufigen Symptomen und Verhaltensauffälligkeiten</li>
-        <li>Empfehlungen zu EQUINAT-Produkten basierend auf Nutzereingaben</li>
-        <li>Hilfe bei Stallmanagement und Routinenplanung</li>
-      </ul>
-
-      <h3>Was der Bot NICHT kann</h3>
-      <ul>
-        <li>Tierärztliche Diagnosen stellen</li>
-        <li>Medikamente verschreiben oder empfehlen</li>
-        <li>Notfälle einschätzen oder behandeln</li>
-        <li>Rechtssichere Beratung geben</li>
-      </ul>
-
-      <p><strong>Bei gesundheitlichen Problemen deines Pferdes wende dich immer an einen zugelassenen Tierarzt.</strong></p>
-    </div>
-    <button class="modal-accept" onclick="closeModal('modalKi')">Verstanden</button>
-  </div>
-</div>
-
-<!-- IMPRESSUM -->
-<div class="modal-overlay" id="modalImpressum">
-  <div class="modal-box">
-    <div class="modal-header">
-      <div class="modal-title">Impressum</div>
-      <button class="modal-close" onclick="closeModal('modalImpressum')">✕</button>
-    </div>
-    <div class="modal-body">
-      <h3>Angaben gemäß § 5 TMG</h3>
-      <p><strong>Zafao GmbH</strong><br/>Adolfsallee 22<br/>65185 Wiesbaden<br/>Deutschland</p>
-      <h3>Handelsregister</h3>
-      <p>Amtsgericht Wiesbaden · HRB 33239</p>
-      <h3>Geschäftsführerin</h3>
-      <p>Lea Zahlmann</p>
-      <h3>Kontakt</h3>
-      <p>E-Mail: info@zafao.world<br/>Web: equinat.de</p>
-      <h3>Haftungsausschluss</h3>
-      <p>Alle Inhalte des EQUINAT PferdeBot® dienen ausschließlich allgemeinen Informationszwecken und ersetzen keine tierärztliche Diagnose oder Behandlung. Bei gesundheitlichen Problemen wenden Sie sich an einen zugelassenen Tierarzt.</p>
-      <h3>Urheberrecht</h3>
-      <p>Die durch die Zafao GmbH erstellten Inhalte unterliegen dem deutschen Urheberrecht. Vervielfältigung und Verbreitung bedürfen der schriftlichen Genehmigung.</p>
-    </div>
-    <button class="modal-accept" onclick="closeModal('modalImpressum')">Schließen</button>
-  </div>
-</div>
+<div class="modal-overlay" id="modalVertrag"><div class="modal-box" id="modalVertragBox"></div></div>
+<div class="modal-overlay" id="modalDsgvo"><div class="modal-box" id="modalDsgvoBox"></div></div>
+<div class="modal-overlay" id="modalAffiliate"><div class="modal-box" id="modalAffiliateBox"></div></div>
+<div class="modal-overlay" id="modalKi"><div class="modal-box" id="modalKiBox"></div></div>
+<div class="modal-overlay" id="modalImpressum"><div class="modal-box" id="modalImpressumBox"></div></div>
 
 <script>
-// ── MODAL FUNCTIONS ──
-function openModal(id){
-  document.getElementById(id).classList.add('active');
-  document.body.style.overflow='hidden';
-}
-function closeModal(id){
-  document.getElementById(id).classList.remove('active');
-  document.body.style.overflow='';
-}
-// Close on backdrop click
-document.querySelectorAll('.modal-overlay').forEach(m=>{
-  m.addEventListener('click',e=>{ if(e.target===m) closeModal(m.id); });
-});
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelectorAll('.modal-overlay.active').forEach(m=>closeModal(m.id)); });
+// ═══════════════════════════════════════════════
+// I18N DICTIONARY
+// ═══════════════════════════════════════════════
+var I18N = {
+  de: {
+    pageTitle:'EQUINAT COMPLETE® — Tester-Bewerbung',
+    logoTag:'PferdeBot® Beta-Testphase',
+    heroBadge:'✦ Beta-Testphase — Exklusiv & Kostenlos',
+    heroTitle1:'Werde Teil der Familie.',
+    heroTitle2:'Gestalte mit.',
+    heroSub:'30 ausgewählte Pferdemenschen erhalten kostenlosen Zugang zum EQUINAT PferdeBot® — dem ersten KI-Pflegesystem seiner Art. Dein Feedback formt das Produkt.',
+    statSlots:'Tester-Plätze',
+    statPrice:'Testphase',
+    statAccess:'KI-Zugang',
+    heroCta:'Jetzt bewerben',
+    scrollHint:'Mehr erfahren',
+    stepsLabel:'Der Ablauf',
+    stepsTitle1:'Wie die Testphase',
+    stepsTitle2:'funktioniert',
+    step1Title:'Bewerbung einreichen',
+    step1Desc:'Fülle das Formular aus. Wir screenen persönlich — nur echte Pferdemenschen kommen rein. Noch <strong>30 Plätze</strong> verfügbar.',
+    step2Title:'Persönliche Freischaltung',
+    step2Desc:'Du erhältst eine individuelle Einladung per E-Mail. Plus Zugang zu unserer <em>exklusiven Tester-Gruppe auf Telegram</em> 📱 — wo wir den Bot gemeinsam mit euch weiterentwickeln.',
+    step3Title:'Bot testen & Feedback geben',
+    step3Desc:'Während der Testphase ist der PferdeBot® für dich <strong>komplett kostenlos</strong> — kein Abo, keine Kreditkarte. Teile dein ehrliches Feedback per Formular, Telegram oder Video.',
+    step4Title:'Nach der Testphase',
+    step4Desc:'Du entscheidest frei: kostenpflichtig weiternutzen (€9,90/Mo · €89/Jahr), <em>EQUINAT-Abo starten</em> (Bot bleibt dann kostenlos inklusive) — oder einfach aufhören. Kein Vertrag.',
+    featuresLabel:'Was der Bot weiß',
+    featuresTitle1:'Dein',
+    featuresTitle2:'digitaler Stallexperte',
+    featuresSub:'Validiert durch Equine Internisten (ECEIM), Tierernährungswissenschaftler und Reitsportprofis — mit Studienreferenzen, Dosierungen und praxisnahen Empfehlungen.',
+    feat1Name:'Gesundheit & Krankheiten',
+    feat1Desc:'EMS, Cushing, RAO, Arthrose, Hufrehe, Lahmheit — mit Studienreferenzen und Dosierungen.',
+    feat2Name:'Fütterung & Supplemente',
+    feat2Desc:'Rationsplanung, Heu-Bedarf, NSC-Werte, Ergänzungsmittel — exakt und wissenschaftlich.',
+    feat3Name:'Stall & Haltung',
+    feat3Desc:'Einstreu, Lüftung, Boxenmaße, Offenstall, Weidemanagement — alles aus einer Quelle.',
+    feat4Name:'Training & Sport',
+    feat4Desc:'Trainingsaufbau, Regeneration, Muskelaufbau, Turniervorbereitung — evidenzbasiert.',
+    feat5Name:'Vorsorge & Impfungen',
+    feat5Desc:'Impfplan, selektive Entwurmung, Zahnpflege — aktuell und leitliniengerecht.',
+    feat6Name:'Gelenke & Bewegung',
+    feat6Desc:'MSM, Teufelskralle, Kurkuma Meriva, Boswellia — Wirkung, Dosierung, Studienlage.',
+    prodTitle1:'Das',
+    prodTitle2:'All-in-One System',
+    prodSub:'Premium Pferdefutter mit tierärztlich validierten Wirkstoffen — vier spezialisierte Linien, die das Chaos von Einzelfuttern und Zusätzen in einem System bündeln.',
+    prod1Label:'Basis für alle',
+    prod1Tag:'Vollständige Mineralstoffversorgung, Probiotika und Omega-3 — täglich für jedes Pferd.',
+    prod1Ing1:'Vollmineralversorgung',
+    prod1Ing2:'Probiotika & Prebiotika',
+    prod1Ing3:'Omega-3 (Leinöl)',
+    prod1Ing4:'Biotin · Zink · Selen',
+    prod1For:'Für: alle Pferde · Vitalität · glänzendes Fell',
+    prod2Label:'Gelenke & Bewegung',
+    prod2Tag:'Die stärkste natürliche Gelenkformel — wissenschaftlich belegt.',
+    prod2Ing1:'MSM in therapeut. Dosis',
+    prod2Ing2:'Teufelskralle (COX-2)',
+    prod2Ing3:'Kurkuma Meriva® (29× bio)',
+    prod2Ing4:'Boswellia · Hagebutte (GOPO)',
+    prod2For:'Für: Arthrose · Lahmheit · Sport · Senior',
+    prod3Label:'Atemwege & Allergie',
+    prod3Tag:'Natürliche Atemwegsunterstützung bei RAO, Husten und Stauballergie.',
+    prod3Ing1:'Quercetin (anti-allergisch)',
+    prod3Ing2:'N-Acetylcystein (NAC)',
+    prod3Ing3:'Schwarzkümmel-Öl',
+    prod3Ing4:'Bromelain · Vitamin C',
+    prod3For:'Für: RAO · Husten · Stallallergie',
+    prod4Label:'Stoffwechsel & EMS',
+    prod4Tag:'Für stoffwechselempfindliche Pferde und Ponys — NSC-arm, getreidefrei.',
+    prod4Ing1:'Chromhefe (Insulin)',
+    prod4Ing2:'Magnesium',
+    prod4Ing3:'Mariendistel · Brennnessel',
+    prod4Ing4:'Zimtrinde · Vitamin E',
+    prod4For:'Für: EMS · Cushing · Hufrehe · Ponys',
+    prodFoot:'Tierärztlich validiert · Wissenschaftlich belegt',
+    affBadge:'✦ Exklusiv für Beta-Tester',
+    affTitle1:'Nach der Testphase:',
+    affTitle2:'Verdiene mit uns.',
+    affDesc1:'Als Beta-Tester hast du die einmalige Chance, als erster Affiliate-Partner mit EQUINAT zu wachsen. Empfiehl das System, das du selbst getestet hast — und verdiene eine Lifetime-Provision.',
+    affDesc2:'Differenzierte Provision je nach Bestelltyp: <strong style="color:var(--gold2)">bis zu 15% für 12 Monate</strong> auf Einmalkäufe, <strong style="color:var(--gold2)">bis zu 10% Lifetime</strong> auf Subscription-Bestellungen, <strong style="color:var(--gold2)">bis zu 30% degressiv</strong> auf Bot-only-Abos (30% Jahr 1, 20% Jahr 2-3). Mit jedem Tier steigen die Provisionen weiter. <em style="color:var(--cream3);font-size:0.95em;">Finale Konditionen werden bei Programmstart mitgeteilt.</em>',
+    tier1Name:'🐴 Foal — Einsteiger',
+    tier1Sub:'1–10 vermittelte Kunden · Basis-Provision',
+    tier2Name:'🏇 Trotter — Aktiver',
+    tier2Sub:'11–50 Kunden · +1% Bonus',
+    tier3Name:'⚡ Galloper — Partner',
+    tier3Sub:'51–200 Kunden · +3% Bonus',
+    tier4Name:'★ Stallion / Mare',
+    tier4Sub:'201+ Kunden · +5% + Profit-Share',
+    formLabel:'Tester-Bewerbung',
+    formTitle:'Deine Bewerbung',
+    formSub:'Alle mit <span style="color:var(--gold)">✦</span> markierten Felder sind Pflichtfelder. Wir melden uns innerhalb von 48 Stunden persönlich bei dir.',
+    lblFirstname:'Vorname <span>✦</span>',
+    phFirstname:'Dein Vorname',
+    lblLastname:'Nachname <span>✦</span>',
+    phLastname:'Dein Nachname',
+    lblEmail:'E-Mail-Adresse <span>✦</span>',
+    phEmail:'deine@email.de',
+    lblInstagram:'Instagram-Handle',
+    phInstagram:'@deinname',
+    lblPhone:'Telefon (optional)',
+    lblHorses:'Anzahl Pferde <span>✦</span>',
+    optChoose:'Bitte wählen',
+    opt1Horse:'1 Pferd',
+    opt2Horses:'2 Pferde',
+    opt35Horses:'3–5 Pferde',
+    opt6Horses:'6+ Pferde',
+    lblBudget:'Monatl. Pflegebudget <span>✦</span>',
+    optBudget1:'Unter €100',
+    optBudget2:'€100 – €250',
+    optBudget3:'€250 – €500',
+    optBudget4:'Über €500',
+    lblChallenge:'Deine größte Herausforderung <span>✦</span>',
+    phChallenge:'Was beschäftigt dich bei der Pferdepflege am meisten? Fütterung, Gesundheit, Stallmanagement…',
+    lblMotivation:'Warum möchtest du Tester werden?',
+    phMotivation:'Optional: Was interessiert dich am EQUINAT PferdeBot®?',
+    legalTitle:'Rechtliche Bestätigungen',
+    checkDsgvo1:'Ich habe die',
+    checkDsgvoLink:'Datenschutzerklärung',
+    checkDsgvo2:'gelesen und stimme der Verarbeitung meiner Daten zum Zweck der Tester-Verwaltung und -Kommunikation zu.',
+    checkVertrag1:'Ich habe den',
+    checkVertragLink:'Testervertrag',
+    checkVertrag2:'vollständig gelesen und erkenne ihn als rechtlich bindend an. Insbesondere akzeptiere ich die Vertraulichkeitspflicht und die Feedback-Verpflichtung.',
+    checkKi:'Ich verstehe, dass der EQUINAT PferdeBot® auf Künstlicher Intelligenz basiert und tierärztliche Beratung <strong>nicht ersetzen</strong> kann. KI-Antworten stellen keine medizinische Diagnose dar.',
+    checkAff1:'Ich möchte nach Abschluss der Testphase über das',
+    checkAffLink:'Affiliate-Programm',
+    checkAff2:'informiert werden und habe die Grundbedingungen zur Kenntnis genommen.',
+    checkNl:'Ich willige ein, gelegentliche E-Mails zu Produktneuheiten, dem Affiliate-Programm und Tester-Updates von EQUINAT / Zafao GmbH zu erhalten. Abmeldung jederzeit möglich.',
+    checkRequired:' (Pflichtfeld)',
+    checkOptional:'(optional)',
+    submitBtn:'✦ Jetzt als Tester bewerben ✦',
+    submitting:'Wird eingereicht …',
+    formNote:'Deine Bewerbung wird persönlich geprüft. Wir melden uns innerhalb von 48 Stunden.<br/>Kein automatischer Zugang · Zafao GmbH · Wiesbaden',
+    successTitle:'Bewerbung eingegangen!',
+    successText:'Vielen Dank! Wir haben deine Bewerbung erhalten und prüfen sie persönlich.<br/><br/>Du erhältst innerhalb von <strong>48 Stunden</strong> eine Antwort per E-Mail.<br/><br/>Folge uns auf Instagram <strong>@equinat.complete</strong> — damit verpasst du garantiert nichts. 🌿',
+    footImpressum:'Impressum',
+    footDatenschutz:'Datenschutz',
+    footKi:'KI-Transparenz',
+    footKontakt:'Kontakt',
+    footCopy:'© 2026 Zafao GmbH · Adolfsallee 22 · 65185 Wiesbaden · EQUINAT® ist eine angemeldete Marke der Zafao GmbH',
+    alertRequired:'Bitte alle Pflichtfelder und rechtlichen Bestätigungen ausfüllen.',
+    modalAccept:'Verstanden',
+    modalClose:'Schließen'
+  },
+  en: {
+    pageTitle:'EQUINAT COMPLETE® — Tester Application',
+    logoTag:'PferdeBot® Beta Phase',
+    heroBadge:'✦ Beta Phase — Exclusive & Free',
+    heroTitle1:'Become part of the family.',
+    heroTitle2:'Help shape it.',
+    heroSub:'30 selected horse people get free access to the EQUINAT PferdeBot® — the first AI care system of its kind. Your feedback shapes the product.',
+    statSlots:'Tester slots',
+    statPrice:'Test phase',
+    statAccess:'AI access',
+    heroCta:'Apply now',
+    scrollHint:'Learn more',
+    stepsLabel:'The process',
+    stepsTitle1:'How the test phase',
+    stepsTitle2:'works',
+    step1Title:'Submit application',
+    step1Desc:'Fill out the form. We personally screen — only real horse people get in. Still <strong>30 slots</strong> available.',
+    step2Title:'Personal activation',
+    step2Desc:'You receive an individual invitation by email. Plus access to our <em>exclusive tester group on Telegram</em> 📱 — where we develop the bot together with you.',
+    step3Title:'Test bot & give feedback',
+    step3Desc:'During the test phase, the PferdeBot® is <strong>completely free</strong> for you — no subscription, no credit card. Share your honest feedback via form, Telegram or video.',
+    step4Title:'After the test phase',
+    step4Desc:'You decide freely: continue paid (€9.90/mo · €89/year), <em>start an EQUINAT subscription</em> (bot stays free included) — or simply stop. No contract.',
+    featuresLabel:'What the bot knows',
+    featuresTitle1:'Your',
+    featuresTitle2:'digital stable expert',
+    featuresSub:'Validated by equine internists (ECEIM), animal nutritionists and equestrian sports professionals — with study references, dosages and practical recommendations.',
+    feat1Name:'Health & diseases',
+    feat1Desc:'EMS, Cushing, RAO, arthritis, laminitis, lameness — with study references and dosages.',
+    feat2Name:'Feeding & supplements',
+    feat2Desc:'Ration planning, hay requirements, NSC values, supplements — exact and scientific.',
+    feat3Name:'Stable & housing',
+    feat3Desc:'Bedding, ventilation, box dimensions, open stables, pasture management — all from one source.',
+    feat4Name:'Training & sport',
+    feat4Desc:'Training programs, regeneration, muscle building, show preparation — evidence-based.',
+    feat5Name:'Prevention & vaccinations',
+    feat5Desc:'Vaccination plan, selective deworming, dental care — current and guideline-compliant.',
+    feat6Name:'Joints & mobility',
+    feat6Desc:'MSM, devil\u2019s claw, Meriva curcumin, boswellia — effects, dosage, study landscape.',
+    prodTitle1:'The',
+    prodTitle2:'All-in-One System',
+    prodSub:'Premium horse feed with veterinary-validated ingredients — four specialized lines that bundle the chaos of single feeds and supplements into one system.',
+    prod1Label:'Basis for all',
+    prod1Tag:'Complete mineral supply, probiotics and omega-3 — daily for every horse.',
+    prod1Ing1:'Complete mineral supply',
+    prod1Ing2:'Probiotics & prebiotics',
+    prod1Ing3:'Omega-3 (linseed oil)',
+    prod1Ing4:'Biotin · zinc · selenium',
+    prod1For:'For: all horses · vitality · shiny coat',
+    prod2Label:'Joints & mobility',
+    prod2Tag:'The strongest natural joint formula — scientifically proven.',
+    prod2Ing1:'MSM in therapeutic dose',
+    prod2Ing2:'Devil\u2019s claw (COX-2)',
+    prod2Ing3:'Meriva® curcumin (29× bio)',
+    prod2Ing4:'Boswellia · rosehip (GOPO)',
+    prod2For:'For: arthritis · lameness · sport · senior',
+    prod3Label:'Airways & allergy',
+    prod3Tag:'Natural airway support for RAO, cough and dust allergy.',
+    prod3Ing1:'Quercetin (anti-allergic)',
+    prod3Ing2:'N-acetylcysteine (NAC)',
+    prod3Ing3:'Black cumin oil',
+    prod3Ing4:'Bromelain · vitamin C',
+    prod3For:'For: RAO · cough · stable allergy',
+    prod4Label:'Metabolism & EMS',
+    prod4Tag:'For metabolism-sensitive horses and ponies — low NSC, grain-free.',
+    prod4Ing1:'Chromium yeast (insulin)',
+    prod4Ing2:'Magnesium',
+    prod4Ing3:'Milk thistle · nettle',
+    prod4Ing4:'Cinnamon bark · vitamin E',
+    prod4For:'For: EMS · Cushing · laminitis · ponies',
+    prodFoot:'Veterinary validated · Scientifically proven',
+    affBadge:'✦ Exclusive for beta testers',
+    affTitle1:'After the test phase:',
+    affTitle2:'Earn with us.',
+    affDesc1:'As a beta tester, you have the unique opportunity to grow as one of the first affiliate partners with EQUINAT. Recommend the system you tested yourself — and earn a lifetime commission.',
+    affDesc2:'Differentiated commission by order type: <strong style="color:var(--gold2)">up to 15% for 12 months</strong> on one-time purchases, <strong style="color:var(--gold2)">up to 10% lifetime</strong> on subscription orders, <strong style="color:var(--gold2)">up to 30% degressive</strong> on bot-only subscriptions (30% year 1, 20% years 2-3). With each tier, commissions rise further. <em style="color:var(--cream3);font-size:0.95em;">Final terms will be communicated at program start.</em>',
+    tier1Name:'🐴 Foal — Beginner',
+    tier1Sub:'1–10 referred customers · Base commission',
+    tier2Name:'🏇 Trotter — Active',
+    tier2Sub:'11–50 customers · +1% bonus',
+    tier3Name:'⚡ Galloper — Partner',
+    tier3Sub:'51–200 customers · +3% bonus',
+    tier4Name:'★ Stallion / Mare',
+    tier4Sub:'201+ customers · +5% + profit-share',
+    formLabel:'Tester application',
+    formTitle:'Your application',
+    formSub:'All fields marked with <span style="color:var(--gold)">✦</span> are required. We will personally get back to you within 48 hours.',
+    lblFirstname:'First name <span>✦</span>',
+    phFirstname:'Your first name',
+    lblLastname:'Last name <span>✦</span>',
+    phLastname:'Your last name',
+    lblEmail:'Email address <span>✦</span>',
+    phEmail:'your@email.com',
+    lblInstagram:'Instagram handle',
+    phInstagram:'@yourname',
+    lblPhone:'Phone (optional)',
+    lblHorses:'Number of horses <span>✦</span>',
+    optChoose:'Please select',
+    opt1Horse:'1 horse',
+    opt2Horses:'2 horses',
+    opt35Horses:'3–5 horses',
+    opt6Horses:'6+ horses',
+    lblBudget:'Monthly care budget <span>✦</span>',
+    optBudget1:'Under €100',
+    optBudget2:'€100 – €250',
+    optBudget3:'€250 – €500',
+    optBudget4:'Over €500',
+    lblChallenge:'Your biggest challenge <span>✦</span>',
+    phChallenge:'What concerns you most about horse care? Feeding, health, stable management…',
+    lblMotivation:'Why do you want to become a tester?',
+    phMotivation:'Optional: What interests you about the EQUINAT PferdeBot®?',
+    legalTitle:'Legal confirmations',
+    checkDsgvo1:'I have read the',
+    checkDsgvoLink:'Privacy Policy',
+    checkDsgvo2:'and consent to the processing of my data for tester management and communication purposes.',
+    checkVertrag1:'I have read the',
+    checkVertragLink:'Tester Agreement',
+    checkVertrag2:'in full and accept it as legally binding. In particular, I accept the confidentiality and feedback obligations.',
+    checkKi:'I understand that the EQUINAT PferdeBot® is based on Artificial Intelligence and <strong>cannot replace</strong> veterinary advice. AI responses do not constitute a medical diagnosis.',
+    checkAff1:'I would like to be informed about the',
+    checkAffLink:'Affiliate Program',
+    checkAff2:'after the test phase and have taken note of the basic conditions.',
+    checkNl:'I consent to receiving occasional emails about product news, the affiliate program and tester updates from EQUINAT / Zafao GmbH. Unsubscribe anytime.',
+    checkRequired:' (required)',
+    checkOptional:'(optional)',
+    submitBtn:'✦ Apply as tester now ✦',
+    submitting:'Submitting …',
+    formNote:'Your application will be reviewed personally. We get back to you within 48 hours.<br/>No automatic access · Zafao GmbH · Wiesbaden',
+    successTitle:'Application received!',
+    successText:'Thank you! We have received your application and will review it personally.<br/><br/>You will receive a response by email within <strong>48 hours</strong>.<br/><br/>Follow us on Instagram <strong>@equinat.complete</strong> — so you don\u2019t miss anything. 🌿',
+    footImpressum:'Imprint',
+    footDatenschutz:'Privacy',
+    footKi:'AI Transparency',
+    footKontakt:'Contact',
+    footCopy:'© 2026 Zafao GmbH · Adolfsallee 22 · 65185 Wiesbaden · EQUINAT® is a registered trademark of Zafao GmbH',
+    alertRequired:'Please fill in all required fields and legal confirmations.',
+    modalAccept:'Understood',
+    modalClose:'Close'
+  }
+};
 
-// ── ACCEPT BUTTONS SET CHECKBOXES ──
-function acceptVertrag(){
-  document.getElementById('check_vertrag').checked=true;
-  closeModal('modalVertrag');
-}
-function acceptDsgvo(){
-  document.getElementById('check_dsgvo').checked=true;
-  closeModal('modalDsgvo');
+// ═══════════════════════════════════════════════
+// LANGUAGE STATE — synced with bot's localStorage
+// ═══════════════════════════════════════════════
+function getLang(){
+  // Try to read from bot's eq2_state first (synced experience)
+  try{
+    var raw=localStorage.getItem('eq2_state');
+    if(raw){
+      var s=JSON.parse(raw);
+      if(s&&s.lang&&(s.lang==='de'||s.lang==='en'))return s.lang;
+    }
+  }catch(e){}
+  // Fall back to own preference
+  try{
+    var own=localStorage.getItem('eq_signup_lang');
+    if(own&&(own==='de'||own==='en'))return own;
+  }catch(e){}
+  // Browser preference
+  var nav=(navigator.language||'de').toLowerCase();
+  if(nav.indexOf('en')===0)return 'en';
+  return 'de';
 }
 
-// ── FORM SUBMIT ──
+function setLang(lang){
+  // Save in both stores so it syncs with bot
+  try{
+    var raw=localStorage.getItem('eq2_state');
+    var s=raw?JSON.parse(raw):{};
+    s.lang=lang;
+    localStorage.setItem('eq2_state',JSON.stringify(s));
+  }catch(e){}
+  try{localStorage.setItem('eq_signup_lang',lang);}catch(e){}
+  applyLanguage(lang);
+}
+
+function applyLanguage(lang){
+  var dict=I18N[lang]||I18N.de;
+  // Update html lang attr
+  document.getElementById('htmlRoot').setAttribute('lang',lang);
+  // Update title
+  document.title=dict.pageTitle;
+  // Toggle buttons
+  document.querySelectorAll('.lang-toggle-fixed button').forEach(function(b){
+    b.classList.toggle('active',b.getAttribute('data-lang')===lang);
+  });
+  // Update all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key=el.getAttribute('data-i18n');
+    if(dict[key]!==undefined)el.innerHTML=dict[key];
+  });
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
+    var key=el.getAttribute('data-i18n-ph');
+    if(dict[key]!==undefined)el.setAttribute('placeholder',dict[key]);
+  });
+  // Re-render modals (in case any are open)
+  renderModals(lang);
+}
+
+// ═══════════════════════════════════════════════
+// MODAL CONTENT — generated based on language
+// ═══════════════════════════════════════════════
+function renderModals(lang){
+  if(lang==='en'){
+    document.getElementById('modalVertragBox').innerHTML=modalVertragEN();
+    document.getElementById('modalDsgvoBox').innerHTML=modalDsgvoEN();
+    document.getElementById('modalAffiliateBox').innerHTML=modalAffiliateEN();
+    document.getElementById('modalKiBox').innerHTML=modalKiEN();
+    document.getElementById('modalImpressumBox').innerHTML=modalImpressumEN();
+  }else{
+    document.getElementById('modalVertragBox').innerHTML=modalVertragDE();
+    document.getElementById('modalDsgvoBox').innerHTML=modalDsgvoDE();
+    document.getElementById('modalAffiliateBox').innerHTML=modalAffiliateDE();
+    document.getElementById('modalKiBox').innerHTML=modalKiDE();
+    document.getElementById('modalImpressumBox').innerHTML=modalImpressumDE();
+  }
+}
+
+// ── DE MODAL CONTENTS ──
+function modalVertragDE(){return ''+
+  '<div class="modal-header"><div class="modal-title">Testervertrag</div><button class="modal-close" onclick="closeModal(\'modalVertrag\')">✕</button></div>'+
+  '<div class="modal-body">'+
+    '<h3>§ 1 Vertragsgegenstand</h3>'+
+    '<p>Die Zafao GmbH (nachfolgend „EQUINAT" oder „Anbieter"), Adolfsallee 22, 65185 Wiesbaden, HRB 33239 AG Wiesbaden, Geschäftsführerin: Lea Zahlmann, gewährt dem Tester (nachfolgend „Tester") im Rahmen dieser Vereinbarung einen <strong>kostenlosen, zeitlich begrenzten Beta-Zugang</strong> zum EQUINAT PferdeBot® (nachfolgend „System") zum Zweck der Evaluation und Qualitätssicherung vor dem öffentlichen Marktstart.</p>'+
+    '<h3>§ 2 Laufzeit und Kündigung</h3>'+
+    '<p>Die Testphase beginnt mit der individuellen Freischaltung durch EQUINAT und endet mit dem öffentlichen Marktstart oder der schriftlichen Beendigung durch eine der Parteien, spätestens jedoch nach <strong>90 Tagen</strong>. Beide Parteien können jederzeit und ohne Angabe von Gründen schriftlich (per E-Mail) kündigen. Eine Kündigung entbindet nicht von bis dahin entstandenen Vertraulichkeitspflichten.</p>'+
+    '<h3>§ 3 Pflichten des Testers</h3>'+
+    '<ul>'+
+      '<li>Nutzung des Systems <strong>in gutem Glauben</strong> und nur zu Testzwecken</li>'+
+      '<li>Bereitstellung von <strong>ehrlichem, konstruktivem Feedback</strong> (mindestens 2 schriftliche Rückmeldungen während der Testphase)</li>'+
+      '<li>Meldung von Fehlern, Unstimmigkeiten oder Verbesserungsvorschlägen direkt an EQUINAT</li>'+
+      '<li>Nutzung ausschließlich für das eigene Pferd / den eigenen Stall — keine Weitergabe von Zugangsdaten</li>'+
+      '<li>Information von EQUINAT, falls der Bot-Zugang nicht mehr benötigt wird</li>'+
+    '</ul>'+
+    '<h3>§ 4 Vertraulichkeit (NDA)</h3>'+
+    '<p>Der Tester verpflichtet sich, <strong>alle nicht öffentlichen Informationen</strong> über das System, seine technische Funktionsweise, die Preisstrategie, das Affiliate-Modell und alle internen Abläufe von EQUINAT vertraulich zu behandeln.</p>'+
+    '<ul>'+
+      '<li>Keine öffentliche Berichterstattung über Fehler oder Schwächen des Systems ohne vorherige Genehmigung</li>'+
+      '<li>Keine Weitergabe von Screenshots, Gesprächsverläufen oder internen Dokumenten</li>'+
+      '<li>Keine Nachahmung oder Nutzung der System-Logik für eigene Zwecke</li>'+
+    '</ul>'+
+    '<p>Ausnahme: Öffentliche Empfehlung oder Rezension des Systems in positivem Kontext ist ausdrücklich erwünscht und genehmigt.</p>'+
+    '<h3>§ 5 Haftungsausschluss</h3>'+
+    '<p>Der EQUINAT PferdeBot® befindet sich in der Beta-Phase. EQUINAT übernimmt keine Gewähr für Vollständigkeit, Richtigkeit oder Verfügbarkeit der KI-Antworten. <strong>KI-Empfehlungen ersetzen keine tierärztliche Diagnose oder Behandlung.</strong> EQUINAT haftet nicht für Schäden, die durch Handlungen auf Basis von Bot-Empfehlungen entstehen.</p>'+
+    '<h3>§ 6 Affiliate-Programm</h3>'+
+    '<p>Nach Abschluss der Testphase erhält jeder Tester die Option, dem EQUINAT Affiliate-Programm beizutreten. Die genauen Konditionen werden separat mitgeteilt. Eine Verpflichtung zur Teilnahme besteht nicht. Die Teilnahme am Affiliate-Programm begründet kein Arbeitsverhältnis.</p>'+
+    '<h3>§ 7 Geistiges Eigentum</h3>'+
+    '<p>Alle Rechte am System, der Marke EQUINAT®, dem Bot und allen zugehörigen Materialien verbleiben bei der Zafao GmbH. Der Tester erhält ausschließlich ein nicht übertragbares, nicht ausschließliches Nutzungsrecht für die Dauer der Testphase.</p>'+
+    '<h3>§ 8 Anwendbares Recht</h3>'+
+    '<p>Es gilt deutsches Recht. Gerichtsstand ist Wiesbaden, sofern der Tester Kaufmann ist.</p>'+
+    '<h3>§ 9 Salvatorische Klausel</h3>'+
+    '<p>Sollte eine Bestimmung dieses Vertrags unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.</p>'+
+  '</div>'+
+  '<button class="modal-accept" onclick="acceptVertrag()">✓ Testervertrag verstanden und akzeptiert</button>';}
+
+function modalDsgvoDE(){return ''+
+  '<div class="modal-header"><div class="modal-title">Datenschutzerklärung</div><button class="modal-close" onclick="closeModal(\'modalDsgvo\')">✕</button></div>'+
+  '<div class="modal-body">'+
+    '<h3>1. Verantwortlicher</h3>'+
+    '<p><strong>Zafao GmbH</strong>, Adolfsallee 22, 65185 Wiesbaden<br/>E-Mail: info@zafao.world · HRB 33239 · Geschäftsführerin: Lea Zahlmann</p>'+
+    '<h3>2. Erhobene Daten</h3>'+
+    '<p>Im Rahmen der Tester-Anmeldung erheben wir folgende personenbezogene Daten:</p>'+
+    '<ul><li>Vor- und Nachname</li><li>E-Mail-Adresse</li><li>Instagram-Handle (optional)</li><li>Telefonnummer (optional)</li><li>Anzahl der Pferde und Pflegebudget</li><li>Freitextangaben zu Herausforderungen und Motivation</li></ul>'+
+    '<p>Im Rahmen der Bot-Nutzung werden zusätzlich erhoben:</p>'+
+    '<ul><li>Pseudonyme Nutzer-ID</li><li>Gestellte Fragen und KI-Antworten (zur Qualitätssicherung)</li><li>Zeitstempel und Token-Verbrauch</li></ul>'+
+    '<h3>3. Zweck der Verarbeitung</h3>'+
+    '<ul><li>Prüfung und Verwaltung der Tester-Bewerbung</li><li>Kommunikation im Rahmen der Testphase (inkl. Telegram-Tester-Gruppe bei Einwilligung)</li><li>Qualitätssicherung und Produktentwicklung</li><li>Optionale Newsletter-Kommunikation (nur bei Einwilligung)</li><li>Optionale Affiliate-Programmkommunikation (nur bei Einwilligung)</li></ul>'+
+    '<h3>4. Rechtsgrundlage</h3>'+
+    '<p>Art. 6 Abs. 1 lit. a DSGVO (Einwilligung) für optionale Felder; Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) für Pflichtfelder.</p>'+
+    '<h3>5. Speicherdauer</h3>'+
+    '<p>Daten werden nach Ende der Testphase und Ablauf gesetzlicher Aufbewahrungsfristen (max. 3 Jahre) gelöscht. Chat-Protokolle werden nach 12 Monaten automatisch gelöscht.</p>'+
+    '<h3>6. Dienstleister / Auftragsverarbeiter</h3>'+
+    '<ul><li><strong>Netlify Inc.</strong> (Hosting, Formular-Eingabe) — Standardvertragsklauseln Art. 46 DSGVO</li><li><strong>Anthropic PBC</strong> (KI-Verarbeitung) — Daten werden nicht für Modelltraining verwendet</li><li><strong>Telegram FZ-LLC</strong> (Tester-Gruppen-Kommunikation, nur bei freiwilligem Beitritt)</li></ul>'+
+    '<h3>7. Deine Rechte</h3>'+
+    '<p>Du hast das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung (Art. 18) und Widerspruch (Art. 21) sowie das Recht auf Datenübertragbarkeit (Art. 20). Kontakt: info@zafao.world</p>'+
+    '<h3>8. Beschwerderecht</h3>'+
+    '<p>Zuständige Aufsichtsbehörde: Der Hessische Beauftragte für Datenschutz und Informationsfreiheit (HBDI), Wiesbaden.</p>'+
+  '</div>'+
+  '<button class="modal-accept" onclick="acceptDsgvo()">✓ Datenschutzerklärung verstanden</button>';}
+
+function modalAffiliateDE(){return ''+
+  '<div class="modal-header"><div class="modal-title">Affiliate-Programm</div><button class="modal-close" onclick="closeModal(\'modalAffiliate\')">✕</button></div>'+
+  '<div class="modal-body">'+
+    '<p style="background:rgba(214,123,107,0.08);border-left:2px solid var(--red);padding:0.75rem 1rem;margin-bottom:1rem;"><strong>⚠ Indikativ:</strong> Alle nachfolgenden Konditionen sind <strong>v1.0-indikativ</strong>. Finale Provisionen, Tier-Schwellen und Bedingungen werden vor Programmstart final festgelegt und allen Affiliates schriftlich mitgeteilt.</p>'+
+    '<h3>Grundkonzept</h3>'+
+    '<p>Das EQUINAT Affiliate-Programm startet nach Abschluss der Beta-Testphase. Als Beta-Tester hast du Erstzugang — noch vor dem öffentlichen Rollout.</p>'+
+    '<h3>Provisionsmodell (indikativ, differenziert nach Bestelltyp)</h3>'+
+    '<ul>'+
+      '<li><strong>Einmalkauf:</strong> bis zu 15% Provision für 12 Monate je Bestellung</li>'+
+      '<li><strong>Subscription-Bestellung:</strong> bis zu 10% Lifetime — solange der Kunde zahlt</li>'+
+      '<li><strong>Bot-only-Subscription:</strong> bis zu 30% degressiv — 30% im 1. Jahr, 20% in Jahr 2 und 3, danach 0%</li>'+
+      '<li><strong>Conversion:</strong> Wechselt ein Bot-only-Kunde später zu einer Produkt-Subscription, endet die Bot-Provision und die Subscription-Provision (10% Lifetime) startet</li>'+
+      '<li><strong>Cookie-Dauer:</strong> 60 Tage (geplant)</li>'+
+      '<li><strong>Auszahlung:</strong> Monatlich zum 15., SEPA, ab €50 Mindestbetrag (geplant)</li>'+
+    '</ul>'+
+    '<p style="background:rgba(201,148,58,0.08);padding:0.75rem 1rem;border-left:2px solid var(--gold);margin-top:0.75rem;"><strong>Pitch:</strong> 10% Lifetime sind nach 7 Monaten besser als 15% einmalig — und nach 12 Monaten doppelt so hoch. Subscription-Empfehlung ist mathematisch der bessere Deal.</p>'+
+    '<p style="font-size:0.78rem;color:var(--cream3);margin-top:0.5rem;"><strong>Beispiel Bot-only (€89/Jahr):</strong> Jahr 1 = €26,70 (30%) · Jahr 2 = €17,80 (20%) · Jahr 3 = €17,80 (20%) · ab Jahr 4 = €0. Maximales Earnings-Potenzial: <strong>€62,30 pro Bot-Sale</strong>.</p>'+
+    '<h3>Tier-System (indikativ)</h3>'+
+    '<ul>'+
+      '<li>🐴 <strong>Foal</strong> (1–10 Kunden): Basis-Provision</li>'+
+      '<li>🏇 <strong>Trotter</strong> (11–50): +1% Bonus, Zoom-Briefings</li>'+
+      '<li>⚡ <strong>Galloper</strong> (51–200): +3% Bonus, eigene Landingpage</li>'+
+      '<li>★ <strong>Stallion/Mare</strong> (201+): +5% Bonus, Profit-Share, Co-Creator</li>'+
+    '</ul>'+
+    '<h3>Wichtige Hinweise</h3>'+
+    '<ul>'+
+      '<li>Das Affiliate-Programm begründet kein Arbeitsverhältnis</li>'+
+      '<li>Affiliates sind steuerlich selbst verantwortlich</li>'+
+      '<li>Self-Referral (eigene Bestellungen) ist ausgeschlossen</li>'+
+      '<li>Widerrufsfrist: 14 Tage — Provisionen werden erst danach gutgeschrieben</li>'+
+    '</ul>'+
+    '<p>Die vollständigen, finalen Affiliate-AGB werden bei Programmstart mitgeteilt. Bis dahin sind alle Angaben unverbindlich.</p>'+
+  '</div>'+
+  '<button class="modal-accept" onclick="closeModal(\'modalAffiliate\')">Verstanden — ich bin dabei!</button>';}
+
+function modalKiDE(){return ''+
+  '<div class="modal-header"><div class="modal-title">KI-Transparenz & Hinweis</div><button class="modal-close" onclick="closeModal(\'modalKi\')">✕</button></div>'+
+  '<div class="modal-body">'+
+    '<h3>Was ist der EQUINAT PferdeBot®?</h3>'+
+    '<p>Der PferdeBot® ist ein KI-gestütztes Assistenzsystem, das auf großen Sprachmodellen (Large Language Models, LLMs) von Anthropic basiert. Er beantwortet Fragen zu Pferdehaltung, Fütterung, Gesundheitsmanagement und Stallorganisation.</p>'+
+    '<h3>EU AI Act — Transparenzpflicht</h3>'+
+    '<p>Gemäß Artikel 50 des EU AI Acts (Verordnung 2024/1689) weisen wir ausdrücklich darauf hin: <strong>Diese Anwendung setzt Künstliche Intelligenz ein.</strong> Der Nutzer interagiert mit einem automatisierten System, nicht mit einem menschlichen Experten.</p>'+
+    '<h3>Was der Bot kann</h3>'+
+    '<ul><li>Allgemeine Informationen zu Pferdepflege und -ernährung</li><li>Orientierung bei häufigen Symptomen und Verhaltensauffälligkeiten</li><li>Empfehlungen zu EQUINAT-Produkten basierend auf Nutzereingaben</li><li>Hilfe bei Stallmanagement und Routinenplanung</li></ul>'+
+    '<h3>Was der Bot NICHT kann</h3>'+
+    '<ul><li>Tierärztliche Diagnosen stellen</li><li>Medikamente verschreiben oder empfehlen</li><li>Notfälle einschätzen oder behandeln</li><li>Rechtssichere Beratung geben</li></ul>'+
+    '<p><strong>Bei gesundheitlichen Problemen deines Pferdes wende dich immer an einen zugelassenen Tierarzt.</strong></p>'+
+  '</div>'+
+  '<button class="modal-accept" onclick="closeModal(\'modalKi\')">Verstanden</button>';}
+
+function modalImpressumDE(){return ''+
+  '<div class="modal-header"><div class="modal-title">Impressum</div><button class="modal-close" onclick="closeModal(\'modalImpressum\')">✕</button></div>'+
+  '<div class="modal-body">'+
+    '<h3>Angaben gemäß § 5 TMG</h3>'+
+    '<p><strong>Zafao GmbH</strong><br/>Adolfsallee 22<br/>65185 Wiesbaden<br/>Deutschland</p>'+
+    '<h3>Handelsregister</h3>'+
+    '<p>Amtsgericht Wiesbaden · HRB 33239</p>'+
+    '<h3>Geschäftsführerin</h3>'+
+    '<p>Lea Zahlmann</p>'+
+    '<h3>Kontakt</h3>'+
+    '<p>E-Mail: info@zafao.world<br/>Web: equinat.de</p>'+
+    '<h3>Haftungsausschluss</h3>'+
+    '<p>Alle Inhalte des EQUINAT PferdeBot® dienen ausschließlich allgemeinen Informationszwecken und ersetzen keine tierärztliche Diagnose oder Behandlung. Bei gesundheitlichen Problemen wenden Sie sich an einen zugelassenen Tierarzt.</p>'+
+    '<h3>Urheberrecht</h3>'+
+    '<p>Die durch die Zafao GmbH erstellten Inhalte unterliegen dem deutschen Urheberrecht. Vervielfältigung und Verbreitung bedürfen der schriftlichen Genehmigung.</p>'+
+  '</div>'+
+  '<button class="modal-accept" onclick="closeModal(\'modalImpressum\')">Schließen</button>';}
+
+// ── EN MODAL CONTENTS ──
+function modalVertragEN(){return ''+
+  '<div class="modal-header"><div class="modal-title">Tester Agreement</div><button class="modal-close" onclick="closeModal(\'modalVertrag\')">✕</button></div>'+
+  '<div class="modal-body">'+
+    '<h3>§ 1 Subject of the Agreement</h3>'+
+    '<p>Zafao GmbH (hereinafter "EQUINAT" or "Provider"), Adolfsallee 22, 65185 Wiesbaden, HRB 33239 Local Court Wiesbaden, Managing Director: Lea Zahlmann, grants the tester (hereinafter "Tester") under this agreement <strong>free, time-limited beta access</strong> to the EQUINAT PferdeBot® (hereinafter "System") for the purpose of evaluation and quality assurance prior to public market launch.</p>'+
+    '<h3>§ 2 Term and Termination</h3>'+
+    '<p>The test phase begins with individual activation by EQUINAT and ends with the public market launch or written termination by either party, but no later than after <strong>90 days</strong>. Both parties may terminate at any time without giving reasons in writing (by email). Termination does not release from confidentiality obligations incurred up to that point.</p>'+
+    '<h3>§ 3 Tester Obligations</h3>'+
+    '<ul>'+
+      '<li>Use of the system <strong>in good faith</strong> and only for testing purposes</li>'+
+      '<li>Provision of <strong>honest, constructive feedback</strong> (at least 2 written feedback messages during the test phase)</li>'+
+      '<li>Reporting bugs, inconsistencies or suggestions for improvement directly to EQUINAT</li>'+
+      '<li>Use exclusively for own horse / own stable — no sharing of access credentials</li>'+
+      '<li>Informing EQUINAT if bot access is no longer needed</li>'+
+    '</ul>'+
+    '<h3>§ 4 Confidentiality (NDA)</h3>'+
+    '<p>The Tester undertakes to treat <strong>all non-public information</strong> about the system, its technical operation, the pricing strategy, the affiliate model and all internal processes of EQUINAT confidentially.</p>'+
+    '<ul>'+
+      '<li>No public reporting of system errors or weaknesses without prior approval</li>'+
+      '<li>No sharing of screenshots, conversation histories or internal documents</li>'+
+      '<li>No imitation or use of system logic for own purposes</li>'+
+    '</ul>'+
+    '<p>Exception: Public recommendation or review of the system in a positive context is expressly desired and approved.</p>'+
+    '<h3>§ 5 Disclaimer</h3>'+
+    '<p>The EQUINAT PferdeBot® is in beta phase. EQUINAT does not warrant completeness, accuracy or availability of AI responses. <strong>AI recommendations do not replace veterinary diagnosis or treatment.</strong> EQUINAT is not liable for damages resulting from actions based on bot recommendations.</p>'+
+    '<h3>§ 6 Affiliate Program</h3>'+
+    '<p>After the test phase, each tester has the option to join the EQUINAT Affiliate Program. Exact conditions will be communicated separately. There is no obligation to participate. Participation in the affiliate program does not establish an employment relationship.</p>'+
+    '<h3>§ 7 Intellectual Property</h3>'+
+    '<p>All rights to the system, the EQUINAT® brand, the bot and all related materials remain with Zafao GmbH. The Tester receives only a non-transferable, non-exclusive right of use for the duration of the test phase.</p>'+
+    '<h3>§ 8 Applicable Law</h3>'+
+    '<p>German law applies. Place of jurisdiction is Wiesbaden, provided the Tester is a merchant.</p>'+
+    '<h3>§ 9 Severability Clause</h3>'+
+    '<p>Should any provision of this agreement be invalid, the validity of the remaining provisions shall remain unaffected.</p>'+
+  '</div>'+
+  '<button class="modal-accept" onclick="acceptVertrag()">✓ Tester Agreement understood and accepted</button>';}
+
+function modalDsgvoEN(){return ''+
+  '<div class="modal-header"><div class="modal-title">Privacy Policy</div><button class="modal-close" onclick="closeModal(\'modalDsgvo\')">✕</button></div>'+
+  '<div class="modal-body">'+
+    '<h3>1. Controller</h3>'+
+    '<p><strong>Zafao GmbH</strong>, Adolfsallee 22, 65185 Wiesbaden, Germany<br/>Email: info@zafao.world · HRB 33239 · Managing Director: Lea Zahlmann</p>'+
+    '<h3>2. Data Collected</h3>'+
+    '<p>As part of the tester registration, we collect the following personal data:</p>'+
+    '<ul><li>First and last name</li><li>Email address</li><li>Instagram handle (optional)</li><li>Phone number (optional)</li><li>Number of horses and care budget</li><li>Free-text information about challenges and motivation</li></ul>'+
+    '<p>During bot use, additionally:</p>'+
+    '<ul><li>Pseudonymous user ID</li><li>Questions asked and AI responses (for quality assurance)</li><li>Timestamps and token consumption</li></ul>'+
+    '<h3>3. Purpose of Processing</h3>'+
+    '<ul><li>Review and management of tester applications</li><li>Communication during the test phase (incl. Telegram tester group with consent)</li><li>Quality assurance and product development</li><li>Optional newsletter communication (with consent only)</li><li>Optional affiliate program communication (with consent only)</li></ul>'+
+    '<h3>4. Legal Basis</h3>'+
+    '<p>Art. 6(1)(a) GDPR (consent) for optional fields; Art. 6(1)(b) GDPR (contract performance) for required fields.</p>'+
+    '<h3>5. Storage Duration</h3>'+
+    '<p>Data is deleted after the end of the test phase and expiry of statutory retention periods (max. 3 years). Chat logs are automatically deleted after 12 months.</p>'+
+    '<h3>6. Service Providers / Processors</h3>'+
+    '<ul><li><strong>Netlify Inc.</strong> (hosting, form input) — Standard Contractual Clauses Art. 46 GDPR</li><li><strong>Anthropic PBC</strong> (AI processing) — data is not used for model training</li><li><strong>Telegram FZ-LLC</strong> (tester group communication, only with voluntary participation)</li></ul>'+
+    '<h3>7. Your Rights</h3>'+
+    '<p>You have the right to access (Art. 15), rectification (Art. 16), erasure (Art. 17), restriction (Art. 18) and objection (Art. 21), as well as the right to data portability (Art. 20). Contact: info@zafao.world</p>'+
+    '<h3>8. Right to Complain</h3>'+
+    '<p>Competent supervisory authority: The Hessian Commissioner for Data Protection and Freedom of Information (HBDI), Wiesbaden.</p>'+
+  '</div>'+
+  '<button class="modal-accept" onclick="acceptDsgvo()">✓ Privacy Policy understood</button>';}
+
+function modalAffiliateEN(){return ''+
+  '<div class="modal-header"><div class="modal-title">Affiliate Program</div><button class="modal-close" onclick="closeModal(\'modalAffiliate\')">✕</button></div>'+
+  '<div class="modal-body">'+
+    '<p style="background:rgba(214,123,107,0.08);border-left:2px solid var(--red);padding:0.75rem 1rem;margin-bottom:1rem;"><strong>⚠ Indicative:</strong> All conditions below are <strong>v1.0-indicative</strong>. Final commissions, tier thresholds and conditions will be set before program launch and communicated to all affiliates in writing.</p>'+
+    '<h3>Basic Concept</h3>'+
+    '<p>The EQUINAT Affiliate Program starts after the beta test phase. As a beta tester, you have first access — even before the public rollout.</p>'+
+    '<h3>Commission Model (indicative, differentiated by order type)</h3>'+
+    '<ul>'+
+      '<li><strong>One-time purchase:</strong> up to 15% commission for 12 months per order</li>'+
+      '<li><strong>Subscription order:</strong> up to 10% lifetime — as long as the customer pays</li>'+
+      '<li><strong>Bot-only subscription:</strong> up to 30% degressive — 30% in year 1, 20% in years 2 and 3, then 0%</li>'+
+      '<li><strong>Conversion:</strong> If a bot-only customer later switches to a product subscription, the bot commission ends and the subscription commission (10% lifetime) starts</li>'+
+      '<li><strong>Cookie duration:</strong> 60 days (planned)</li>'+
+      '<li><strong>Payout:</strong> Monthly on the 15th, SEPA, from €50 minimum (planned)</li>'+
+    '</ul>'+
+    '<p style="background:rgba(201,148,58,0.08);padding:0.75rem 1rem;border-left:2px solid var(--gold);margin-top:0.75rem;"><strong>Pitch:</strong> 10% lifetime is better than 15% one-time after 7 months — and twice as much after 12 months. Subscription recommendation is the mathematically better deal.</p>'+
+    '<p style="font-size:0.78rem;color:var(--cream3);margin-top:0.5rem;"><strong>Bot-only example (€89/year):</strong> Year 1 = €26.70 (30%) · Year 2 = €17.80 (20%) · Year 3 = €17.80 (20%) · From year 4 = €0. Maximum earnings potential: <strong>€62.30 per bot sale</strong>.</p>'+
+    '<h3>Tier System (indicative)</h3>'+
+    '<ul>'+
+      '<li>🐴 <strong>Foal</strong> (1–10 customers): Base commission</li>'+
+      '<li>🏇 <strong>Trotter</strong> (11–50): +1% bonus, Zoom briefings</li>'+
+      '<li>⚡ <strong>Galloper</strong> (51–200): +3% bonus, dedicated landing page</li>'+
+      '<li>★ <strong>Stallion/Mare</strong> (201+): +5% bonus, profit-share, co-creator</li>'+
+    '</ul>'+
+    '<h3>Important Notes</h3>'+
+    '<ul>'+
+      '<li>The affiliate program does not establish an employment relationship</li>'+
+      '<li>Affiliates are responsible for their own taxes</li>'+
+      '<li>Self-referral (own orders) is excluded</li>'+
+      '<li>Withdrawal period: 14 days — commissions are credited only afterwards</li>'+
+    '</ul>'+
+    '<p>The complete, final affiliate terms will be communicated at program start. Until then, all information is non-binding.</p>'+
+  '</div>'+
+  '<button class="modal-accept" onclick="closeModal(\'modalAffiliate\')">Got it — I\u2019m in!</button>';}
+
+function modalKiEN(){return ''+
+  '<div class="modal-header"><div class="modal-title">AI Transparency & Notice</div><button class="modal-close" onclick="closeModal(\'modalKi\')">✕</button></div>'+
+  '<div class="modal-body">'+
+    '<h3>What is the EQUINAT PferdeBot®?</h3>'+
+    '<p>The PferdeBot® is an AI-supported assistance system based on Large Language Models (LLMs) from Anthropic. It answers questions about horse care, feeding, health management and stable organization.</p>'+
+    '<h3>EU AI Act — Transparency Obligation</h3>'+
+    '<p>According to Article 50 of the EU AI Act (Regulation 2024/1689) we expressly state: <strong>This application uses Artificial Intelligence.</strong> The user is interacting with an automated system, not with a human expert.</p>'+
+    '<h3>What the Bot Can Do</h3>'+
+    '<ul><li>General information on horse care and nutrition</li><li>Orientation on common symptoms and behavioral patterns</li><li>Recommendations for EQUINAT products based on user input</li><li>Help with stable management and routine planning</li></ul>'+
+    '<h3>What the Bot CANNOT Do</h3>'+
+    '<ul><li>Make veterinary diagnoses</li><li>Prescribe or recommend medications</li><li>Assess or treat emergencies</li><li>Provide legally binding advice</li></ul>'+
+    '<p><strong>For health problems with your horse, always consult a licensed veterinarian.</strong></p>'+
+  '</div>'+
+  '<button class="modal-accept" onclick="closeModal(\'modalKi\')">Understood</button>';}
+
+function modalImpressumEN(){return ''+
+  '<div class="modal-header"><div class="modal-title">Imprint</div><button class="modal-close" onclick="closeModal(\'modalImpressum\')">✕</button></div>'+
+  '<div class="modal-body">'+
+    '<h3>Information per § 5 TMG</h3>'+
+    '<p><strong>Zafao GmbH</strong><br/>Adolfsallee 22<br/>65185 Wiesbaden<br/>Germany</p>'+
+    '<h3>Trade Register</h3>'+
+    '<p>Local Court Wiesbaden · HRB 33239</p>'+
+    '<h3>Managing Director</h3>'+
+    '<p>Lea Zahlmann</p>'+
+    '<h3>Contact</h3>'+
+    '<p>Email: info@zafao.world<br/>Web: equinat.de</p>'+
+    '<h3>Disclaimer</h3>'+
+    '<p>All content of the EQUINAT PferdeBot® is for general information purposes only and does not replace veterinary diagnosis or treatment. For health problems, please consult a licensed veterinarian.</p>'+
+    '<h3>Copyright</h3>'+
+    '<p>Content created by Zafao GmbH is subject to German copyright law. Reproduction and distribution require written permission.</p>'+
+  '</div>'+
+  '<button class="modal-accept" onclick="closeModal(\'modalImpressum\')">Close</button>';}
+
+// ═══════════════════════════════════════════════
+// MODAL FUNCTIONS
+// ═══════════════════════════════════════════════
+function openModal(id){document.getElementById(id).classList.add('active');document.body.style.overflow='hidden';}
+function closeModal(id){document.getElementById(id).classList.remove('active');document.body.style.overflow='';}
+document.querySelectorAll('.modal-overlay').forEach(function(m){m.addEventListener('click',function(e){if(e.target===m)closeModal(m.id);});});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')document.querySelectorAll('.modal-overlay.active').forEach(function(m){closeModal(m.id);});});
+
+function acceptVertrag(){document.getElementById('check_vertrag').checked=true;closeModal('modalVertrag');}
+function acceptDsgvo(){document.getElementById('check_dsgvo').checked=true;closeModal('modalDsgvo');}
+
+// ═══════════════════════════════════════════════
+// FORM SUBMIT
+// ═══════════════════════════════════════════════
 document.getElementById('testerForm').addEventListener('submit',function(e){
   e.preventDefault();
-  const form=this;
-  const dsgvo=document.getElementById('check_dsgvo').checked;
-  const vertrag=document.getElementById('check_vertrag').checked;
-  const ki=document.getElementById('check_ki').checked;
+  var form=this;
+  var dsgvo=document.getElementById('check_dsgvo').checked;
+  var vertrag=document.getElementById('check_vertrag').checked;
+  var ki=document.getElementById('check_ki').checked;
+  var lang=getLang();
+  var dict=I18N[lang]||I18N.de;
 
-  if(!dsgvo||!vertrag||!ki){
-    alert('Bitte alle Pflichtfelder und rechtlichen Bestätigungen ausfüllen.');
-    return;
-  }
+  if(!dsgvo||!vertrag||!ki){alert(dict.alertRequired);return;}
 
-  const btn=document.getElementById('submitBtn');
+  var btn=document.getElementById('submitBtn');
   btn.disabled=true;
-  btn.textContent='Wird eingereicht …';
+  btn.textContent=dict.submitting;
 
-  // Netlify form submit
-  const data=new FormData(form);
+  var data=new FormData(form);
   fetch('/',{method:'POST',body:data})
-    .then(()=>{
+    .then(function(){
       form.style.display='none';
       document.getElementById('successMsg').style.display='block';
       window.scrollTo({top:document.getElementById('successMsg').offsetTop-100,behavior:'smooth'});
     })
-    .catch(()=>{
-      // Fallback for local testing
+    .catch(function(){
       form.style.display='none';
       document.getElementById('successMsg').style.display='block';
     });
 });
 
-// ── SCROLL ANIMATIONS ──
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+// ═══════════════════════════════════════════════
+// SCROLL ANIMATIONS
+// ═══════════════════════════════════════════════
+var observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});
 },{threshold:0.1});
-document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+document.querySelectorAll('.fade-in').forEach(function(el){observer.observe(el);});
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+(function(){
+  var lang=getLang();
+  applyLanguage(lang);
+})();
 </script>
 </body>
 </html>
