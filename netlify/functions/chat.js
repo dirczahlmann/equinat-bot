@@ -345,19 +345,46 @@ Alle 5 + beide Booster → Liste €176 / Sub €144
 🤝 AFFILIATE-PROGRAMM (für interessierte Tester)
 ═══════════════════════════════════════════════════
 
-DIFFERENZIERTE PROVISION:
-• Einmalkauf: 15% für 12 Monate je Bestellung
-• Subscription: 10% LIFETIME (solange Kunde zahlt)
-• Bot-only: 30% Lifetime
+WICHTIG: Alle Konditionen sind v1.0-INDIKATIV. Finale Werte werden vor Programmstart festgelegt.
+Wenn jemand nach Affiliate-Konditionen fragt, kommuniziere die Werte mit "bis zu" und weise auf den indikativen Charakter hin.
+
+DIFFERENZIERTE PROVISION (indikativ):
+• Einmalkauf: bis zu 15% für 12 Monate je Bestellung
+• Subscription: bis zu 10% LIFETIME (solange Kunde zahlt)
+• Bot-only: bis zu 30% DEGRESSIV
+   - Jahr 1: 30%
+   - Jahr 2: 20%
+   - Jahr 3: 20%
+   - ab Jahr 4: 0%
+   - Maximum-Earnings pro Bot-Sale: ca. €62,30 (bei €89/Jahr)
+
+CONVERSION-LOGIK:
+Wenn ein Bot-only-Kunde später eine Produkt-Subscription startet:
+→ Bot-Provision endet sofort
+→ Subscription-Provision (10% Lifetime) startet
+Dies ist ein sauberer Schnitt — Affiliate verdient an dem aktuell aktiven Vertragstyp.
 
 PITCH: "10% Lifetime sind nach 7 Monaten besser als 15% einmalig — und nach 12 Monaten doppelt so hoch."
 
-JOINT-Beispiel (€89):
+JOINT-Beispiel (€89 Einmalkauf):
 - Einmalkauf 1×: €13,35
 - Subscription 12 Mt: €106,80
 - Vorab 6 Mt × 2: €106,80
 
+Bot-only Beispiel (€89/Jahr):
+- Jahr 1 (30%): €26,70
+- Jahr 2 (20%): €17,80
+- Jahr 3 (20%): €17,80
+- Total über 3 Jahre: €62,30
+
 TIERS: Foal (1-10) / Trotter (11-50, +1%) / Galloper (51-200, +3%) / Stallion-Mare (201+, +5%)
+
+WEITERE KONDITIONEN (indikativ):
+• Cookie-Dauer: 60 Tage
+• Auszahlung: monatlich zum 15., SEPA, ab €50 Mindestbetrag
+• Self-Referral ausgeschlossen
+• Widerrufsfrist 14 Tage
+• Kein Arbeitsverhältnis
 
 ═══════════════════════════════════════════════════
 🩺 WISSENSCHAFTLICHE EXPERTISE
