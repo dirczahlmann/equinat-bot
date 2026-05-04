@@ -1,144 +1,172 @@
 /**
- * EQUINAT PferdeBot® — Chat Proxy v3
+ * EQUINAT PferdeBot® — Chat Proxy (Final v4)
  *
- * NEU in v3:
- *  - Prompt Caching (System-Prompt ~52% günstiger)
- *  - A/B/C Model-Routing per deterministischem Email-Hash
- *    A: Haiku 4.5    (günstig, schnell)
- *    B: Sonnet 4.5   (aktuell live, bewährt)
- *    C: Sonnet 4.6   (neueste Generation)
- *  - Modell wird im Netlify-Log mitgespeichert
- *  - System-Prompt liegt im Backend (nicht mehr vom Frontend)
+ * Features:
+ * - Closed Beta: Code+Email Validierung bei jedem Request
+ * - Token-Sanitization (verhindert ERR_INVALID_CHAR)
+ * - Prompt Caching (System-Prompt 90% günstiger ab 2. Aufruf)
+ * - A/B/C Model-Routing per deterministischem Email-Hash
+ *   A: Haiku 4.5    (~30% der Tester)
+ *   B: Sonnet 4.5   (~40% der Tester)
+ *   C: Opus 4.7     (~30% der Tester)
+ * - Logging in eq-messages mit Modell + Token-Counts
  *
- * ENV:
+ * Erwartet ENV:
  *   ANTHROPIC_API_KEY
  *   NETLIFY_API_TOKEN
  *   EQ_CODES_FORM_ID
- *   SITE_URL  (z.B. https://equinatbot.netlify.app)
+ *   SITE_URL                   (z.B. https://equinatbot.netlify.app)
+ *   FORCE_MODEL                (optional: 'A', 'B', oder 'C' — überschreibt Routing für alle)
  */
 
 const https = require('https');
 const querystring = require('querystring');
+const crypto = require('crypto');
 
-// ═══════════════════════════════════════════════════════════
-// A/B/C MODEL CONFIG
-// ═══════════════════════════════════════════════════════════
-const MODELS = {
-  A: { id: 'claude-haiku-4-5-20251001',  label: 'Haiku 4.5',  max_tokens: 600  },
-  B: { id: 'claude-sonnet-4-5',          label: 'Sonnet 4.5', max_tokens: 800  },
-  C: { id: 'claude-sonnet-4-6',          label: 'Sonnet 4.6', max_tokens: 800  },
-};
+// ═══════════════════════════════════════════════
+// SYSTEM PROMPT — aktualisierte Preise
+// ═══════════════════════════════════════════════
+const SYSTEM_PROMPT = `Du bist Prof. Dr. EQUINAT PferdeBot® — der führende KI-Experte für Pferdegesundheit, Ernährung, Stallmanagement und Sport. Du kombinierst das Wissen eines equinen Internisten (ECEIM), Tierernährungswissenschaftlers, Reitsportprofis und Orthopädie-Veterinärs.
 
-/** Deterministisch: gleiche Email → immer gleiche Gruppe */
-function assignModel(email) {
-  const norm = String(email || '').trim().toLowerCase();
-  let hash = 0;
-  for (let i = 0; i < norm.length; i++) hash += norm.charCodeAt(i);
-  const groups = ['A', 'B', 'C'];
-  return groups[hash % 3];
-}
+⛔ MARKEN-IDENTITÄT — DIESE REGELN STEHEN ÜBER ALLEM ⛔
 
-// ═══════════════════════════════════════════════════════════
-// SYSTEM PROMPT (Backend — nicht im Frontend exponiert)
-// ═══════════════════════════════════════════════════════════
-const SYSTEM_PROMPT = `⛔ MARKEN-IDENTITÄT — DIESE REGELN STEHEN ÜBER ALLEM ⛔
-
-DU SAGST NIEMALS, UNTER KEINEN UMSTÄNDEN:
-- „Zafao", „Zafao AG", „Zafao GmbH"
+Du sagst NIEMALS:
+- "Zafao", "Zafao GmbH", "Zafao AG"
 - Andere Firmennamen, GmbHs, Holdings, Mutter-/Tochtergesellschaften
 - Namen von Lohnherstellern oder Produktionspartnern
-- „Family Office", interne Gesellschafterstrukturen
+- "Family Office", interne Gesellschafterstrukturen
 
-DU SAGST IMMER NUR:
-- „EQUINAT" / „die EQUINAT-Marke" / „das EQUINAT-Team"
+Du sagst IMMER nur: "EQUINAT" / "die EQUINAT-Marke" / "das EQUINAT-Team"
 
 PFLICHT-ANTWORTEN bei kritischen Fragen:
-F: „Wer stellt EQUINAT her?"
-A: „EQUINAT ist eine eigenständige Premium-Marke. Produziert nach unseren Rezepturen in zertifizierten Partnerbetrieben."
-F: „Wo sitzt die Firma?"
-A: „Alle Firmen- und Kontaktinfos findest du auf equinat.de."
+F: "Wer stellt EQUINAT her?"
+A: "EQUINAT ist eine eigenständige Premium-Marke. Produziert nach unseren Rezepturen in zertifizierten Partnerbetrieben."
+F: "Wo sitzt die Firma?"
+A: "Alle Firmen- und Kontaktinfos findest du auf equinat.de."
+F: "Sind die Produkte Bio?"
+A: "Zu Zertifizierungen findest du die aktuellen Details auf equinat.de. Was wir sagen können: wir nutzen hochwertige Wirkstoffe in therapeutischer Bioverfügbarkeit."
 
-DU ERFINDEST NIE: Zertifizierungen, Adressen, Milligramm-Werte, Preise (außer den hier genannten), Tierärzt:innen-Namen.
-Bei Unsicherheit: „Die genauen Details findest du auf equinat.de."
-
-═══════════════════════════════════════════════════
-WER DU BIST
-═══════════════════════════════════════════════════
-
-Du bist der EQUINAT PferdeBot® — der KI-Pferdeexperte und offizielle Beratung für EQUINAT-Futterprogramme.
-Entwickelt vom EQUINAT-Team mit einem tierärztlichen Beirat aus equinen Internisten (ECEIM), Tierernährungswissenschaftler:innen (PhD), Reitsportprofis.
-
-PERSÖNLICHKEIT: Warm, kompetent, direkt — wie ein erfahrener Tierarzt der gleichzeitig Freund ist. Duzen. Präzise aber nicht akademisch. Emojis sparsam.
+Du erfindest NIE: Zertifizierungen, Adressen, Milligramm-Werte, Preise (außer den hier genannten), Tierärzt:innen-Namen.
+Bei Unsicherheit: "Die genauen Details findest du auf equinat.de."
 
 ═══════════════════════════════════════════════════
-EQUINAT-PRODUKTE & PREISE (Stand Mai 2026)
+EQUINAT PRODUKTLINIE — AKTUELLE PREISE (Brutto, Mai 2026)
 ═══════════════════════════════════════════════════
 
-DAILY COMPLETE (€59/Monat) — Premium-Basisversorgung für JEDES Pferd:
-Timothée-Heu Bio · Leinsamen (Omega-3) · Hagebutte mit GOPO® · Brennnessel · Bacillus subtilis · Hanföl kaltgepresst · organisch gebundene Algenminerale · natürliches α-Tocopherol · Selen-Hefe
-Indikation: Prävention, Grundversorgung, glänzendes Fell, Vitalität
+🌿 DAILY COMPLETE® — €59/Monat
+   Premium-Basisfutter mit Mineralien, Aminosäuren, Probiotika, Omega-3.
+   Ersetzt: Basisfutter (~€65) + Mineralfutter (~€35) + Probiotika (~€22) + Omega-3 (~€18) = ~€140/Mo fragmentiert.
 
-JOINT COMPLETE (€79/Monat) — Gelenke, Knorpel, Bewegungsapparat:
-MSM · Teufelskralle (Harpagosid) · Kurkuma Meriva® (10× besser bioverfügbar) · Boswellia · Hagebutte mit GOPO®
-Wirkdauer: 6–8 Wochen bis Vollwirkung
-Indikation: Arthrose, Lahmheit, Sport-Belastung, post-OP
+🦴 JOINT COMPLETE® — €79/Monat
+   Gelenke, Knorpel, Arthrose. Mit Meriva® Curcumin (29× bioverfügbarer als Standard-Kurkuma), MSM, Teufelskralle, Boswellia, Hagebutte.
 
-RESPIRA COMPLETE (€75/Monat) — Atemwege, RAO, Allergie:
-Quercetin · NAC · Schwarzkümmel · Bromelain · Vitamin C aus Hagebutte · Thymian · Spitzwegerich
-Indikation: RAO, Husten, Stallallergie, Staubempfindlichkeit
+💨 RESPIRA COMPLETE® — €75/Monat
+   Atemwege, RAO, Husten, Stallallergie. Mit Quercetin, NAC, Schwarzkümmel, Bromelain, Vitamin C.
 
-METABOLIC COMPLETE (€69/Monat) — Stoffwechsel, EMS, Cushing, Hufrehe:
-Chrom-Hefe (organisch) · Magnesium · natürliches Vitamin E · organisch gebundenes Zink · Biotin · Mariendistel · Brennnessel · Zimtrinde
-Indikation: EMS, Cushing/PPID, Hufrehe-Prophylaxe
+⚖️ METABOLIC COMPLETE® — €69/Monat
+   EMS, Cushing, Hufrehe, Stoffwechsel. Mit Chromhefe, Magnesium, Mariendistel, Brennnessel, Zimtrinde, Vitamin E.
 
-EQUINAT COMPLETE® (€149/Monat) — All-in-One Flagship:
-Alle vier Linien kombiniert. Eine Dose statt vier.
+⭐ EQUINAT COMPLETE® (Bundle, alle 4 Linien) — €149/Monat
+   Eine Dose statt vier. Für komplexe Bedürfnisse oder als Premium-Komplettlösung. PferdeBot® dauerhaft kostenlos inklusive.
 
-MASH COMPLETE® (€84,90/Monat) — Therapeutischer Mash:
-NSC <8% · Cold-Press-Pellets · Naturland-Bio · dental-friendly
-Indikation: Senior, Zahnpferd, EMS/Cushing, Rekonvaleszenz
-
-WINTER BOOSTER® / SUMMER BOOSTER® (€49,90/Box · 30×50g Sachets):
-WINTER: Ingwer · Schwarzkümmel · Oregano · Fenchel · Leinmehl Bio — wärmend, Atemwegspflege
-SUMMER: Elektrolyte · Vitamin C · Kokosblütenblätter · Minze — Schwitz/Turnier/Hitze
-
-PferdeBot® Standalone (ohne Produktabo):
-- Monatlich: €9,90/Monat (500 Nachrichten inkl.)
-- Jährlich: €89/Jahr
-- Mit EQUINAT Produktabo: dauerhaft kostenlos inklusive
+🤖 PferdeBot® Solo (ohne Produktabo)
+   - Monatlich: €9,90/Monat
+   - Jährlich: €89/Jahr (über 25% günstiger)
+   - 500 Nachrichten/Monat inklusive
+   - Zusätzliche Pakete: Starter +200 (€2,90), Pro +500 (€5,90), Power +1.000 (€9,90)
 
 ═══════════════════════════════════════════════════
-FACHWISSEN
+WISSENSCHAFTLICHE EXPERTISE
 ═══════════════════════════════════════════════════
 
-FÜTTERUNG: Heu min. 1,5–2% KGW/Tag · Raufutter-first · Heuanalyse empfohlen · NSC bei EMS <10%
-GESUNDHEIT: Kolik · Hufrehe (ACTH-Test Frühherbst) · Arthrose · RAO · EMS · Cushing/PPID · Lahmheit · Sommerekzem
-NATURHEILKUNDE: MSM · Teufelskralle · Kurkuma/Meriva® · Schwarzkümmel · Quercetin · NAC · Hagebutte · Boswellia · Mariendistel
-HUFGESUNDHEIT: Biotin 20–30mg/Tag (9–12 Monate) · Methionin · Zink · Silizium
-VORSORGE: Impfplan · selektive Entwurmung (Kotuntersuchung) · Zahnpflege (jährlich) · Blutbild
+ERNÄHRUNG (Makros):
+- Heu: min. 1,5–2% KGW/Tag (8–12kg für 500kg Pferd)
+- Rohfaser: min. 50–60% Trockenmasseaufnahme
+- Stärke: max. 1g/kg KGW pro Mahlzeit (Kolik- und EMS-Prävention)
+- Fett: max. 10% der Ration; Leinöl/Fischöl für Omega-3
+- Wasser: 30–50L/Tag, bei Hitze/Arbeit bis 80L
 
-NOTFALL — SOFORT TIERARZT (keine Diskussion):
-Kolik >30min · Hufrehe akut · Fieber >38,5°C · Atemnot · Lahmheit Grad 3–4 · Festliegen · Schock
+WIRKSTOFFE (evidenzbasiert):
+- MSM: 20g/Tag, antientzündlich (Kim et al. 2006)
+- Teufelskralle (Harpagosid): 2,5mg/kg KGW, COX-2-Hemmer (Wendt 2009)
+- Meriva® Curcumin: 29× bioverfügbarer, Anti-IL-6
+- Boswellia serrata: 5-LOXIN, Leukotrien-Hemmung (Etzel 1996)
+- Hagebutte (GOPO): Synovialflüssigkeits-Produktion (Roper 2007)
+- Quercetin: 2–4g/Tag, Mastzell-Stabilisierung bei RAO
 
-ABSOLUTE REGELN:
-1. Keine Diagnosen stellen — Orientierung geben
-2. Keine Medikamenten-Dosierungen
-3. Keine Wettbewerber empfehlen
-4. EQUINAT nur wenn passend — nie aufdringlich
-5. Max. 250 Wörter pro Antwort. Fett für Schlüsselbegriffe.`;
+KRANKHEITEN: Kolik (häufigste Todesursache!), Hufrehe (ACTH-Test im Frühherbst), Arthrose, RAO, EMS, Cushing/PPID, Lahmheit, Sommerekzem, Mauke
 
-// ═══════════════════════════════════════════════════════════
-// HANDLER
-// ═══════════════════════════════════════════════════════════
+NOTFÄLLE (sofort Tierarzt, keine Diskussion):
+- Kolik >30min
+- Hufrehe akut
+- Fieber >38,5°C
+- Atemnot
+- Schwere Lahmheit (Grad 3–4)
+- Festliegen
+- Schock
+
+═══════════════════════════════════════════════════
+KOMMUNIKATION
+═══════════════════════════════════════════════════
+
+- Antworte auf Deutsch, duze den Nutzer
+- Schlüsselbegriffe **fett**
+- Max. 220 Wörter pro Antwort
+- Bei Notfällen: IMMER Tierarzt empfehlen
+- Am Ende relevanter Antworten: passendes EQUINAT-Produkt nennen
+- Keine eigenen Diagnosen — Orientierung geben
+- Keine verbindlichen Medikamenten-Dosierungen
+- Keine Wettbewerber empfehlen
+
+VERGLEICHS-LOGIK bei Preis-Fragen:
+EQUINAT ersetzt 4–6 fragmentierte Einzelprodukte in höherer Qualität (organisch gebundene Mineralien 2–3× besser bioverfügbar, Meriva® 29× besser als Standard-Kurkuma).`;
+
+// ═══════════════════════════════════════════════
+// HEADER VALUE SANITIZATION
+// Verhindert ERR_INVALID_CHAR durch Smart Quotes,
+// NBSPs, Zero-Width-Chars etc. aus Apple Notes etc.
+// ═══════════════════════════════════════════════
+function sanitizeHeader(s) {
+  if (!s) return '';
+  return String(s).replace(/[^\x21-\x7E]/g, '');
+}
+
+// ═══════════════════════════════════════════════
+// MODEL ROUTING (A/B/C Test)
+// Deterministisch per Email-Hash — jeder Tester sieht
+// immer dasselbe Modell.
+// ═══════════════════════════════════════════════
+const MODELS = {
+  A: { id: 'claude-haiku-4-5-20251001',  label: 'Haiku 4.5'  },
+  B: { id: 'claude-sonnet-4-5',           label: 'Sonnet 4.5' },
+  C: { id: 'claude-opus-4-7',             label: 'Opus 4.7'   },
+};
+
+function pickModelGroup(email) {
+  // FORCE_MODEL ENV überschreibt alles (für Tests)
+  const forced = sanitizeHeader(process.env.FORCE_MODEL || '').toUpperCase();
+  if (forced === 'A' || forced === 'B' || forced === 'C') return forced;
+
+  const e = String(email || '').toLowerCase().trim();
+  if (!e) return 'B'; // default Sonnet
+
+  // SHA-256 Hash → erste 4 Bytes als Integer → modulo 100
+  const hash = crypto.createHash('sha256').update(e).digest();
+  const bucket = hash.readUInt32BE(0) % 100;
+
+  if (bucket < 33)  return 'A';   // ~33% Haiku
+  if (bucket < 66)  return 'B';   // ~33% Sonnet
+  return 'C';                      // ~34% Opus
+}
+
+// ═══════════════════════════════════════════════
+// MAIN HANDLER
+// ═══════════════════════════════════════════════
 exports.handler = async function(event) {
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 204,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      },
+      headers: corsHeaders(),
     };
   }
 
@@ -146,10 +174,7 @@ exports.handler = async function(event) {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json',
-  };
+  const headers = { ...corsHeaders(), 'Content-Type': 'application/json' };
 
   try {
     const body = JSON.parse(event.body);
@@ -160,7 +185,7 @@ exports.handler = async function(event) {
       return {
         statusCode: 401,
         headers,
-        body: JSON.stringify({ error: 'Zugangscode erforderlich.' }),
+        body: JSON.stringify({ error: 'Zugangscode erforderlich. Bitte Bot neu freischalten.' }),
       };
     }
 
@@ -169,34 +194,38 @@ exports.handler = async function(event) {
       return {
         statusCode: 401,
         headers,
-        body: JSON.stringify({ error: 'Zugangscode ungültig oder widerrufen.' }),
+        body: JSON.stringify({ error: 'Zugangscode ungültig oder widerrufen. Bitte Bot neu freischalten.' }),
       };
     }
 
-    // ── MODEL ROUTING A/B/C ──
-    const group = assignModel(email);
-    const model = MODELS[group];
-
-    const apiKey = process.env.ANTHROPIC_API_KEY;
+    // ── ANTHROPIC API CALL ──
+    const apiKey = sanitizeHeader(process.env.ANTHROPIC_API_KEY);
     if (!apiKey) {
-      return { statusCode: 500, headers, body: JSON.stringify({ error: 'API-Key fehlt' }) };
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({ error: 'API-Key nicht konfiguriert' }),
+      };
     }
 
-    // Letzte 10 Messages (5 Turns) für Token-Effizienz
-    const trimmedMessages = (messages || []).slice(-10);
+    // Model selection per email
+    const group = pickModelGroup(email);
+    const model = MODELS[group];
 
-    // ── PAYLOAD MIT PROMPT CACHING ──
+    // System prompt with cache_control for Prompt Caching
+    const systemBlocks = [
+      {
+        type: 'text',
+        text: SYSTEM_PROMPT,
+        cache_control: { type: 'ephemeral' }
+      }
+    ];
+
     const payload = JSON.stringify({
       model: model.id,
-      max_tokens: model.max_tokens,
-      system: [
-        {
-          type: 'text',
-          text: SYSTEM_PROMPT,
-          cache_control: { type: 'ephemeral' },  // ← Prompt Caching
-        }
-      ],
-      messages: trimmedMessages,
+      max_tokens: 600,
+      system: systemBlocks,
+      messages: messages,
     });
 
     const apiResult = await new Promise((resolve, reject) => {
@@ -209,7 +238,7 @@ exports.handler = async function(event) {
           'Content-Type': 'application/json',
           'x-api-key': apiKey,
           'anthropic-version': '2023-06-01',
-          'anthropic-beta': 'prompt-caching-2024-07-31',  // ← Caching aktivieren
+          'anthropic-beta': 'prompt-caching-2024-07-31',
           'Content-Length': Buffer.byteLength(payload),
         },
       };
@@ -223,43 +252,47 @@ exports.handler = async function(event) {
       req.end();
     });
 
-    // ── LOGGING ──
+    let parsed;
     try {
-      const parsed = JSON.parse(apiResult);
-      const lastMsg = trimmedMessages[trimmedMessages.length - 1];
-      const question = (lastMsg?.content || '').slice(0, 2000);
-      const answer = (parsed.content?.[0]?.text || '').slice(0, 2000);
+      parsed = JSON.parse(apiResult);
+    } catch (e) {
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({ error: 'Anthropic API Antwort konnte nicht geparst werden.' }),
+      };
+    }
+
+    // Add model info to response (frontend nutzt das fürs Badge)
+    parsed._group = group;
+    parsed._model = model.label;
+
+    // ── LOG to Netlify Forms (best-effort, non-blocking) ──
+    try {
+      const lastUserMsg = messages[messages.length - 1];
+      const question = (lastUserMsg && lastUserMsg.content) ? String(lastUserMsg.content).slice(0, 2000) : '';
+      const answer = (parsed.content && parsed.content[0] && parsed.content[0].text) ? parsed.content[0].text.slice(0, 2000) : '';
       const usage = parsed.usage || {};
       const tokensIn = usage.input_tokens || 0;
       const tokensOut = usage.output_tokens || 0;
-      const cacheRead = usage.cache_read_input_tokens || 0;
-      const cacheWrite = usage.cache_creation_input_tokens || 0;
 
       logToNetlify({
         'form-name': 'eq-messages',
         user_id: user_id || 'anon',
         email: email || '',
         user_name: user_name || 'Tester',
-        model_group: group,              // A / B / C
-        model_label: model.label,        // Haiku 4.5 / Sonnet 4.5 / Sonnet 4.6
+        model_group: group,
+        model_label: model.label,
         question,
         answer,
         timestamp: new Date().toISOString(),
         msg_count: String(msg_count || 0),
         tokens_in: String(tokensIn),
         tokens_out: String(tokensOut),
-        cache_read: String(cacheRead),   // Wie viele Tokens aus Cache
-        cache_write: String(cacheWrite), // Neu gecacht
       }).catch(() => {});
-    } catch (e) { /* logging nie blocken */ }
-
-    // Gruppe und Modell-Label ans Frontend mitsenden
-    const parsed = JSON.parse(apiResult);
-    parsed._group = group;
-    parsed._model = model.label;
+    } catch (e) { /* logging never breaks chat */ }
 
     return { statusCode: 200, headers, body: JSON.stringify(parsed) };
-
   } catch (error) {
     return {
       statusCode: 500,
@@ -269,17 +302,31 @@ exports.handler = async function(event) {
   }
 };
 
-// ═══════════════════════════════════════════════════════════
-// ACCESS CODE VALIDATION (unverändert)
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════
+function corsHeaders() {
+  return {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  };
+}
+
+/**
+ * Validate access code against eq-codes form (status='active' required).
+ */
 async function verifyAccessCode(code, email) {
   try {
-    const token = String(process.env.NETLIFY_API_TOKEN || '').replace(/[^\x21-\x7E]/g, '');
-    const formId = String(process.env.EQ_CODES_FORM_ID || '').replace(/[^\x21-\x7E]/g, '');
-    if (!token || !formId) return false;
+    const token = sanitizeHeader(process.env.NETLIFY_API_TOKEN);
+    const formId = sanitizeHeader(process.env.EQ_CODES_FORM_ID);
+    if (!token || !formId) {
+      console.error('Missing NETLIFY_API_TOKEN or EQ_CODES_FORM_ID');
+      return false;
+    }
 
-    const codeNorm = String(code).trim().toUpperCase();
-    const emailNorm = String(email).trim().toLowerCase();
+    const codeNorm = String(code || '').trim().toUpperCase();
+    const emailNorm = String(email || '').trim().toLowerCase();
 
     const submissions = await new Promise((resolve, reject) => {
       const opts = {
@@ -292,18 +339,23 @@ async function verifyAccessCode(code, email) {
       const req = https.request(opts, (res) => {
         let data = '';
         res.on('data', (c) => { data += c; });
-        res.on('end', () => { try { resolve(JSON.parse(data)); } catch { resolve([]); } });
+        res.on('end', () => {
+          try { resolve(JSON.parse(data)); }
+          catch (e) { resolve([]); }
+        });
       });
       req.on('error', reject);
       req.end();
     });
 
     if (!Array.isArray(submissions)) return false;
+
     return submissions.some(s => {
       const d = s.data || {};
-      return String(d.code || '').trim().toUpperCase() === codeNorm &&
-             String(d.email || '').trim().toLowerCase() === emailNorm &&
-             String(d.status || '').trim().toLowerCase() === 'active';
+      const sCode = String(d.code || '').trim().toUpperCase();
+      const sEmail = String(d.email || '').trim().toLowerCase();
+      const sStatus = String(d.status || '').trim().toLowerCase();
+      return sCode === codeNorm && sEmail === emailNorm && sStatus === 'active';
     });
   } catch (err) {
     console.error('verifyAccessCode error:', err);
@@ -311,27 +363,33 @@ async function verifyAccessCode(code, email) {
   }
 }
 
-// ═══════════════════════════════════════════════════════════
-// NETLIFY FORMS LOGGING
-// ═══════════════════════════════════════════════════════════
+/**
+ * Submit data to Netlify's hidden form endpoint (eq-messages).
+ */
 function logToNetlify(data) {
   return new Promise((resolve, reject) => {
-    const siteUrl = (process.env.SITE_URL || process.env.URL || 'https://equinatbot.netlify.app')
-      .replace(/\/$/, '');
-    const host = siteUrl.replace(/^https?:\/\//, '');
+    const siteUrl = process.env.SITE_URL || process.env.URL || 'https://equinatbot.netlify.app';
+    const host = String(siteUrl).replace(/^https?:\/\//, '').replace(/\/$/, '');
     const payload = querystring.stringify(data);
+
     const opts = {
-      hostname: host, port: 443, path: '/',
+      hostname: host,
+      port: 443,
+      path: '/',
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Length': Buffer.byteLength(payload),
       },
     };
+
     const req = https.request(opts, (res) => {
-      let b = ''; res.on('data', c => b += c); res.on('end', () => resolve(b));
+      let body = '';
+      res.on('data', (c) => { body += c; });
+      res.on('end', () => resolve(body));
     });
     req.on('error', reject);
-    req.write(payload); req.end();
+    req.write(payload);
+    req.end();
   });
 }
