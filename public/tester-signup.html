@@ -337,6 +337,11 @@ h1 em{color:var(--gold2);font-style:italic;}
 .form-subtitle{font-size:0.8rem;color:var(--cream3);line-height:1.7;}
 .form-group{margin-bottom:1.5rem;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem;}
+.form-hint{
+  display:block;
+  font-family:'Jost',sans-serif;
+}
+.form-hint strong{color:var(--cream);font-weight:500;}
 label{
   display:block;
   font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;
@@ -727,6 +732,14 @@ footer{
         <input type="email" name="email" data-i18n-ph="phEmail" placeholder="deine@email.de" required/>
       </div>
 
+      <div class="form-group">
+        <label data-i18n="lblTelegram">Telegram-Kontakt <span>✦</span></label>
+        <input type="text" name="telegram" data-i18n-ph="phTelegram" placeholder="@deinname oder +49 …" required/>
+        <div class="form-hint" data-i18n="hintTelegram" style="margin-top:0.5rem;padding:0.7rem 1rem;background:rgba(59,130,246,0.06);border-left:2px solid #4A9DFF;border-radius:2px;font-size:0.72rem;color:var(--cream2);line-height:1.6;">
+          📱 <strong style="color:#7AB8FF;">Wichtig:</strong> Wir kommunizieren mit allen Tester:innen über Telegram. Du wirst zu unserer <strong>exklusiven Tester-Gruppe</strong> eingeladen, in der wir den PferdeBot® gemeinsam mit euch weiterentwickeln. Dein direktes Feedback fließt sofort ins Produkt — ohne Telegram-Kontakt können wir leider keine Bewerbung berücksichtigen.
+        </div>
+      </div>
+
       <div class="form-row">
         <div>
           <label data-i18n="lblInstagram">Instagram-Handle</label>
@@ -965,6 +978,9 @@ var I18N = {
     lblInstagram:'Instagram-Handle',
     phInstagram:'@deinname',
     lblPhone:'Telefon (optional)',
+    lblTelegram:'Telegram-Kontakt <span>✦</span>',
+    phTelegram:'@deinname oder +49 …',
+    hintTelegram:'📱 <strong style="color:#7AB8FF;">Wichtig:</strong> Wir kommunizieren mit allen Tester:innen über Telegram. Du wirst zu unserer <strong>exklusiven Tester-Gruppe</strong> eingeladen, in der wir den PferdeBot® gemeinsam mit euch weiterentwickeln. Dein direktes Feedback fließt sofort ins Produkt — ohne Telegram-Kontakt können wir leider keine Bewerbung berücksichtigen.',
     lblHorses:'Anzahl Pferde <span>✦</span>',
     optChoose:'Bitte wählen',
     opt1Horse:'1 Pferd',
@@ -1104,6 +1120,9 @@ var I18N = {
     lblInstagram:'Instagram handle',
     phInstagram:'@yourname',
     lblPhone:'Phone (optional)',
+    lblTelegram:'Telegram contact <span>✦</span>',
+    phTelegram:'@yourname or +49 …',
+    hintTelegram:'📱 <strong style="color:#7AB8FF;">Important:</strong> We communicate with all testers via Telegram. You\u2019ll be invited to our <strong>exclusive tester group</strong>, where we develop the PferdeBot® together with you. Your direct feedback flows straight into the product — unfortunately, we cannot consider applications without a Telegram contact.',
     lblHorses:'Number of horses <span>✦</span>',
     optChoose:'Please select',
     opt1Horse:'1 horse',
@@ -1271,7 +1290,7 @@ function modalDsgvoDE(){return ''+
     '<p><strong>Zafao GmbH</strong>, Adolfsallee 22, 65185 Wiesbaden<br/>E-Mail: info@zafao.world · HRB 33239 · Geschäftsführerin: Lea Zahlmann</p>'+
     '<h3>2. Erhobene Daten</h3>'+
     '<p>Im Rahmen der Tester-Anmeldung erheben wir folgende personenbezogene Daten:</p>'+
-    '<ul><li>Vor- und Nachname</li><li>E-Mail-Adresse</li><li>Instagram-Handle (optional)</li><li>Telefonnummer (optional)</li><li>Anzahl der Pferde und Pflegebudget</li><li>Freitextangaben zu Herausforderungen und Motivation</li></ul>'+
+    '<ul><li>Vor- und Nachname</li><li>E-Mail-Adresse</li><li>Telegram-Kontakt (Pflichtfeld für Tester-Kommunikation)</li><li>Instagram-Handle (optional)</li><li>Telefonnummer (optional)</li><li>Anzahl der Pferde und Pflegebudget</li><li>Freitextangaben zu Herausforderungen und Motivation</li></ul>'+
     '<p>Im Rahmen der Bot-Nutzung werden zusätzlich erhoben:</p>'+
     '<ul><li>Pseudonyme Nutzer-ID</li><li>Gestellte Fragen und KI-Antworten (zur Qualitätssicherung)</li><li>Zeitstempel und Token-Verbrauch</li></ul>'+
     '<h3>3. Zweck der Verarbeitung</h3>'+
@@ -1401,7 +1420,7 @@ function modalDsgvoEN(){return ''+
     '<p><strong>Zafao GmbH</strong>, Adolfsallee 22, 65185 Wiesbaden, Germany<br/>Email: info@zafao.world · HRB 33239 · Managing Director: Lea Zahlmann</p>'+
     '<h3>2. Data Collected</h3>'+
     '<p>As part of the tester registration, we collect the following personal data:</p>'+
-    '<ul><li>First and last name</li><li>Email address</li><li>Instagram handle (optional)</li><li>Phone number (optional)</li><li>Number of horses and care budget</li><li>Free-text information about challenges and motivation</li></ul>'+
+    '<ul><li>First and last name</li><li>Email address</li><li>Telegram contact (required for tester communication)</li><li>Instagram handle (optional)</li><li>Phone number (optional)</li><li>Number of horses and care budget</li><li>Free-text information about challenges and motivation</li></ul>'+
     '<p>During bot use, additionally:</p>'+
     '<ul><li>Pseudonymous user ID</li><li>Questions asked and AI responses (for quality assurance)</li><li>Timestamps and token consumption</li></ul>'+
     '<h3>3. Purpose of Processing</h3>'+
