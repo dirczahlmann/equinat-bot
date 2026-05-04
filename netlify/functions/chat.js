@@ -274,8 +274,8 @@ exports.handler = async function(event) {
 // ═══════════════════════════════════════════════════════════
 async function verifyAccessCode(code, email) {
   try {
-    const token = (process.env.NETLIFY_API_TOKEN || '').trim();
-    const formId = (process.env.EQ_CODES_FORM_ID || '').trim();
+    const token = String(process.env.NETLIFY_API_TOKEN || '').replace(/[^\x21-\x7E]/g, '');
+    const formId = String(process.env.EQ_CODES_FORM_ID || '').replace(/[^\x21-\x7E]/g, '');
     if (!token || !formId) return false;
 
     const codeNorm = String(code).trim().toUpperCase();
