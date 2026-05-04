@@ -42,8 +42,8 @@ exports.handler = async function(event) {
       return { statusCode: 200, headers, body: JSON.stringify({ valid: false, message: 'Code und Email erforderlich.' }) };
     }
 
-    const token = process.env.NETLIFY_API_TOKEN;
-    const formId = process.env.EQ_CODES_FORM_ID;
+    const token = (process.env.NETLIFY_API_TOKEN || '').trim();
+    const formId = (process.env.EQ_CODES_FORM_ID || '').trim();
 
     if (!token || !formId) {
       console.error('Missing NETLIFY_API_TOKEN or EQ_CODES_FORM_ID env vars');
