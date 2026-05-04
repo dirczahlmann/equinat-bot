@@ -654,13 +654,13 @@ function telegramTo(telegram, name, status, code){
   let message = '';
 
   if(status === 'approved' && code && code !== '—'){
-    message = `🐴 Hallo ${firstName}!\n\nWillkommen in der EQUINAT PferdeBot® Beta-Familie!\n\nDein persönlicher Zugangscode:\n${code}\n\nSo geht's:\n1. Öffne https://equinatbot.netlify.app\n2. Email + Code eingeben\n3. Bot ist freigeschaltet — viel Spaß beim Testen!\n\nIch lade dich gleich in unsere exklusive Tester-Gruppe ein. Da entwickeln wir den Bot gemeinsam mit euch weiter — dein Feedback fließt direkt ins Produkt.\n\nBei Fragen einfach hier melden.\n\nDirc & das EQUINAT-Team 🌿`;
+    message = `🐴 Hallo ${firstName}!\n\nWillkommen in der EQUINAT PferdeBot® Beta-Familie!\n\nDein persönlicher Zugangscode:\n${code}\n\nSo geht's:\n1. Öffne https://equinatbot.netlify.app\n2. Email + Code eingeben\n3. Bot ist freigeschaltet — viel Spaß beim Testen!\n\nIch lade dich gleich in unsere exklusive Tester-Gruppe ein. Da entwickeln wir den Bot gemeinsam mit euch weiter — dein Feedback fließt direkt ins Produkt.\n\nBei Fragen einfach hier melden.\n\nLea, Dirc & das EQUINAT-Team 🌿`;
   } else if(status === 'pending'){
-    message = `Hallo ${firstName}!\n\nDanke für deine EQUINAT PferdeBot® Tester-Bewerbung. Wir prüfen sie gerade und melden uns innerhalb der nächsten 48 Stunden.\n\nDirc & das EQUINAT-Team 🐴`;
+    message = `Hallo ${firstName}!\n\nDanke für deine EQUINAT PferdeBot® Tester-Bewerbung. Wir prüfen sie gerade und melden uns innerhalb der nächsten 48 Stunden.\n\nLea, Dirc & das EQUINAT-Team 🐴`;
   } else if(status === 'rejected'){
-    message = `Hallo ${firstName},\n\nvielen Dank für dein Interesse am EQUINAT PferdeBot®. Aktuell sind unsere 30 Beta-Plätze leider bereits vergeben.\n\nWir melden uns gerne, sobald die nächste Tester-Welle startet.\n\nDirc & das EQUINAT-Team 🐴`;
+    message = `Hallo ${firstName},\n\nvielen Dank für dein Interesse am EQUINAT PferdeBot®. Aktuell sind unsere 30 Beta-Plätze leider bereits vergeben.\n\nWir melden uns gerne, sobald die nächste Tester-Welle startet.\n\nLea, Dirc & das EQUINAT-Team 🐴`;
   } else if(status === 'affiliate'){
-    message = `Hallo ${firstName}!\n\nWir würden dich gerne als EQUINAT Affiliate-Partner begrüßen. Du hast den Bot ausgiebig getestet und passt perfekt zu unserer Marke.\n\nMagst du dich kurz mit mir verabreden, um die Konditionen zu besprechen?\n\nDirc & das EQUINAT-Team ⭐`;
+    message = `Hallo ${firstName}!\n\nWir würden dich gerne als EQUINAT Affiliate-Partner begrüßen. Du hast den Bot ausgiebig getestet und passt perfekt zu unserer Marke.\n\nMagst du dich kurz mit mir verabreden, um die Konditionen zu besprechen?\n\nLea, Dirc & das EQUINAT-Team ⭐`;
   } else {
     message = `Hallo ${firstName}!\n\nDirc von EQUINAT hier — ich melde mich wegen deiner Tester-Bewerbung.\n\n🐴`;
   }
@@ -720,7 +720,7 @@ function mailTo(email,name,status,code,telegram){
     const telegramLine = telegram && telegram !== '—'
       ? `\n\n📱 TELEGRAM-EINLADUNG\nIch lade dich heute noch persönlich in unsere exklusive Tester-Telegram-Gruppe ein (auf ${telegram}). Dort entwickeln wir den Bot gemeinsam mit allen Tester:innen weiter — dein Feedback fließt direkt ins Produkt.`
       : '\n\n📱 TELEGRAM-EINLADUNG\nIch melde mich separat per Telegram bei dir, um dich in unsere exklusive Tester-Gruppe einzuladen — dort entwickeln wir den Bot gemeinsam weiter.';
-    body = `Hallo ${name?name.split(' ')[0]:''},\n\nherzlich willkommen in der EQUINAT PferdeBot® Beta!\n\nDein persönlicher Zugangscode lautet:\n\n  ${code}\n\nSo geht's:\n1. Öffne https://equinatbot.netlify.app\n2. Gib deine Email (${email}) und den Code oben ein\n3. Bot ist freigeschaltet — viel Spaß beim Testen!${telegramLine}\n\nFeedback bitte an info@zafao.world\n\nLiebe Grüße,\nDas EQUINAT Team`;
+    body = `Hallo ${name?name.split(' ')[0]:''},\n\nherzlich willkommen in der EQUINAT PferdeBot® Beta!\n\nDein persönlicher Zugangscode lautet:\n\n  ${code}\n\nSo geht's:\n1. Öffne https://equinatbot.netlify.app\n2. Gib deine Email (${email}) und den Code oben ein\n3. Bot ist freigeschaltet — viel Spaß beim Testen!${telegramLine}\n\nFeedback bitte an info@zafao.world\n\nLiebe Grüße,\nLea, Dirc & das EQUINAT-Team`;
   }
   const subj = subjects[status]||subjects.pending;
   let url = `mailto:${email}?subject=${encodeURIComponent(subj)}`;
