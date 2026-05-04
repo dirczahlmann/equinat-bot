@@ -103,8 +103,9 @@ exports.handler = async function(event) {
     };
   }
 };
-
 function fetchSubmissions(token, formId) {
+  token = String(token || '').replace(/[^\x21-\x7E]/g, '');
+  formId = String(formId || '').replace(/[^\x21-\x7E]/g, '');
   return new Promise((resolve, reject) => {
     const opts = {
       hostname: 'api.netlify.com',
