@@ -56,18 +56,54 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .sb-scroll::-webkit-scrollbar{width:4px;}
 .sb-scroll::-webkit-scrollbar-thumb{background:rgba(201,148,58,0.15);border-radius:2px;}
 
-.sb-profile-card{
-  background:linear-gradient(135deg,rgba(201,148,58,0.08),rgba(201,148,58,0.02));
-  border:1px solid var(--border);border-radius:4px;
-  padding:10px 12px;margin-bottom:14px;cursor:pointer;transition:.2s;
+/* HORSE PICKER */
+.sb-horses{margin-bottom:14px;}
+.sb-horses-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 4px 8px;
 }
-.sb-profile-card:hover{border-color:var(--gold);}
-.sb-profile-empty{display:flex;align-items:center;gap:10px;}
-.sb-profile-icon{font-size:24px;flex-shrink:0;}
-.sb-profile-text{flex:1;}
-.sb-profile-h{font-size:11.5px;font-weight:500;color:var(--gold);letter-spacing:0.5px;}
-.sb-profile-d{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.3;}
-.sb-profile-edit{font-size:10px;color:var(--gold);flex-shrink:0;opacity:0.6;}
+.sb-horses-title{font-size:9.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);font-weight:500;}
+.sb-horses-add{
+  background:none;border:1px solid var(--border);color:var(--muted);
+  font-size:14px;width:22px;height:22px;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;line-height:1;
+  font-family:'DM Sans',sans-serif;
+}
+.sb-horses-add:hover:not(:disabled){border-color:var(--gold);color:var(--gold);}
+.sb-horses-add:disabled{opacity:0.3;cursor:not-allowed;}
+
+.sb-horse-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 10px;border-radius:4px;
+  border:1px solid transparent;
+  cursor:pointer;transition:.15s;
+  margin:2px 0;
+  background:rgba(201,148,58,0.03);
+}
+.sb-horse-item:hover{background:var(--sb-hover);}
+.sb-horse-item.active{
+  background:linear-gradient(135deg,rgba(201,148,58,0.12),rgba(201,148,58,0.04));
+  border-color:rgba(201,148,58,0.3);
+}
+.sb-horse-icon{font-size:18px;flex-shrink:0;width:20px;text-align:center;}
+.sb-horse-info{flex:1;min-width:0;}
+.sb-horse-name{font-size:12.5px;font-weight:500;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sb-horse-item.active .sb-horse-name{color:var(--gold-l);}
+.sb-horse-meta{font-size:10px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sb-horse-edit{font-size:10px;color:var(--muted);opacity:0;transition:.15s;flex-shrink:0;padding:0 2px;}
+.sb-horse-item:hover .sb-horse-edit{opacity:1;}
+
+.sb-horse-empty{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:4px;
+  background:linear-gradient(135deg,rgba(201,148,58,0.08),rgba(201,148,58,0.02));
+  border:1px solid var(--border);cursor:pointer;transition:.2s;
+}
+.sb-horse-empty:hover{border-color:var(--gold);}
+.sb-horse-empty-icon{font-size:24px;flex-shrink:0;}
+.sb-horse-empty-text{flex:1;}
+.sb-horse-empty-h{font-size:11.5px;font-weight:500;color:var(--gold);letter-spacing:0.5px;}
+.sb-horse-empty-d{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.3;}
 
 .sb-search{display:flex;align-items:center;gap:8px;padding:8px 10px;margin-bottom:14px;background:rgba(201,148,58,0.05);border:1px solid var(--border);border-radius:3px;}
 .sb-search svg{width:13px;height:13px;fill:var(--muted);flex-shrink:0;}
@@ -81,11 +117,9 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .sb-empty{font-size:11px;color:var(--muted);padding:6px 10px;font-style:italic;}
 
 .sb-foot{padding:12px 18px 14px;border-top:1px solid var(--border);background:var(--darker);flex-shrink:0;}
-
 .sb-lang-toggle{display:flex;gap:4px;background:rgba(201,148,58,0.05);border:1px solid var(--border);border-radius:99px;padding:3px;margin-bottom:10px;}
 .sb-lang-btn{flex:1;padding:5px;font-size:10px;color:var(--muted);background:none;border:none;cursor:pointer;border-radius:99px;letter-spacing:1px;font-family:'DM Sans',sans-serif;}
 .sb-lang-btn.active{background:var(--gold);color:var(--dark);font-weight:600;}
-
 .sb-foot-links{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;}
 .sb-foot-link{font-size:10.5px;color:var(--muted);text-decoration:none;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;text-align:left;padding:0;}
 .sb-foot-link:hover{color:var(--gold);}
@@ -93,13 +127,16 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 
 /* MAIN AREA */
 .main-area{flex:1;display:flex;flex-direction:column;height:100%;min-width:0;}
-
 .hdr{display:flex;align-items:center;gap:12px;padding:12px 16px;background:linear-gradient(180deg,rgba(27,47,20,0.98) 0%,rgba(8,14,6,0.97) 100%);border-bottom:1px solid var(--border);flex-shrink:0;}
 .hdr-burger{display:none;width:32px;height:32px;border:1px solid var(--border);background:none;border-radius:3px;cursor:pointer;flex-shrink:0;align-items:center;justify-content:center;flex-direction:column;gap:3px;}
 .hdr-burger span{width:14px;height:1.5px;background:var(--gold);}
-.hdr-title{flex:1;}
+.hdr-title{flex:1;min-width:0;}
 .hdr-h{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--cream);letter-spacing:1px;}
 .hdr-sub{font-size:10px;color:var(--muted);letter-spacing:0.8px;margin-top:1px;}
+.hdr-active-horse{
+  font-size:10.5px;color:var(--gold-l);
+  margin-top:2px;letter-spacing:0.5px;font-weight:500;
+}
 .hdr-dot{display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(74,222,128,0.7);letter-spacing:1px;}
 .dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.85);}}
@@ -141,12 +178,7 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 @keyframes blink{0%,49%{opacity:1;}50%,100%{opacity:0;}}
 
 .bbl-actions{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap;}
-.bbl-action{
-  background:rgba(201,148,58,0.06);border:1px solid var(--border);
-  color:var(--muted);font-size:10px;padding:3px 8px;border-radius:3px;
-  cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:0.3px;
-  display:flex;align-items:center;gap:4px;transition:.15s;
-}
+.bbl-action{background:rgba(201,148,58,0.06);border:1px solid var(--border);color:var(--muted);font-size:10px;padding:3px 8px;border-radius:3px;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:0.3px;display:flex;align-items:center;gap:4px;transition:.15s;}
 .bbl-action:hover{border-color:var(--gold);color:var(--gold);}
 .bbl-action.active{background:var(--gold);color:var(--dark);border-color:var(--gold);}
 
@@ -165,7 +197,6 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .welcome-tip:hover{border-color:var(--gold);color:var(--cream);}
 .welcome-tip strong{color:var(--gold-l);display:block;margin-bottom:2px;font-size:11px;}
 
-/* INPUT */
 .inp-wrap{padding:12px 16px;border-top:1px solid var(--border);background:rgba(8,14,6,0.96);flex-shrink:0;}
 .img-preview{display:none;align-items:center;gap:10px;padding:8px 12px;margin-bottom:8px;background:rgba(201,148,58,0.08);border:1px solid var(--border);border-radius:3px;}
 .img-preview.show{display:flex;}
@@ -177,12 +208,7 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .img-preview-remove:hover{color:var(--red);border-color:var(--red);}
 
 .inp-row{display:flex;gap:6px;align-items:flex-end;}
-.inp-iconbtn{
-  width:40px;height:40px;border-radius:4px;border:1px solid var(--border);
-  background:rgba(201,148,58,0.04);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  transition:.2s;color:var(--muted);font-size:18px;
-}
+.inp-iconbtn{width:40px;height:40px;border-radius:4px;border:1px solid var(--border);background:rgba(201,148,58,0.04);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s;color:var(--muted);font-size:18px;}
 .inp-iconbtn:hover{border-color:var(--gold);color:var(--gold);}
 .inp-iconbtn.recording{background:var(--red);color:var(--cream);border-color:var(--red);animation:recordPulse 1s infinite;}
 @keyframes recordPulse{0%,100%{box-shadow:0 0 0 0 rgba(214,123,107,0.7);}50%{box-shadow:0 0 0 6px rgba(214,123,107,0);}}
@@ -211,14 +237,43 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .modal-body strong{color:var(--cream);}
 .modal-body a{color:var(--gold);text-decoration:underline;}
 
+/* HORSE LIST IN MODAL */
+.horse-list{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.horse-card{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;border:1px solid var(--border);border-radius:4px;
+  background:rgba(201,148,58,0.04);cursor:pointer;transition:.2s;
+}
+.horse-card:hover{border-color:rgba(201,148,58,0.35);}
+.horse-card-icon{font-size:22px;flex-shrink:0;}
+.horse-card-info{flex:1;min-width:0;}
+.horse-card-name{font-size:13.5px;font-weight:500;color:var(--cream);}
+.horse-card-meta{font-size:11px;color:var(--muted);margin-top:2px;}
+.horse-card-actions{display:flex;gap:4px;flex-shrink:0;}
+.horse-card-btn{
+  background:none;border:1px solid var(--border);color:var(--muted);
+  font-size:12px;padding:5px 10px;border-radius:3px;
+  font-family:'DM Sans',sans-serif;cursor:pointer;
+}
+.horse-card-btn:hover{border-color:var(--gold);color:var(--gold);}
+.horse-card-btn.danger:hover{border-color:var(--red);color:var(--red);}
+
+.horse-add-btn{
+  width:100%;padding:11px;background:none;border:1px dashed var(--border);
+  color:var(--gold);font-family:'DM Sans',sans-serif;font-size:12px;
+  letter-spacing:1px;border-radius:4px;cursor:pointer;
+}
+.horse-add-btn:hover:not(:disabled){border-color:var(--gold);background:rgba(201,148,58,0.05);}
+.horse-add-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.horse-add-hint{
+  text-align:center;font-size:11px;color:var(--muted);
+  margin-top:8px;font-style:italic;
+}
+
 .profile-form{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
 .profile-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .profile-field label{display:block;font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;margin-bottom:4px;font-weight:500;}
-.profile-field input,.profile-field select,.profile-field textarea{
-  width:100%;padding:8px 10px;background:#111808;border:1px solid var(--border);
-  outline:none;color:var(--cream);font-family:'DM Sans',sans-serif;
-  font-size:13px;border-radius:3px;
-}
+.profile-field input,.profile-field select,.profile-field textarea{width:100%;padding:8px 10px;background:#111808;border:1px solid var(--border);outline:none;color:var(--cream);font-family:'DM Sans',sans-serif;font-size:13px;border-radius:3px;}
 .profile-field input:focus,.profile-field select:focus,.profile-field textarea:focus{border-color:var(--gold);}
 .profile-field textarea{resize:vertical;min-height:60px;font-family:'DM Sans',sans-serif;}
 
@@ -239,11 +294,12 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .modal-btn-primary:hover{background:var(--gold-l);}
 .modal-btn-secondary{background:none;border:1px solid var(--border);color:var(--muted);}
 .modal-btn-secondary:hover{border-color:var(--gold);color:var(--gold);}
+.modal-btn-danger{background:none;border:1px solid rgba(214,123,107,0.4);color:var(--red);}
+.modal-btn-danger:hover{border-color:var(--red);background:rgba(214,123,107,0.08);}
 
 .modal-close{display:block;margin:20px auto 0;background:none;border:1px solid var(--border);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1px;padding:8px 24px;cursor:pointer;border-radius:2px;}
 .modal-close:hover{border-color:var(--gold);color:var(--gold);}
 
-/* TOAST + LIMIT WALL */
 .toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--forest);border:1px solid var(--gold);border-radius:4px;padding:10px 20px;font-size:13px;color:var(--cream);transition:transform .35s cubic-bezier(.34,1.56,.64,1);z-index:400;white-space:nowrap;text-align:center;}
 .toast.show{transform:translateX(-50%) translateY(0);}
 .limit-card{margin:16px;padding:20px;background:rgba(201,148,58,0.06);border:1px solid rgba(201,148,58,0.3);border-radius:6px;text-align:center;}
@@ -252,7 +308,6 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .limit-btn{display:inline-block;padding:10px 22px;background:linear-gradient(135deg,var(--fmid),var(--forest));border:1px solid var(--gold);border-radius:3px;font-size:12px;letter-spacing:1.5px;color:var(--gold-l);cursor:pointer;text-decoration:none;font-family:'DM Sans',sans-serif;}
 .limit-btn:hover{background:linear-gradient(135deg,#3d6028,#2d4a1e);}
 
-/* MOBILE */
 @media (max-width: 820px){
   .sidebar{position:fixed;inset:0 auto 0 0;z-index:200;transform:translateX(-100%);transition:transform .25s ease;box-shadow:6px 0 20px rgba(0,0,0,0.4);}
   .sidebar.open{transform:translateX(0);}
@@ -274,11 +329,7 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
   <div class="lock-inner">
     <div class="lock-logo">EQUINAT</div>
     <h1 class="lock-title" id="lockTitle">Beta-Zugang erforderlich</h1>
-    <p class="lock-desc" id="lockDesc">
-      Der EQUINAT PferdeBot® befindet sich aktuell in der geschlossenen Beta-Testphase.
-      Du brauchst einen <strong>persönlichen Zugangscode</strong>, den wir dir nach erfolgreicher
-      Bewerbung per Email senden.
-    </p>
+    <p class="lock-desc" id="lockDesc">Der EQUINAT PferdeBot® befindet sich aktuell in der geschlossenen Beta-Testphase. Du brauchst einen <strong>persönlichen Zugangscode</strong>, den wir dir nach erfolgreicher Bewerbung per Email senden.</p>
     <div class="lock-card">
       <div class="lock-label" id="lockCardLabel">Zugangsdaten eingeben</div>
       <input type="email" id="lockEmail" class="lock-input" placeholder="Email-Adresse" autocomplete="email"/>
@@ -286,10 +337,7 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
       <div class="lock-error" id="lockError"></div>
       <button class="lock-btn" id="lockBtn" onclick="tryUnlock()">→ Bot freischalten</button>
     </div>
-    <div class="lock-foot" id="lockFoot">
-      Noch keinen Zugang?<br/>
-      <a href="/tester-signup">→ Jetzt als Beta-Tester bewerben</a>
-    </div>
+    <div class="lock-foot" id="lockFoot">Noch keinen Zugang?<br/><a href="/tester-signup">→ Jetzt als Beta-Tester bewerben</a></div>
     <div class="lock-credit">EQUINAT PferdeBot® · Beta · Zafao GmbH</div>
   </div>
 </div>
@@ -308,16 +356,13 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 
     <div class="sb-scroll">
 
-      <!-- PROFILE CARD -->
-      <div class="sb-profile-card" onclick="openModal('profile')" id="sbProfileCard">
-        <div class="sb-profile-empty">
-          <div class="sb-profile-icon">🐴</div>
-          <div class="sb-profile-text">
-            <div class="sb-profile-h" id="sbProfileH">Pferde-Profil anlegen</div>
-            <div class="sb-profile-d" id="sbProfileD">Für personalisierte Antworten</div>
-          </div>
-          <div class="sb-profile-edit">›</div>
+      <!-- HORSES PICKER -->
+      <div class="sb-horses">
+        <div class="sb-horses-head">
+          <div class="sb-horses-title" id="sbHorsesTitle">Meine Pferde</div>
+          <button class="sb-horses-add" id="sbHorsesAddBtn" onclick="openHorseEditor(null)" title="+ Pferd hinzufügen">+</button>
         </div>
+        <div id="sbHorsesList"></div>
       </div>
 
       <div class="sb-search">
@@ -346,7 +391,7 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
         <button class="sb-foot-link" onclick="openModal('ki')" id="footKi">KI-Transparenz</button>
         <button class="sb-foot-link" onclick="openModal('kontakt')" id="footKontakt">Kontakt</button>
       </div>
-      <div class="sb-foot-credit">© 2026 Zafao GmbH<br/>Beta · v6.0</div>
+      <div class="sb-foot-credit">© 2026 Zafao GmbH<br/>Beta · v8.0</div>
     </div>
   </aside>
 
@@ -354,12 +399,11 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
   <main class="main-area">
 
     <div class="hdr">
-      <button class="hdr-burger" onclick="openSidebar()" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
+      <button class="hdr-burger" onclick="openSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
       <div class="hdr-title">
         <div class="hdr-h">PferdeBot®</div>
         <div class="hdr-sub" id="hdrSub">Dein KI-Pferdeexperte</div>
+        <div class="hdr-active-horse" id="hdrActiveHorse"></div>
       </div>
       <div class="hdr-dot"><div class="dot"></div>Online</div>
       <div class="model-badge" id="modelBadge">Beta</div>
@@ -384,7 +428,6 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
     </div>
 
     <div class="inp-wrap">
-      <!-- Image Preview (versteckt bis Bild gewählt) -->
       <div class="img-preview" id="imgPreview">
         <img id="imgPreviewThumb" src="" alt=""/>
         <div class="img-preview-info">
@@ -393,18 +436,12 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
         </div>
         <button class="img-preview-remove" onclick="removeImage()" title="Entfernen">✕</button>
       </div>
-
       <div class="inp-row">
         <input type="file" id="imgFile" accept="image/jpeg,image/png,image/webp,image/gif" style="display:none" onchange="handleImageSelect(event)"/>
-
         <button class="inp-iconbtn" onclick="document.getElementById('imgFile').click()" title="Bild senden" id="imgBtn">📸</button>
         <button class="inp-iconbtn" id="micBtn" onclick="toggleVoiceInput()" title="Spracheingabe">🎤</button>
-
         <textarea id="inp" rows="1" placeholder="Frag mich alles rund ums Pferd …" oninput="autoResize(this)"></textarea>
-
-        <button id="sbtn" onclick="send()" title="Senden">
-          <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
-        </button>
+        <button id="sbtn" onclick="send()" title="Senden"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></button>
       </div>
       <div class="inp-hint" id="inpHint">EQUINAT PferdeBot® · Kein Ersatz für tierärztliche Diagnose</div>
     </div>
@@ -412,15 +449,12 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
   </main>
 </div>
 
-<!-- MODALS -->
 <div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
   <div class="modal" id="modalContent"></div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- HIDDEN NETLIFY FORMS -->
 <form name="eq-messages" data-netlify="true" netlify-honeypot="bot-field" hidden>
   <input type="text" name="bot-field"/>
   <input type="text" name="user_id"/><input type="email" name="email"/>
@@ -442,11 +476,11 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 // ═══════════════════════════════════════════════
 var MONTHLY_LIMIT = 500;
 var STORAGE_PREFIX = 'eq2_';
+var MAX_HORSES = 5;
 var BOOST_CODES = {'EQ50':50,'EQ100':100,'EQ200':200,'EQ500':500,'EQ1000':1000,'VIPTEST':9999};
 var hist = [], busy = false;
-var pendingImage = null; // base64 data of pending image to send
-var pendingImageName = '';
-var pendingImageType = '';
+var pendingImage = null, pendingImageName = '', pendingImageType = '';
+var editingHorseId = null;
 
 // ═══════════════════════════════════════════════
 // I18N
@@ -462,10 +496,11 @@ var I18N = {
     lockChecking:'Wird geprüft…',
     lockFoot:'Noch keinen Zugang?<br/><a href="/tester-signup">→ Jetzt als Beta-Tester bewerben</a>',
     sbTag:'PFERDEBOT · KI-PFERDEEXPERTE',
-    sbProfileH:'Pferde-Profil anlegen',
-    sbProfileD:'Für personalisierte Antworten',
-    sbProfileNamed:'',  // wird dynamisch
-    sbProfileEdit:'Profil bearbeiten',
+    sbHorsesTitle:'Meine Pferde',
+    sbHorsesAdd:'+ Pferd anlegen',
+    sbHorsesEmpty:'Noch kein Pferd angelegt',
+    sbHorsesEmptySub:'Für personalisierte Antworten',
+    sbHorsesMax:'Maximum 5 Pferde erreicht',
     sbSearchPh:'Themen durchsuchen…',
     sbTopicsTitle:'Themengebiete',
     sbHistoryTitle:'Verlauf',
@@ -475,6 +510,7 @@ var I18N = {
     footKi:'KI-Transparenz',
     footKontakt:'Kontakt',
     hdrSub:'Dein KI-Pferdeexperte',
+    hdrActiveLabel:'Aktiv: ',
     inpPh:'Frag mich alles rund ums Pferd …',
     inpHint:'EQUINAT PferdeBot® · Kein Ersatz für tierärztliche Diagnose',
     welcomeTitle:'Hallo! Ich bin der EQUINAT PferdeBot®',
@@ -483,7 +519,6 @@ var I18N = {
     usageEmpty:'Kontingent aufgebraucht',
     usageBuy:'+ Pakete',
     today:'Heute', yesterday:'Gestern', thisweek:'Diese Woche', older:'Älter',
-    wtMin:'<m> Min', wtH:'<h> Std', wtD:'<d> Tg',
     voiceUnsupported:'Spracheingabe wird im Browser nicht unterstützt.',
     voiceListening:'Spreche jetzt…',
     voiceErr:'Spracheingabe fehlgeschlagen.',
@@ -491,49 +526,65 @@ var I18N = {
     imgWrongType:'Ungültiges Bildformat (JPG, PNG, WEBP, GIF).',
     imgPreviewLabel:'Bild bereit zum Senden',
     copied:'Kopiert!',
-    profileTitle:'Pferde-Profil',
-    profileTag:'Personalisierung',
-    profileSub:'Je mehr du angibst, desto präziser werden die Antworten. Alle Daten bleiben lokal in deinem Browser.',
-    profileFields:{
+    horseModalTitleAll:'Meine Pferde',
+    horseModalTagAll:'Profile',
+    horseModalSubAll:'Bis zu 5 Pferde — Bot personalisiert Antworten anhand des aktiven Pferdes.',
+    horseModalAddBtn:'+ Pferd anlegen',
+    horseModalActivate:'Aktivieren',
+    horseModalEdit:'Bearbeiten',
+    horseModalNewTitle:'Neues Pferd',
+    horseModalEditTitle:'Pferd bearbeiten',
+    horseModalNewTag:'Profil-Anlage',
+    horseModalEditTag:'Profil bearbeiten',
+    horseModalNewSub:'Je mehr du angibst, desto präziser werden die Antworten.',
+    horseModalSave:'Speichern',
+    horseModalCancel:'Abbrechen',
+    horseModalDelete:'Löschen',
+    horseDeleteConfirm:'Profil von <name> wirklich löschen?',
+    horseSaved:'Profil gespeichert ✓',
+    horseDeleted:'Profil gelöscht',
+    horseActivated:'<name> ist jetzt aktiv',
+    horseMaxReached:'Maximum 5 Pferde erreicht',
+    fields:{
       name:'Name', rasse:'Rasse', alter:'Alter (Jahre)', kgw:'Körpergewicht (kg)',
       geschlecht:'Geschlecht', haltung:'Haltung', nutzung:'Nutzung',
       diagnosen:'Bekannte Diagnosen', fuetterung:'Aktuelle Fütterung'
     },
-    profileSave:'Profil speichern',
-    profileDelete:'Profil löschen',
-    profileCancel:'Abbrechen',
     sexOptions:['—','Stute','Wallach','Hengst'],
     haltungOptions:['—','Box mit Weide','Offenstall','Robusthaltung','Aktivstall','Box ohne Weide'],
     nutzungOptions:['—','Freizeit','Dressur','Springen','Vielseitigkeit','Western','Distanz','Zucht','Senior/Beistellpferd'],
+    placeholders:{
+      name:'z.B. Hugo',
+      rasse:'z.B. Warmblut, Tinker, Pony',
+      diagnosen:'z.B. EMS, leichte Arthrose, Sommerekzem',
+      fuetterung:'z.B. 8kg Heu, Mineralfutter, Leinöl, Bierhefe'
+    },
     quickTopics:[
       {q:'Was ist EQUINAT DAILY COMPLETE®?', l:'🌿 DAILY'},
       {q:'Was ist JOINT COMPLETE® bei Arthrose?', l:'🦴 JOINT'},
       {q:'Was ist RESPIRA COMPLETE® bei Atemwegen?', l:'💨 RESPIRA'},
       {q:'Was ist METABOLIC COMPLETE® bei EMS?', l:'⚖️ METABOLIC'},
       {q:'Was ist das EQUINAT MASH SYSTEM®?', l:'🌾 MASH'},
-      {q:'Was ist EQUINAT COMPLETE® Bundle?', l:'⭐ COMPLETE'},
-      {q:'Wie funktioniert das EQUINAT Abo?', l:'📦 Abo'},
+      {q:'Wie funktioniert die Subscription mit Rabatten?', l:'📦 Abo'},
       {q:'Wann muss ich beim Pferd sofort den Tierarzt rufen?', l:'🚨 Notfall'}
     ],
     sidebarTopics:[
-      {q:'Wie sollte ich mein Pferd richtig füttern?', i:'🥗', l:'Fütterung', t:'fütterung gras heu'},
+      {q:'Wie sollte ich mein Pferd richtig füttern? Bitte mache eine konkrete Tagesmenge-Berechnung.', i:'🥗', l:'Fütterung & Tagesmenge', t:'fütterung gras heu menge'},
       {q:'Mein Pferd zeigt Krankheitssymptome — was tun?', i:'🩺', l:'Gesundheit', t:'gesundheit krank tierarzt'},
       {q:'Mein Pferd hat EMS oder Cushing — was füttern?', i:'⚖️', l:'EMS &amp; Cushing', t:'ems cushing hufrehe metabolic'},
       {q:'Mein Pferd hustet — was hilft?', i:'💨', l:'Atemwege &amp; RAO', t:'atemwege rao husten allergie'},
       {q:'Mein Pferd hat Gelenkprobleme — was hilft?', i:'🦴', l:'Gelenke', t:'gelenke arthrose joint lahm'},
       {q:'Mein Senior-Pferd verliert Gewicht — was hilft?', i:'🌾', l:'Senioren &amp; Mash', t:'senior alt zahn mash'},
       {q:'Was füttern bei Sport und Schwitzen?', i:'🏆', l:'Sport &amp; Turnier', t:'sport turnier schwitzen elektrolyte'},
+      {q:'Wie kann ich mein aktuelles Futterregime mit EQUINAT vergleichen? Was würde ich sparen?', i:'💰', l:'Sparrechner', t:'sparen vergleich kosten'},
       {q:'Wie sollte mein Pferd gehalten werden?', i:'🏡', l:'Haltung &amp; Stall', t:'stall haltung weide'},
-      {q:'Was gehört zur Pferde-Vorsorge?', i:'💉', l:'Vorsorge', t:'vorsorge wurmkur impfung'},
-      {q:'Wie trainiere ich mein junges Pferd richtig?', i:'🐎', l:'Training', t:'training fohlen jung'},
-      {q:'Wie funktioniert EQUINAT COMPLETE®?', i:'⭐', l:'EQUINAT COMPLETE®', t:'complete daily produkt'},
-      {q:'Wie bekomme ich glänzendes Fell und gute Hufe?', i:'✨', l:'Vitalität', t:'vital glanz fell huf'}
+      {q:'Was gehört zur Pferde-Vorsorge?', i:'💉', l:'Vorsorge', t:'vorsorge wurmkur impfung'}
     ],
     welcomeTips:[
-      {h:'Senior-Pferd', d:'Gewichtsverlust beim alten Pferd', q:'Mein Pferd ist 22 Jahre alt und verliert Gewicht — was kann ich tun?'},
-      {h:'Produkt-Vergleich', d:'DAILY vs METABOLIC', q:'Was ist der Unterschied zwischen DAILY und METABOLIC COMPLETE®?'},
-      {h:'Atemwegsprobleme', d:'Husten, RAO, Stallallergie', q:'Mein Pferd hustet seit 3 Wochen im Stall — was tun?'},
-      {h:'Sommerekzem', d:'Hautprobleme im Sommer', q:'Mein Pferd hat Sommerekzem — was hilft?'}
+      {h:'Sparrechner', d:'Was kostet dein aktuelles Futter — und mit EQUINAT?', q:'Vergleiche meine aktuelle Fütterung mit EQUINAT — was würde ich pro Monat sparen?'},
+      {h:'Tagesmenge', d:'Konkrete Dosierungen für mein Pferd', q:'Wie viel von welchem EQUINAT-Produkt bräuchte mein Pferd pro Tag?'},
+      {h:'Persona-Beratung', d:'DAILY + 1-2 Therapie-Linien', q:'Welche EQUINAT-Linien empfiehlst du für mein Pferd?'},
+      {h:'Subscription-Vorteil', d:'Rabatte & Bot inklusive', q:'Wie funktioniert die EQUINAT-Subscription und wie viel spare ich damit?'}
     ],
     bblName:'EQUINAT PferdeBot®',
     bblYou:'Du',
@@ -565,9 +616,11 @@ var I18N = {
     lockChecking:'Checking…',
     lockFoot:'Don\'t have access yet?<br/><a href="/tester-signup">→ Apply to become a beta tester</a>',
     sbTag:'PFERDEBOT · AI HORSE EXPERT',
-    sbProfileH:'Add horse profile',
-    sbProfileD:'For personalized answers',
-    sbProfileEdit:'Edit profile',
+    sbHorsesTitle:'My horses',
+    sbHorsesAdd:'+ Add horse',
+    sbHorsesEmpty:'No horse added yet',
+    sbHorsesEmptySub:'For personalized answers',
+    sbHorsesMax:'Maximum 5 horses reached',
     sbSearchPh:'Search topics…',
     sbTopicsTitle:'Topics',
     sbHistoryTitle:'History',
@@ -577,6 +630,7 @@ var I18N = {
     footKi:'AI Transparency',
     footKontakt:'Contact',
     hdrSub:'Your AI horse expert',
+    hdrActiveLabel:'Active: ',
     inpPh:'Ask me anything about your horse…',
     inpHint:'EQUINAT PferdeBot® · No replacement for veterinary diagnosis',
     welcomeTitle:'Hello! I am the EQUINAT PferdeBot®',
@@ -585,7 +639,6 @@ var I18N = {
     usageEmpty:'Quota exhausted',
     usageBuy:'+ Packages',
     today:'Today', yesterday:'Yesterday', thisweek:'This week', older:'Older',
-    wtMin:'<m> min', wtH:'<h> h', wtD:'<d> d',
     voiceUnsupported:'Voice input is not supported in your browser.',
     voiceListening:'Speak now…',
     voiceErr:'Voice input failed.',
@@ -593,49 +646,65 @@ var I18N = {
     imgWrongType:'Invalid image format (JPG, PNG, WEBP, GIF).',
     imgPreviewLabel:'Image ready to send',
     copied:'Copied!',
-    profileTitle:'Horse profile',
-    profileTag:'Personalization',
-    profileSub:'The more you provide, the more precise answers become. All data stays locally in your browser.',
-    profileFields:{
+    horseModalTitleAll:'My horses',
+    horseModalTagAll:'Profiles',
+    horseModalSubAll:'Up to 5 horses — bot personalizes answers based on the active horse.',
+    horseModalAddBtn:'+ Add horse',
+    horseModalActivate:'Activate',
+    horseModalEdit:'Edit',
+    horseModalNewTitle:'New horse',
+    horseModalEditTitle:'Edit horse',
+    horseModalNewTag:'Create profile',
+    horseModalEditTag:'Edit profile',
+    horseModalNewSub:'The more you provide, the more precise answers become.',
+    horseModalSave:'Save',
+    horseModalCancel:'Cancel',
+    horseModalDelete:'Delete',
+    horseDeleteConfirm:'Really delete profile of <name>?',
+    horseSaved:'Profile saved ✓',
+    horseDeleted:'Profile deleted',
+    horseActivated:'<name> is now active',
+    horseMaxReached:'Maximum 5 horses reached',
+    fields:{
       name:'Name', rasse:'Breed', alter:'Age (years)', kgw:'Body weight (kg)',
       geschlecht:'Sex', haltung:'Housing', nutzung:'Use',
       diagnosen:'Known diagnoses', fuetterung:'Current feeding'
     },
-    profileSave:'Save profile',
-    profileDelete:'Delete profile',
-    profileCancel:'Cancel',
     sexOptions:['—','Mare','Gelding','Stallion'],
     haltungOptions:['—','Box with paddock','Open stable','Pasture-kept','Active stable','Box only'],
     nutzungOptions:['—','Leisure','Dressage','Show jumping','Eventing','Western','Endurance','Breeding','Senior/Companion'],
+    placeholders:{
+      name:'e.g. Hugo',
+      rasse:'e.g. Warmblood, Tinker, Pony',
+      diagnosen:'e.g. EMS, mild arthritis, sweet itch',
+      fuetterung:'e.g. 8kg hay, mineral feed, linseed oil, brewer\'s yeast'
+    },
     quickTopics:[
       {q:'What is EQUINAT DAILY COMPLETE®?', l:'🌿 DAILY'},
       {q:'What is JOINT COMPLETE® for arthritis?', l:'🦴 JOINT'},
       {q:'What is RESPIRA COMPLETE® for airways?', l:'💨 RESPIRA'},
       {q:'What is METABOLIC COMPLETE® for EMS?', l:'⚖️ METABOLIC'},
       {q:'What is the EQUINAT MASH SYSTEM®?', l:'🌾 MASH'},
-      {q:'What is EQUINAT COMPLETE® Bundle?', l:'⭐ COMPLETE'},
-      {q:'How does the EQUINAT subscription work?', l:'📦 Subscription'},
+      {q:'How does the subscription with discounts work?', l:'📦 Subscription'},
       {q:'When should I call the vet immediately?', l:'🚨 Emergency'}
     ],
     sidebarTopics:[
-      {q:'How should I feed my horse correctly?', i:'🥗', l:'Feeding', t:'feeding grass hay'},
+      {q:'How should I feed my horse correctly? Please calculate a concrete daily amount.', i:'🥗', l:'Feeding &amp; daily amount', t:'feeding hay amount'},
       {q:'My horse shows symptoms — what should I do?', i:'🩺', l:'Health', t:'health sick vet'},
       {q:'My horse has EMS or Cushing — what to feed?', i:'⚖️', l:'EMS &amp; Cushing', t:'ems cushing laminitis'},
-      {q:'My horse coughs — what helps?', i:'💨', l:'Airways &amp; RAO', t:'airways rao cough allergy'},
+      {q:'My horse coughs — what helps?', i:'💨', l:'Airways &amp; RAO', t:'airways rao cough'},
       {q:'My horse has joint issues — what helps?', i:'🦴', l:'Joints', t:'joints arthritis lame'},
       {q:'My senior horse is losing weight — what helps?', i:'🌾', l:'Seniors &amp; Mash', t:'senior old teeth mash'},
-      {q:'What to feed during sports and sweating?', i:'🏆', l:'Sport &amp; Show', t:'sport show sweat electrolytes'},
+      {q:'What to feed during sports and sweating?', i:'🏆', l:'Sport &amp; Show', t:'sport sweat electrolytes'},
+      {q:'Compare my current feeding with EQUINAT — how much would I save per month?', i:'💰', l:'Savings calc', t:'save compare cost'},
       {q:'How should my horse be housed?', i:'🏡', l:'Housing', t:'stable housing pasture'},
-      {q:'What about horse healthcare prevention?', i:'💉', l:'Prevention', t:'prevention worming vaccination'},
-      {q:'How do I train my young horse correctly?', i:'🐎', l:'Training', t:'training foal young'},
-      {q:'How does EQUINAT COMPLETE® work?', i:'⭐', l:'EQUINAT COMPLETE®', t:'complete daily product'},
-      {q:'How do I get a glossy coat and good hooves?', i:'✨', l:'Vitality', t:'vital coat hoof'}
+      {q:'What about horse healthcare prevention?', i:'💉', l:'Prevention', t:'prevention worming'}
     ],
     welcomeTips:[
-      {h:'Senior horse', d:'Weight loss in old horse', q:'My horse is 22 years old and losing weight — what can I do?'},
-      {h:'Product comparison', d:'DAILY vs METABOLIC', q:'What is the difference between DAILY and METABOLIC COMPLETE®?'},
-      {h:'Respiratory issues', d:'Cough, RAO, stable allergy', q:'My horse has been coughing in the stable for 3 weeks — what to do?'},
-      {h:'Sweet itch', d:'Skin issues in summer', q:'My horse has sweet itch — what helps?'}
+      {h:'Savings calc', d:'What does your current feeding cost vs EQUINAT?', q:'Compare my current feeding with EQUINAT — how much would I save per month?'},
+      {h:'Daily amounts', d:'Concrete dosages for my horse', q:'How much of which EQUINAT product would my horse need per day?'},
+      {h:'Persona advice', d:'DAILY + 1-2 therapy lines', q:'Which EQUINAT lines do you recommend for my horse?'},
+      {h:'Subscription', d:'Discounts &amp; bot included', q:'How does the EQUINAT subscription work and how much do I save?'}
     ],
     bblName:'EQUINAT PferdeBot®',
     bblYou:'You',
@@ -659,16 +728,14 @@ var I18N = {
   }
 };
 
-function t(key){
-  var lang=getLanguage();
-  var d=I18N[lang]||I18N.de;
-  return d[key]!==undefined?d[key]:(I18N.de[key]||'');
-}
+function t(key){var lang=getLanguage();var d=I18N[lang]||I18N.de;return d[key]!==undefined?d[key]:(I18N.de[key]||'');}
 
 // ═══════════════════════════════════════════════
-// STATE
+// STATE — including horses[] + activeHorseId
 // ═══════════════════════════════════════════════
 function currentMonth(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');}
+function uuid(){return 'h_'+Math.random().toString(36).substr(2,8)+Date.now().toString(36);}
+
 function getState(){
   try{
     var raw=localStorage.getItem(STORAGE_PREFIX+'state');
@@ -679,27 +746,31 @@ function getState(){
     if(!s.userId)s.userId='u_'+Math.random().toString(36).substr(2,8)+Date.now().toString(36);
     if(!s.history)s.history=[];
     if(!s.lang)s.lang='de';
-    if(!s.profile)s.profile={};
+    if(!Array.isArray(s.horses))s.horses=[];
+    // Migration: legacy single profile → horses array
+    if(s.profile && typeof s.profile==='object' && Object.keys(s.profile).length>0 && s.horses.length===0){
+      var migrated=Object.assign({id:uuid()},s.profile);
+      s.horses=[migrated];
+      s.activeHorseId=migrated.id;
+    }
+    if(!s.activeHorseId && s.horses.length>0)s.activeHorseId=s.horses[0].id;
     return s;
-  }catch(e){return{month:currentMonth(),used:0,extra:0,userId:'u_anon',history:[],lang:'de',profile:{}};}
+  }catch(e){return{month:currentMonth(),used:0,extra:0,userId:'u_anon',history:[],lang:'de',horses:[],activeHorseId:null};}
 }
 function saveState(s){try{localStorage.setItem(STORAGE_PREFIX+'state',JSON.stringify(s));}catch(e){}}
 function remaining(s){return Math.max(0,(MONTHLY_LIMIT-s.used)+s.extra);}
+function getActiveHorse(){var s=getState();if(!s.activeHorseId)return null;return s.horses.find(function(h){return h.id===s.activeHorseId;})||null;}
 
 function getLanguage(){var s=getState();return s.lang||'de';}
 function setLanguage(lang){
   var s=getState();s.lang=lang;saveState(s);
   document.getElementById('htmlRoot').setAttribute('lang',lang);
-  document.querySelectorAll('.sb-lang-btn').forEach(function(b){
-    b.classList.toggle('active',b.getAttribute('data-lang')===lang);
-  });
+  document.querySelectorAll('.sb-lang-btn').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-lang')===lang);});
   applyTranslations();
 }
 function setLockLang(lang){
   var s=getState();s.lang=lang;saveState(s);
-  document.querySelectorAll('.lock-lang-btn').forEach(function(b){
-    b.classList.toggle('active',b.getAttribute('data-lang')===lang);
-  });
+  document.querySelectorAll('.lock-lang-btn').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-lang')===lang);});
   applyLockTranslations();
 }
 
@@ -715,11 +786,11 @@ function applyLockTranslations(){
 
 function applyTranslations(){
   document.getElementById('sbTag').textContent=t('sbTag');
+  document.getElementById('sbHorsesTitle').textContent=t('sbHorsesTitle');
   document.getElementById('sbSearch').placeholder=t('sbSearchPh');
   document.getElementById('sbTopicsTitle').textContent=t('sbTopicsTitle');
   document.getElementById('sbHistoryTitle').textContent=t('sbHistoryTitle');
-  if(document.getElementById('sbHistoryEmpty'))
-    document.getElementById('sbHistoryEmpty').textContent=t('sbHistoryEmpty');
+  if(document.getElementById('sbHistoryEmpty'))document.getElementById('sbHistoryEmpty').textContent=t('sbHistoryEmpty');
   document.getElementById('footImpressum').textContent=t('footImpressum');
   document.getElementById('footDatenschutz').textContent=t('footDatenschutz');
   document.getElementById('footKi').textContent=t('footKi');
@@ -727,16 +798,9 @@ function applyTranslations(){
   document.getElementById('hdrSub').textContent=t('hdrSub');
   document.getElementById('inp').placeholder=t('inpPh');
   document.getElementById('inpHint').textContent=t('inpHint');
-  if(document.getElementById('welcomeTitle'))
-    document.getElementById('welcomeTitle').innerHTML=t('welcomeTitle').replace(/®/g,'<span style="color:var(--gold)">®</span>');
-  if(document.getElementById('welcomeSub'))
-    document.getElementById('welcomeSub').innerHTML=t('welcomeSub');
-  renderTopics();
-  renderSidebarTopics();
-  renderWelcomeTips();
-  renderProfileCard();
-  renderHistory();
-  updateUsageBar();
+  if(document.getElementById('welcomeTitle'))document.getElementById('welcomeTitle').innerHTML=t('welcomeTitle').replace(/®/g,'<span style="color:var(--gold)">®</span>');
+  if(document.getElementById('welcomeSub'))document.getElementById('welcomeSub').innerHTML=t('welcomeSub');
+  renderTopics();renderSidebarTopics();renderWelcomeTips();renderHorses();renderActiveHorseLabel();renderHistory();updateUsageBar();
 }
 
 // ═══════════════════════════════════════════════
@@ -748,11 +812,8 @@ function hideLockError(){document.getElementById('lockError').classList.remove('
 
 async function tryUnlock(){
   hideLockError();
-  var emailEl=document.getElementById('lockEmail');
-  var codeEl=document.getElementById('lockCode');
-  var btn=document.getElementById('lockBtn');
-  var email=(emailEl.value||'').trim().toLowerCase();
-  var code=(codeEl.value||'').trim().toUpperCase();
+  var emailEl=document.getElementById('lockEmail');var codeEl=document.getElementById('lockCode');var btn=document.getElementById('lockBtn');
+  var email=(emailEl.value||'').trim().toLowerCase();var code=(codeEl.value||'').trim().toUpperCase();
   var lang=getLanguage();
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showLockError(lang==='en'?'Please enter your email.':'Bitte gib deine Email ein.');return;}
   if(!code||code.length<4){showLockError(lang==='en'?'Please enter your access code.':'Bitte gib deinen Zugangscode ein.');return;}
@@ -767,29 +828,14 @@ async function tryUnlock(){
       showLockError(data.message||(lang==='en'?'Code invalid or expired.':'Code ungültig oder abgelaufen.'));
       btn.disabled=false;btn.textContent=t('lockBtn');
     }
-  }catch(err){
-    showLockError(lang==='en'?'Connection error. Please try again.':'Verbindungsfehler. Bitte erneut versuchen.');
-    btn.disabled=false;btn.textContent=t('lockBtn');
-  }
+  }catch(err){showLockError(lang==='en'?'Connection error.':'Verbindungsfehler.');btn.disabled=false;btn.textContent=t('lockBtn');}
 }
-
-function unlockApp(){
-  document.getElementById('lockScreen').style.display='none';
-  document.getElementById('appWrap').classList.add('unlocked');
-  initApp();
-}
-
+function unlockApp(){document.getElementById('lockScreen').style.display='none';document.getElementById('appWrap').classList.add('unlocked');initApp();}
 function lockApp(){
   if(!confirm(t('confirmLogout')))return;
-  try{
-    var raw=localStorage.getItem(STORAGE_PREFIX+'state');
-    var s=raw?JSON.parse(raw):{};
-    delete s.accessCode;delete s.email;
-    localStorage.setItem(STORAGE_PREFIX+'state',JSON.stringify(s));
-  }catch(e){}
+  try{var raw=localStorage.getItem(STORAGE_PREFIX+'state');var s=raw?JSON.parse(raw):{};delete s.accessCode;delete s.email;localStorage.setItem(STORAGE_PREFIX+'state',JSON.stringify(s));}catch(e){}
   location.reload();
 }
-
 document.getElementById('lockEmail').addEventListener('keydown',function(e){if(e.key==='Enter')tryUnlock();});
 document.getElementById('lockCode').addEventListener('keydown',function(e){if(e.key==='Enter')tryUnlock();});
 document.getElementById('lockCode').addEventListener('input',function(e){e.target.value=e.target.value.toUpperCase();});
@@ -800,77 +846,80 @@ document.getElementById('lockCode').addEventListener('input',function(e){e.targe
 function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sbBackdrop').classList.add('open');}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbBackdrop').classList.remove('open');}
 
-function renderTopics(){
-  var topics=I18N[getLanguage()].quickTopics||I18N.de.quickTopics;
-  var html='';
-  topics.forEach(function(t){
-    var safeQ=t.q.replace(/'/g,"\\'");
-    html+='<div class="topic" onclick="setQ(\''+safeQ+'\')">'+t.l+'</div>';
-  });
-  document.getElementById('topTopics').innerHTML=html;
-}
-
-function renderSidebarTopics(){
-  var topics=I18N[getLanguage()].sidebarTopics||I18N.de.sidebarTopics;
-  var html='';
-  topics.forEach(function(item){
-    var safeQ=item.q.replace(/'/g,"\\'");
-    html+='<div class="sb-item" data-topic="'+item.t+'" onclick="askTopic(\''+safeQ+'\')"><span class="sb-item-icon">'+item.i+'</span>'+item.l+'</div>';
-  });
-  document.getElementById('topicList').innerHTML=html;
-}
-
-function renderWelcomeTips(){
-  var tips=I18N[getLanguage()].welcomeTips||I18N.de.welcomeTips;
-  var html='';
-  tips.forEach(function(tip){
-    var safeQ=tip.q.replace(/'/g,"\\'");
-    html+='<div class="welcome-tip" onclick="setQ(\''+safeQ+'\')"><strong>'+tip.h+'</strong>'+tip.d+'</div>';
-  });
-  if(document.getElementById('welcomeTips'))
-    document.getElementById('welcomeTips').innerHTML=html;
-}
-
-function filterTopics(query){
-  query=(query||'').toLowerCase().trim();
-  var items=document.querySelectorAll('#topicList .sb-item');
-  items.forEach(function(item){
-    if(!query){item.style.display='';return;}
-    var topic=(item.getAttribute('data-topic')||'')+' '+item.textContent.toLowerCase();
-    item.style.display=topic.indexOf(query)>=0?'':'none';
-  });
-}
-
-function askTopic(question){
-  closeSidebar();
-  setQ(question);
-  setTimeout(send,150);
-}
-
 // ═══════════════════════════════════════════════
-// PROFILE CARD
+// HORSES — render list in sidebar
 // ═══════════════════════════════════════════════
-function renderProfileCard(){
-  var s=getState();
-  var p=s.profile||{};
-  var hasProfile=p.name||p.rasse||p.alter;
-  var card=document.getElementById('sbProfileCard');
-  if(!card)return;
-  if(hasProfile){
-    var parts=[];
-    if(p.rasse)parts.push(p.rasse);
-    if(p.alter)parts.push(p.alter+(getLanguage()==='en'?' yrs':' J.'));
-    if(p.kgw)parts.push(p.kgw+' kg');
-    var subtitle=parts.join(' · ');
-    card.innerHTML='<div class="sb-profile-empty"><div class="sb-profile-icon">🐴</div><div class="sb-profile-text"><div class="sb-profile-h">'+(p.name||'—')+'</div><div class="sb-profile-d">'+subtitle+'</div></div><div class="sb-profile-edit">›</div></div>';
-  }else{
-    card.innerHTML='<div class="sb-profile-empty"><div class="sb-profile-icon">🐴</div><div class="sb-profile-text"><div class="sb-profile-h">'+t('sbProfileH')+'</div><div class="sb-profile-d">'+t('sbProfileD')+'</div></div><div class="sb-profile-edit">›</div></div>';
+function renderHorses(){
+  var s=getState();var list=document.getElementById('sbHorsesList');var addBtn=document.getElementById('sbHorsesAddBtn');
+  if(!list)return;
+  // Toggle add button
+  addBtn.disabled=s.horses.length>=MAX_HORSES;
+  addBtn.title=addBtn.disabled?t('sbHorsesMax'):t('sbHorsesAdd');
+
+  if(s.horses.length===0){
+    list.innerHTML='<div class="sb-horse-empty" onclick="openHorseEditor(null)">'+
+      '<div class="sb-horse-empty-icon">🐴</div>'+
+      '<div class="sb-horse-empty-text">'+
+        '<div class="sb-horse-empty-h">'+t('sbHorsesEmpty')+'</div>'+
+        '<div class="sb-horse-empty-d">'+t('sbHorsesEmptySub')+'</div>'+
+      '</div>'+
+      '<div class="sb-horse-edit">+</div>'+
+    '</div>';
+    return;
   }
+
+  var html='';
+  s.horses.forEach(function(h){
+    var isActive=h.id===s.activeHorseId;
+    var meta=[];
+    if(h.rasse)meta.push(h.rasse);
+    if(h.alter)meta.push(h.alter+(getLanguage()==='en'?' yrs':' J.'));
+    if(h.kgw)meta.push(h.kgw+'kg');
+    var metaStr=meta.join(' · ');
+    var safeName=(h.name||'—').replace(/'/g,"\\'").replace(/"/g,'&quot;');
+    var displayName=(h.name||'—').replace(/</g,'&lt;');
+    html+='<div class="sb-horse-item'+(isActive?' active':'')+'" onclick="setActiveHorse(\''+h.id+'\')">'+
+      '<div class="sb-horse-icon">🐴</div>'+
+      '<div class="sb-horse-info">'+
+        '<div class="sb-horse-name">'+displayName+'</div>'+
+        (metaStr?'<div class="sb-horse-meta">'+metaStr+'</div>':'')+
+      '</div>'+
+      '<button class="sb-horse-edit" onclick="event.stopPropagation();openHorseEditor(\''+h.id+'\')" title="'+t('horseModalEdit')+'">✎</button>'+
+    '</div>';
+  });
+  list.innerHTML=html;
 }
 
-function saveProfile(){
+function renderActiveHorseLabel(){
+  var el=document.getElementById('hdrActiveHorse');if(!el)return;
+  var h=getActiveHorse();
+  if(!h){el.textContent='';el.style.display='none';return;}
+  el.style.display='';
+  el.textContent=t('hdrActiveLabel')+(h.name||'—');
+}
+
+function setActiveHorse(id){
   var s=getState();
-  s.profile={
+  if(s.activeHorseId===id){
+    // Already active — open editor on second click
+    openHorseEditor(id);
+    return;
+  }
+  s.activeHorseId=id;saveState(s);
+  renderHorses();renderActiveHorseLabel();
+  var h=s.horses.find(function(x){return x.id===id;});
+  if(h&&h.name)showToast(t('horseActivated').replace('<name>',h.name),2000);
+}
+
+function openHorseEditor(horseId){
+  editingHorseId=horseId;
+  closeSidebar();
+  openModal('horseEdit');
+}
+
+function saveHorseFromForm(){
+  var s=getState();
+  var data={
     name:document.getElementById('pName').value.trim(),
     rasse:document.getElementById('pRasse').value.trim(),
     alter:document.getElementById('pAlter').value.trim(),
@@ -881,40 +930,74 @@ function saveProfile(){
     diagnosen:document.getElementById('pDiagnosen').value.trim(),
     fuetterung:document.getElementById('pFuetterung').value.trim()
   };
-  // Strip "—" defaults
-  ['geschlecht','haltung','nutzung'].forEach(function(k){if(s.profile[k]==='—')s.profile[k]='';});
-  saveState(s);
-  renderProfileCard();
-  closeModal();
-  showToast(getLanguage()==='en'?'Profile saved ✓':'Profil gespeichert ✓',2500);
+  ['geschlecht','haltung','nutzung'].forEach(function(k){if(data[k]==='—')data[k]='';});
+  if(editingHorseId){
+    // Edit existing
+    var idx=s.horses.findIndex(function(h){return h.id===editingHorseId;});
+    if(idx>=0){data.id=editingHorseId;s.horses[idx]=data;}
+  }else{
+    // New horse
+    if(s.horses.length>=MAX_HORSES){showToast(t('horseMaxReached'),3000);closeModal();return;}
+    data.id=uuid();
+    s.horses.push(data);
+    if(!s.activeHorseId)s.activeHorseId=data.id;
+  }
+  saveState(s);editingHorseId=null;
+  renderHorses();renderActiveHorseLabel();closeModal();
+  showToast(t('horseSaved'),2000);
 }
 
-function deleteProfile(){
-  if(!confirm(getLanguage()==='en'?'Delete profile?':'Profil wirklich löschen?'))return;
-  var s=getState();s.profile={};saveState(s);
-  renderProfileCard();closeModal();
+function deleteHorseFromForm(){
+  if(!editingHorseId)return;
+  var s=getState();
+  var h=s.horses.find(function(x){return x.id===editingHorseId;});
+  var name=h?(h.name||'—'):'';
+  if(!confirm(t('horseDeleteConfirm').replace('<name>',name)))return;
+  s.horses=s.horses.filter(function(x){return x.id!==editingHorseId;});
+  if(s.activeHorseId===editingHorseId){
+    s.activeHorseId=s.horses.length>0?s.horses[0].id:null;
+  }
+  saveState(s);editingHorseId=null;
+  renderHorses();renderActiveHorseLabel();closeModal();
+  showToast(t('horseDeleted'),2000);
 }
+
+// ═══════════════════════════════════════════════
+// TOPICS / SEARCH
+// ═══════════════════════════════════════════════
+function renderTopics(){
+  var topics=I18N[getLanguage()].quickTopics||I18N.de.quickTopics;
+  var html='';
+  topics.forEach(function(t){var safeQ=t.q.replace(/'/g,"\\'");html+='<div class="topic" onclick="setQ(\''+safeQ+'\')">'+t.l+'</div>';});
+  document.getElementById('topTopics').innerHTML=html;
+}
+function renderSidebarTopics(){
+  var topics=I18N[getLanguage()].sidebarTopics||I18N.de.sidebarTopics;
+  var html='';
+  topics.forEach(function(item){var safeQ=item.q.replace(/'/g,"\\'");html+='<div class="sb-item" data-topic="'+item.t+'" onclick="askTopic(\''+safeQ+'\')"><span class="sb-item-icon">'+item.i+'</span>'+item.l+'</div>';});
+  document.getElementById('topicList').innerHTML=html;
+}
+function renderWelcomeTips(){
+  var tips=I18N[getLanguage()].welcomeTips||I18N.de.welcomeTips;
+  var html='';
+  tips.forEach(function(tip){var safeQ=tip.q.replace(/'/g,"\\'");html+='<div class="welcome-tip" onclick="setQ(\''+safeQ+'\')"><strong>'+tip.h+'</strong>'+tip.d+'</div>';});
+  if(document.getElementById('welcomeTips'))document.getElementById('welcomeTips').innerHTML=html;
+}
+function filterTopics(query){
+  query=(query||'').toLowerCase().trim();
+  document.querySelectorAll('#topicList .sb-item').forEach(function(item){
+    if(!query){item.style.display='';return;}
+    var topic=(item.getAttribute('data-topic')||'')+' '+item.textContent.toLowerCase();
+    item.style.display=topic.indexOf(query)>=0?'':'none';
+  });
+}
+function askTopic(question){closeSidebar();setQ(question);setTimeout(send,150);}
 
 // ═══════════════════════════════════════════════
 // HISTORY
 // ═══════════════════════════════════════════════
-function timeAgo(ts){
-  var diff=Date.now()-ts;
-  var m=Math.floor(diff/60000);var h=Math.floor(m/60);var d=Math.floor(h/24);
-  if(d>=7)return t('older');
-  if(d>=2)return t('thisweek');
-  if(d>=1)return t('yesterday');
-  return t('today');
-}
-
-function addToHistory(question){
-  var s=getState();
-  if(!s.history)s.history=[];
-  s.history.unshift({q:question.slice(0,80),ts:Date.now()});
-  if(s.history.length>30)s.history=s.history.slice(0,30);
-  saveState(s);renderHistory();
-}
-
+function timeAgo(ts){var diff=Date.now()-ts;var m=Math.floor(diff/60000);var h=Math.floor(m/60);var d=Math.floor(h/24);if(d>=7)return t('older');if(d>=2)return t('thisweek');if(d>=1)return t('yesterday');return t('today');}
+function addToHistory(question){var s=getState();if(!s.history)s.history=[];s.history.unshift({q:question.slice(0,80),ts:Date.now()});if(s.history.length>30)s.history=s.history.slice(0,30);saveState(s);renderHistory();}
 function renderHistory(){
   var s=getState();var list=document.getElementById('historyList');if(!list)return;
   if(!s.history||s.history.length===0){list.innerHTML='<div class="sb-empty">'+t('sbHistoryEmpty')+'</div>';return;}
@@ -924,11 +1007,7 @@ function renderHistory(){
   [t('today'),t('yesterday'),t('thisweek'),t('older')].forEach(function(k){
     if(!groups[k]||groups[k].length===0)return;
     html+='<div class="sb-item-time">'+k+'</div>';
-    groups[k].forEach(function(h){
-      var safe=h.q.replace(/'/g,"&#39;").replace(/"/g,'&quot;');
-      var safeQ=h.q.replace(/'/g,"\\'");
-      html+='<div class="sb-item" onclick="askTopic(\''+safeQ+'\')" title="'+safe+'"><span class="sb-item-icon">💬</span>'+safe+'</div>';
-    });
+    groups[k].forEach(function(h){var safe=h.q.replace(/'/g,"&#39;").replace(/"/g,'&quot;');var safeQ=h.q.replace(/'/g,"\\'");html+='<div class="sb-item" onclick="askTopic(\''+safeQ+'\')" title="'+safe+'"><span class="sb-item-icon">💬</span>'+safe+'</div>';});
   });
   list.innerHTML=html;
 }
@@ -941,16 +1020,8 @@ function updateUsageBar(){
   var pct=Math.min(100,(rem/MONTHLY_LIMIT)*100);
   var fill=document.getElementById('usageFill');var label=document.getElementById('usageLabel');var buyBtn=document.getElementById('buyBtn');
   if(fill){fill.style.width=pct+'%';fill.style.background=pct>40?'#C9943A':pct>15?'#E8B85A':'#ef4444';}
-  if(label){
-    if(rem>0){
-      var msg=t('usageRem').replace('<rem>',rem).replace('<total>',MONTHLY_LIMIT);
-      label.textContent=msg;
-    }else{label.textContent=t('usageEmpty');}
-  }
-  if(buyBtn){
-    buyBtn.style.display=rem<100?'block':'none';
-    buyBtn.textContent=t('usageBuy');
-  }
+  if(label){label.textContent=rem>0?t('usageRem').replace('<rem>',rem).replace('<total>',MONTHLY_LIMIT):t('usageEmpty');}
+  if(buyBtn){buyBtn.style.display=rem<100?'block':'none';buyBtn.textContent=t('usageBuy');}
 }
 
 // ═══════════════════════════════════════════════
@@ -969,7 +1040,7 @@ var MODAL_CONTENT={
     var pw=lang==='en'?'Power package':'Power Paket';
     var dur=lang==='en'?'· valid 30 days':'· gültig 30 Tage';
     var aboName=lang==='en'?'EQUINAT product subscription':'EQUINAT Produktabo';
-    var aboDesc=lang==='en'?'Bot permanently free included — from €59/month':'Bot dauerhaft kostenlos inklusive — ab €59/Monat';
+    var aboDesc=lang==='en'?'Bot permanently free included — from €39/month':'Bot dauerhaft kostenlos inklusive — ab €39/Monat';
     var noteLine1=lang==='en'?'After purchase you receive an unlock code by email.':'Nach dem Kauf erhältst du einen Freischalt-Code per E-Mail.';
     var noteLine2=lang==='en'?'Enter code directly in chat:':'Code eingeben direkt im Chat:';
     var closeT=lang==='en'?'Close':'Schließen';
@@ -985,23 +1056,28 @@ var MODAL_CONTENT={
       '<div class="modal-note">'+noteLine1+'<br/>'+noteLine2+' <strong style="color:var(--cream);">/code DEINCODE</strong></div>'+
       '<button class="modal-close" onclick="closeModal()">'+closeT+'</button>';
   },
-  profile:function(){
-    var s=getState();var p=s.profile||{};
+
+  horseEdit:function(){
+    var s=getState();
     var lang=getLanguage();
-    var f=I18N[lang].profileFields;
-    var sexOpts=I18N[lang].sexOptions;
-    var halOpts=I18N[lang].haltungOptions;
-    var nutzOpts=I18N[lang].nutzungOptions;
-    function selOpt(arr,curr){
-      return arr.map(function(o){return '<option value="'+o+'"'+(curr===o?' selected':'')+'>'+o+'</option>';}).join('');
+    var f=I18N[lang].fields;
+    var ph=I18N[lang].placeholders;
+    var sexOpts=I18N[lang].sexOptions;var halOpts=I18N[lang].haltungOptions;var nutzOpts=I18N[lang].nutzungOptions;
+    var p={};
+    var isNew=true;
+    if(editingHorseId){
+      var found=s.horses.find(function(x){return x.id===editingHorseId;});
+      if(found){p=found;isNew=false;}
     }
-    return '<div class="modal-tag">'+t('profileTag')+'</div>'+
-      '<div class="modal-title">'+t('profileTitle')+'</div>'+
-      '<div class="modal-sub">'+t('profileSub')+'</div>'+
+    function selOpt(arr,curr){return arr.map(function(o){return '<option value="'+o+'"'+(curr===o?' selected':'')+'>'+o+'</option>';}).join('');}
+    var deleteBtn=isNew?'':'<button class="modal-btn modal-btn-danger" onclick="deleteHorseFromForm()">'+t('horseModalDelete')+'</button>';
+    return '<div class="modal-tag">'+(isNew?t('horseModalNewTag'):t('horseModalEditTag'))+'</div>'+
+      '<div class="modal-title">'+(isNew?t('horseModalNewTitle'):t('horseModalEditTitle'))+'</div>'+
+      '<div class="modal-sub">'+t('horseModalNewSub')+'</div>'+
       '<div class="profile-form">'+
-        '<div class="profile-field"><label>'+f.name+'</label><input id="pName" type="text" value="'+(p.name||'')+'" placeholder="z.B. Hugo"/></div>'+
+        '<div class="profile-field"><label>'+f.name+'</label><input id="pName" type="text" value="'+(p.name||'').replace(/"/g,'&quot;')+'" placeholder="'+ph.name+'"/></div>'+
         '<div class="profile-row">'+
-          '<div class="profile-field"><label>'+f.rasse+'</label><input id="pRasse" type="text" value="'+(p.rasse||'')+'" placeholder="'+(lang==='en'?'e.g. Warmblood':'z.B. Warmblut')+'"/></div>'+
+          '<div class="profile-field"><label>'+f.rasse+'</label><input id="pRasse" type="text" value="'+(p.rasse||'').replace(/"/g,'&quot;')+'" placeholder="'+ph.rasse+'"/></div>'+
           '<div class="profile-field"><label>'+f.alter+'</label><input id="pAlter" type="number" min="0" max="40" value="'+(p.alter||'')+'"/></div>'+
         '</div>'+
         '<div class="profile-row">'+
@@ -1012,14 +1088,16 @@ var MODAL_CONTENT={
           '<div class="profile-field"><label>'+f.haltung+'</label><select id="pHaltung">'+selOpt(halOpts,p.haltung||'—')+'</select></div>'+
           '<div class="profile-field"><label>'+f.nutzung+'</label><select id="pNutzung">'+selOpt(nutzOpts,p.nutzung||'—')+'</select></div>'+
         '</div>'+
-        '<div class="profile-field"><label>'+f.diagnosen+'</label><textarea id="pDiagnosen" placeholder="'+(lang==='en'?'e.g. EMS, mild arthritis, sweet itch':'z.B. EMS, leichte Arthrose, Sommerekzem')+'">'+(p.diagnosen||'')+'</textarea></div>'+
-        '<div class="profile-field"><label>'+f.fuetterung+'</label><textarea id="pFuetterung" placeholder="'+(lang==='en'?'e.g. 8kg hay, mineral feed, no concentrate':'z.B. 8kg Heu, Mineralfutter, kein Kraftfutter')+'">'+(p.fuetterung||'')+'</textarea></div>'+
+        '<div class="profile-field"><label>'+f.diagnosen+'</label><textarea id="pDiagnosen" placeholder="'+ph.diagnosen+'">'+(p.diagnosen||'').replace(/</g,'&lt;')+'</textarea></div>'+
+        '<div class="profile-field"><label>'+f.fuetterung+'</label><textarea id="pFuetterung" placeholder="'+ph.fuetterung+'">'+(p.fuetterung||'').replace(/</g,'&lt;')+'</textarea></div>'+
       '</div>'+
       '<div class="modal-btns">'+
-        '<button class="modal-btn modal-btn-secondary" onclick="deleteProfile()">'+t('profileDelete')+'</button>'+
-        '<button class="modal-btn modal-btn-primary" onclick="saveProfile()">'+t('profileSave')+'</button>'+
+        deleteBtn+
+        '<button class="modal-btn modal-btn-secondary" onclick="closeModal()">'+t('horseModalCancel')+'</button>'+
+        '<button class="modal-btn modal-btn-primary" onclick="saveHorseFromForm()">'+t('horseModalSave')+'</button>'+
       '</div>';
   },
+
   impressum:function(){
     var lang=getLanguage();
     if(lang==='en'){
@@ -1047,25 +1125,25 @@ var MODAL_CONTENT={
       return '<div class="modal-tag">GDPR</div><div class="modal-title">Privacy Policy</div>'+
         '<div class="modal-body">'+
           '<h4>1. Controller</h4><p>Zafao GmbH, Adolfsallee 22, 65185 Wiesbaden, Germany — <a href="mailto:info@zafao.world">info@zafao.world</a></p>'+
-          '<h4>2. Data processed</h4><p>When using the PferdeBot®, we process: your email, access code, your questions and AI responses, an anonymized user ID, technical data (timestamp, message count, model variant), and optionally the horse profile you choose to enter.</p>'+
+          '<h4>2. Data processed</h4><p>When using the PferdeBot®, we process: your email, access code, your questions and AI responses, an anonymized user ID, technical data (timestamp, message count, model variant), and optionally horse profiles you choose to enter (up to 5).</p>'+
           '<h4>3. Purpose</h4><p>Beta-test delivery, response quality, abuse detection. Legal basis: Art. 6(1)(b) and (f) GDPR.</p>'+
           '<h4>4. Recipients</h4><p>Processors: <strong>Anthropic</strong> (USA, SCCs) for AI processing, <strong>Netlify</strong> (USA, SCCs) for hosting.</p>'+
           '<h4>5. Storage</h4><p>Logs stored during beta phase, deleted at most 90 days after beta end. Local browser data deleted on logout.</p>'+
-          '<h4>6. Your rights</h4><p>Access, rectification, erasure, restriction, objection, portability. Requests: <a href="mailto:info@zafao.world">info@zafao.world</a>. Right to lodge complaint with supervisory authority.</p>'+
-          '<h4>7. Cookies / LocalStorage</h4><p>Only technically necessary local storage for login and quota. No tracking cookies.</p>'+
-          '<h4>8. Voice / Image data</h4><p>Voice input is processed by your browser only — never sent to our servers (Web Speech API, on-device). Images you choose to upload are sent to Anthropic for AI analysis and logged for quality assurance during beta.</p>'+
+          '<h4>6. Your rights</h4><p>Access, rectification, erasure, restriction, objection, portability. Requests: <a href="mailto:info@zafao.world">info@zafao.world</a>.</p>'+
+          '<h4>7. Cookies / LocalStorage</h4><p>Only technically necessary local storage. No tracking cookies.</p>'+
+          '<h4>8. Voice / Image data</h4><p>Voice input is processed by your browser only — never sent to our servers (Web Speech API, on-device). Images you upload are sent to Anthropic for AI analysis and logged for quality assurance during beta.</p>'+
         '</div><button class="modal-close" onclick="closeModal()">Close</button>';
     }
     return '<div class="modal-tag">DSGVO</div><div class="modal-title">Datenschutzerklärung</div>'+
       '<div class="modal-body">'+
         '<h4>1. Verantwortlich</h4><p>Zafao GmbH, Adolfsallee 22, 65185 Wiesbaden — <a href="mailto:info@zafao.world">info@zafao.world</a></p>'+
-        '<h4>2. Welche Daten werden verarbeitet?</h4><p>Bei der Nutzung des PferdeBot® werden folgende Daten verarbeitet: deine Email-Adresse, dein Zugangscode, deine Fragen und KI-Antworten, ein anonymer Nutzer-ID, technische Daten (Zeitpunkt, Anzahl Nachrichten, Modell-Variante) und optional das Pferde-Profil das du eingibst.</p>'+
+        '<h4>2. Welche Daten werden verarbeitet?</h4><p>Bei der Nutzung des PferdeBot® werden folgende Daten verarbeitet: deine Email-Adresse, dein Zugangscode, deine Fragen und KI-Antworten, ein anonymer Nutzer-ID, technische Daten (Zeitpunkt, Anzahl Nachrichten, Modell-Variante) und optional die Pferde-Profile die du eingibst (bis zu 5).</p>'+
         '<h4>3. Zweck</h4><p>Bereitstellung des Beta-Tests, Qualitätsverbesserung, Missbrauchserkennung. Rechtsgrundlage: Art. 6 Abs. 1 lit. b und f DSGVO.</p>'+
-        '<h4>4. Empfänger</h4><p>Auftragsverarbeiter: <strong>Anthropic</strong> (USA, Standardvertragsklauseln) für KI-Verarbeitung, <strong>Netlify</strong> (USA, SCC) für Hosting.</p>'+
+        '<h4>4. Empfänger</h4><p>Auftragsverarbeiter: <strong>Anthropic</strong> (USA, SCC) für KI, <strong>Netlify</strong> (USA, SCC) für Hosting.</p>'+
         '<h4>5. Speicherdauer</h4><p>Chat-Logs während Beta-Phase, spätestens 90 Tage nach Beta-Ende gelöscht. Lokale Daten bei Logout gelöscht.</p>'+
-        '<h4>6. Deine Rechte</h4><p><strong>Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch, Datenübertragbarkeit</strong>. Anfragen an <a href="mailto:info@zafao.world">info@zafao.world</a>. Beschwerderecht bei Aufsichtsbehörde.</p>'+
-        '<h4>7. Cookies / LocalStorage</h4><p>Nur technisch notwendiger Browser-Speicher für Login und Kontingent. Keine Tracking-Cookies.</p>'+
-        '<h4>8. Sprach- und Bilddaten</h4><p>Spracheingabe wird ausschließlich von deinem Browser verarbeitet (Web Speech API, on-device) — nicht an unsere Server gesendet. Bilder die du hochlädst werden zur KI-Analyse an Anthropic gesendet und während der Beta-Phase zur Qualitätssicherung gespeichert.</p>'+
+        '<h4>6. Deine Rechte</h4><p><strong>Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch, Datenübertragbarkeit</strong>. Anfragen an <a href="mailto:info@zafao.world">info@zafao.world</a>.</p>'+
+        '<h4>7. Cookies / LocalStorage</h4><p>Nur technisch notwendiger Browser-Speicher. Keine Tracking-Cookies.</p>'+
+        '<h4>8. Sprach- und Bilddaten</h4><p>Spracheingabe wird ausschließlich von deinem Browser verarbeitet (Web Speech API) — nicht an unsere Server. Bilder die du hochlädst werden zur KI-Analyse an Anthropic gesendet.</p>'+
       '</div><button class="modal-close" onclick="closeModal()">Schließen</button>';
   },
   ki:function(){
@@ -1077,22 +1155,20 @@ var MODAL_CONTENT={
           '<h4>What the AI can do</h4><p>Provide general information on horse health, nutrition, housing and EQUINAT products. Trained with extensive equine veterinary, nutritional and research knowledge.</p>'+
           '<h4>What the AI cannot do</h4><p><strong>No diagnosis</strong>, no personal knowledge of your horse, no prescriptions, no behavioral observation. In emergencies <strong>always call a vet</strong>.</p>'+
           '<h4>Image analysis</h4><p>You can send photos. The AI describes what it sees but never diagnoses. Conservative, vet-referral biased.</p>'+
-          '<h4>Voice features</h4><p>Voice input and text-to-speech run locally in your browser via Web Speech API. No audio data is sent to our servers.</p>'+
-          '<h4>Model variants</h4><p>During beta we test 3 model variants in parallel (Group A/B/C). You\'re assigned automatically based on your email hash — you always see the same variant. The model badge top right shows which one.</p>'+
+          '<h4>Voice features</h4><p>Voice input and text-to-speech run locally in your browser via Web Speech API. No audio is sent to our servers.</p>'+
+          '<h4>Model variants</h4><p>During beta we test 3 model variants in parallel (Group A/B/C). You\'re assigned automatically based on your email hash. The badge top right shows which.</p>'+
           '<h4>Hallucinations</h4><p>AI models may rarely <strong>invent false information</strong>. We minimize this through careful prompts. Still: for important decisions, verify with a vet.</p>'+
-          '<h4>Feedback</h4><p>Spotting errors helps us improve: <a href="mailto:info@zafao.world">info@zafao.world</a></p>'+
         '</div><button class="modal-close" onclick="closeModal()">Close</button>';
     }
     return '<div class="modal-tag">KI-Hinweis</div><div class="modal-title">KI-Transparenz</div>'+
       '<div class="modal-body">'+
         '<h4>Du sprichst mit einer KI</h4><p>Der EQUINAT PferdeBot® ist ein KI-System auf Basis eines großen Sprachmodells von Anthropic (Claude-Familie). Es ist <strong>kein menschlicher Tierarzt oder Berater</strong>.</p>'+
         '<h4>Was die KI kann</h4><p>Allgemeine Informationen zu Pferdegesundheit, Ernährung, Haltung und EQUINAT-Produkten. Trainiert mit umfangreichem Fachwissen aus Tiermedizin, Tierernährung und equiner Forschung.</p>'+
-        '<h4>Was die KI NICHT kann</h4><p><strong>Keine Diagnose</strong>, kein persönliches Pferd kennen, keine Medikamente verschreiben, keine Verhaltensbeobachtung ersetzen. Bei Notfällen <strong>immer Tierarzt rufen</strong>.</p>'+
+        '<h4>Was die KI NICHT kann</h4><p><strong>Keine Diagnose</strong>, kein persönliches Pferd kennen, keine Medikamente verschreiben. Bei Notfällen <strong>immer Tierarzt rufen</strong>.</p>'+
         '<h4>Bildanalyse</h4><p>Du kannst Fotos schicken. Die KI beschreibt was sie sieht, stellt aber nie eine Diagnose. Konservativ, Tierarzt-Verweis-orientiert.</p>'+
         '<h4>Sprach-Features</h4><p>Spracheingabe und Vorlesen laufen lokal im Browser via Web Speech API. Keine Audio-Daten an unsere Server.</p>'+
-        '<h4>Modell-Varianten</h4><p>Während der Beta testen wir 3 Modell-Varianten parallel (Gruppe A/B/C). Zuweisung automatisch nach Email-Hash — du siehst immer dieselbe Variante. Das Modell-Badge oben rechts zeigt welches.</p>'+
+        '<h4>Modell-Varianten</h4><p>Während der Beta testen wir 3 Modell-Varianten parallel (Gruppe A/B/C). Zuweisung automatisch nach Email-Hash. Das Badge oben rechts zeigt welches.</p>'+
         '<h4>Halluzinationen</h4><p>KI-Modelle können in seltenen Fällen <strong>falsche Informationen erfinden</strong>. Wir minimieren das durch sorgfältige Prompts. Trotzdem: bei wichtigen Entscheidungen mit Tierarzt rückversichern.</p>'+
-        '<h4>Feedback</h4><p>Fehler helfen uns, den Bot zu verbessern: <a href="mailto:info@zafao.world">info@zafao.world</a></p>'+
       '</div><button class="modal-close" onclick="closeModal()">Schließen</button>';
   },
   kontakt:function(){
@@ -1116,100 +1192,51 @@ var MODAL_CONTENT={
   }
 };
 
-function openModal(type){
-  var content=MODAL_CONTENT[type];if(!content)return;
-  document.getElementById('modalContent').innerHTML=content();
-  document.getElementById('modalBg').classList.add('open');
-  document.body.style.overflow='hidden';closeSidebar();
-}
-function closeModal(){
-  document.getElementById('modalBg').classList.remove('open');
-  document.body.style.overflow='';
-}
-
-function showToast(msg,duration){
-  var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
-  setTimeout(function(){t.classList.remove('show');},duration||3000);
-}
+function openModal(type){var content=MODAL_CONTENT[type];if(!content)return;document.getElementById('modalContent').innerHTML=content();document.getElementById('modalBg').classList.add('open');document.body.style.overflow='hidden';closeSidebar();}
+function closeModal(){document.getElementById('modalBg').classList.remove('open');document.body.style.overflow='';editingHorseId=null;}
+function showToast(msg,duration){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},duration||3000);}
 
 // ═══════════════════════════════════════════════
-// VOICE INPUT (Web Speech API)
+// VOICE INPUT
 // ═══════════════════════════════════════════════
-var recognition=null, isRecording=false;
+var recognition=null,isRecording=false;
 function setupVoiceRecognition(){
   var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){document.getElementById('micBtn').style.display='none';return;}
-  recognition=new SR();
-  recognition.continuous=false;recognition.interimResults=true;
-  recognition.onresult=function(e){
-    var t='';
-    for(var i=e.resultIndex;i<e.results.length;i++){t+=e.results[i][0].transcript;}
-    document.getElementById('inp').value=t;autoResize(document.getElementById('inp'));
-  };
-  recognition.onend=function(){
-    isRecording=false;
-    document.getElementById('micBtn').classList.remove('recording');
-    document.getElementById('micBtn').textContent='🎤';
-  };
-  recognition.onerror=function(e){
-    isRecording=false;
-    document.getElementById('micBtn').classList.remove('recording');
-    document.getElementById('micBtn').textContent='🎤';
-    showToast(t('voiceErr'),3000);
-  };
+  recognition=new SR();recognition.continuous=false;recognition.interimResults=true;
+  recognition.onresult=function(e){var t='';for(var i=e.resultIndex;i<e.results.length;i++){t+=e.results[i][0].transcript;}document.getElementById('inp').value=t;autoResize(document.getElementById('inp'));};
+  recognition.onend=function(){isRecording=false;document.getElementById('micBtn').classList.remove('recording');document.getElementById('micBtn').textContent='🎤';};
+  recognition.onerror=function(){isRecording=false;document.getElementById('micBtn').classList.remove('recording');document.getElementById('micBtn').textContent='🎤';showToast(t('voiceErr'),3000);};
 }
 function toggleVoiceInput(){
   if(!recognition){showToast(t('voiceUnsupported'),3000);return;}
   if(isRecording){recognition.stop();return;}
   recognition.lang=getLanguage()==='en'?'en-US':'de-DE';
-  try{
-    recognition.start();
-    isRecording=true;
-    document.getElementById('micBtn').classList.add('recording');
-    document.getElementById('micBtn').textContent='⏺';
-    showToast(t('voiceListening'),2000);
-  }catch(e){showToast(t('voiceErr'),3000);}
+  try{recognition.start();isRecording=true;document.getElementById('micBtn').classList.add('recording');document.getElementById('micBtn').textContent='⏺';showToast(t('voiceListening'),2000);}catch(e){showToast(t('voiceErr'),3000);}
 }
 
 // ═══════════════════════════════════════════════
-// TTS (speechSynthesis)
+// TTS
 // ═══════════════════════════════════════════════
 var currentUtterance=null;
 function speak(text,btn){
-  if(!('speechSynthesis' in window)){return;}
-  if(currentUtterance){window.speechSynthesis.cancel();currentUtterance=null;
-    document.querySelectorAll('.bbl-action.active').forEach(function(b){b.classList.remove('active');b.innerHTML='🔊 '+t('bblSpeak');});
-    if(btn&&btn._wasActive){btn._wasActive=false;return;}
-  }
+  if(!('speechSynthesis' in window))return;
+  if(currentUtterance){window.speechSynthesis.cancel();currentUtterance=null;document.querySelectorAll('.bbl-action.active').forEach(function(b){b.classList.remove('active');b.innerHTML='🔊 '+t('bblSpeak');});if(btn&&btn._wasActive){btn._wasActive=false;return;}}
   var clean=text.replace(/\*\*/g,'').replace(/<[^>]+>/g,'');
-  var u=new SpeechSynthesisUtterance(clean);
-  u.lang=getLanguage()==='en'?'en-US':'de-DE';
-  u.rate=1.0;u.pitch=1.0;
-  u.onend=function(){
-    if(btn){btn.classList.remove('active');btn.innerHTML='🔊 '+t('bblSpeak');btn._wasActive=false;}
-    currentUtterance=null;
-  };
-  u.onerror=function(){
-    if(btn){btn.classList.remove('active');btn.innerHTML='🔊 '+t('bblSpeak');btn._wasActive=false;}
-    currentUtterance=null;
-  };
-  currentUtterance=u;
-  if(btn){btn.classList.add('active');btn.innerHTML='⏹ '+t('bblStop');btn._wasActive=true;}
+  var u=new SpeechSynthesisUtterance(clean);u.lang=getLanguage()==='en'?'en-US':'de-DE';u.rate=1.0;u.pitch=1.0;
+  u.onend=function(){if(btn){btn.classList.remove('active');btn.innerHTML='🔊 '+t('bblSpeak');btn._wasActive=false;}currentUtterance=null;};
+  u.onerror=function(){if(btn){btn.classList.remove('active');btn.innerHTML='🔊 '+t('bblSpeak');btn._wasActive=false;}currentUtterance=null;};
+  currentUtterance=u;if(btn){btn.classList.add('active');btn.innerHTML='⏹ '+t('bblStop');btn._wasActive=true;}
   window.speechSynthesis.speak(u);
 }
 
 // ═══════════════════════════════════════════════
-// COPY TO CLIPBOARD
+// COPY
 // ═══════════════════════════════════════════════
 function copyAnswer(text){
   var clean=text.replace(/\*\*/g,'').replace(/<[^>]+>/g,'');
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(clean).then(function(){showToast(t('copied'),1500);});
-  }else{
-    var ta=document.createElement('textarea');ta.value=clean;document.body.appendChild(ta);
-    ta.select();try{document.execCommand('copy');showToast(t('copied'),1500);}catch(e){}
-    document.body.removeChild(ta);
-  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(clean).then(function(){showToast(t('copied'),1500);});}
+  else{var ta=document.createElement('textarea');ta.value=clean;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');showToast(t('copied'),1500);}catch(e){}document.body.removeChild(ta);}
 }
 
 // ═══════════════════════════════════════════════
@@ -1217,71 +1244,38 @@ function copyAnswer(text){
 // ═══════════════════════════════════════════════
 function regenerate(){
   if(busy)return;
-  // Find last user message and resend
   var lastUserIdx=-1;
-  for(var i=hist.length-1;i>=0;i--){
-    if(hist[i].role==='user'){lastUserIdx=i;break;}
-  }
+  for(var i=hist.length-1;i>=0;i--){if(hist[i].role==='user'){lastUserIdx=i;break;}}
   if(lastUserIdx<0)return;
-  // Remove all messages after last user msg (the previous assistant response)
   hist=hist.slice(0,lastUserIdx+1);
-  // Remove last bot bubble from DOM
   var msgs=document.getElementById('msgs');
   var rows=msgs.querySelectorAll('.row');
-  if(rows.length>0){
-    var lastRow=rows[rows.length-1];
-    if(!lastRow.classList.contains('u'))lastRow.remove();
-  }
-  // Resend (same logic as sendCore but skipping addMsg user)
+  if(rows.length>0){var lastRow=rows[rows.length-1];if(!lastRow.classList.contains('u'))lastRow.remove();}
   sendToApi(true);
 }
 
 // ═══════════════════════════════════════════════
-// IMAGE HANDLING
+// IMAGE
 // ═══════════════════════════════════════════════
 function handleImageSelect(event){
-  var file=event.target.files[0];
-  if(!file)return;
+  var file=event.target.files[0];if(!file)return;
   if(file.size>5*1024*1024){showToast(t('imgTooBig'),3000);return;}
   if(!/^image\/(jpeg|png|webp|gif)$/.test(file.type)){showToast(t('imgWrongType'),3000);return;}
   var reader=new FileReader();
-  reader.onload=function(e){
-    pendingImage=e.target.result;
-    pendingImageName=file.name;
-    pendingImageType=file.type;
-    document.getElementById('imgPreviewThumb').src=e.target.result;
-    document.getElementById('imgPreviewName').textContent=file.name;
-    document.getElementById('imgPreviewSize').textContent=Math.round(file.size/1024)+' KB · '+t('imgPreviewLabel');
-    document.getElementById('imgPreview').classList.add('show');
-  };
-  reader.readAsDataURL(file);
-  event.target.value='';
+  reader.onload=function(e){pendingImage=e.target.result;pendingImageName=file.name;pendingImageType=file.type;document.getElementById('imgPreviewThumb').src=e.target.result;document.getElementById('imgPreviewName').textContent=file.name;document.getElementById('imgPreviewSize').textContent=Math.round(file.size/1024)+' KB · '+t('imgPreviewLabel');document.getElementById('imgPreview').classList.add('show');};
+  reader.readAsDataURL(file);event.target.value='';
 }
-function removeImage(){
-  pendingImage=null;pendingImageName='';pendingImageType='';
-  document.getElementById('imgPreview').classList.remove('show');
-}
+function removeImage(){pendingImage=null;pendingImageName='';pendingImageType='';document.getElementById('imgPreview').classList.remove('show');}
 
 // ═══════════════════════════════════════════════
 // BOOST CODES
 // ═══════════════════════════════════════════════
 function applyBoostCode(code){
-  code=(code||'').trim().toUpperCase();
-  if(!code)return false;
-  if(BOOST_CODES[code]!==undefined){
-    var s=getState();var add=BOOST_CODES[code];
-    s.extra=(s.extra||0)+add;saveState(s);
-    updateUsageBar();unlockInput();
-    showToast(t('boostOk').replace('<n>',add),4000);
-    return true;
-  }
+  code=(code||'').trim().toUpperCase();if(!code)return false;
+  if(BOOST_CODES[code]!==undefined){var s=getState();var add=BOOST_CODES[code];s.extra=(s.extra||0)+add;saveState(s);updateUsageBar();unlockInput();showToast(t('boostOk').replace('<n>',add),4000);return true;}
   return false;
 }
-function checkUrlCode(){
-  var params=new URLSearchParams(window.location.search);
-  var code=params.get('boost')||'';
-  if(code&&applyBoostCode(code)){window.history.replaceState({},'',window.location.pathname);}
-}
+function checkUrlCode(){var params=new URLSearchParams(window.location.search);var code=params.get('boost')||'';if(code&&applyBoostCode(code)){window.history.replaceState({},'',window.location.pathname);}}
 
 // ═══════════════════════════════════════════════
 // LIMIT WALL
@@ -1289,30 +1283,17 @@ function checkUrlCode(){
 function showLimitWall(){
   var msgs=document.getElementById('msgs');if(document.getElementById('limitWall'))return;
   var wall=document.createElement('div');wall.className='limit-card';wall.id='limitWall';
-  wall.innerHTML='<h3>'+t('limitTitle')+'</h3>'+
-    '<p>'+t('limitDesc')+'</p>'+
-    '<button class="limit-btn" onclick="openModal(\'pakete\')">'+t('limitBtn')+'</button>'+
-    '<br><br><a href="https://equinat.de" target="_blank" style="font-size:11.5px;color:var(--gold);text-decoration:none;">'+t('limitAbo')+'</a>';
+  wall.innerHTML='<h3>'+t('limitTitle')+'</h3><p>'+t('limitDesc')+'</p><button class="limit-btn" onclick="openModal(\'pakete\')">'+t('limitBtn')+'</button><br><br><a href="https://equinat.de" target="_blank" style="font-size:11.5px;color:var(--gold);text-decoration:none;">'+t('limitAbo')+'</a>';
   msgs.appendChild(wall);msgs.scrollTop=msgs.scrollHeight;lockInput();
 }
-function lockInput(){
-  var inp=document.getElementById('inp');var btn=document.getElementById('sbtn');
-  if(inp){inp.disabled=true;inp.placeholder=t('inpDisabled');}
-  if(btn)btn.disabled=true;
-}
-function unlockInput(){
-  var inp=document.getElementById('inp');var btn=document.getElementById('sbtn');
-  if(inp){inp.disabled=false;inp.placeholder=t('inpPh');}
-  if(btn)btn.disabled=false;
-  var wall=document.getElementById('limitWall');if(wall)wall.remove();
-}
+function lockInput(){var inp=document.getElementById('inp');var btn=document.getElementById('sbtn');if(inp){inp.disabled=true;inp.placeholder=t('inpDisabled');}if(btn)btn.disabled=true;}
+function unlockInput(){var inp=document.getElementById('inp');var btn=document.getElementById('sbtn');if(inp){inp.disabled=false;inp.placeholder=t('inpPh');}if(btn)btn.disabled=false;var wall=document.getElementById('limitWall');if(wall)wall.remove();}
 
 // ═══════════════════════════════════════════════
 // CHAT
 // ═══════════════════════════════════════════════
 function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,110)+'px';}
 function setQ(q){var inp=document.getElementById('inp');if(!inp||inp.disabled)return;inp.value=q;autoResize(inp);inp.focus();}
-
 function escapeHTML(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function fmtBubble(text){return escapeHTML(text).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');}
 
@@ -1324,138 +1305,86 @@ function addMsg(role,text,imgData){
   var mb=document.createElement('div');mb.className='mb';
   var mn=document.createElement('div');mn.className='mn';mn.textContent=role==='u'?t('bblYou'):t('bblName');
   var bbl=document.createElement('div');bbl.className='bbl '+(role==='u'?'u':'b');
-  var html='';
-  if(imgData)html+='<img class="bbl-img" src="'+imgData+'" alt="image"/>';
-  if(text)html+=fmtBubble(text);
-  bbl.innerHTML=html;
-  mb.appendChild(mn);mb.appendChild(bbl);
+  var html='';if(imgData)html+='<img class="bbl-img" src="'+imgData+'" alt="image"/>';if(text)html+=fmtBubble(text);
+  bbl.innerHTML=html;mb.appendChild(mn);mb.appendChild(bbl);
   if(role==='u'){row.appendChild(mb);row.appendChild(avatar);}else{row.appendChild(avatar);row.appendChild(mb);}
-  msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;
-  return bbl;
+  msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;return bbl;
 }
 
 function addBotBubble(){
-  var msgs=document.getElementById('msgs');
-  var welcome=document.getElementById('welcome');if(welcome)welcome.remove();
+  var msgs=document.getElementById('msgs');var welcome=document.getElementById('welcome');if(welcome)welcome.remove();
   var row=document.createElement('div');row.className='row';row.id='current-bot-row';
   var avatar=document.createElement('div');avatar.className='av b';avatar.textContent='🐴';
   var mb=document.createElement('div');mb.className='mb';
   var mn=document.createElement('div');mn.className='mn';mn.textContent=t('bblName');
-  var bbl=document.createElement('div');bbl.className='bbl b';bbl.id='current-bot-bbl';
-  bbl.innerHTML='<span class="stream-cursor"></span>';
-  mb.appendChild(mn);mb.appendChild(bbl);
-  row.appendChild(avatar);row.appendChild(mb);
-  msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;
-  return bbl;
+  var bbl=document.createElement('div');bbl.className='bbl b';bbl.id='current-bot-bbl';bbl.innerHTML='<span class="stream-cursor"></span>';
+  mb.appendChild(mn);mb.appendChild(bbl);row.appendChild(avatar);row.appendChild(mb);msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;return bbl;
 }
 
 function finalizeBotBubble(bbl,fullText){
   bbl.innerHTML=fmtBubble(fullText);
-  // Add action buttons
   var actions=document.createElement('div');actions.className='bbl-actions';
-  var copyBtn=document.createElement('button');copyBtn.className='bbl-action';
-  copyBtn.innerHTML='📋 '+t('bblCopy');
-  copyBtn.onclick=function(){copyAnswer(fullText);};
-  var speakBtn=document.createElement('button');speakBtn.className='bbl-action';
-  speakBtn.innerHTML='🔊 '+t('bblSpeak');
-  speakBtn.onclick=function(){speak(fullText,speakBtn);};
-  var regenBtn=document.createElement('button');regenBtn.className='bbl-action';
-  regenBtn.innerHTML='🔄 '+t('bblRegen');
-  regenBtn.onclick=function(){regenerate();};
+  var copyBtn=document.createElement('button');copyBtn.className='bbl-action';copyBtn.innerHTML='📋 '+t('bblCopy');copyBtn.onclick=function(){copyAnswer(fullText);};
+  var speakBtn=document.createElement('button');speakBtn.className='bbl-action';speakBtn.innerHTML='🔊 '+t('bblSpeak');speakBtn.onclick=function(){speak(fullText,speakBtn);};
+  var regenBtn=document.createElement('button');regenBtn.className='bbl-action';regenBtn.innerHTML='🔄 '+t('bblRegen');regenBtn.onclick=function(){regenerate();};
   actions.appendChild(copyBtn);actions.appendChild(speakBtn);actions.appendChild(regenBtn);
   bbl.parentNode.appendChild(actions);
-  var row=document.getElementById('current-bot-row');if(row)row.removeAttribute('id');
-  bbl.removeAttribute('id');
+  var row=document.getElementById('current-bot-row');if(row)row.removeAttribute('id');bbl.removeAttribute('id');
 }
 
 async function send(){
-  var inp=document.getElementById('inp');
-  var msg=inp.value.trim();
-  if(!msg&&!pendingImage)return;
-  if(busy)return;
-
-  // Slash commands
+  var inp=document.getElementById('inp');var msg=inp.value.trim();
+  if(!msg&&!pendingImage)return;if(busy)return;
   if(msg.startsWith('/code ')){
-    var code=msg.replace('/code ','').trim();
-    var bbl=addMsg('b','');
+    var code=msg.replace('/code ','').trim();var bbl=addMsg('b','');
     if(!applyBoostCode(code)){bbl.innerHTML=fmtBubble(t('boostFail').replace('<c>',code));}
     else{bbl.innerHTML=fmtBubble(getLanguage()==='en'?'✅ Package credited! 🐴':'✅ Paket gutgeschrieben! 🐴');}
     inp.value='';return;
   }
-
   var s=getState();
   if(remaining(s)<=0){showLimitWall();return;}
-
-  // Build user message — with image if pending
-  var userContent;
-  var imgPreviewDataForUI=null;
-  if(pendingImage){
-    var b64=pendingImage.replace(/^data:[^;]+;base64,/,'');
-    userContent=[
-      {type:'image',source:{type:'base64',media_type:pendingImageType,data:b64}},
-      {type:'text',text:msg||(getLanguage()==='en'?'Please analyze this photo of my horse.':'Bitte analysiere dieses Foto von meinem Pferd.')}
-    ];
-    imgPreviewDataForUI=pendingImage;
-  }else{
-    userContent=msg;
-  }
-
+  var userContent;var imgPreviewDataForUI=null;
+  if(pendingImage){var b64=pendingImage.replace(/^data:[^;]+;base64,/,'');userContent=[{type:'image',source:{type:'base64',media_type:pendingImageType,data:b64}},{type:'text',text:msg||(getLanguage()==='en'?'Please analyze this photo of my horse.':'Bitte analysiere dieses Foto von meinem Pferd.')}];imgPreviewDataForUI=pendingImage;}
+  else{userContent=msg;}
   inp.value='';inp.style.height='auto';
-  // Display user message in chat
   addMsg('u',msg,imgPreviewDataForUI);
   if(msg)addToHistory(msg);
   hist.push({role:'user',content:userContent});
-
-  // Reset pending image after add
   if(pendingImage){removeImage();}
-
   await sendToApi(false);
 }
 
 async function sendToApi(isRegenerate){
   var s=getState();
-  busy=true;document.getElementById('sbtn').disabled=true;
-  document.getElementById('inp').disabled=true;
+  busy=true;document.getElementById('sbtn').disabled=true;document.getElementById('inp').disabled=true;
   if(!isRegenerate){s.used=(s.used||0)+1;saveState(s);updateUsageBar();}
   var bbl=addBotBubble();
-
   try{
     var res=await fetch('/.netlify/functions/chat',{
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         messages:hist,user_id:s.userId,user_name:'Tester',
         email:s.email||'',access_code:s.accessCode||'',msg_count:s.used,
-        language:getLanguage(),profile:s.profile||{}
+        language:getLanguage(),
+        horses:s.horses||[],
+        activeHorseId:s.activeHorseId||null
       })
     });
-
     if(res.status===401){
       bbl.innerHTML=fmtBubble(t('accessRevoked'));
-      setTimeout(function(){
-        try{var raw=localStorage.getItem(STORAGE_PREFIX+'state');var ss=raw?JSON.parse(raw):{};delete ss.accessCode;delete ss.email;localStorage.setItem(STORAGE_PREFIX+'state',JSON.stringify(ss));}catch(e){}
-        location.reload();
-      },2500);
+      setTimeout(function(){try{var raw=localStorage.getItem(STORAGE_PREFIX+'state');var ss=raw?JSON.parse(raw):{};delete ss.accessCode;delete ss.email;localStorage.setItem(STORAGE_PREFIX+'state',JSON.stringify(ss));}catch(e){}location.reload();},2500);
       return;
     }
-
     var ct=res.headers.get('content-type')||'';
-    var fullText='', metaGroup='', metaModel='';
-
+    var fullText='',metaGroup='',metaModel='';
     if(ct.indexOf('text/event-stream')>=0){
-      // Parse SSE
-      var raw=await res.text();
-      var lines=raw.split('\n');
-      var event='', data='';
+      var raw=await res.text();var lines=raw.split('\n');var event='',data='';
       for(var i=0;i<lines.length;i++){
         var line=lines[i];
         if(line.startsWith('event: ')){event=line.slice(7).trim();}
         else if(line.startsWith('data: ')){data=line.slice(6);}
         else if(line==='' && event && data){
-          try{
-            var obj=JSON.parse(data);
-            if(event==='meta'){metaGroup=obj.group||'';metaModel=obj.model||'';}
-            else if(event==='text'){fullText=obj.text||'';}
-          }catch(e){}
+          try{var obj=JSON.parse(data);if(event==='meta'){metaGroup=obj.group||'';metaModel=obj.model||'';}else if(event==='text'){fullText=obj.text||'';}}catch(e){}
           event='';data='';
         }
       }
@@ -1463,33 +1392,20 @@ async function sendToApi(isRegenerate){
       var data=await res.json();
       if(data.error){bbl.innerHTML=fmtBubble('🐴 '+data.error);return;}
       fullText=(data.content&&data.content[0]&&data.content[0].text)||'';
-      if(data._group)metaGroup=data._group;
-      if(data._model)metaModel=data._model;
+      if(data._group)metaGroup=data._group;if(data._model)metaModel=data._model;
     }
-
-    // Update model badge
     if(metaGroup&&metaModel){
       var badge=document.getElementById('modelBadge');
       if(badge){badge.textContent=(getLanguage()==='en'?'Group ':'Gruppe ')+metaGroup+' · '+metaModel;badge.className='model-badge '+metaGroup;}
       s.modelGroup=metaGroup;s.modelLabel=metaModel;saveState(s);
     }
-
     if(!fullText){bbl.innerHTML=fmtBubble(t('fetchErr'));return;}
-
-    // Animate streaming-ish reveal (split into chunks)
     await streamReveal(bbl,fullText);
-
-    // Finalize with action buttons
     finalizeBotBubble(bbl,fullText);
     hist.push({role:'assistant',content:fullText});
-
-  }catch(e){
-    bbl.innerHTML=fmtBubble(t('networkErr'));
-  }finally{
-    busy=false;
-    document.getElementById('sbtn').disabled=false;
-    document.getElementById('inp').disabled=false;
-    document.getElementById('inp').focus();
+  }catch(e){bbl.innerHTML=fmtBubble(t('networkErr'));}
+  finally{
+    busy=false;document.getElementById('sbtn').disabled=false;document.getElementById('inp').disabled=false;document.getElementById('inp').focus();
     var s2=getState();
     if(remaining(s2)<=0)setTimeout(showLimitWall,800);
     else if(remaining(s2)===50)showToast(t('toast50'),4000);
@@ -1497,25 +1413,13 @@ async function sendToApi(isRegenerate){
   }
 }
 
-// Reveal text with simulated streaming feel
 async function streamReveal(bbl,fullText){
-  var words=fullText.split(/(\s+)/);
-  var current='';
-  var msgs=document.getElementById('msgs');
-  var i=0;
-  // Adaptive speed: faster for long answers
+  var words=fullText.split(/(\s+)/);var current='';var msgs=document.getElementById('msgs');var i=0;
   var stepMs=words.length>120?6:words.length>60?12:18;
-  while(i<words.length){
-    current+=words[i];i++;
-    bbl.innerHTML=fmtBubble(current)+'<span class="stream-cursor"></span>';
-    msgs.scrollTop=msgs.scrollHeight;
-    await new Promise(function(r){setTimeout(r,stepMs);});
-  }
+  while(i<words.length){current+=words[i];i++;bbl.innerHTML=fmtBubble(current)+'<span class="stream-cursor"></span>';msgs.scrollTop=msgs.scrollHeight;await new Promise(function(r){setTimeout(r,stepMs);});}
 }
 
-document.getElementById('inp').addEventListener('keydown',function(e){
-  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}
-});
+document.getElementById('inp').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeModal();closeSidebar();}});
 
 // ═══════════════════════════════════════════════
@@ -1527,19 +1431,11 @@ function initApp(){
   setupVoiceRecognition();
   checkUrlCode();
   applyTranslations();
-  if(s.modelGroup&&s.modelLabel){
-    var badge=document.getElementById('modelBadge');
-    if(badge){badge.textContent=(getLanguage()==='en'?'Group ':'Gruppe ')+s.modelGroup+' · '+s.modelLabel;badge.className='model-badge '+s.modelGroup;}
-  }
+  if(s.modelGroup&&s.modelLabel){var badge=document.getElementById('modelBadge');if(badge){badge.textContent=(getLanguage()==='en'?'Group ':'Gruppe ')+s.modelGroup+' · '+s.modelLabel;badge.className='model-badge '+s.modelGroup;}}
   if(remaining(s)<=0)setTimeout(showLimitWall,300);
 }
 
-(function(){
-  var s=getState();
-  setLockLang(s.lang||'de');
-  if(isUnlocked()){unlockApp();}
-  else{document.getElementById('lockEmail').focus();}
-})();
+(function(){var s=getState();setLockLang(s.lang||'de');if(isUnlocked()){unlockApp();}else{document.getElementById('lockEmail').focus();}})();
 </script>
 </body>
 </html>
