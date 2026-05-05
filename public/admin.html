@@ -571,16 +571,22 @@ function buildTesterTable(list, showChats=false){
   </tr></thead><tbody>`;
   list.forEach(t=>{
     const d=t.data||{};
-    const name=`${d.vorname||''} ${d.nachname||''}`.trim()||'—';
+    const hasName=!!(d.vorname||d.nachname);
+    const hasEmail=!!d.email;
+    const incomplete=!hasName||!hasEmail;
+    const name=`${d.vorname||''} ${d.nachname||''}`.trim()||'⚠️ Kein Name';
     const status=getStatus(t.id);
     const date=t.created_at?new Date(t.created_at).toLocaleDateString('de-DE'):'—';
     const chats=showChats?`<td class="td-count">${chatCountForTester(t)||'—'}</td>`:'';
     const codeRecord = findActiveCodeForEmail(d.email);
     const codeStr = codeRecord ? (codeRecord.data?.code || '—') : '—';
 
-    html+=`<tr onclick="openDetailModal('${t.id}')">
-      <td class="td-name">${name}</td>
-      <td class="td-email">${d.email||'—'}</td>
+    const rowStyle = incomplete ? ' style="background:rgba(155,48,48,0.06);"' : '';
+    const nameStyle = !hasName ? ' style="color:var(--red);font-style:italic;"' : '';
+
+    html+=`<tr onclick="openDetailModal('${t.id}')"${rowStyle}>
+      <td class="td-name"${nameStyle}>${name}</td>
+      <td class="td-email">${d.email||'<span style="color:var(--red)">⚠️ —</span>'}</td>
       <td class="td-code">${codeStr}</td>
       <td style="font-size:0.72rem;">${d.anzahl_pferde||'—'}</td>
       <td style="font-size:0.72rem;">${d.budget||'—'}</td>
@@ -588,10 +594,10 @@ function buildTesterTable(list, showChats=false){
       <td style="font-size:0.7rem;color:var(--cream3);">${date}</td>
       <td>${getStatusBadge(status)}</td>
       <td class="td-actions" onclick="event.stopPropagation()">
-        ${status!=='approved'?`<button class="action-btn approve" onclick="approveAndCreateCode('${t.id}')">✓ Freischalten</button>`:''}
+        ${status!=='approved' && !incomplete?`<button class="action-btn approve" onclick="approveAndCreateCode('${t.id}')">✓ Freischalten</button>`:''}
         ${status!=='rejected'?`<button class="action-btn reject" onclick="quickStatus('${t.id}','rejected')">✗ Ablehnen</button>`:''}
-        ${status!=='affiliate'?`<button class="action-btn affiliate" onclick="quickStatus('${t.id}','affiliate')">★ Affiliate</button>`:''}
-        <button class="action-btn email-btn" onclick="mailToFromRow('${t.id}')">📧</button>
+        ${status!=='affiliate' && !incomplete?`<button class="action-btn affiliate" onclick="quickStatus('${t.id}','affiliate')">★ Affiliate</button>`:''}
+        ${!incomplete?`<button class="action-btn email-btn" onclick="mailToFromRow('${t.id}')">📧</button>`:''}
         ${d.telegram?`<button class="action-btn telegram-btn" onclick="telegramToFromRow('${t.id}')">💬</button>`:''}
       </td>
     </tr>`;
