@@ -357,6 +357,16 @@ input:not([type=checkbox]):not([type=radio]),select,textarea{
 }
 input::placeholder,textarea::placeholder{color:rgba(244,239,228,0.25);}
 input:not([type=checkbox]):not([type=radio]):focus,select:focus,textarea:focus{border-color:var(--gold);}
+input.field-error,select.field-error,textarea.field-error{
+  border-color:var(--red) !important;
+  background:rgba(155,48,48,0.05);
+  animation:shake 0.4s ease;
+}
+@keyframes shake{
+  0%,100%{transform:translateX(0);}
+  25%{transform:translateX(-4px);}
+  75%{transform:translateX(4px);}
+}
 select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23C9943A'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;cursor:pointer;}
 select option{background:#0D1209;}
 textarea{resize:vertical;min-height:100px;}
@@ -712,7 +722,7 @@ footer{
       <p class="form-subtitle" data-i18n="formSub">Alle mit <span style="color:var(--gold)">✦</span> markierten Felder sind Pflichtfelder. Wir melden uns innerhalb von 48 Stunden persönlich bei dir.</p>
     </div>
 
-    <form id="testerForm" name="equinat-tester-v2" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+    <form id="testerForm" name="equinat-tester-v2" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="equinat-tester-v2"/>
       <input name="bot-field" style="display:none"/>
 
@@ -1523,13 +1533,56 @@ function acceptDsgvo(){document.getElementById('check_dsgvo').checked=true;close
 document.getElementById('testerForm').addEventListener('submit',function(e){
   e.preventDefault();
   var form=this;
-  var dsgvo=document.getElementById('check_dsgvo').checked;
-  var vertrag=document.getElementById('check_vertrag').checked;
-  var ki=document.getElementById('check_ki').checked;
   var lang=getLang();
   var dict=I18N[lang]||I18N.de;
 
-  if(!dsgvo||!vertrag||!ki){alert(dict.alertRequired);return;}
+  // ── REQUIRED FIELD VALIDATION ──
+  // Trim whitespace and validate all required text/email/select fields
+  var requiredFields=[
+    {name:'vorname', label:lang==='en'?'First name':'Vorname'},
+    {name:'nachname', label:lang==='en'?'Last name':'Nachname'},
+    {name:'email', label:lang==='en'?'Email':'E-Mail'},
+    {name:'telegram', label:lang==='en'?'Telegram contact':'Telegram-Kontakt'},
+    {name:'anzahl_pferde', label:lang==='en'?'Number of horses':'Anzahl Pferde'},
+    {name:'budget', label:lang==='en'?'Monthly budget':'Pflegebudget'},
+    {name:'herausforderung', label:lang==='en'?'Biggest challenge':'Größte Herausforderung'}
+  ];
+  var missing=[];
+  requiredFields.forEach(function(f){
+    var el=form.elements[f.name];
+    if(!el)return;
+    var val=(el.value||'').trim();
+    if(!val){missing.push(f.label);el.classList.add('field-error');}
+    else{el.classList.remove('field-error');}
+  });
+
+  // Email format check
+  var emailEl=form.elements['email'];
+  if(emailEl){
+    var emailVal=(emailEl.value||'').trim();
+    if(emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)){
+      missing.push(lang==='en'?'Email (valid format)':'E-Mail (gültiges Format)');
+      emailEl.classList.add('field-error');
+    }
+  }
+
+  if(missing.length>0){
+    var prefix=lang==='en'?'Please fill in:':'Bitte ausfüllen:';
+    alert(prefix+'\n\n• '+missing.join('\n• '));
+    // Scroll to first error
+    var firstErr=form.querySelector('.field-error');
+    if(firstErr){firstErr.focus();firstErr.scrollIntoView({behavior:'smooth',block:'center'});}
+    return;
+  }
+
+  // ── LEGAL CHECKBOXES ──
+  var dsgvo=document.getElementById('check_dsgvo').checked;
+  var vertrag=document.getElementById('check_vertrag').checked;
+  var ki=document.getElementById('check_ki').checked;
+  if(!dsgvo||!vertrag||!ki){
+    alert(dict.alertRequired);
+    return;
+  }
 
   var btn=document.getElementById('submitBtn');
   btn.disabled=true;
