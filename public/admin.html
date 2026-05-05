@@ -671,7 +671,7 @@ function telegramTo(telegram, name, status, code, lang){
 
   if(lang === 'en'){
     if(status === 'approved' && code && code !== '—'){
-      message = `🐴 Hi ${firstName}!\n\nWelcome to the EQUINAT PferdeBot® Beta family!\n\nYour personal access code:\n${code}\n\nHow it works:\n1. Open https://equinatbot.netlify.app\n2. Enter your email + code\n3. Bot is unlocked — enjoy testing!\n\nI'll invite you to our exclusive tester group shortly. That's where we develop the bot together with you — your feedback flows straight into the product.\n\nFeel free to reach out anytime.\n\nLea, Dirc & the EQUINAT team 🌿`;
+      message = `🐴 Hi ${firstName}!\n\nWelcome to the EQUINAT PferdeBot® Beta family!\n\nYour personal access code:\n${code}\n\nHow it works:\n1. Open https://equinatbot.netlify.app\n2. Enter your email + code\n3. Bot is unlocked — enjoy testing!\n\n📱 Join our exclusive tester group right here:\nhttps://t.me/+sm3_MQ32KRc4YzQy\n\nThat's where we develop the bot together with you — your feedback flows straight into the product. I'll personally welcome you in the group.\n\nFeel free to reach out anytime.\n\nLea, Dirc & the EQUINAT team 🌿`;
     } else if(status === 'pending'){
       message = `Hi ${firstName}!\n\nThanks for your EQUINAT PferdeBot® tester application. We're reviewing it right now and will get back to you within 48 hours.\n\nLea, Dirc & the EQUINAT team 🐴`;
     } else if(status === 'rejected'){
@@ -684,7 +684,7 @@ function telegramTo(telegram, name, status, code, lang){
   } else {
     // DE (default)
     if(status === 'approved' && code && code !== '—'){
-      message = `🐴 Hallo ${firstName}!\n\nWillkommen in der EQUINAT PferdeBot® Beta-Familie!\n\nDein persönlicher Zugangscode:\n${code}\n\nSo geht's:\n1. Öffne https://equinatbot.netlify.app\n2. Email + Code eingeben\n3. Bot ist freigeschaltet — viel Spaß beim Testen!\n\nIch lade dich gleich in unsere exklusive Tester-Gruppe ein. Da entwickeln wir den Bot gemeinsam mit euch weiter — dein Feedback fließt direkt ins Produkt.\n\nBei Fragen einfach hier melden.\n\nLea, Dirc & das EQUINAT-Team 🌿`;
+      message = `🐴 Hallo ${firstName}!\n\nWillkommen in der EQUINAT PferdeBot® Beta-Familie!\n\nDein persönlicher Zugangscode:\n${code}\n\nSo geht's:\n1. Öffne https://equinatbot.netlify.app\n2. Email + Code eingeben\n3. Bot ist freigeschaltet — viel Spaß beim Testen!\n\n📱 Tritt unserer exklusiven Tester-Gruppe direkt bei:\nhttps://t.me/+sm3_MQ32KRc4YzQy\n\nDa entwickeln wir den Bot gemeinsam mit euch weiter — dein Feedback fließt direkt ins Produkt. Ich begrüße dich dann persönlich in der Gruppe.\n\nBei Fragen einfach hier melden.\n\nLea, Dirc & das EQUINAT-Team 🌿`;
     } else if(status === 'pending'){
       message = `Hallo ${firstName}!\n\nDanke für deine EQUINAT PferdeBot® Tester-Bewerbung. Wir prüfen sie gerade und melden uns innerhalb der nächsten 48 Stunden.\n\nLea, Dirc & das EQUINAT-Team 🐴`;
     } else if(status === 'rejected'){
@@ -762,13 +762,13 @@ function mailTo(email,name,status,code,telegram,lang){
   if(status === 'approved' && code && code !== '—'){
     if(lang === 'en'){
       const telegramLine = telegram && telegram !== '—'
-        ? `\n\n📱 TELEGRAM INVITATION\nI'll personally invite you to our exclusive tester Telegram group today (via ${telegram}). That's where we develop the bot together with all testers — your feedback flows straight into the product.`
-        : '\n\n📱 TELEGRAM INVITATION\nI\'ll get in touch separately via Telegram to invite you to our exclusive tester group — where we develop the bot together.';
+        ? `\n\n📱 TELEGRAM INVITATION\nJoin our exclusive tester Telegram group right here:\nhttps://t.me/+sm3_MQ32KRc4YzQy\n\nThat's where we develop the bot together with all testers — your feedback flows straight into the product. I'll personally welcome you in the group (via ${telegram}).`
+        : '\n\n📱 TELEGRAM INVITATION\nJoin our exclusive tester Telegram group right here:\nhttps://t.me/+sm3_MQ32KRc4YzQy\n\nThat\'s where we develop the bot together with all testers — your feedback flows straight into the product.';
       body = `Hi ${name?name.split(' ')[0]:''},\n\nwelcome to the EQUINAT PferdeBot® Beta!\n\nYour personal access code:\n\n  ${code}\n\nHow it works:\n1. Open https://equinatbot.netlify.app\n2. Enter your email (${email}) and the code above\n3. Bot unlocked — enjoy testing!${telegramLine}\n\nFeedback to info@zafao.world\n\nBest regards,\nLea, Dirc & the EQUINAT team`;
     } else {
       const telegramLine = telegram && telegram !== '—'
-        ? `\n\n📱 TELEGRAM-EINLADUNG\nIch lade dich heute noch persönlich in unsere exklusive Tester-Telegram-Gruppe ein (auf ${telegram}). Dort entwickeln wir den Bot gemeinsam mit allen Tester:innen weiter — dein Feedback fließt direkt ins Produkt.`
-        : '\n\n📱 TELEGRAM-EINLADUNG\nIch melde mich separat per Telegram bei dir, um dich in unsere exklusive Tester-Gruppe einzuladen — dort entwickeln wir den Bot gemeinsam weiter.';
+        ? `\n\n📱 TELEGRAM-EINLADUNG\nTritt unserer exklusiven Tester-Telegram-Gruppe direkt bei:\nhttps://t.me/+sm3_MQ32KRc4YzQy\n\nDort entwickeln wir den Bot gemeinsam mit allen Tester:innen weiter — dein Feedback fließt direkt ins Produkt. Ich begrüße dich dann persönlich in der Gruppe (auf ${telegram}).`
+        : '\n\n📱 TELEGRAM-EINLADUNG\nTritt unserer exklusiven Tester-Telegram-Gruppe direkt bei:\nhttps://t.me/+sm3_MQ32KRc4YzQy\n\nDort entwickeln wir den Bot gemeinsam mit allen Tester:innen weiter — dein Feedback fließt direkt ins Produkt.';
       body = `Hallo ${name?name.split(' ')[0]:''},\n\nherzlich willkommen in der EQUINAT PferdeBot® Beta!\n\nDein persönlicher Zugangscode lautet:\n\n  ${code}\n\nSo geht's:\n1. Öffne https://equinatbot.netlify.app\n2. Gib deine Email (${email}) und den Code oben ein\n3. Bot ist freigeschaltet — viel Spaß beim Testen!${telegramLine}\n\nFeedback bitte an info@zafao.world\n\nLiebe Grüße,\nLea, Dirc & das EQUINAT-Team`;
     }
   }
