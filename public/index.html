@@ -301,6 +301,18 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .profile-field input:focus,.profile-field select:focus,.profile-field textarea:focus{border-color:var(--gold);}
 .profile-field textarea{resize:vertical;min-height:60px;font-family:'DM Sans',sans-serif;}
 
+.profile-collapsible{margin:14px 0 6px;border:1px solid var(--border);border-radius:4px;background:rgba(201,148,58,0.03);}
+.profile-collapsible-head{display:flex;align-items:center;gap:8px;padding:10px 12px;cursor:pointer;user-select:none;transition:.15s;}
+.profile-collapsible-head:hover{background:rgba(201,148,58,0.06);}
+.profile-collapsible-arrow{font-size:10px;color:var(--gold);transition:transform .2s;}
+.profile-collapsible.open .profile-collapsible-arrow{transform:rotate(90deg);}
+.profile-collapsible-title{flex:1;font-size:11px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;font-weight:500;}
+.profile-collapsible-hint{font-size:10px;color:var(--muted);font-style:italic;}
+.profile-collapsible-body{display:none;padding:0 12px 12px;border-top:1px solid var(--border);}
+.profile-collapsible.open .profile-collapsible-body{display:block;padding-top:12px;}
+.profile-field-help{font-size:10px;color:var(--muted);margin-top:3px;font-style:italic;}
+input[type="date"]{color-scheme:dark;}
+
 .pkg-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
 .pkg{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1px solid var(--border);border-radius:4px;background:rgba(201,148,58,0.04);transition:.2s;text-decoration:none;color:inherit;}
 .pkg:hover,.pkg.featured{border-color:var(--gold);background:rgba(201,148,58,0.1);}
@@ -602,11 +614,18 @@ var I18N = {
     horseDeleted:'Profil gelöscht',
     horseActivated:'<name> ist jetzt aktiv',
     horseMaxReached:'Maximum 5 Pferde erreicht',
-    fields:{name:'Name',rasse:'Rasse',alter:'Alter (Jahre)',kgw:'Körpergewicht (kg)',geschlecht:'Geschlecht',haltung:'Haltung',nutzung:'Nutzung',diagnosen:'Bekannte Diagnosen',fuetterung:'Aktuelle Fütterung'},
+    fields:{name:'Name',rasse:'Rasse',alter:'Alter (Jahre)',kgw:'Körpergewicht (kg)',geschlecht:'Geschlecht',haltung:'Haltung',nutzung:'Nutzung',diagnosen:'Bekannte Diagnosen',fuetterung:'Aktuelle Fütterung',impfung_letzte:'Letzte Impfung',impfung_typ:'Impf-Typ',wurmkur_letzte:'Letzte Wurmkur',wurmkur_wirkstoff:'Wurmkur-Wirkstoff',hufschmied_letzter:'Letzter Hufschmied-Termin',tierarzt_letzter:'Letzter Tierarzt-Check',zahnarzt_letzter:'Letzter Zahn-Check'},
     sexOptions:['—','Stute','Wallach','Hengst'],
     haltungOptions:['—','Box mit Weide','Offenstall','Robusthaltung','Aktivstall','Box ohne Weide'],
     nutzungOptions:['—','Freizeit','Dressur','Springen','Vielseitigkeit','Western','Distanz','Zucht','Senior/Beistellpferd'],
-    placeholders:{name:'z.B. Hugo',rasse:'z.B. Warmblut, Tinker, Pony',diagnosen:'z.B. EMS, leichte Arthrose, Sommerekzem',fuetterung:'z.B. 8kg Heu, Mineralfutter, Leinöl, Bierhefe'},
+    placeholders:{name:'z.B. Hugo',rasse:'z.B. Warmblut, Tinker, Pony',diagnosen:'z.B. EMS, leichte Arthrose, Sommerekzem',fuetterung:'z.B. 8kg Heu, Mineralfutter, Leinöl, Bierhefe',impfung_typ:'z.B. Tetanus, Influenza, Herpes',wurmkur_wirkstoff:'z.B. Ivermectin, Moxidectin, Pyrantel'},
+    vorsorgeTitle:'Vorsorge & Termine',
+    vorsorgeHint:'Optional · der Bot erinnert dich',
+    impfungHelp:'Bot erinnert nach 11 Monaten an Auffrischung',
+    wurmkurHelp:'Selektiv: 2-4× pro Jahr je nach Befund',
+    hufschmiedHelp:'Standard: alle 6-8 Wochen',
+    tierarztHelp:'Standard: jährlicher Routine-Check',
+    zahnarztHelp:'Standard: alle 12-24 Monate',
     chatRename:'Umbenennen',
     chatMove:'In Projekt verschieben',
     chatDelete:'Chat löschen',
@@ -734,11 +753,18 @@ var I18N = {
     horseDeleted:'Profile deleted',
     horseActivated:'<name> is now active',
     horseMaxReached:'Maximum 5 horses reached',
-    fields:{name:'Name',rasse:'Breed',alter:'Age (years)',kgw:'Body weight (kg)',geschlecht:'Sex',haltung:'Housing',nutzung:'Use',diagnosen:'Known diagnoses',fuetterung:'Current feeding'},
+    fields:{name:'Name',rasse:'Breed',alter:'Age (years)',kgw:'Body weight (kg)',geschlecht:'Sex',haltung:'Housing',nutzung:'Use',diagnosen:'Known diagnoses',fuetterung:'Current feeding',impfung_letzte:'Last vaccination',impfung_typ:'Vaccine type',wurmkur_letzte:'Last deworming',wurmkur_wirkstoff:'Deworming agent',hufschmied_letzter:'Last farrier appointment',tierarzt_letzter:'Last vet checkup',zahnarzt_letzter:'Last dental check'},
     sexOptions:['—','Mare','Gelding','Stallion'],
     haltungOptions:['—','Box with paddock','Open stable','Pasture-kept','Active stable','Box only'],
     nutzungOptions:['—','Leisure','Dressage','Show jumping','Eventing','Western','Endurance','Breeding','Senior/Companion'],
-    placeholders:{name:'e.g. Hugo',rasse:'e.g. Warmblood, Tinker, Pony',diagnosen:'e.g. EMS, mild arthritis, sweet itch',fuetterung:'e.g. 8kg hay, mineral feed, linseed oil'},
+    placeholders:{name:'e.g. Hugo',rasse:'e.g. Warmblood, Tinker, Pony',diagnosen:'e.g. EMS, mild arthritis, sweet itch',fuetterung:'e.g. 8kg hay, mineral feed, linseed oil',impfung_typ:'e.g. Tetanus, Influenza, Herpes',wurmkur_wirkstoff:'e.g. Ivermectin, Moxidectin, Pyrantel'},
+    vorsorgeTitle:'Healthcare & Appointments',
+    vorsorgeHint:'Optional · the bot reminds you',
+    impfungHelp:'Bot reminds for booster after 11 months',
+    wurmkurHelp:'Selective: 2-4× per year based on results',
+    hufschmiedHelp:'Standard: every 6-8 weeks',
+    tierarztHelp:'Standard: annual routine check',
+    zahnarztHelp:'Standard: every 12-24 months',
     chatRename:'Rename',
     chatMove:'Move to project',
     chatDelete:'Delete chat',
@@ -995,7 +1021,24 @@ function openHorseEditor(horseId){editingHorseId=horseId;closeSidebar();openModa
 
 function saveHorseFromForm(){
   var s=getState();
-  var data={name:document.getElementById('pName').value.trim(),rasse:document.getElementById('pRasse').value.trim(),alter:document.getElementById('pAlter').value.trim(),kgw:document.getElementById('pKgw').value.trim(),geschlecht:document.getElementById('pGeschlecht').value,haltung:document.getElementById('pHaltung').value,nutzung:document.getElementById('pNutzung').value,diagnosen:document.getElementById('pDiagnosen').value.trim(),fuetterung:document.getElementById('pFuetterung').value.trim()};
+  var data={
+    name:document.getElementById('pName').value.trim(),
+    rasse:document.getElementById('pRasse').value.trim(),
+    alter:document.getElementById('pAlter').value.trim(),
+    kgw:document.getElementById('pKgw').value.trim(),
+    geschlecht:document.getElementById('pGeschlecht').value,
+    haltung:document.getElementById('pHaltung').value,
+    nutzung:document.getElementById('pNutzung').value,
+    diagnosen:document.getElementById('pDiagnosen').value.trim(),
+    fuetterung:document.getElementById('pFuetterung').value.trim(),
+    impfung_letzte:document.getElementById('pImpfungLetzte')?document.getElementById('pImpfungLetzte').value:'',
+    impfung_typ:document.getElementById('pImpfungTyp')?document.getElementById('pImpfungTyp').value.trim():'',
+    wurmkur_letzte:document.getElementById('pWurmkurLetzte')?document.getElementById('pWurmkurLetzte').value:'',
+    wurmkur_wirkstoff:document.getElementById('pWurmkurWirkstoff')?document.getElementById('pWurmkurWirkstoff').value.trim():'',
+    hufschmied_letzter:document.getElementById('pHufschmiedLetzter')?document.getElementById('pHufschmiedLetzter').value:'',
+    tierarzt_letzter:document.getElementById('pTierarztLetzter')?document.getElementById('pTierarztLetzter').value:'',
+    zahnarzt_letzter:document.getElementById('pZahnarztLetzter')?document.getElementById('pZahnarztLetzter').value:''
+  };
   ['geschlecht','haltung','nutzung'].forEach(function(k){if(data[k]==='—')data[k]='';});
   if(editingHorseId){
     var idx=s.horses.findIndex(function(h){return h.id===editingHorseId;});
@@ -1553,6 +1596,28 @@ var MODAL_CONTENT={
         '<div class="profile-row"><div class="profile-field"><label>'+f.haltung+'</label><select id="pHaltung">'+selOpt(halOpts,p.haltung||'—')+'</select></div><div class="profile-field"><label>'+f.nutzung+'</label><select id="pNutzung">'+selOpt(nutzOpts,p.nutzung||'—')+'</select></div></div>'+
         '<div class="profile-field"><label>'+f.diagnosen+'</label><textarea id="pDiagnosen" placeholder="'+ph.diagnosen+'">'+(p.diagnosen||'').replace(/</g,'&lt;')+'</textarea></div>'+
         '<div class="profile-field"><label>'+f.fuetterung+'</label><textarea id="pFuetterung" placeholder="'+ph.fuetterung+'">'+(p.fuetterung||'').replace(/</g,'&lt;')+'</textarea></div>'+
+        '<div class="profile-collapsible'+((p.impfung_letzte||p.wurmkur_letzte||p.hufschmied_letzter||p.tierarzt_letzter||p.zahnarzt_letzter)?' open':'')+'" id="vorsorgeCollapse">'+
+          '<div class="profile-collapsible-head" onclick="document.getElementById(\'vorsorgeCollapse\').classList.toggle(\'open\')">'+
+            '<span class="profile-collapsible-arrow">▶</span>'+
+            '<span class="profile-collapsible-title">📅 '+t('vorsorgeTitle')+'</span>'+
+            '<span class="profile-collapsible-hint">'+t('vorsorgeHint')+'</span>'+
+          '</div>'+
+          '<div class="profile-collapsible-body">'+
+            '<div class="profile-row">'+
+              '<div class="profile-field"><label>'+f.impfung_letzte+'</label><input id="pImpfungLetzte" type="date" value="'+(p.impfung_letzte||'')+'"/><div class="profile-field-help">'+t('impfungHelp')+'</div></div>'+
+              '<div class="profile-field"><label>'+f.impfung_typ+'</label><input id="pImpfungTyp" type="text" value="'+(p.impfung_typ||'').replace(/"/g,'&quot;')+'" placeholder="'+ph.impfung_typ+'"/></div>'+
+            '</div>'+
+            '<div class="profile-row">'+
+              '<div class="profile-field"><label>'+f.wurmkur_letzte+'</label><input id="pWurmkurLetzte" type="date" value="'+(p.wurmkur_letzte||'')+'"/><div class="profile-field-help">'+t('wurmkurHelp')+'</div></div>'+
+              '<div class="profile-field"><label>'+f.wurmkur_wirkstoff+'</label><input id="pWurmkurWirkstoff" type="text" value="'+(p.wurmkur_wirkstoff||'').replace(/"/g,'&quot;')+'" placeholder="'+ph.wurmkur_wirkstoff+'"/></div>'+
+            '</div>'+
+            '<div class="profile-row">'+
+              '<div class="profile-field"><label>'+f.hufschmied_letzter+'</label><input id="pHufschmiedLetzter" type="date" value="'+(p.hufschmied_letzter||'')+'"/><div class="profile-field-help">'+t('hufschmiedHelp')+'</div></div>'+
+              '<div class="profile-field"><label>'+f.tierarzt_letzter+'</label><input id="pTierarztLetzter" type="date" value="'+(p.tierarzt_letzter||'')+'"/><div class="profile-field-help">'+t('tierarztHelp')+'</div></div>'+
+            '</div>'+
+            '<div class="profile-field"><label>'+f.zahnarzt_letzter+'</label><input id="pZahnarztLetzter" type="date" value="'+(p.zahnarzt_letzter||'')+'"/><div class="profile-field-help">'+t('zahnarztHelp')+'</div></div>'+
+          '</div>'+
+        '</div>'+
       '</div>'+
       '<div class="modal-btns">'+deleteBtn+'<button class="modal-btn modal-btn-secondary" onclick="closeModal()">'+t('horseModalCancel')+'</button><button class="modal-btn modal-btn-primary" onclick="saveHorseFromForm()">'+t('horseModalSave')+'</button></div>';
   },
