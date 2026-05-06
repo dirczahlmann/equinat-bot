@@ -1057,6 +1057,72 @@ function t(key){var lang=getLanguage();var d=I18N[lang]||I18N.de;return d[key]!=
 function currentMonth(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');}
 function uuid(prefix){return (prefix||'x_')+Math.random().toString(36).substr(2,8)+Date.now().toString(36);}
 
+// ─── IndexedDB Backup Layer ───
+// Safari iOS löscht localStorage aggressiv (7-Tage-ITP, low-storage cleanup, PWA/Browser-Sandbox).
+// IndexedDB persistiert robuster — wir spiegeln den State dorthin und stellen wieder her wenn nötig.
+var IDB_NAME='eq2db', IDB_STORE='state';
+function idbOpen(){
+  return new Promise(function(resolve,reject){
+    try{
+      if(!window.indexedDB){reject(new Error('no-idb'));return;}
+      var req=indexedDB.open(IDB_NAME,1);
+      req.onupgradeneeded=function(e){var db=e.target.result;if(!db.objectStoreNames.contains(IDB_STORE))db.createObjectStore(IDB_STORE);};
+      req.onsuccess=function(e){resolve(e.target.result);};
+      req.onerror=function(e){reject(e.target.error||new Error('idb-error'));};
+      req.onblocked=function(){reject(new Error('idb-blocked'));};
+    }catch(err){reject(err);}
+  });
+}
+function idbSave(value){
+  return idbOpen().then(function(db){
+    return new Promise(function(resolve,reject){
+      try{
+        var tx=db.transaction(IDB_STORE,'readwrite');
+        var store=tx.objectStore(IDB_STORE);
+        store.put(value,'state');
+        tx.oncomplete=function(){db.close();resolve();};
+        tx.onerror=function(){db.close();reject(tx.error);};
+      }catch(err){db.close();reject(err);}
+    });
+  }).catch(function(){/* silent fail — IDB is best-effort */});
+}
+function idbLoad(){
+  return idbOpen().then(function(db){
+    return new Promise(function(resolve,reject){
+      try{
+        var tx=db.transaction(IDB_STORE,'readonly');
+        var store=tx.objectStore(IDB_STORE);
+        var req=store.get('state');
+        req.onsuccess=function(){db.close();resolve(req.result||null);};
+        req.onerror=function(){db.close();reject(req.error);};
+      }catch(err){db.close();reject(err);}
+    });
+  }).catch(function(){return null;});
+}
+// Async restore on boot: if localStorage missing critical data but IDB has it → restore
+function tryRestoreFromIDB(){
+  return idbLoad().then(function(idbData){
+    if(!idbData||typeof idbData!=='object')return false;
+    // Check if localStorage actually lost something we care about
+    try{
+      var raw=localStorage.getItem(STORAGE_PREFIX+'state');
+      var local=raw?JSON.parse(raw):{};
+      var localHasHorses=Array.isArray(local.horses)&&local.horses.length>0;
+      var idbHasHorses=Array.isArray(idbData.horses)&&idbData.horses.length>0;
+      // If IDB has horses but localStorage doesn't → restore
+      if(idbHasHorses&&!localHasHorses){
+        // Preserve current accessCode/email if user just logged in
+        if(local.accessCode)idbData.accessCode=local.accessCode;
+        if(local.email)idbData.email=local.email;
+        localStorage.setItem(STORAGE_PREFIX+'state',JSON.stringify(idbData));
+        console.log('[EQUINAT] State restored from IndexedDB backup ('+idbData.horses.length+' horses)');
+        return true;
+      }
+    }catch(e){}
+    return false;
+  }).catch(function(){return false;});
+}
+
 function getState(){
   try{
     var raw=localStorage.getItem(STORAGE_PREFIX+'state');
@@ -1095,12 +1161,14 @@ function saveState(s){
       s.chats=s.chats.slice(0,MAX_CHATS);
     }
     localStorage.setItem(STORAGE_PREFIX+'state',JSON.stringify(s));
+    // Mirror to IndexedDB asynchronously (fire-and-forget) — survives Safari ITP cleanup
+    idbSave(s);
   }catch(e){
     // Quota exceeded — try to free up by trimming oldest chats
     if(e.name==='QuotaExceededError' && s.chats && s.chats.length>20){
       s.chats.sort(function(a,b){return (b.updatedAt||0)-(a.updatedAt||0);});
       s.chats=s.chats.slice(0,Math.floor(s.chats.length*0.7));
-      try{localStorage.setItem(STORAGE_PREFIX+'state',JSON.stringify(s));}catch(e2){console.error(e2);}
+      try{localStorage.setItem(STORAGE_PREFIX+'state',JSON.stringify(s));idbSave(s);}catch(e2){console.error(e2);}
     }
   }
 }
@@ -2536,7 +2604,20 @@ function initApp(){
   }
 }
 
-(function(){var s=getState();setLockLang(s.lang||'de');if(isUnlocked()){unlockApp();}else{document.getElementById('lockEmail').focus();}})();
+(function(){
+  // Try to restore from IndexedDB first (handles Safari iOS localStorage loss)
+  // This is async but fast — typically <50ms. We delay UI by that bit so horses are visible immediately.
+  function boot(){
+    var s=getState();
+    setLockLang(s.lang||'de');
+    if(isUnlocked()){unlockApp();}else{document.getElementById('lockEmail').focus();}
+  }
+  if(window.indexedDB){
+    tryRestoreFromIDB().then(boot).catch(boot);
+  } else {
+    boot();
+  }
+})();
 </script>
 </body>
 </html>
