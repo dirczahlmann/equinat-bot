@@ -1,9 +1,41 @@
+# ═══════════════════════════════════════════════
+# EQUINAT™ — Netlify Configuration
+# ═══════════════════════════════════════════════
+
 [build]
   publish = "public"
   functions = "netlify/functions"
 
+# ═══════════════════════════════════════════════
+# ADMIN — Basic Auth Protection
+# ═══════════════════════════════════════════════
+# Admin-Bereich ist hinter HTTP-Basic-Auth gesichert.
+# Username + Passwort werden NUR hier gesetzt — niemals im Frontend.
+# Beim Aufruf von /admin oder /admin.html erscheint ein Browser-Login-Dialog.
+
+[[headers]]
+  for = "/admin"
+  [headers.values]
+    Basic-Auth = "equinatadmin:!Yr-RpMww77qUz6F"
+
+[[headers]]
+  for = "/admin.html"
+  [headers.values]
+    Basic-Auth = "equinatadmin:!Yr-RpMww77qUz6F"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    Basic-Auth = "equinatadmin:!Yr-RpMww77qUz6F"
+
+# ═══════════════════════════════════════════════
+# GLOBAL SECURITY HEADERS
+# ═══════════════════════════════════════════════
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(self), microphone=(self), geolocation=(self)"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
