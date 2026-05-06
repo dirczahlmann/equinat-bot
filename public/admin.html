@@ -65,6 +65,42 @@ body{font-family:'Jost',sans-serif;font-weight:300;color:var(--cream);overflow:h
 .stat-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--gold2);line-height:1;}
 .stat-lbl{font-size:0.65rem;color:var(--cream3);letter-spacing:0.15em;text-transform:uppercase;margin-top:0.3rem;}
 
+/* ── BUDGET DASHBOARD ── */
+.budget-section{background:var(--bg2);border:1px solid var(--border);padding:1.5rem;margin-bottom:1.5rem;}
+.budget-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.75rem;}
+.budget-title{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-weight:500;display:flex;align-items:center;gap:0.5rem;}
+.budget-actions{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;}
+.budget-actions input{background:var(--bg);border:1px solid var(--border);color:var(--cream);font-family:'Jost',sans-serif;font-size:0.75rem;padding:0.4rem 0.6rem;width:80px;outline:none;}
+.budget-actions input:focus{border-color:var(--gold);}
+.budget-actions label{font-size:0.65rem;color:var(--cream3);letter-spacing:0.1em;text-transform:uppercase;}
+.budget-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--border);margin-bottom:1.25rem;}
+.budget-card{background:var(--bg);padding:1rem 0.85rem;}
+.budget-card-lbl{font-size:0.6rem;color:var(--cream3);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.4rem;}
+.budget-card-val{font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-weight:300;color:var(--cream);line-height:1;}
+.budget-card-val .currency{font-size:0.75rem;color:var(--cream3);margin-right:0.15rem;vertical-align:0.4rem;}
+.budget-card-sub{font-size:0.65rem;color:var(--cream3);margin-top:0.4rem;line-height:1.4;}
+.budget-card.hl{background:rgba(201,148,58,0.05);}
+.budget-card.hl .budget-card-val{color:var(--gold2);}
+.budget-card.warn .budget-card-val{color:#E8A03A;}
+.budget-card.danger .budget-card-val{color:#E84A4A;}
+.budget-bar-wrap{margin-bottom:1rem;}
+.budget-bar-lbl{display:flex;justify-content:space-between;font-size:0.7rem;color:var(--cream3);margin-bottom:0.4rem;}
+.budget-bar-lbl strong{color:var(--cream);}
+.budget-bar{width:100%;height:6px;background:var(--bg);border:1px solid var(--border);position:relative;overflow:hidden;}
+.budget-bar-fill{height:100%;background:linear-gradient(90deg,#5BA84A,var(--gold));transition:width 0.5s ease;}
+.budget-bar-fill.warn{background:linear-gradient(90deg,var(--gold),#E8A03A);}
+.budget-bar-fill.danger{background:linear-gradient(90deg,#E8A03A,#E84A4A);}
+.budget-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);}
+.budget-tier{background:var(--bg);padding:0.85rem;}
+.budget-tier-name{display:flex;align-items:center;gap:0.45rem;font-size:0.7rem;font-weight:500;letter-spacing:0.05em;margin-bottom:0.4rem;}
+.budget-tier-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.budget-tier-stats{font-size:0.7rem;color:var(--cream3);line-height:1.6;}
+.budget-tier-stats strong{color:var(--cream);font-weight:500;}
+.budget-cta-link{font-size:0.68rem;color:var(--gold2);text-decoration:none;font-weight:500;letter-spacing:0.05em;border-bottom:1px solid var(--border2);padding-bottom:1px;}
+.budget-cta-link:hover{color:var(--gold);border-color:var(--gold);}
+.budget-warn-banner{background:rgba(232,74,74,0.08);border:1px solid rgba(232,74,74,0.3);padding:0.85rem 1rem;margin-bottom:1rem;font-size:0.78rem;color:#FFB8B8;display:flex;align-items:center;gap:0.6rem;}
+.budget-warn-banner.amber{background:rgba(232,160,58,0.08);border-color:rgba(232,160,58,0.3);color:#FFD08A;}
+
 .filter-bar{display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap;}
 .filter-input{background:var(--bg2);border:1px solid var(--border);color:var(--cream);font-family:'Jost',sans-serif;font-size:0.78rem;padding:0.5rem 0.8rem;outline:none;flex:1;min-width:180px;}
 .filter-input:focus{border-color:var(--gold);}
@@ -227,6 +263,71 @@ td{padding:0.8rem 0.85rem;font-size:0.78rem;color:var(--cream2);vertical-align:m
           <div class="stat-card"><div class="stat-val" id="sChats">—</div><div class="stat-lbl">Chat-Nachrichten</div></div>
           <div class="stat-card"><div class="stat-val" id="sToday">—</div><div class="stat-lbl">Heute aktiv</div></div>
           <div class="stat-card"><div class="stat-val" id="sAffiliate">—</div><div class="stat-lbl">Affiliates</div></div>
+        </div>
+
+        <!-- BUDGET DASHBOARD -->
+        <div class="budget-section">
+          <div class="budget-header">
+            <div class="budget-title">💰 API-Budget · Anthropic</div>
+            <div class="budget-actions">
+              <label>Monats-Budget:</label>
+              <span style="font-size:0.7rem;color:var(--cream3);">$</span>
+              <input type="number" id="budgetLimit" min="0" step="10" placeholder="200" oninput="saveBudgetLimit()"/>
+              <a href="https://console.anthropic.com/settings/billing" target="_blank" class="budget-cta-link">Console öffnen ↗</a>
+            </div>
+          </div>
+
+          <div id="budgetWarnings"></div>
+
+          <div class="budget-bar-wrap" id="budgetBarWrap" style="display:none;">
+            <div class="budget-bar-lbl">
+              <span>Aktueller Monat: <strong id="budgetMonthLabel">—</strong></span>
+              <span id="budgetBarPct">—</span>
+            </div>
+            <div class="budget-bar"><div class="budget-bar-fill" id="budgetBarFill" style="width:0%;"></div></div>
+          </div>
+
+          <div class="budget-grid">
+            <div class="budget-card hl">
+              <div class="budget-card-lbl">Heute</div>
+              <div class="budget-card-val"><span class="currency">$</span><span id="bToday">0,00</span></div>
+              <div class="budget-card-sub" id="bTodaySub">— Nachrichten</div>
+            </div>
+            <div class="budget-card">
+              <div class="budget-card-lbl">Letzte 7 Tage</div>
+              <div class="budget-card-val"><span class="currency">$</span><span id="b7Days">0,00</span></div>
+              <div class="budget-card-sub" id="b7DaysSub">— Nachrichten</div>
+            </div>
+            <div class="budget-card hl">
+              <div class="budget-card-lbl">Aktueller Monat</div>
+              <div class="budget-card-val"><span class="currency">$</span><span id="bMonth">0,00</span></div>
+              <div class="budget-card-sub" id="bMonthSub">— Nachrichten</div>
+            </div>
+            <div class="budget-card">
+              <div class="budget-card-lbl">Hochrechnung</div>
+              <div class="budget-card-val" id="bForecastVal"><span class="currency">$</span><span id="bForecast">0,00</span></div>
+              <div class="budget-card-sub" id="bForecastSub">Ende des Monats</div>
+            </div>
+          </div>
+
+          <div class="budget-breakdown">
+            <div class="budget-tier">
+              <div class="budget-tier-name"><span class="budget-tier-dot" style="background:#7EC870;"></span>Group A · Haiku 4.5</div>
+              <div class="budget-tier-stats" id="bGroupA">—</div>
+            </div>
+            <div class="budget-tier">
+              <div class="budget-tier-name"><span class="budget-tier-dot" style="background:#E8B85A;"></span>Group B · Sonnet 4.5</div>
+              <div class="budget-tier-stats" id="bGroupB">—</div>
+            </div>
+            <div class="budget-tier">
+              <div class="budget-tier-name"><span class="budget-tier-dot" style="background:#C77DFF;"></span>Group C · Opus 4.7</div>
+              <div class="budget-tier-stats" id="bGroupC">—</div>
+            </div>
+          </div>
+
+          <div style="font-size:0.62rem;color:var(--cream3);margin-top:1rem;line-height:1.6;font-style:italic;">
+            Schätzung basiert auf gespeicherten Token-Counts pro Nachricht. Aktuelle Anthropic-Preise (Mai 2026): Haiku $1/$5, Sonnet $3/$15, Opus $5/$25 pro 1M Tokens. Prompt-Caching-Rabatte werden nicht berücksichtigt — die echten Kosten in der Console sind typischerweise 30-60% niedriger.
+          </div>
         </div>
 
         <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream3);margin-bottom:0.75rem;">Neueste Bewerbungen</div>
@@ -566,6 +667,165 @@ function getStatusBadge(s){
   return `<span class="status-badge ${map[s]||'s-pending'}">${lbl[s]||s}</span>`;
 }
 
+// ─── BUDGET TRACKING ───
+// Anthropic API prices (May 2026) — USD per 1M tokens
+const MODEL_PRICING = {
+  A: { in: 1.00, out: 5.00,  label: 'Haiku 4.5'  },
+  B: { in: 3.00, out: 15.00, label: 'Sonnet 4.5' },
+  C: { in: 5.00, out: 25.00, label: 'Opus 4.7'   }
+};
+
+function fmtMoney(n){
+  if(n < 0.01) return '0,00';
+  return n.toFixed(2).replace('.',',');
+}
+
+function calcMessageCost(msg){
+  const d = msg.data || {};
+  const group = d.model_group || 'B'; // default B if missing (legacy data)
+  const pricing = MODEL_PRICING[group] || MODEL_PRICING.B;
+  const tokensIn = parseInt(d.tokens_in || '0', 10) || 0;
+  const tokensOut = parseInt(d.tokens_out || '0', 10) || 0;
+  return (tokensIn * pricing.in + tokensOut * pricing.out) / 1000000;
+}
+
+function getBudgetLimit(){
+  const v = parseFloat(LS.get('budgetLimit'));
+  return isFinite(v) && v > 0 ? v : 0;
+}
+function saveBudgetLimit(){
+  const v = document.getElementById('budgetLimit').value;
+  if(v === '' || parseFloat(v) <= 0){
+    LS.set('budgetLimit', '');
+  } else {
+    LS.set('budgetLimit', String(parseFloat(v)));
+  }
+  renderBudget();
+}
+
+function renderBudget(){
+  // Restore saved limit
+  const limitInput = document.getElementById('budgetLimit');
+  if(limitInput && !limitInput.value){
+    const saved = LS.get('budgetLimit');
+    if(saved) limitInput.value = saved;
+  }
+
+  const now = new Date();
+  const todayStr = now.toDateString();
+  const dayMs = 24*60*60*1000;
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const monthDays = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
+  const dayOfMonth = now.getDate();
+
+  let costToday = 0, count_today = 0;
+  let cost7Days = 0, count_7d = 0;
+  let costMonth = 0, count_month = 0;
+  const cutoff7 = now.getTime() - 7*dayMs;
+  const groups = {
+    A: { cost: 0, count: 0, tokens_in: 0, tokens_out: 0 },
+    B: { cost: 0, count: 0, tokens_in: 0, tokens_out: 0 },
+    C: { cost: 0, count: 0, tokens_in: 0, tokens_out: 0 }
+  };
+
+  messages.forEach(m => {
+    if(!m.created_at) return;
+    const t = new Date(m.created_at);
+    if(isNaN(t.getTime())) return;
+    const cost = calcMessageCost(m);
+    const d = m.data || {};
+    const grp = d.model_group || 'B';
+
+    if(t.toDateString() === todayStr){ costToday += cost; count_today++; }
+    if(t.getTime() >= cutoff7){ cost7Days += cost; count_7d++; }
+    if(t >= monthStart){
+      costMonth += cost;
+      count_month++;
+      if(groups[grp]){
+        groups[grp].cost += cost;
+        groups[grp].count++;
+        groups[grp].tokens_in += parseInt(d.tokens_in||'0',10)||0;
+        groups[grp].tokens_out += parseInt(d.tokens_out||'0',10)||0;
+      }
+    }
+  });
+
+  // Forecast: linear extrapolation based on days elapsed
+  const forecast = dayOfMonth > 0 ? (costMonth / dayOfMonth) * monthDays : 0;
+  const limit = getBudgetLimit();
+
+  // Update headline cards
+  document.getElementById('bToday').textContent = fmtMoney(costToday);
+  document.getElementById('bTodaySub').textContent = `${count_today} Nachricht${count_today===1?'':'en'}`;
+  document.getElementById('b7Days').textContent = fmtMoney(cost7Days);
+  document.getElementById('b7DaysSub').textContent = `${count_7d} Nachricht${count_7d===1?'':'en'}`;
+  document.getElementById('bMonth').textContent = fmtMoney(costMonth);
+  document.getElementById('bMonthSub').textContent = `${count_month} Nachricht${count_month===1?'':'en'} · ${dayOfMonth}/${monthDays} Tage`;
+  document.getElementById('bForecast').textContent = fmtMoney(forecast);
+
+  // Forecast color coding (against limit)
+  const forecastVal = document.getElementById('bForecastVal');
+  forecastVal.className = 'budget-card-val';
+  const forecastSub = document.getElementById('bForecastSub');
+  if(limit > 0){
+    if(forecast > limit){
+      forecastVal.className = 'budget-card-val';
+      document.getElementById('bForecastVal').parentElement.className = 'budget-card danger';
+      forecastSub.textContent = `${Math.round((forecast/limit-1)*100)}% über Budget!`;
+      forecastSub.style.color = '#FFB8B8';
+    } else if(forecast > limit * 0.8){
+      document.getElementById('bForecastVal').parentElement.className = 'budget-card warn';
+      forecastSub.textContent = `${Math.round(forecast/limit*100)}% des Budgets`;
+      forecastSub.style.color = '#FFD08A';
+    } else {
+      document.getElementById('bForecastVal').parentElement.className = 'budget-card';
+      forecastSub.textContent = `${Math.round(forecast/limit*100)}% des Budgets`;
+      forecastSub.style.color = '';
+    }
+  } else {
+    document.getElementById('bForecastVal').parentElement.className = 'budget-card';
+    forecastSub.textContent = 'Ende des Monats';
+    forecastSub.style.color = '';
+  }
+
+  // Progress bar
+  const barWrap = document.getElementById('budgetBarWrap');
+  if(limit > 0){
+    barWrap.style.display = 'block';
+    const pct = Math.min(100, (costMonth/limit)*100);
+    const fill = document.getElementById('budgetBarFill');
+    fill.style.width = pct + '%';
+    fill.className = 'budget-bar-fill' + (pct > 90 ? ' danger' : pct > 70 ? ' warn' : '');
+    document.getElementById('budgetMonthLabel').textContent = `$${fmtMoney(costMonth)} / $${fmtMoney(limit)}`;
+    document.getElementById('budgetBarPct').textContent = `${Math.round(pct)}%`;
+  } else {
+    barWrap.style.display = 'none';
+  }
+
+  // Warnings
+  const warnWrap = document.getElementById('budgetWarnings');
+  let warnHtml = '';
+  if(limit > 0 && costMonth > limit){
+    warnHtml += `<div class="budget-warn-banner">⚠️ Budget überschritten: $${fmtMoney(costMonth)} von $${fmtMoney(limit)}. <a href="https://console.anthropic.com/settings/billing" target="_blank" style="color:#FFB8B8;text-decoration:underline;">Guthaben in Console prüfen ↗</a></div>`;
+  } else if(limit > 0 && forecast > limit){
+    warnHtml += `<div class="budget-warn-banner amber">⚡ Hochrechnung über Budget: bei aktuellem Tempo ~$${fmtMoney(forecast)} bis Monatsende. Limit ist $${fmtMoney(limit)}.</div>`;
+  }
+  warnWrap.innerHTML = warnHtml;
+
+  // Group breakdown
+  ['A','B','C'].forEach(grp => {
+    const g = groups[grp];
+    const pricing = MODEL_PRICING[grp];
+    const el = document.getElementById('bGroup'+grp);
+    if(g.count === 0){
+      el.innerHTML = `<strong>$0,00</strong> · 0 Nachrichten<br/>$${pricing.in}/$${pricing.out} pro 1M Tokens`;
+    } else {
+      const totalK = Math.round((g.tokens_in + g.tokens_out)/1000);
+      el.innerHTML = `<strong>$${fmtMoney(g.cost)}</strong> · ${g.count} Nachrichten<br/>${totalK}K Tokens · $${pricing.in}/$${pricing.out} per 1M`;
+    }
+  });
+}
+
 // ─── STATS ───
 function updateStats(){
   const total=testers.length;
@@ -581,6 +841,8 @@ function updateStats(){
   document.getElementById('sToday').textContent=today;
   document.getElementById('sAffiliate').textContent=affiliate;
   document.getElementById('badgePending').textContent=pending;
+
+  renderBudget();
 }
 
 function chatCountForTester(tester){
