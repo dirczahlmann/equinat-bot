@@ -670,6 +670,15 @@ input[type="date"]{color-scheme:dark;}
   <input type="text" name="code"/><input type="email" name="email"/>
   <input type="text" name="status"/><input type="text" name="created_at"/>
 </form>
+<form name="eq-horses" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="bot-field"/>
+  <input type="email" name="email"/>
+  <input type="text" name="access_code"/>
+  <input type="text" name="horses_json"/>
+  <input type="text" name="active_horse_id"/>
+  <input type="text" name="updated_at"/>
+  <input type="text" name="device_id"/>
+</form>
 
 <script>
 // ═══════════════════════════════════════════════
@@ -1547,6 +1556,10 @@ async function tryUnlock(){
     var data=await r.json();
     if(data.valid){
       var s=getState();s.accessCode=code;s.email=email;saveState(s);
+      // Try to restore horses from server backup (Cross-Device + Safari ITP recovery)
+      // This is async but fast; we show a brief loading state if it takes time.
+      btn.textContent=lang==='en'?'Restoring data…':'Daten werden geladen…';
+      try{await restoreHorsesFromServer();}catch(e){/* silent — local data is still valid */}
       unlockApp();
     }else{
       showLockError(data.message||(lang==='en'?'Code invalid or expired.':'Code ungültig oder abgelaufen.'));
@@ -1612,6 +1625,90 @@ function setActiveHorse(id){
 
 function openHorseEditor(horseId){editingHorseId=horseId;closeSidebar();openModal('horseEdit');}
 
+// ═══════════════════════════════════════════════
+// SERVER-SIDE HORSE SYNC (Cross-Device + Safari ITP Backup)
+// Triple-layer: localStorage + IndexedDB + Netlify Forms
+// ═══════════════════════════════════════════════
+var SYNC_DEVICE_ID = (function(){
+  // Stable per-browser ID for sync conflict resolution
+  try{
+    var k=STORAGE_PREFIX+'deviceId';
+    var d=localStorage.getItem(k);
+    if(!d){d='dev_'+Math.random().toString(36).substr(2,8)+Date.now().toString(36);localStorage.setItem(k,d);}
+    return d;
+  }catch(e){return 'dev_anon';}
+})();
+
+var lastSyncedSnapshot = '';
+var syncDebounceTimer = null;
+
+// Push horses to Netlify Forms (debounced, fire-and-forget)
+function syncHorsesToServer(){
+  if(syncDebounceTimer){clearTimeout(syncDebounceTimer);}
+  syncDebounceTimer=setTimeout(function(){
+    syncDebounceTimer=null;
+    try{
+      var s=getState();
+      if(!s.email||!s.accessCode)return; // not logged in, skip
+      var snapshot=JSON.stringify({horses:s.horses,active:s.activeHorseId});
+      if(snapshot===lastSyncedSnapshot)return; // nothing changed since last sync
+      var fd=new FormData();
+      fd.append('form-name','eq-horses');
+      fd.append('email',s.email);
+      fd.append('access_code',s.accessCode);
+      fd.append('horses_json',JSON.stringify(s.horses||[]));
+      fd.append('active_horse_id',s.activeHorseId||'');
+      fd.append('updated_at',new Date().toISOString());
+      fd.append('device_id',SYNC_DEVICE_ID);
+      fetch('/',{method:'POST',body:fd}).then(function(r){
+        if(r.ok)lastSyncedSnapshot=snapshot;
+      }).catch(function(){/* silent fail — local data is safe */});
+    }catch(e){/* silent */}
+  },800); // debounce: collapse rapid changes into 1 sync
+}
+
+// Pull horses from Netlify Forms after login (best-effort merge)
+function restoreHorsesFromServer(){
+  return new Promise(function(resolve){
+    try{
+      var s=getState();
+      if(!s.email||!s.accessCode){resolve(false);return;}
+      fetch('/.netlify/functions/get-horses',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({email:s.email,code:s.accessCode})
+      }).then(function(r){return r.json();}).then(function(data){
+        if(!data||!data.ok){resolve(false);return;}
+        var serverHorses=Array.isArray(data.horses)?data.horses:[];
+        var serverUpdated=data.updated_at?new Date(data.updated_at).getTime():0;
+        var s2=getState();
+        var localUpdated=s2.lastLocalUpdate||0;
+        // Server-Merge-Logik:
+        //  - Wenn Server hat Pferde aber lokal keine → Server gewinnt
+        //  - Wenn Server hat neuere Daten als lokal → Server gewinnt
+        //  - Wenn lokal neuer ist → behalten (wird beim nächsten Save gepusht)
+        var localEmpty=!Array.isArray(s2.horses)||s2.horses.length===0;
+        var serverHasHorses=serverHorses.length>0;
+        var serverIsNewer=serverUpdated>localUpdated;
+        if(serverHasHorses&&(localEmpty||serverIsNewer)){
+          s2.horses=serverHorses;
+          if(data.activeHorseId)s2.activeHorseId=data.activeHorseId;
+          else if(serverHorses.length>0)s2.activeHorseId=serverHorses[0].id;
+          s2.lastLocalUpdate=serverUpdated;
+          saveState(s2);
+          // Mark snapshot so we don't immediately push back what we just pulled
+          lastSyncedSnapshot=JSON.stringify({horses:s2.horses,active:s2.activeHorseId});
+          console.log('[EQUINAT] Restored '+serverHorses.length+' horse(s) from server backup');
+          // Re-render any visible horse UI
+          try{renderHorses();renderActiveHorseLabel();renderDailySection();}catch(e){}
+          resolve(true);return;
+        }
+        resolve(false);
+      }).catch(function(){resolve(false);});
+    }catch(e){resolve(false);}
+  });
+}
+
 function saveHorseFromForm(){
   var s=getState();
   var data={
@@ -1641,9 +1738,11 @@ function saveHorseFromForm(){
     data.id=uuid('h_');s.horses.push(data);
     if(!s.activeHorseId)s.activeHorseId=data.id;
   }
+  s.lastLocalUpdate=Date.now();
   saveState(s);editingHorseId=null;
   renderHorses();renderActiveHorseLabel();renderDailySection();closeModal();
   showToast(t('horseSaved'),2000);
+  syncHorsesToServer();
 }
 
 function deleteHorseFromForm(){
@@ -1654,9 +1753,11 @@ function deleteHorseFromForm(){
   if(!confirm(t('horseDeleteConfirm').replace('<name>',name)))return;
   s.horses=s.horses.filter(function(x){return x.id!==editingHorseId;});
   if(s.activeHorseId===editingHorseId){s.activeHorseId=s.horses.length>0?s.horses[0].id:null;}
+  s.lastLocalUpdate=Date.now();
   saveState(s);editingHorseId=null;
   renderHorses();renderActiveHorseLabel();renderDailySection();closeModal();
   showToast(t('horseDeleted'),2000);
+  syncHorsesToServer();
 }
 
 // ═══════════════════════════════════════════════
@@ -2605,12 +2706,22 @@ function initApp(){
 }
 
 (function(){
-  // Try to restore from IndexedDB first (handles Safari iOS localStorage loss)
-  // This is async but fast — typically <50ms. We delay UI by that bit so horses are visible immediately.
+  // Boot sequence (3-layer defense for Safari iOS storage loss):
+  //   1. tryRestoreFromIDB — restore from IndexedDB if localStorage was wiped
+  //   2. unlockApp/lock — show appropriate UI based on existing credentials
+  //   3. restoreHorsesFromServer — pull latest from Netlify Forms (background)
   function boot(){
     var s=getState();
     setLockLang(s.lang||'de');
-    if(isUnlocked()){unlockApp();}else{document.getElementById('lockEmail').focus();}
+    if(isUnlocked()){
+      unlockApp();
+      // Background server-sync after auto-unlock — don't block UI
+      setTimeout(function(){
+        try{restoreHorsesFromServer();}catch(e){}
+      },300);
+    }else{
+      document.getElementById('lockEmail').focus();
+    }
   }
   if(window.indexedDB){
     tryRestoreFromIDB().then(boot).catch(boot);
