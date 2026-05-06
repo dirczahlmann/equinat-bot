@@ -20,9 +20,9 @@ const crypto = require('crypto');
 // ═══════════════════════════════════════════════
 // SYSTEM PROMPT — Souverän, kompetent, multi-pferd-fähig
 // ═══════════════════════════════════════════════
-const SYSTEM_PROMPT = `You are Prof. Dr. EQUINAT PferdeBot™ — the leading AI expert for horse health, nutrition, stable management and sports. You combine the knowledge of an equine internist (ECEIM), animal nutritionist, equestrian sports professional and orthopedic veterinarian.
+const SYSTEM_PROMPT = `You are the EQUINAT PferdeBot™ — an AI-powered assistant for horse health, nutrition, stable management, and sports. You synthesize knowledge from equine internal medicine, animal nutrition science, equestrian sports practice, and orthopedic principles. You provide structured guidance and orientation — but you do not replace veterinary diagnosis or treatment.
 
-Du sprichst mit der ruhigen Souveränität eines absoluten Fach-Experten — nie defensiv, nie verkäuferisch, nie arrogant. Du klingst wie der renommierteste Stall-Tierarzt, der zugleich ein leidenschaftlicher Pferdemensch ist.
+Du sprichst mit der ruhigen Souveränität von jemandem, der sich tief im Thema auskennt — nie defensiv, nie verkäuferisch, nie arrogant. Dein Ton ist der einer erfahrenen, aufmerksamen Stalltierärztin, die zugleich ein leidenschaftlicher Pferdemensch ist. Bei Krankheiten, akuten Symptomen oder Behandlungsentscheidungen verweist du immer und ausdrücklich an den behandelnden Tierarzt.
 
 ═══════════════════════════════════════════════════
 LANGUAGE / SPRACHE
@@ -186,7 +186,7 @@ Beispielrechnung 500kg-Pferd, DAILY 25kg:
 "Bei 60g pro Tag reicht der 25kg-Sack ca. 416 Tage — €129 / 416 = €0,31/Tag oder €9,30/Monat."
 
 JOINT COMPLETE™ — Tagesdosis:
-- 60g/Tag (therapeutische Dosis MSM 20g + Curcumin Meriva™ + Teufelskralle + Boswellia)
+- 60g/Tag (Tagesempfehlung: MSM 20g + Curcumin Meriva™ + Teufelskralle + Boswellia)
 - 5kg-Eimer = 83 Tage Reichweite
 - €89 / 83 Tage = €1,07/Tag oder €32/Monat
 
@@ -1027,13 +1027,13 @@ function buildHorseContext(horses, activeHorseId, language) {
 // ═══════════════════════════════════════════════
 exports.handler = async function(event) {
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 204, headers: corsHeaders() };
+    return { statusCode: 204, headers: corsHeaders(event) };
   }
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  const headers = { ...corsHeaders(), 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' };
+  const headers = { ...corsHeaders(event), 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' };
 
   try {
     const body = JSON.parse(event.body);
@@ -1052,16 +1052,16 @@ exports.handler = async function(event) {
     } = body;
 
     if (!access_code || !email) {
-      return errorResponse(401, 'Zugangscode erforderlich. Bitte Bot neu freischalten.');
+      return errorResponse(401, 'Zugangscode erforderlich. Bitte Bot neu freischalten.', event);
     }
     const codeValid = await verifyAccessCode(access_code, email);
     if (!codeValid) {
-      return errorResponse(401, 'Zugangscode ungültig oder widerrufen. Bitte Bot neu freischalten.');
+      return errorResponse(401, 'Zugangscode ungültig oder widerrufen. Bitte Bot neu freischalten.', event);
     }
 
     const apiKey = sanitizeHeader(process.env.ANTHROPIC_API_KEY);
     if (!apiKey) {
-      return errorResponse(500, 'API-Key nicht konfiguriert');
+      return errorResponse(500, 'API-Key nicht konfiguriert', event);
     }
 
     const group = pickModelGroup(email);
@@ -1174,7 +1174,7 @@ Die UI des Nutzers ist auf DEUTSCH eingestellt. Antworte für diese gesamte Konv
     }
 
     if (!fullText) {
-      return errorResponse(500, 'Keine Antwort vom KI-Modell erhalten.');
+      return errorResponse(500, 'Keine Antwort vom KI-Modell erhalten.', event);
     }
 
     // ── LOG (best-effort) ──
@@ -1212,25 +1212,41 @@ Die UI des Nutzers ist auf DEUTSCH eingestellt. Antworte für diese gesamte Konv
 
     return { statusCode: 200, headers, body: ssePayload };
   } catch (error) {
-    return errorResponse(500, error.message);
+    return errorResponse(500, error.message, event);
   }
 };
 
 // ═══════════════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════════════
-function corsHeaders() {
+const ALLOWED_ORIGINS = [
+  'https://equinatbot.netlify.app',
+  'https://equinat.de',
+  'https://www.equinat.de',
+  // Netlify Deploy-Previews (z.B. deploy-preview-12--equinatbot.netlify.app)
+  // werden über Wildcard-Match unten erlaubt.
+];
+
+function corsHeaders(event) {
+  const origin = (event && (event.headers?.origin || event.headers?.Origin)) || '';
+  let allowOrigin = 'https://equinatbot.netlify.app'; // safe default
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    allowOrigin = origin;
+  } else if (/^https:\/\/(deploy-preview-\d+--)?equinatbot\.netlify\.app$/.test(origin)) {
+    allowOrigin = origin;
+  }
   return {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': allowOrigin,
+    'Vary': 'Origin',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
   };
 }
 
-function errorResponse(status, msg) {
+function errorResponse(status, msg, event) {
   return {
     statusCode: status,
-    headers: { ...corsHeaders(), 'Content-Type': 'application/json' },
+    headers: { ...corsHeaders(event), 'Content-Type': 'application/json' },
     body: JSON.stringify({ error: msg }),
   };
 }
