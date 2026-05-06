@@ -1392,13 +1392,24 @@ function bcsHandlePhotoSelect(event){
   if(!/^image\/(jpeg|png|webp|gif)$/.test(file.type)){showToast(t('imgWrongType'),3000);return;}
   var reader=new FileReader();
   reader.onload=function(e){
+    closeModal();
+    if(busy){showToast(t('imgWrongType')==='Wrong file type'?'Please wait, bot is busy':'Bitte warten, Bot ist beschäftigt',2500);return;}
+    // Start a fresh chat first (this calls removeImage() and clears pendingImage)
+    newChat();
+    // NOW set the image — after newChat() so it doesn't get cleared
     pendingImage=e.target.result;
     pendingImageName=file.name;
     pendingImageType=file.type;
-    // Send analysis prompt with image
-    closeModal();
-    if(busy)return;
-    newChat();
+    // Show preview UI like the regular photo upload does
+    var thumb=document.getElementById('imgPreviewThumb');
+    var name=document.getElementById('imgPreviewName');
+    var size=document.getElementById('imgPreviewSize');
+    var preview=document.getElementById('imgPreview');
+    if(thumb)thumb.src=e.target.result;
+    if(name)name.textContent=file.name;
+    if(size)size.textContent=Math.round(file.size/1024)+' KB · '+t('imgPreviewLabel');
+    if(preview)preview.classList.add('show');
+    // Pre-fill prompt and send
     document.getElementById('inp').value=t('bcsAnalyzePrompt');
     send();
   };
