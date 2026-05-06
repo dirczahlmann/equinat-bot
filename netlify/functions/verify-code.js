@@ -13,25 +13,16 @@
 const https = require('https');
 
 exports.handler = async function(event) {
+  const headers = corsHeaders(event);
   if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 204,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      },
-    };
+    return { statusCode: 204, headers };
   }
 
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json',
-  };
+  const jsonHeaders = { ...headers, 'Content-Type': 'application/json' };
 
   try {
     const { code, email } = JSON.parse(event.body);
@@ -39,17 +30,17 @@ exports.handler = async function(event) {
     const emailNorm = String(email || '').trim().toLowerCase();
 
     if (!codeNorm || !emailNorm) {
-      return { statusCode: 200, headers, body: JSON.stringify({ valid: false, message: 'Code und Email erforderlich.' }) };
+      return { statusCode: 200, headers: jsonHeaders, body: JSON.stringify({ valid: false, message: 'Code und Email erforderlich.' }) };
     }
 
-    const token = (process.env.NETLIFY_API_TOKEN || '').trim();
-    const formId = (process.env.EQ_CODES_FORM_ID || '').trim();
+    const token = sanitizeHeaderValue(process.env.NETLIFY_API_TOKEN);
+    const formId = sanitizeHeaderValue(process.env.EQ_CODES_FORM_ID);
 
     if (!token || !formId) {
       console.error('Missing NETLIFY_API_TOKEN or EQ_CODES_FORM_ID env vars');
       return {
         statusCode: 500,
-        headers,
+        headers: jsonHeaders,
         body: JSON.stringify({ valid: false, message: 'Server-Konfiguration unvollständig.' }),
       };
     }
@@ -57,24 +48,44 @@ exports.handler = async function(event) {
     // ── Fetch all submissions from eq-codes form ──
     const submissions = await fetchSubmissions(token, formId);
 
-    // ── Search for matching code+email ──
-    const match = submissions.find(s => {
-      const d = s.data || {};
-      const sCode = String(d.code || '').trim().toUpperCase();
-      const sEmail = String(d.email || '').trim().toLowerCase();
-      const sStatus = String(d.status || '').trim().toLowerCase();
-      return sCode === codeNorm && sEmail === emailNorm && sStatus === 'active';
-    });
+    // ── Find ALL entries for this code+email, sort by created_at desc, check status of NEWEST ──
+    // CRITICAL: Don't use .find()/.some() — that returns the first match, but Netlify Forms
+    // can have multiple entries (active → revoked). The newest entry is the source of truth.
+    const matchingEntries = submissions
+      .filter(s => {
+        const d = s.data || {};
+        const sCode = String(d.code || '').trim().toUpperCase();
+        const sEmail = String(d.email || '').trim().toLowerCase();
+        return sCode === codeNorm && sEmail === emailNorm;
+      })
+      .sort((a, b) => {
+        const tA = new Date(a.created_at || 0).getTime();
+        const tB = new Date(b.created_at || 0).getTime();
+        return tB - tA; // newest first
+      });
 
-    if (match) {
+    if (matchingEntries.length > 0) {
+      const newest = matchingEntries[0];
+      const newestStatus = String((newest.data || {}).status || '').trim().toLowerCase();
+      if (newestStatus === 'active') {
+        return {
+          statusCode: 200,
+          headers: jsonHeaders,
+          body: JSON.stringify({ valid: true, code: codeNorm, email: emailNorm }),
+        };
+      }
+      // Newest entry is NOT active — give specific reason
+      let message = 'Code oder Email ungültig.';
+      if (newestStatus === 'revoked') message = 'Dieser Code wurde widerrufen.';
+      else if (newestStatus === 'expired') message = 'Dieser Code ist abgelaufen.';
       return {
         statusCode: 200,
-        headers,
-        body: JSON.stringify({ valid: true, code: codeNorm, email: emailNorm }),
+        headers: jsonHeaders,
+        body: JSON.stringify({ valid: false, message }),
       };
     }
 
-    // ── Determine reason for rejection ──
+    // ── No entry for this code+email combo — check if code exists with different email ──
     const codeOnlyMatch = submissions.find(s => {
       const sCode = String((s.data || {}).code || '').trim().toUpperCase();
       return sCode === codeNorm;
@@ -82,30 +93,25 @@ exports.handler = async function(event) {
 
     let message = 'Code oder Email ungültig.';
     if (codeOnlyMatch) {
-      const d = codeOnlyMatch.data || {};
-      const dStatus = String(d.status || '').toLowerCase();
-      if (dStatus === 'revoked') message = 'Dieser Code wurde widerrufen.';
-      else if (dStatus === 'expired') message = 'Dieser Code ist abgelaufen.';
-      else if (String(d.email || '').toLowerCase() !== emailNorm) message = 'Email passt nicht zum Code.';
+      message = 'Email passt nicht zum Code.';
     }
 
     return {
       statusCode: 200,
-      headers,
+      headers: jsonHeaders,
       body: JSON.stringify({ valid: false, message }),
     };
   } catch (err) {
     console.error('verify-code error:', err);
     return {
       statusCode: 500,
-      headers,
+      headers: jsonHeaders,
       body: JSON.stringify({ valid: false, message: 'Server-Fehler. Bitte erneut versuchen.' }),
     };
   }
 };
+
 function fetchSubmissions(token, formId) {
-  token = String(token || '').replace(/[^\x21-\x7E]/g, '');
-  formId = String(formId || '').replace(/[^\x21-\x7E]/g, '');
   return new Promise((resolve, reject) => {
     const opts = {
       hostname: 'api.netlify.com',
@@ -132,4 +138,38 @@ function fetchSubmissions(token, formId) {
     req.on('error', reject);
     req.end();
   });
+}
+
+/**
+ * Strips all non-printable-ASCII characters that would crash HTTP headers.
+ * Apple Notes, Word, Pages and similar apps insert smart quotes, NBSPs,
+ * zero-width chars etc. that look invisible but are illegal in HTTP headers.
+ */
+
+function corsHeaders(event) {
+  const ALLOWED_ORIGINS = [
+    'https://equinatbot.netlify.app',
+    'https://equinat.de',
+    'https://www.equinat.de',
+  ];
+  const origin = (event && (event.headers?.origin || event.headers?.Origin)) || '';
+  let allowOrigin = 'https://equinatbot.netlify.app';
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    allowOrigin = origin;
+  } else if (/^https:\/\/(deploy-preview-\d+--)?equinatbot\.netlify\.app$/.test(origin)) {
+    allowOrigin = origin;
+  }
+  return {
+    'Access-Control-Allow-Origin': allowOrigin,
+    'Vary': 'Origin',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  };
+}
+
+function sanitizeHeaderValue(s) {
+  if (!s) return '';
+  // Keep only printable ASCII (codes 33-126) — strips spaces, tabs, NBSP,
+  // smart quotes, zero-width chars, BOM, and all Unicode garbage.
+  return String(s).replace(/[^\x21-\x7E]/g, '');
 }
