@@ -27,24 +27,14 @@ const https = require('https');
 
 exports.handler = async function(event) {
   if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 204,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      },
-    };
+    return { statusCode: 204, headers: corsHeaders(event) };
   }
 
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json',
-  };
+  const headers = { ...corsHeaders(event), 'Content-Type': 'application/json' };
 
   try {
     const { code, email } = JSON.parse(event.body || '{}');
@@ -72,14 +62,18 @@ exports.handler = async function(event) {
       };
     }
 
-    // ── 1. Verify code+email is valid (same as verify-code function) ──
+    // ── 1. Verify code+email is valid (latest entry wins — same logic as verify-code) ──
     const codeSubmissions = await fetchSubmissions(token, codesFormId);
-    const codeMatch = codeSubmissions.find(s => {
-      const d = s.data || {};
-      return String(d.code || '').trim().toUpperCase() === codeNorm
-        && String(d.email || '').trim().toLowerCase() === emailNorm
-        && String(d.status || '').trim().toLowerCase() === 'active';
-    });
+    const matchingCodes = codeSubmissions
+      .filter(s => {
+        const d = s.data || {};
+        return String(d.code || '').trim().toUpperCase() === codeNorm
+          && String(d.email || '').trim().toLowerCase() === emailNorm;
+      })
+      .sort((a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime());
+
+    const codeMatch = matchingCodes.length > 0
+      && String((matchingCodes[0].data || {}).status || '').trim().toLowerCase() === 'active';
 
     if (!codeMatch) {
       return {
@@ -144,6 +138,28 @@ exports.handler = async function(event) {
     };
   }
 };
+
+
+function corsHeaders(event) {
+  const ALLOWED_ORIGINS = [
+    'https://equinatbot.netlify.app',
+    'https://equinat.de',
+    'https://www.equinat.de',
+  ];
+  const origin = (event && (event.headers?.origin || event.headers?.Origin)) || '';
+  let allowOrigin = 'https://equinatbot.netlify.app';
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    allowOrigin = origin;
+  } else if (/^https:\/\/(deploy-preview-\d+--)?equinatbot\.netlify\.app$/.test(origin)) {
+    allowOrigin = origin;
+  }
+  return {
+    'Access-Control-Allow-Origin': allowOrigin,
+    'Vary': 'Origin',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  };
+}
 
 function fetchSubmissions(token, formId) {
   return new Promise((resolve, reject) => {
