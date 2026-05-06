@@ -786,9 +786,9 @@ var I18N = {
     bcsNoHistory:'Noch keine Einträge',
     bcsAnalyze:'Analysieren lassen',
     bcsCancel:'Abbrechen',
-    morningBriefingPrompt:'MORGEN-BRIEFING-REQUEST: Bitte gib mir mein kurzes Tagesbriefing für heute. Maximal 4-6 Zeilen, kompakt, nur das Wichtigste basierend auf Wetter und meinem Pferd.',
-    afternoonBriefingPrompt:'HEUTE-STATUS-REQUEST: Kurzes Mittagsbriefing für mein Pferd basierend auf Wetter und Profil. Max 4 Zeilen.',
-    eveningBriefingPrompt:'TAGES-RUECKBLICK-REQUEST: Kurzer Tages-Rückblick und Hinweise für morgen, basierend auf Wetter. Max 4 Zeilen.',
+    morningBriefingPrompt:'MORGEN-BRIEFING-REQUEST: Bitte gib mir mein kurzes Tagesbriefing für heute. Format: (1) Wetter-Hinweis 1 Zeile, (2) Pferd-Status / überfällige Vorsorge falls relevant 1 Zeile, (3) Trainings-Empfehlung für heute 2-3 Zeilen — passend zu Wetter, Aktivitätslevel und Trainings-Schwerpunkt aus dem Profil (z.B. konkrete Übungseinheit oder Pause-Tag falls Wetter ungünstig), (4) Fütterungs-Hinweis falls relevant 1 Zeile. Max 6-8 Zeilen total, kompakt.',
+    afternoonBriefingPrompt:'MITTAGS-BRIEFING-REQUEST: Kurzes Mittagsbriefing. Format: (1) Wetter-Update 1 Zeile, (2) wenn Reiten heute noch geplant: konkrete Trainingsempfehlung 2 Zeilen passend zu Aktivitätslevel/Disziplin und aktuellem Wetter, (3) Pferd/Fütterung-Hinweis falls relevant 1 Zeile. Max 4-5 Zeilen.',
+    eveningBriefingPrompt:'TAGES-RUECKBLICK-REQUEST: Kurzer Tages-Rückblick und Vorausschau für morgen. Format: (1) Wetter morgen 1 Zeile, (2) Trainings-Empfehlung für morgen 2 Zeilen passend zu Profil und Wetter, (3) Pferd-Hinweis (Vorsorge/Fütterung) falls relevant 1 Zeile. Max 4-5 Zeilen.',
     checkinTopPrompt:'HEUTE-CHECK-START: Status TOP — meinem Pferd geht es heute richtig gut. Bitte freue dich kurz, gib EINE leichte Beobachtung oder einen Tipp passend zum Wetter, fertig. Max 3 Zeilen.',
     checkinNormalPrompt:'HEUTE-CHECK-START: Status NORMAL — alles wie immer, kein besonderer Tag. Bitte bestätigend antworten, frag ob es etwas Spezielles zu besprechen gibt. Max 3 Zeilen.',
     checkinAuffaelligPrompt:'HEUTE-CHECK-START: Status AUFFÄLLIG. Beobachtung des Nutzers: <observation>. Bitte aufmerksam reagieren — frag konkret nach (was, seit wann, wie stark, akute Symptome). Bei akuten Symptomen sofort Tierarzt-Indikation.',
@@ -878,11 +878,13 @@ var I18N = {
       {q:'Was ist RESPIRA COMPLETE™ bei Atemwegen?', l:'💨 RESPIRA'},
       {q:'Was ist METABOLIC COMPLETE™ bei EMS?', l:'⚖️ METABOLIC'},
       {q:'Was ist das EQUINAT MASH SYSTEM™?', l:'🌾 MASH'},
+      {q:'Erstelle mir einen Wochen-Trainingsplan für mein Pferd basierend auf dem Profil.', l:'🏇 Training'},
       {q:'Wie funktioniert die Subscription mit Rabatten?', l:'📦 Abo'},
       {q:'Wann muss ich beim Pferd sofort den Tierarzt rufen?', l:'🚨 Notfall'}
     ],
     sidebarTopics:[
       {q:'Wie sollte ich mein Pferd richtig füttern? Bitte mache eine konkrete Tagesmenge-Berechnung.', i:'🥗', l:'Fütterung & Tagesmenge'},
+      {q:'Erstelle mir einen konkreten Wochen-Trainingsplan basierend auf meinem Pferd-Profil (Aktivitätslevel, Trainings-Schwerpunkt, Tagesablauf, Diagnosen). Mo-So mit Inhalten, Dauer, Intensität.', i:'🏇', l:'Trainingsplan'},
       {q:'Mein Pferd zeigt Krankheitssymptome — was tun?', i:'🩺', l:'Gesundheit'},
       {q:'Mein Pferd hat EMS oder Cushing — was füttern?', i:'⚖️', l:'EMS &amp; Cushing'},
       {q:'Mein Pferd hustet — was hilft?', i:'💨', l:'Atemwege &amp; RAO'},
@@ -894,10 +896,10 @@ var I18N = {
       {q:'Was gehört zur Pferde-Vorsorge?', i:'💉', l:'Vorsorge'}
     ],
     welcomeTips:[
+      {h:'Trainingsplan', d:'Wochen-Plan basierend auf meinem Pferd-Profil', q:'Erstelle mir einen konkreten Wochen-Trainingsplan basierend auf meinem Pferd-Profil. Mo-So mit Inhalten, Dauer, Intensität.'},
       {h:'Sparrechner', d:'Was kostet dein aktuelles Futter — und mit EQUINAT?', q:'Vergleiche meine aktuelle Fütterung mit EQUINAT — was würde ich pro Monat sparen?'},
       {h:'Tagesmenge', d:'Konkrete Dosierungen für mein Pferd', q:'Wie viel von welchem EQUINAT-Produkt bräuchte mein Pferd pro Tag?'},
-      {h:'Persona-Beratung', d:'DAILY + 1-2 Therapie-Linien', q:'Welche EQUINAT-Linien empfiehlst du für mein Pferd?'},
-      {h:'Subscription-Vorteil', d:'Rabatte & Bot inklusive', q:'Wie funktioniert die EQUINAT-Subscription und wie viel spare ich damit?'}
+      {h:'Persona-Beratung', d:'DAILY + 1-2 Therapie-Linien', q:'Welche EQUINAT-Linien empfiehlst du für mein Pferd?'}
     ],
     bblName:'EQUINAT PferdeBot™',
     bblYou:'Du',
@@ -966,9 +968,9 @@ var I18N = {
     bcsNoHistory:'No entries yet',
     bcsAnalyze:'Analyze now',
     bcsCancel:'Cancel',
-    morningBriefingPrompt:'MORNING-BRIEFING-REQUEST: Give me my short daily briefing for today. Maximum 4-6 lines, compact, only the essentials based on weather and my horse.',
-    afternoonBriefingPrompt:'AFTERNOON-STATUS-REQUEST: Short midday briefing for my horse based on weather and profile. Max 4 lines.',
-    eveningBriefingPrompt:'EVENING-RECAP-REQUEST: Short day recap and hints for tomorrow, based on weather. Max 4 lines.',
+    morningBriefingPrompt:'MORNING-BRIEFING-REQUEST: Give me my short daily briefing for today. Format: (1) Weather note 1 line, (2) Horse status / overdue healthcare if relevant 1 line, (3) Training recommendation for today 2-3 lines — matched to weather, activity level and training focus from profile (e.g. concrete exercise session or rest day if weather unfavorable), (4) Feeding note if relevant 1 line. Max 6-8 lines total, compact.',
+    afternoonBriefingPrompt:'AFTERNOON-BRIEFING-REQUEST: Short midday briefing. Format: (1) Weather update 1 line, (2) if riding still planned today: concrete training recommendation 2 lines matched to activity level/discipline and current weather, (3) horse/feeding note if relevant 1 line. Max 4-5 lines.',
+    eveningBriefingPrompt:'EVENING-RECAP-REQUEST: Short day recap and outlook for tomorrow. Format: (1) Tomorrow weather 1 line, (2) Training recommendation for tomorrow 2 lines matched to profile and weather, (3) horse note (healthcare/feeding) if relevant 1 line. Max 4-5 lines.',
     checkinTopPrompt:'HEUTE-CHECK-START: Status TOP — my horse is doing really well today. Please briefly celebrate, give ONE light observation or tip matching the weather, done. Max 3 lines.',
     checkinNormalPrompt:'HEUTE-CHECK-START: Status NORMAL — all as usual, nothing special. Please respond affirmingly, ask if there\'s anything specific to discuss. Max 3 lines.',
     checkinAuffaelligPrompt:'HEUTE-CHECK-START: Status AUFFÄLLIG (unusual). User observation: <observation>. Please respond attentively — ask specifically (what, since when, how severe, acute symptoms). For acute symptoms, immediately recommend a vet.',
@@ -1058,11 +1060,13 @@ var I18N = {
       {q:'What is RESPIRA COMPLETE™ for airways?', l:'💨 RESPIRA'},
       {q:'What is METABOLIC COMPLETE™ for EMS?', l:'⚖️ METABOLIC'},
       {q:'What is the EQUINAT MASH SYSTEM™?', l:'🌾 MASH'},
+      {q:'Create a weekly training plan for my horse based on the profile.', l:'🏇 Training'},
       {q:'How does the subscription with discounts work?', l:'📦 Subscription'},
       {q:'When should I call the vet immediately?', l:'🚨 Emergency'}
     ],
     sidebarTopics:[
       {q:'How should I feed my horse correctly? Please calculate a concrete daily amount.', i:'🥗', l:'Feeding &amp; daily amount'},
+      {q:'Create a concrete weekly training plan based on my horse profile (activity level, training focus, daily routine, diagnoses). Mon-Sun with content, duration, intensity.', i:'🏇', l:'Training plan'},
       {q:'My horse shows symptoms — what should I do?', i:'🩺', l:'Health'},
       {q:'My horse has EMS or Cushing — what to feed?', i:'⚖️', l:'EMS &amp; Cushing'},
       {q:'My horse coughs — what helps?', i:'💨', l:'Airways &amp; RAO'},
@@ -1074,10 +1078,10 @@ var I18N = {
       {q:'What about horse healthcare prevention?', i:'💉', l:'Prevention'}
     ],
     welcomeTips:[
+      {h:'Training plan', d:'Weekly plan based on my horse profile', q:'Create a concrete weekly training plan based on my horse profile. Mon-Sun with content, duration, intensity.'},
       {h:'Savings calc', d:'What does your current feeding cost vs EQUINAT?', q:'Compare my current feeding with EQUINAT — how much would I save per month?'},
       {h:'Daily amounts', d:'Concrete dosages for my horse', q:'How much of which EQUINAT product would my horse need per day?'},
-      {h:'Persona advice', d:'DAILY + 1-2 therapy lines', q:'Which EQUINAT lines do you recommend for my horse?'},
-      {h:'Subscription', d:'Discounts &amp; bot included', q:'How does the EQUINAT subscription work and how much do I save?'}
+      {h:'Persona advice', d:'DAILY + 1-2 therapy lines', q:'Which EQUINAT lines do you recommend for my horse?'}
     ],
     bblName:'EQUINAT PferdeBot™',
     bblYou:'You',
