@@ -337,6 +337,42 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .bbl{padding:11px 14px;border-radius:4px;font-size:13.5px;line-height:1.6;border:1px solid var(--border);background:rgba(201,148,58,0.06);word-wrap:break-word;}
 .bbl.u{background:rgba(201,148,58,0.1);border-color:rgba(201,148,58,0.25);}
 .bbl strong{color:var(--gold-l);}
+.bbl em{color:var(--cream2);font-style:italic;}
+
+/* ── MARKDOWN RENDERING ── */
+.bbl .md-h{font-family:'Cormorant Garamond',serif;font-weight:400;color:var(--gold-l);margin:0.7em 0 0.35em 0;line-height:1.25;letter-spacing:0.01em;}
+.bbl .md-h1{font-size:1.35em;}
+.bbl .md-h2{font-size:1.18em;}
+.bbl .md-h3{font-size:1.05em;color:var(--gold);}
+.bbl .md-h4{font-size:0.98em;color:var(--gold);font-weight:500;font-style:italic;}
+.bbl .md-h:first-child{margin-top:0;}
+
+.bbl .md-hr{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(201,148,58,0.4),transparent);margin:0.85em 0;}
+
+.bbl .md-list{margin:0.4em 0 0.6em 0;padding-left:1.1em;list-style:none;}
+.bbl .md-list.md-ord{counter-reset:mdc;}
+.bbl .md-list.md-ord .md-li{counter-increment:mdc;position:relative;}
+.bbl .md-list.md-ord .md-li::before{content:counter(mdc) ".";color:var(--gold);font-weight:500;position:absolute;left:-1.1em;width:1em;text-align:right;}
+.bbl .md-list:not(.md-ord) .md-li{position:relative;padding-left:0.2em;}
+.bbl .md-list:not(.md-ord) .md-li::before{content:'✦';color:var(--gold);position:absolute;left:-1em;font-size:0.85em;top:0.15em;}
+.bbl .md-list:not(.md-ord) .md-li-icon::before{content:attr(data-icon);font-size:0.9em;}
+.bbl .md-li{margin:0.18em 0;line-height:1.55;}
+
+.bbl .md-table{border-collapse:collapse;margin:0.6em 0 0.7em 0;font-size:0.95em;width:100%;background:rgba(201,148,58,0.03);border:1px solid rgba(201,148,58,0.25);}
+.bbl .md-table th{background:rgba(201,148,58,0.12);color:var(--gold-l);font-weight:500;text-align:left;padding:7px 10px;border-bottom:1px solid rgba(201,148,58,0.3);font-size:0.92em;letter-spacing:0.02em;}
+.bbl .md-table td{padding:6px 10px;border-bottom:1px solid rgba(201,148,58,0.1);vertical-align:top;}
+.bbl .md-table tr:last-child td{border-bottom:none;}
+.bbl .md-table tr:hover td{background:rgba(201,148,58,0.04);}
+
+.bbl .md-icode{background:rgba(201,148,58,0.12);color:var(--gold-l);padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono','Menlo',monospace;font-size:0.88em;border:1px solid rgba(201,148,58,0.18);}
+.bbl .md-code{background:rgba(7,11,5,0.6);border:1px solid rgba(201,148,58,0.2);border-left:3px solid var(--gold);padding:9px 12px;margin:0.5em 0;font-family:'JetBrains Mono','Menlo',monospace;font-size:0.85em;color:var(--cream2);overflow-x:auto;border-radius:3px;line-height:1.5;}
+.bbl .md-code code{font-family:inherit;color:inherit;}
+
+.bbl .md-quote{border-left:3px solid var(--gold);background:rgba(201,148,58,0.04);padding:7px 12px;margin:0.5em 0;color:var(--cream2);font-style:italic;border-radius:0 3px 3px 0;}
+
+.bbl a{color:var(--gold-l);text-decoration:underline;text-decoration-color:rgba(201,148,58,0.4);text-underline-offset:2px;transition:color 0.2s;}
+.bbl a:hover{color:var(--gold);text-decoration-color:var(--gold);}
+
 .bbl-img{max-width:200px;max-height:200px;border-radius:4px;margin-bottom:6px;display:block;}
 .bbl .stream-cursor{display:inline-block;width:1.5px;height:13px;background:var(--gold);animation:blink 1s infinite;vertical-align:middle;margin-left:1px;}
 @keyframes blink{0%,49%{opacity:1;}50%,100%{opacity:0;}}
@@ -801,11 +837,15 @@ var I18N = {
     horseDeleted:'Profil gelöscht',
     horseActivated:'<name> ist jetzt aktiv',
     horseMaxReached:'Maximum 5 Pferde erreicht',
-    fields:{name:'Name',rasse:'Rasse',alter:'Alter (Jahre)',kgw:'Körpergewicht (kg)',geschlecht:'Geschlecht',haltung:'Haltung',nutzung:'Nutzung',diagnosen:'Bekannte Diagnosen',fuetterung:'Aktuelle Fütterung',impfung_letzte:'Letzte Impfung',impfung_typ:'Impf-Typ',wurmkur_letzte:'Letzte Wurmkur',wurmkur_wirkstoff:'Wurmkur-Wirkstoff',hufschmied_letzter:'Letzter Hufschmied-Termin',tierarzt_letzter:'Letzter Tierarzt-Check',zahnarzt_letzter:'Letzter Zahn-Check'},
+    fields:{name:'Name',rasse:'Rasse',alter:'Alter (Jahre)',kgw:'Körpergewicht (kg)',geschlecht:'Geschlecht',haltung:'Haltung',nutzung:'Nutzung',aktivitaet:'Aktivitätslevel',training:'Trainings-Schwerpunkt',tagesablauf:'Tagesablauf',diagnosen:'Bekannte Diagnosen',fuetterung:'Aktuelle Fütterung',impfung_letzte:'Letzte Impfung',impfung_typ:'Impf-Typ',wurmkur_letzte:'Letzte Wurmkur',wurmkur_wirkstoff:'Wurmkur-Wirkstoff',hufschmied_letzter:'Letzter Hufschmied-Termin',tierarzt_letzter:'Letzter Tierarzt-Check',zahnarzt_letzter:'Letzter Zahn-Check'},
     sexOptions:['—','Stute','Wallach','Hengst'],
     haltungOptions:['—','Box mit Weide','Offenstall','Robusthaltung','Aktivstall','Box ohne Weide'],
     nutzungOptions:['—','Freizeit','Dressur','Springen','Vielseitigkeit','Western','Distanz','Zucht','Senior/Beistellpferd'],
-    placeholders:{name:'z.B. Hugo',rasse:'z.B. Warmblut, Tinker, Pony',diagnosen:'z.B. EMS, leichte Arthrose, Sommerekzem',fuetterung:'z.B. 8kg Heu, Mineralfutter, Leinöl, Bierhefe',impfung_typ:'z.B. Tetanus, Influenza, Herpes',wurmkur_wirkstoff:'z.B. Ivermectin, Moxidectin, Pyrantel'},
+    aktivitaetOptions:['—','Niedrig (<5h/Woche)','Mittel (5-10h/Woche)','Hoch (10-15h/Woche)','Athlet (>15h/Woche)','Schonung/Reha'],
+    placeholders:{name:'z.B. Hugo',rasse:'z.B. Warmblut, Tinker, Pony',diagnosen:'z.B. EMS, leichte Arthrose, Sommerekzem',fuetterung:'z.B. 8kg Heu, Mineralfutter, Leinöl, Bierhefe',impfung_typ:'z.B. Tetanus, Influenza, Herpes',wurmkur_wirkstoff:'z.B. Ivermectin, Moxidectin, Pyrantel',training:'z.B. 4× Reiten Dressur-A, 1× Longe',tagesablauf:'z.B. 16h Box, 6h Paddock, 2h Reiten'},
+    aktivitaetHelp:'Wieviel Bewegung pro Woche insgesamt',
+    trainingHelp:'Was machst du konkret mit dem Pferd?',
+    tagesablaufHelp:'Wie ist ein typischer Tag aufgeteilt?',
     vorsorgeTitle:'Vorsorge & Termine',
     vorsorgeHint:'Optional · der Bot erinnert dich',
     impfungHelp:'Bot erinnert nach 11 Monaten an Auffrischung',
@@ -977,11 +1017,15 @@ var I18N = {
     horseDeleted:'Profile deleted',
     horseActivated:'<name> is now active',
     horseMaxReached:'Maximum 5 horses reached',
-    fields:{name:'Name',rasse:'Breed',alter:'Age (years)',kgw:'Body weight (kg)',geschlecht:'Sex',haltung:'Housing',nutzung:'Use',diagnosen:'Known diagnoses',fuetterung:'Current feeding',impfung_letzte:'Last vaccination',impfung_typ:'Vaccine type',wurmkur_letzte:'Last deworming',wurmkur_wirkstoff:'Deworming agent',hufschmied_letzter:'Last farrier appointment',tierarzt_letzter:'Last vet checkup',zahnarzt_letzter:'Last dental check'},
+    fields:{name:'Name',rasse:'Breed',alter:'Age (years)',kgw:'Body weight (kg)',geschlecht:'Sex',haltung:'Housing',nutzung:'Use',aktivitaet:'Activity level',training:'Training focus',tagesablauf:'Daily routine',diagnosen:'Known diagnoses',fuetterung:'Current feeding',impfung_letzte:'Last vaccination',impfung_typ:'Vaccine type',wurmkur_letzte:'Last deworming',wurmkur_wirkstoff:'Deworming agent',hufschmied_letzter:'Last farrier appointment',tierarzt_letzter:'Last vet checkup',zahnarzt_letzter:'Last dental check'},
     sexOptions:['—','Mare','Gelding','Stallion'],
     haltungOptions:['—','Box with paddock','Open stable','Pasture-kept','Active stable','Box only'],
     nutzungOptions:['—','Leisure','Dressage','Show jumping','Eventing','Western','Endurance','Breeding','Senior/Companion'],
-    placeholders:{name:'e.g. Hugo',rasse:'e.g. Warmblood, Tinker, Pony',diagnosen:'e.g. EMS, mild arthritis, sweet itch',fuetterung:'e.g. 8kg hay, mineral feed, linseed oil',impfung_typ:'e.g. Tetanus, Influenza, Herpes',wurmkur_wirkstoff:'e.g. Ivermectin, Moxidectin, Pyrantel'},
+    aktivitaetOptions:['—','Low (<5h/week)','Medium (5-10h/week)','High (10-15h/week)','Athlete (>15h/week)','Rest/Rehab'],
+    placeholders:{name:'e.g. Hugo',rasse:'e.g. Warmblood, Tinker, Pony',diagnosen:'e.g. EMS, mild arthritis, sweet itch',fuetterung:'e.g. 8kg hay, mineral feed, linseed oil',impfung_typ:'e.g. Tetanus, Influenza, Herpes',wurmkur_wirkstoff:'e.g. Ivermectin, Moxidectin, Pyrantel',training:'e.g. 4× riding dressage L1, 1× lunging',tagesablauf:'e.g. 16h box, 6h paddock, 2h riding'},
+    aktivitaetHelp:'Total movement per week',
+    trainingHelp:'What do you specifically do with the horse?',
+    tagesablaufHelp:'How is a typical day distributed?',
     vorsorgeTitle:'Healthcare & Appointments',
     vorsorgeHint:'Optional · the bot reminds you',
     impfungHelp:'Bot reminds for booster after 11 months',
@@ -1719,6 +1763,9 @@ function saveHorseFromForm(){
     geschlecht:document.getElementById('pGeschlecht').value,
     haltung:document.getElementById('pHaltung').value,
     nutzung:document.getElementById('pNutzung').value,
+    aktivitaet:document.getElementById('pAktivitaet')?document.getElementById('pAktivitaet').value:'',
+    training:document.getElementById('pTraining')?document.getElementById('pTraining').value.trim():'',
+    tagesablauf:document.getElementById('pTagesablauf')?document.getElementById('pTagesablauf').value.trim():'',
     diagnosen:document.getElementById('pDiagnosen').value.trim(),
     fuetterung:document.getElementById('pFuetterung').value.trim(),
     impfung_letzte:document.getElementById('pImpfungLetzte')?document.getElementById('pImpfungLetzte').value:'',
@@ -1729,7 +1776,7 @@ function saveHorseFromForm(){
     tierarzt_letzter:document.getElementById('pTierarztLetzter')?document.getElementById('pTierarztLetzter').value:'',
     zahnarzt_letzter:document.getElementById('pZahnarztLetzter')?document.getElementById('pZahnarztLetzter').value:''
   };
-  ['geschlecht','haltung','nutzung'].forEach(function(k){if(data[k]==='—')data[k]='';});
+  ['geschlecht','haltung','nutzung','aktivitaet'].forEach(function(k){if(data[k]==='—')data[k]='';});
   if(editingHorseId){
     var idx=s.horses.findIndex(function(h){return h.id===editingHorseId;});
     if(idx>=0){data.id=editingHorseId;s.horses[idx]=data;}
@@ -2275,7 +2322,7 @@ var MODAL_CONTENT={
   horseEdit:function(){
     var s=getState();var lang=getLanguage();
     var f=I18N[lang].fields;var ph=I18N[lang].placeholders;
-    var sexOpts=I18N[lang].sexOptions;var halOpts=I18N[lang].haltungOptions;var nutzOpts=I18N[lang].nutzungOptions;
+    var sexOpts=I18N[lang].sexOptions;var halOpts=I18N[lang].haltungOptions;var nutzOpts=I18N[lang].nutzungOptions;var aktOpts=I18N[lang].aktivitaetOptions;
     var p={};var isNew=true;
     if(editingHorseId){var found=s.horses.find(function(x){return x.id===editingHorseId;});if(found){p=found;isNew=false;}}
     function selOpt(arr,curr){return arr.map(function(o){return '<option value="'+o+'"'+(curr===o?' selected':'')+'>'+o+'</option>';}).join('');}
@@ -2288,6 +2335,8 @@ var MODAL_CONTENT={
         '<div class="profile-row"><div class="profile-field"><label>'+f.rasse+'</label><input id="pRasse" type="text" value="'+(p.rasse||'').replace(/"/g,'&quot;')+'" placeholder="'+ph.rasse+'"/></div><div class="profile-field"><label>'+f.alter+'</label><input id="pAlter" type="number" min="0" max="40" value="'+(p.alter||'')+'"/></div></div>'+
         '<div class="profile-row"><div class="profile-field"><label>'+f.kgw+'</label><input id="pKgw" type="number" min="50" max="1200" value="'+(p.kgw||'')+'"/></div><div class="profile-field"><label>'+f.geschlecht+'</label><select id="pGeschlecht">'+selOpt(sexOpts,p.geschlecht||'—')+'</select></div></div>'+
         '<div class="profile-row"><div class="profile-field"><label>'+f.haltung+'</label><select id="pHaltung">'+selOpt(halOpts,p.haltung||'—')+'</select></div><div class="profile-field"><label>'+f.nutzung+'</label><select id="pNutzung">'+selOpt(nutzOpts,p.nutzung||'—')+'</select></div></div>'+
+        '<div class="profile-row"><div class="profile-field"><label>'+f.aktivitaet+'</label><select id="pAktivitaet">'+selOpt(aktOpts,p.aktivitaet||'—')+'</select><div class="profile-field-help">'+t('aktivitaetHelp')+'</div></div><div class="profile-field"><label>'+f.training+'</label><input id="pTraining" type="text" value="'+(p.training||'').replace(/"/g,'&quot;')+'" placeholder="'+ph.training+'"/><div class="profile-field-help">'+t('trainingHelp')+'</div></div></div>'+
+        '<div class="profile-field"><label>'+f.tagesablauf+'</label><input id="pTagesablauf" type="text" value="'+(p.tagesablauf||'').replace(/"/g,'&quot;')+'" placeholder="'+ph.tagesablauf+'"/><div class="profile-field-help">'+t('tagesablaufHelp')+'</div></div>'+
         '<div class="profile-field"><label>'+f.diagnosen+'</label><textarea id="pDiagnosen" placeholder="'+ph.diagnosen+'">'+(p.diagnosen||'').replace(/</g,'&lt;')+'</textarea></div>'+
         '<div class="profile-field"><label>'+f.fuetterung+'</label><textarea id="pFuetterung" placeholder="'+ph.fuetterung+'">'+(p.fuetterung||'').replace(/</g,'&lt;')+'</textarea></div>'+
         '<div class="profile-collapsible'+((p.impfung_letzte||p.wurmkur_letzte||p.hufschmied_letzter||p.tierarzt_letzter||p.zahnarzt_letzter)?' open':'')+'" id="vorsorgeCollapse">'+
@@ -2535,7 +2584,143 @@ function unlockInput(){var inp=document.getElementById('inp');var btn=document.g
 function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,110)+'px';}
 function setQ(q){var inp=document.getElementById('inp');if(!inp||inp.disabled)return;inp.value=q;autoResize(inp);inp.focus();}
 function escapeHTML(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function fmtBubble(text){return escapeHTML(text).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');}
+
+// ═══════════════════════════════════════════════
+// MARKDOWN RENDERER — Premium-Quality Output
+// Supports: headers, tables, lists, code, bold/italic, dividers, blockquotes
+// ═══════════════════════════════════════════════
+function fmtBubble(text){
+  if(!text)return '';
+  var src=String(text);
+
+  // ── Step 1: Extract code blocks first (so other rules don't touch them) ──
+  var codeBlocks=[];
+  src=src.replace(/```([\s\S]*?)```/g,function(_,code){
+    codeBlocks.push(code);
+    return '\u0000CODE'+(codeBlocks.length-1)+'\u0000';
+  });
+
+  // ── Step 2: Escape HTML on remaining text ──
+  src=escapeHTML(src);
+
+  // ── Step 3: Parse line-by-line with table & list awareness ──
+  var lines=src.split('\n');
+  var out=[];
+  var i=0;
+  while(i<lines.length){
+    var line=lines[i];
+
+    // ── Tables (markdown pipe-syntax) ──
+    if(/^\s*\|.+\|\s*$/.test(line) && i+1<lines.length && /^\s*\|[\s\-:|]+\|\s*$/.test(lines[i+1])){
+      var headers=line.trim().slice(1,-1).split('|').map(function(s){return s.trim();});
+      i+=2; // skip separator line
+      var rows=[];
+      while(i<lines.length && /^\s*\|.+\|\s*$/.test(lines[i])){
+        rows.push(lines[i].trim().slice(1,-1).split('|').map(function(s){return s.trim();}));
+        i++;
+      }
+      var thead='<thead><tr>'+headers.map(function(h){return '<th>'+inlineFmt(h)+'</th>';}).join('')+'</tr></thead>';
+      var tbody='<tbody>'+rows.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+inlineFmt(c)+'</td>';}).join('')+'</tr>';}).join('')+'</tbody>';
+      out.push('<table class="md-table">'+thead+tbody+'</table>');
+      continue;
+    }
+
+    // ── Horizontal rule (---) ──
+    if(/^\s*(---|\*\*\*|___)\s*$/.test(line)){
+      out.push('<hr class="md-hr"/>');
+      i++;continue;
+    }
+
+    // ── Headers ──
+    var hMatch=line.match(/^(#{1,4})\s+(.+)$/);
+    if(hMatch){
+      var lvl=hMatch[1].length;
+      out.push('<h'+(lvl+2)+' class="md-h md-h'+lvl+'">'+inlineFmt(hMatch[2])+'</h'+(lvl+2)+'>');
+      i++;continue;
+    }
+
+    // ── Blockquote ──
+    if(/^\s*&gt;\s*/.test(line)){
+      var quote=[];
+      while(i<lines.length && /^\s*&gt;\s*/.test(lines[i])){
+        quote.push(lines[i].replace(/^\s*&gt;\s*/,''));
+        i++;
+      }
+      out.push('<blockquote class="md-quote">'+quote.map(inlineFmt).join('<br>')+'</blockquote>');
+      continue;
+    }
+
+    // ── Unordered list (-, *, +, ✦, ✓, ✅) ──
+    if(/^\s*([-*+]|✦|✓|✅|❌)\s+/.test(line)){
+      var ul=[];
+      while(i<lines.length && /^\s*([-*+]|✦|✓|✅|❌)\s+/.test(lines[i])){
+        var m=lines[i].match(/^\s*([-*+]|✦|✓|✅|❌)\s+(.*)$/);
+        // Preserve special bullet symbols (✓, ✅, ❌) as visible markers
+        var bullet=m[1];
+        var content=inlineFmt(m[2]);
+        if(bullet==='-'||bullet==='*'||bullet==='+'||bullet==='✦'){
+          ul.push('<li class="md-li">'+content+'</li>');
+        }else{
+          // Custom bullet stays inline
+          ul.push('<li class="md-li md-li-icon" data-icon="'+bullet+'">'+content+'</li>');
+        }
+        i++;
+      }
+      out.push('<ul class="md-list">'+ul.join('')+'</ul>');
+      continue;
+    }
+
+    // ── Ordered list (1. 2. 3.) ──
+    if(/^\s*\d+\.\s+/.test(line)){
+      var ol=[];
+      while(i<lines.length && /^\s*\d+\.\s+/.test(lines[i])){
+        ol.push('<li class="md-li">'+inlineFmt(lines[i].replace(/^\s*\d+\.\s+/,''))+'</li>');
+        i++;
+      }
+      out.push('<ol class="md-list md-ord">'+ol.join('')+'</ol>');
+      continue;
+    }
+
+    // ── Empty line → paragraph break ──
+    if(line.trim()===''){
+      out.push('');
+      i++;continue;
+    }
+
+    // ── Default: inline-formatted line ──
+    out.push(inlineFmt(line));
+    i++;
+  }
+
+  // Join consecutive non-block lines into paragraphs
+  var html=out.filter(function(x){return x!==null;}).join('\n').replace(/\n{2,}/g,'\n\n');
+  // Wrap loose text lines into <br>
+  html=html.split('\n\n').map(function(block){
+    if(/^<(table|ul|ol|h[2-6]|blockquote|hr|pre)/.test(block)) return block;
+    return block.split('\n').filter(function(x){return x!=='';}).join('<br>');
+  }).join('');
+
+  // ── Step 4: Restore code blocks ──
+  html=html.replace(/\u0000CODE(\d+)\u0000/g,function(_,idx){
+    return '<pre class="md-code"><code>'+escapeHTML(codeBlocks[parseInt(idx,10)])+'</code></pre>';
+  });
+
+  return html;
+}
+
+// Inline-only formatting (bold, italic, inline-code, links)
+function inlineFmt(s){
+  return s
+    // Bold: **text**
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    // Italic: *text* or _text_
+    .replace(/(^|[^\*])\*([^\*\n]+)\*/g,'$1<em>$2</em>')
+    .replace(/(^|[^_])_([^_\n]+)_/g,'$1<em>$2</em>')
+    // Inline code: `text`
+    .replace(/`([^`\n]+)`/g,'<code class="md-icode">$1</code>')
+    // Links: [text](url)
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+}
 
 function addMsg(role,text,imgData){
   var welcome=document.getElementById('welcome');if(welcome)welcome.remove();
