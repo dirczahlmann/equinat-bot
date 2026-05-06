@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<title>EQUINAT PferdeBot®</title>
+<title>EQUINAT PferdeBot™</title>
 <link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22EQUINAT%20PferdeBot%22%2C%22short_name%22%3A%22EQUINAT%22%2C%22start_url%22%3A%22%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23080E06%22%2C%22theme_color%22%3A%22%23C9943A%22%7D"/>
 <meta name="theme-color" content="#080E06"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
@@ -18,6 +18,9 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;background:#080E06;}
 body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font-size:14px;}
+
+/* TM symbol — premium superscript style */
+.tm,sup.tm{font-size:0.55em;vertical-align:super;line-height:0;color:var(--gold);font-weight:400;margin-left:1px;letter-spacing:0;}
 
 /* ═══════ LOCK SCREEN ═══════ */
 .lock-screen{position:fixed;inset:0;background:var(--dark);display:flex;align-items:center;justify-content:center;padding:1.5rem;overflow:auto;z-index:1000;}
@@ -497,7 +500,7 @@ input[type="date"]{color-scheme:dark;}
   <div class="lock-inner">
     <div class="lock-logo">EQUINAT</div>
     <h1 class="lock-title" id="lockTitle">Beta-Zugang erforderlich</h1>
-    <p class="lock-desc" id="lockDesc">Der EQUINAT PferdeBot® befindet sich aktuell in der geschlossenen Beta-Testphase. Du brauchst einen <strong>persönlichen Zugangscode</strong>, den wir dir nach erfolgreicher Bewerbung per Email senden.</p>
+    <p class="lock-desc" id="lockDesc">Der EQUINAT PferdeBot™ befindet sich aktuell in der geschlossenen Beta-Testphase. Du brauchst einen <strong>persönlichen Zugangscode</strong>, den wir dir nach erfolgreicher Bewerbung per Email senden.</p>
     <div class="lock-card">
       <div class="lock-label" id="lockCardLabel">Zugangsdaten eingeben</div>
       <input type="email" id="lockEmail" class="lock-input" placeholder="Email-Adresse" autocomplete="email"/>
@@ -506,7 +509,7 @@ input[type="date"]{color-scheme:dark;}
       <button class="lock-btn" id="lockBtn" onclick="tryUnlock()">→ Bot freischalten</button>
     </div>
     <div class="lock-foot" id="lockFoot">Noch keinen Zugang?<br/><a href="/tester-signup">→ Jetzt als Beta-Tester bewerben</a></div>
-    <div class="lock-credit">EQUINAT PferdeBot® · Beta · Zafao GmbH</div>
+    <div class="lock-credit">EQUINAT PferdeBot™ · Beta · Zafao GmbH</div>
   </div>
 </div>
 
@@ -520,7 +523,7 @@ input[type="date"]{color-scheme:dark;}
     <div class="sb-head">
       <div class="sb-head-row">
         <div>
-          <div class="sb-logo">EQUINAT<span>®</span></div>
+          <div class="sb-logo">EQUINAT<span>™</span></div>
           <div class="sb-tag" id="sbTag">PFERDEBOT</div>
         </div>
       </div>
@@ -597,7 +600,7 @@ input[type="date"]{color-scheme:dark;}
       <button class="hdr-burger" onclick="openSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
       <div class="hdr-title">
         <div class="hdr-h">
-          <span class="hdr-h-text" id="hdrChatTitle">PferdeBot®</span>
+          <span class="hdr-h-text" id="hdrChatTitle">PferdeBot™</span>
           <button class="hdr-rename-btn" id="hdrRenameBtn" onclick="renameCurrentChat()" title="Umbenennen" style="display:none;">✎</button>
         </div>
         <div class="hdr-sub" id="hdrSub">Dein KI-Pferdeexperte</div>
@@ -619,7 +622,7 @@ input[type="date"]{color-scheme:dark;}
     <div class="msgs" id="msgs">
       <div class="welcome" id="welcome">
         <div class="welcome-horse"></div>
-        <div class="welcome-title" id="welcomeTitle">Hallo! Ich bin der EQUINAT PferdeBot<span style="color:var(--gold)">®</span></div>
+        <div class="welcome-title" id="welcomeTitle">Hallo! Ich bin der EQUINAT PferdeBot<span class="tm">™</span></div>
         <div class="welcome-sub" id="welcomeSub">Dein KI-Pferdeexperte für Gesundheit, Ernährung &amp; EQUINAT-Futterprogramme.<br/>Klick links auf ein Themengebiet oder stell mir direkt eine Frage.</div>
         <div class="welcome-tips" id="welcomeTips"></div>
       </div>
@@ -641,7 +644,7 @@ input[type="date"]{color-scheme:dark;}
         <textarea id="inp" rows="1" placeholder="Frag mich alles rund ums Pferd …" oninput="autoResize(this)"></textarea>
         <button id="sbtn" onclick="send()" title="Senden"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></button>
       </div>
-      <div class="inp-hint" id="inpHint">EQUINAT PferdeBot® · Kein Ersatz für tierärztliche Diagnose</div>
+      <div class="inp-hint" id="inpHint">EQUINAT PferdeBot™ · Kein Ersatz für tierärztliche Diagnose</div>
     </div>
 
   </main>
@@ -694,7 +697,7 @@ var expandedFolders = {};      // folderId → true/false
 var I18N = {
   de: {
     lockTitle:'Beta-Zugang erforderlich',
-    lockDesc:'Der EQUINAT PferdeBot® befindet sich aktuell in der geschlossenen Beta-Testphase. Du brauchst einen <strong>persönlichen Zugangscode</strong>, den wir dir nach erfolgreicher Bewerbung per Email senden.',
+    lockDesc:'Der EQUINAT PferdeBot™ befindet sich aktuell in der geschlossenen Beta-Testphase. Du brauchst einen <strong>persönlichen Zugangscode</strong>, den wir dir nach erfolgreicher Bewerbung per Email senden.',
     lockCardLabel:'Zugangsdaten eingeben',
     lockEmailPh:'Email-Adresse',
     lockCodePh:'Zugangscode (z.B. EQ-7K3M)',
@@ -762,8 +765,8 @@ var I18N = {
     hdrActiveLabel:'Aktiv: ',
     hdrNewChat:'Neuer Chat',
     inpPh:'Frag mich alles rund ums Pferd …',
-    inpHint:'EQUINAT PferdeBot® · Kein Ersatz für tierärztliche Diagnose',
-    welcomeTitle:'Hallo! Ich bin der EQUINAT PferdeBot®',
+    inpHint:'EQUINAT PferdeBot™ · Kein Ersatz für tierärztliche Diagnose',
+    welcomeTitle:'Hallo! Ich bin der EQUINAT PferdeBot™',
     welcomeSub:'Dein KI-Pferdeexperte für Gesundheit, Ernährung &amp; EQUINAT-Futterprogramme.<br/>Klick links auf ein Themengebiet oder stell mir direkt eine Frage.',
     usageRem:'<rem> von <total> Nachrichten diesen Monat',
     usageEmpty:'Kontingent aufgebraucht',
@@ -821,11 +824,11 @@ var I18N = {
     folderCreatePrompt:'Name für neues Projekt:',
     chatMoved:'Chat verschoben ✓',
     quickTopics:[
-      {q:'Was ist EQUINAT DAILY COMPLETE®?', l:'🌿 DAILY'},
-      {q:'Was ist JOINT COMPLETE® bei Arthrose?', l:'🦴 JOINT'},
-      {q:'Was ist RESPIRA COMPLETE® bei Atemwegen?', l:'💨 RESPIRA'},
-      {q:'Was ist METABOLIC COMPLETE® bei EMS?', l:'⚖️ METABOLIC'},
-      {q:'Was ist das EQUINAT MASH SYSTEM®?', l:'🌾 MASH'},
+      {q:'Was ist EQUINAT DAILY COMPLETE™?', l:'🌿 DAILY'},
+      {q:'Was ist JOINT COMPLETE™ bei Arthrose?', l:'🦴 JOINT'},
+      {q:'Was ist RESPIRA COMPLETE™ bei Atemwegen?', l:'💨 RESPIRA'},
+      {q:'Was ist METABOLIC COMPLETE™ bei EMS?', l:'⚖️ METABOLIC'},
+      {q:'Was ist das EQUINAT MASH SYSTEM™?', l:'🌾 MASH'},
       {q:'Wie funktioniert die Subscription mit Rabatten?', l:'📦 Abo'},
       {q:'Wann muss ich beim Pferd sofort den Tierarzt rufen?', l:'🚨 Notfall'}
     ],
@@ -847,7 +850,7 @@ var I18N = {
       {h:'Persona-Beratung', d:'DAILY + 1-2 Therapie-Linien', q:'Welche EQUINAT-Linien empfiehlst du für mein Pferd?'},
       {h:'Subscription-Vorteil', d:'Rabatte & Bot inklusive', q:'Wie funktioniert die EQUINAT-Subscription und wie viel spare ich damit?'}
     ],
-    bblName:'EQUINAT PferdeBot®',
+    bblName:'EQUINAT PferdeBot™',
     bblYou:'Du',
     bblCopy:'Kopieren',
     bblSpeak:'Vorlesen',
@@ -870,7 +873,7 @@ var I18N = {
   },
   en: {
     lockTitle:'Beta access required',
-    lockDesc:'The EQUINAT PferdeBot® is currently in closed beta. You need a <strong>personal access code</strong>, which we send by email after a successful application.',
+    lockDesc:'The EQUINAT PferdeBot™ is currently in closed beta. You need a <strong>personal access code</strong>, which we send by email after a successful application.',
     lockCardLabel:'Enter access credentials',
     lockEmailPh:'Email address',
     lockCodePh:'Access code (e.g. EQ-7K3M)',
@@ -938,8 +941,8 @@ var I18N = {
     hdrActiveLabel:'Active: ',
     hdrNewChat:'New chat',
     inpPh:'Ask me anything about your horse…',
-    inpHint:'EQUINAT PferdeBot® · No replacement for veterinary diagnosis',
-    welcomeTitle:'Hello! I am the EQUINAT PferdeBot®',
+    inpHint:'EQUINAT PferdeBot™ · No replacement for veterinary diagnosis',
+    welcomeTitle:'Hello! I am the EQUINAT PferdeBot™',
     welcomeSub:'Your AI horse expert for health, nutrition &amp; EQUINAT feeding programs.<br/>Click a topic on the left or ask me directly.',
     usageRem:'<rem> of <total> messages this month',
     usageEmpty:'Quota exhausted',
@@ -997,11 +1000,11 @@ var I18N = {
     folderCreatePrompt:'Name for new project:',
     chatMoved:'Chat moved ✓',
     quickTopics:[
-      {q:'What is EQUINAT DAILY COMPLETE®?', l:'🌿 DAILY'},
-      {q:'What is JOINT COMPLETE® for arthritis?', l:'🦴 JOINT'},
-      {q:'What is RESPIRA COMPLETE® for airways?', l:'💨 RESPIRA'},
-      {q:'What is METABOLIC COMPLETE® for EMS?', l:'⚖️ METABOLIC'},
-      {q:'What is the EQUINAT MASH SYSTEM®?', l:'🌾 MASH'},
+      {q:'What is EQUINAT DAILY COMPLETE™?', l:'🌿 DAILY'},
+      {q:'What is JOINT COMPLETE™ for arthritis?', l:'🦴 JOINT'},
+      {q:'What is RESPIRA COMPLETE™ for airways?', l:'💨 RESPIRA'},
+      {q:'What is METABOLIC COMPLETE™ for EMS?', l:'⚖️ METABOLIC'},
+      {q:'What is the EQUINAT MASH SYSTEM™?', l:'🌾 MASH'},
       {q:'How does the subscription with discounts work?', l:'📦 Subscription'},
       {q:'When should I call the vet immediately?', l:'🚨 Emergency'}
     ],
@@ -1023,7 +1026,7 @@ var I18N = {
       {h:'Persona advice', d:'DAILY + 1-2 therapy lines', q:'Which EQUINAT lines do you recommend for my horse?'},
       {h:'Subscription', d:'Discounts &amp; bot included', q:'How does the EQUINAT subscription work and how much do I save?'}
     ],
-    bblName:'EQUINAT PferdeBot®',
+    bblName:'EQUINAT PferdeBot™',
     bblYou:'You',
     bblCopy:'Copy',
     bblSpeak:'Listen',
@@ -1439,9 +1442,9 @@ function applyTranslations(){
   document.getElementById('hdrSub').textContent=t('hdrSub');
   document.getElementById('inp').placeholder=t('inpPh');
   document.getElementById('inpHint').textContent=t('inpHint');
-  if(document.getElementById('welcomeTitle'))document.getElementById('welcomeTitle').innerHTML=t('welcomeTitle').replace(/®/g,'<span style="color:var(--gold)">®</span>');
+  if(document.getElementById('welcomeTitle'))document.getElementById('welcomeTitle').innerHTML=t('welcomeTitle').replace(/™/g,'<span class="tm">™</span>');
   if(document.getElementById('welcomeSub'))document.getElementById('welcomeSub').innerHTML=t('welcomeSub');
-  if(!currentChatId)document.getElementById('hdrChatTitle').textContent='PferdeBot®';
+  if(!currentChatId)document.getElementById('hdrChatTitle').textContent='PferdeBot™';
   renderTopics();renderWelcomeTips();renderHorses();renderActiveHorseLabel();renderSidebar();updateUsageBar();renderDailySection();
 }
 
@@ -1599,7 +1602,7 @@ function renderEmptyChat(){
   var welcomeHtml=
     '<div class="welcome" id="welcome">'+
       '<div class="welcome-horse"></div>'+
-      '<div class="welcome-title" id="welcomeTitle">'+t('welcomeTitle').replace(/®/g,'<span style="color:var(--gold)">®</span>')+'</div>'+
+      '<div class="welcome-title" id="welcomeTitle">'+t('welcomeTitle').replace(/™/g,'<span class="tm">™</span>')+'</div>'+
       '<div class="welcome-sub" id="welcomeSub">'+t('welcomeSub')+'</div>'+
       '<div class="welcome-tips" id="welcomeTips"></div>'+
     '</div>';
@@ -1737,7 +1740,7 @@ function deleteChat(chatId){
   if(chatId===currentChatId){
     currentChatId=null;hist=[];
     renderEmptyChat();
-    document.getElementById('hdrChatTitle').textContent='PferdeBot®';
+    document.getElementById('hdrChatTitle').textContent='PferdeBot™';
     document.getElementById('hdrRenameBtn').style.display='none';
   }
   renderSidebar();
@@ -2237,18 +2240,18 @@ var MODAL_CONTENT={
 
   impressum:function(){
     var lang=getLanguage();
-    if(lang==='en')return '<div class="modal-tag">Legal</div><div class="modal-title">Imprint</div><div class="modal-body"><h4>Information per § 5 TMG</h4><p><strong>Zafao GmbH</strong><br/>Adolfsallee 22<br/>65185 Wiesbaden<br/>Germany</p><h4>Contact</h4><p>Email: <a href="mailto:info@zafao.world">info@zafao.world</a></p><h4>Trade Register</h4><p>Local Court Wiesbaden · HRB 33239</p><h4>Managing Director</h4><p>Lea Zahlmann</p><h4>Disclaimer</h4><p>Content of the EQUINAT PferdeBot® serves general information purposes only and <strong>does not replace veterinary diagnosis or treatment</strong>.</p></div><button class="modal-close" onclick="closeModal()">Close</button>';
-    return '<div class="modal-tag">Rechtliches</div><div class="modal-title">Impressum</div><div class="modal-body"><h4>Angaben gemäß § 5 TMG</h4><p><strong>Zafao GmbH</strong><br/>Adolfsallee 22<br/>65185 Wiesbaden<br/>Deutschland</p><h4>Kontakt</h4><p>E-Mail: <a href="mailto:info@zafao.world">info@zafao.world</a></p><h4>Handelsregister</h4><p>Amtsgericht Wiesbaden · HRB 33239</p><h4>Geschäftsführung</h4><p>Lea Zahlmann</p><h4>Haftungsausschluss</h4><p>Die Inhalte des EQUINAT PferdeBot® dienen ausschließlich der allgemeinen Information und ersetzen <strong>keine tierärztliche Diagnose oder Behandlung</strong>.</p></div><button class="modal-close" onclick="closeModal()">Schließen</button>';
+    if(lang==='en')return '<div class="modal-tag">Legal</div><div class="modal-title">Imprint</div><div class="modal-body"><h4>Information per § 5 TMG</h4><p><strong>Zafao GmbH</strong><br/>Adolfsallee 22<br/>65185 Wiesbaden<br/>Germany</p><h4>Contact</h4><p>Email: <a href="mailto:info@zafao.world">info@zafao.world</a></p><h4>Trade Register</h4><p>Local Court Wiesbaden · HRB 33239</p><h4>Managing Director</h4><p>Lea Zahlmann</p><h4>Disclaimer</h4><p>Content of the EQUINAT PferdeBot™ serves general information purposes only and <strong>does not replace veterinary diagnosis or treatment</strong>.</p></div><button class="modal-close" onclick="closeModal()">Close</button>';
+    return '<div class="modal-tag">Rechtliches</div><div class="modal-title">Impressum</div><div class="modal-body"><h4>Angaben gemäß § 5 TMG</h4><p><strong>Zafao GmbH</strong><br/>Adolfsallee 22<br/>65185 Wiesbaden<br/>Deutschland</p><h4>Kontakt</h4><p>E-Mail: <a href="mailto:info@zafao.world">info@zafao.world</a></p><h4>Handelsregister</h4><p>Amtsgericht Wiesbaden · HRB 33239</p><h4>Geschäftsführung</h4><p>Lea Zahlmann</p><h4>Haftungsausschluss</h4><p>Die Inhalte des EQUINAT PferdeBot™ dienen ausschließlich der allgemeinen Information und ersetzen <strong>keine tierärztliche Diagnose oder Behandlung</strong>.</p></div><button class="modal-close" onclick="closeModal()">Schließen</button>';
   },
   datenschutz:function(){
     var lang=getLanguage();
-    if(lang==='en')return '<div class="modal-tag">GDPR</div><div class="modal-title">Privacy Policy</div><div class="modal-body"><h4>1. Controller</h4><p>Zafao GmbH, Adolfsallee 22, 65185 Wiesbaden — <a href="mailto:info@zafao.world">info@zafao.world</a></p><h4>2. Data processed</h4><p>When using the PferdeBot®, we process: your email, access code, your questions and AI responses, an anonymized user ID, technical data, and optionally horse profiles you choose to enter (up to 5).</p><h4>3. Local storage</h4><p>Your chats and horse profiles are stored exclusively in your browser (localStorage). They are <strong>not</strong> sent to our servers as a database. Only your individual messages travel to the AI for response generation.</p><h4>4. Recipients</h4><p><strong>Anthropic</strong> (USA, SCCs) for AI processing, <strong>Netlify</strong> (USA, SCCs) for hosting.</p><h4>5. Your rights</h4><p>Access, rectification, erasure, restriction, objection, portability. Requests: <a href="mailto:info@zafao.world">info@zafao.world</a>.</p><h4>6. Voice / Image data</h4><p>Voice input is processed by your browser only. Images are sent to Anthropic for AI analysis.</p></div><button class="modal-close" onclick="closeModal()">Close</button>';
-    return '<div class="modal-tag">DSGVO</div><div class="modal-title">Datenschutzerklärung</div><div class="modal-body"><h4>1. Verantwortlich</h4><p>Zafao GmbH, Adolfsallee 22, 65185 Wiesbaden — <a href="mailto:info@zafao.world">info@zafao.world</a></p><h4>2. Welche Daten werden verarbeitet?</h4><p>Bei der Nutzung des PferdeBot® werden folgende Daten verarbeitet: deine Email-Adresse, dein Zugangscode, deine Fragen und KI-Antworten, ein anonymer Nutzer-ID, technische Daten und optional die Pferde-Profile (bis 5).</p><h4>3. Lokale Speicherung</h4><p>Deine Chats und Pferde-Profile werden ausschließlich in deinem Browser gespeichert (localStorage). Sie werden <strong>nicht</strong> als Datenbank an unsere Server gesendet. Nur deine einzelnen Nachrichten gehen an die KI zur Antwortgenerierung.</p><h4>4. Empfänger</h4><p><strong>Anthropic</strong> (USA, SCC) für KI, <strong>Netlify</strong> (USA, SCC) für Hosting.</p><h4>5. Deine Rechte</h4><p><strong>Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch, Datenübertragbarkeit</strong>. Anfragen: <a href="mailto:info@zafao.world">info@zafao.world</a>.</p><h4>6. Sprach- und Bilddaten</h4><p>Spracheingabe läuft im Browser. Bilder gehen an Anthropic.</p></div><button class="modal-close" onclick="closeModal()">Schließen</button>';
+    if(lang==='en')return '<div class="modal-tag">GDPR</div><div class="modal-title">Privacy Policy</div><div class="modal-body"><h4>1. Controller</h4><p>Zafao GmbH, Adolfsallee 22, 65185 Wiesbaden — <a href="mailto:info@zafao.world">info@zafao.world</a></p><h4>2. Data processed</h4><p>When using the PferdeBot™, we process: your email, access code, your questions and AI responses, an anonymized user ID, technical data, and optionally horse profiles you choose to enter (up to 5).</p><h4>3. Local storage</h4><p>Your chats and horse profiles are stored exclusively in your browser (localStorage). They are <strong>not</strong> sent to our servers as a database. Only your individual messages travel to the AI for response generation.</p><h4>4. Recipients</h4><p><strong>Anthropic</strong> (USA, SCCs) for AI processing, <strong>Netlify</strong> (USA, SCCs) for hosting.</p><h4>5. Your rights</h4><p>Access, rectification, erasure, restriction, objection, portability. Requests: <a href="mailto:info@zafao.world">info@zafao.world</a>.</p><h4>6. Voice / Image data</h4><p>Voice input is processed by your browser only. Images are sent to Anthropic for AI analysis.</p></div><button class="modal-close" onclick="closeModal()">Close</button>';
+    return '<div class="modal-tag">DSGVO</div><div class="modal-title">Datenschutzerklärung</div><div class="modal-body"><h4>1. Verantwortlich</h4><p>Zafao GmbH, Adolfsallee 22, 65185 Wiesbaden — <a href="mailto:info@zafao.world">info@zafao.world</a></p><h4>2. Welche Daten werden verarbeitet?</h4><p>Bei der Nutzung des PferdeBot™ werden folgende Daten verarbeitet: deine Email-Adresse, dein Zugangscode, deine Fragen und KI-Antworten, ein anonymer Nutzer-ID, technische Daten und optional die Pferde-Profile (bis 5).</p><h4>3. Lokale Speicherung</h4><p>Deine Chats und Pferde-Profile werden ausschließlich in deinem Browser gespeichert (localStorage). Sie werden <strong>nicht</strong> als Datenbank an unsere Server gesendet. Nur deine einzelnen Nachrichten gehen an die KI zur Antwortgenerierung.</p><h4>4. Empfänger</h4><p><strong>Anthropic</strong> (USA, SCC) für KI, <strong>Netlify</strong> (USA, SCC) für Hosting.</p><h4>5. Deine Rechte</h4><p><strong>Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch, Datenübertragbarkeit</strong>. Anfragen: <a href="mailto:info@zafao.world">info@zafao.world</a>.</p><h4>6. Sprach- und Bilddaten</h4><p>Spracheingabe läuft im Browser. Bilder gehen an Anthropic.</p></div><button class="modal-close" onclick="closeModal()">Schließen</button>';
   },
   ki:function(){
     var lang=getLanguage();
-    if(lang==='en')return '<div class="modal-tag">AI Notice</div><div class="modal-title">AI Transparency</div><div class="modal-body"><h4>You\u2019re talking to an AI</h4><p>The EQUINAT PferdeBot® is an AI system based on a large language model from Anthropic. It is <strong>not a human vet</strong>.</p><h4>What the AI cannot do</h4><p><strong>No diagnosis</strong>, no prescriptions. In emergencies <strong>always call a vet</strong>.</p><h4>Image analysis</h4><p>You can send photos. The AI describes what it sees but never diagnoses.</p><h4>Hallucinations</h4><p>AI models may rarely <strong>invent false information</strong>. For important decisions, verify with a vet.</p></div><button class="modal-close" onclick="closeModal()">Close</button>';
-    return '<div class="modal-tag">KI-Hinweis</div><div class="modal-title">KI-Transparenz</div><div class="modal-body"><h4>Du sprichst mit einer KI</h4><p>Der EQUINAT PferdeBot® ist ein KI-System auf Basis eines Sprachmodells von Anthropic. Es ist <strong>kein menschlicher Tierarzt</strong>.</p><h4>Was die KI NICHT kann</h4><p><strong>Keine Diagnose</strong>, keine Medikamente verschreiben. Bei Notfällen <strong>immer Tierarzt rufen</strong>.</p><h4>Bildanalyse</h4><p>Du kannst Fotos schicken. Die KI beschreibt was sie sieht, stellt aber nie eine Diagnose.</p><h4>Halluzinationen</h4><p>KI-Modelle können in seltenen Fällen <strong>falsche Informationen erfinden</strong>. Bei wichtigen Entscheidungen mit Tierarzt rückversichern.</p></div><button class="modal-close" onclick="closeModal()">Schließen</button>';
+    if(lang==='en')return '<div class="modal-tag">AI Notice</div><div class="modal-title">AI Transparency</div><div class="modal-body"><h4>You\u2019re talking to an AI</h4><p>The EQUINAT PferdeBot™ is an AI system based on a large language model from Anthropic. It is <strong>not a human vet</strong>.</p><h4>What the AI cannot do</h4><p><strong>No diagnosis</strong>, no prescriptions. In emergencies <strong>always call a vet</strong>.</p><h4>Image analysis</h4><p>You can send photos. The AI describes what it sees but never diagnoses.</p><h4>Hallucinations</h4><p>AI models may rarely <strong>invent false information</strong>. For important decisions, verify with a vet.</p></div><button class="modal-close" onclick="closeModal()">Close</button>';
+    return '<div class="modal-tag">KI-Hinweis</div><div class="modal-title">KI-Transparenz</div><div class="modal-body"><h4>Du sprichst mit einer KI</h4><p>Der EQUINAT PferdeBot™ ist ein KI-System auf Basis eines Sprachmodells von Anthropic. Es ist <strong>kein menschlicher Tierarzt</strong>.</p><h4>Was die KI NICHT kann</h4><p><strong>Keine Diagnose</strong>, keine Medikamente verschreiben. Bei Notfällen <strong>immer Tierarzt rufen</strong>.</p><h4>Bildanalyse</h4><p>Du kannst Fotos schicken. Die KI beschreibt was sie sieht, stellt aber nie eine Diagnose.</p><h4>Halluzinationen</h4><p>KI-Modelle können in seltenen Fällen <strong>falsche Informationen erfinden</strong>. Bei wichtigen Entscheidungen mit Tierarzt rückversichern.</p></div><button class="modal-close" onclick="closeModal()">Schließen</button>';
   },
   kontakt:function(){
     var lang=getLanguage();
