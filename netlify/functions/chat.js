@@ -614,6 +614,30 @@ function buildHorseContext(horses, activeHorseId, language) {
 
   const lang = language === 'en' ? 'en' : 'de';
   const lines = [];
+  const today = new Date();
+
+  // Helper: format date diff
+  function daysSince(dateStr) {
+    if (!dateStr) return null;
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return null;
+    const diffMs = today - d;
+    return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  }
+
+  function formatDateInfo(dateStr, days) {
+    if (days === null) return dateStr;
+    const months = Math.floor(days / 30);
+    if (lang === 'en') {
+      if (days < 30) return `${dateStr} (${days} days ago)`;
+      if (months < 12) return `${dateStr} (${months} months ago)`;
+      return `${dateStr} (${Math.floor(months/12)} years ${months%12} months ago)`;
+    } else {
+      if (days < 30) return `${dateStr} (vor ${days} Tagen)`;
+      if (months < 12) return `${dateStr} (vor ${months} Monaten)`;
+      return `${dateStr} (vor ${Math.floor(months/12)} Jahren ${months%12} Monaten)`;
+    }
+  }
 
   // Header
   if (lang === 'en') {
@@ -622,6 +646,9 @@ function buildHorseContext(horses, activeHorseId, language) {
     lines.push(`PFERDE DES NUTZERS (${horses.length} insgesamt):`);
   }
   lines.push('');
+
+  // Track overdue items for active horse
+  let overdueAlerts = [];
 
   horses.forEach((h, idx) => {
     const isActive = h.id === activeHorseId;
@@ -638,6 +665,64 @@ function buildHorseContext(horses, activeHorseId, language) {
     if (h.nutzung) lines.push(`  ${lang === 'en' ? 'Use' : 'Nutzung'}: ${h.nutzung}`);
     if (h.diagnosen) lines.push(`  ${lang === 'en' ? 'Diagnoses' : 'Diagnosen'}: ${h.diagnosen}`);
     if (h.fuetterung) lines.push(`  ${lang === 'en' ? 'Current feeding' : 'Aktuelle Fütterung'}: ${h.fuetterung}`);
+
+    // ── HEALTHCARE DATES ──
+    const healthLines = [];
+    if (h.impfung_letzte) {
+      const days = daysSince(h.impfung_letzte);
+      const typ = h.impfung_typ ? ` [${h.impfung_typ}]` : '';
+      healthLines.push(`  ${lang === 'en' ? 'Last vaccination' : 'Letzte Impfung'}: ${formatDateInfo(h.impfung_letzte, days)}${typ}`);
+      // Standard: yearly booster, alert at 11+ months
+      if (isActive && days !== null && days > 330) {
+        overdueAlerts.push(lang === 'en'
+          ? `Vaccination is due (${Math.floor(days/30)} months since last)`
+          : `Impfung ist fällig (${Math.floor(days/30)} Monate seit letzter)`);
+      }
+    }
+    if (h.wurmkur_letzte) {
+      const days = daysSince(h.wurmkur_letzte);
+      const wirk = h.wurmkur_wirkstoff ? ` [${h.wurmkur_wirkstoff}]` : '';
+      healthLines.push(`  ${lang === 'en' ? 'Last deworming' : 'Letzte Wurmkur'}: ${formatDateInfo(h.wurmkur_letzte, days)}${wirk}`);
+      // Selektiv: depending on method 3-6 months reasonable check-back
+      if (isActive && days !== null && days > 180) {
+        overdueAlerts.push(lang === 'en'
+          ? `Worth considering a fecal egg count check (${Math.floor(days/30)} months since last deworming)`
+          : `Selektive Kotprobe empfehlenswert (${Math.floor(days/30)} Monate seit letzter Wurmkur)`);
+      }
+    }
+    if (h.hufschmied_letzter) {
+      const days = daysSince(h.hufschmied_letzter);
+      healthLines.push(`  ${lang === 'en' ? 'Last farrier' : 'Letzter Hufschmied'}: ${formatDateInfo(h.hufschmied_letzter, days)}`);
+      if (isActive && days !== null && days > 56) { // 8 weeks
+        overdueAlerts.push(lang === 'en'
+          ? `Farrier appointment overdue (${days} days since last, standard is 6-8 weeks)`
+          : `Hufschmied-Termin fällig (${days} Tage seit letztem, Standard 6-8 Wochen)`);
+      }
+    }
+    if (h.tierarzt_letzter) {
+      const days = daysSince(h.tierarzt_letzter);
+      healthLines.push(`  ${lang === 'en' ? 'Last vet check' : 'Letzter Tierarzt-Check'}: ${formatDateInfo(h.tierarzt_letzter, days)}`);
+      if (isActive && days !== null && days > 365) {
+        overdueAlerts.push(lang === 'en'
+          ? `Annual vet checkup overdue (${Math.floor(days/30)} months since last)`
+          : `Jährlicher Tierarzt-Check überfällig (${Math.floor(days/30)} Monate seit letztem)`);
+      }
+    }
+    if (h.zahnarzt_letzter) {
+      const days = daysSince(h.zahnarzt_letzter);
+      healthLines.push(`  ${lang === 'en' ? 'Last dental check' : 'Letzter Zahn-Check'}: ${formatDateInfo(h.zahnarzt_letzter, days)}`);
+      if (isActive && days !== null && days > 730) { // 2 years
+        overdueAlerts.push(lang === 'en'
+          ? `Dental check overdue (${Math.floor(days/30)} months since last, standard 12-24 months)`
+          : `Zahn-Check überfällig (${Math.floor(days/30)} Monate seit letztem, Standard 12-24 Monate)`);
+      }
+    }
+
+    if (healthLines.length > 0) {
+      lines.push(`  ${lang === 'en' ? '── HEALTHCARE & APPOINTMENTS ──' : '── VORSORGE & TERMINE ──'}`);
+      lines.push(...healthLines);
+    }
+
     lines.push('');
   });
 
@@ -646,6 +731,32 @@ function buildHorseContext(horses, activeHorseId, language) {
     lines.push('REMEMBER: Default to the ACTIVE horse. If user mentions another horse by name, switch context.');
   } else {
     lines.push('ERINNERUNG: Beziehe dich Standard-mäßig auf das AKTIVE Pferd. Wenn der Nutzer ein anderes Pferd namentlich erwähnt, wechsle den Bezug.');
+  }
+
+  // ── PROACTIVE REMINDER GUIDANCE ──
+  if (overdueAlerts.length > 0) {
+    lines.push('');
+    if (lang === 'en') {
+      lines.push('🔔 OVERDUE/UPCOMING HEALTHCARE ITEMS for the active horse:');
+      overdueAlerts.forEach(a => lines.push(`  - ${a}`));
+      lines.push('');
+      lines.push('PROACTIVE REMINDER RULE:');
+      lines.push('- Mention these items naturally only ONCE per chat session, not in every response');
+      lines.push('- Best context: when the user asks about feeding, health or general care');
+      lines.push('- Frame as helpful observation, not nagging: "By the way, I noticed [Horsename]\'s last [item] was X — worth scheduling soon."');
+      lines.push('- If user already addresses the topic, give your full advice; do NOT repeat the reminder');
+      lines.push('- NEVER bring up every overdue item at once — pick the most relevant one for the current question');
+    } else {
+      lines.push('🔔 ÜBERFÄLLIGE/ANSTEHENDE VORSORGE-PUNKTE für das aktive Pferd:');
+      overdueAlerts.forEach(a => lines.push(`  - ${a}`));
+      lines.push('');
+      lines.push('PROAKTIVE-ERINNERUNGS-REGEL:');
+      lines.push('- Erwähne diese Punkte natürlich, EINMAL pro Chat-Session, nicht in jeder Antwort');
+      lines.push('- Bester Kontext: wenn der Nutzer nach Fütterung, Gesundheit oder allgemeiner Pflege fragt');
+      lines.push('- Formuliere als hilfreichen Hinweis, nicht als Nervhinweis: "Übrigens, mir ist aufgefallen, dass [Pferdename]s letzte [Punkt] vor X war — wäre Zeit das einzuplanen."');
+      lines.push('- Wenn der Nutzer das Thema schon anspricht, gib volle Beratung; wiederhole den Hinweis NICHT');
+      lines.push('- Bringe NIEMALS alle überfälligen Punkte auf einmal — wähle den relevantesten für die aktuelle Frage');
+    }
   }
 
   return '\n\n' + lines.join('\n');
