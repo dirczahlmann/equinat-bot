@@ -66,6 +66,70 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .sb-newchat-btn:hover{background:linear-gradient(135deg,#3d6028,#2d4a1e);border-color:var(--gold);}
 .sb-newchat-btn svg{width:13px;height:13px;fill:var(--gold-l);}
 
+/* DAILY SECTION (Morgen-Briefing + Heute-Check) */
+.sb-daily{margin-bottom:12px;}
+.sb-daily-card{
+  background:linear-gradient(135deg,rgba(201,148,58,0.12),rgba(201,148,58,0.04));
+  border:1px solid rgba(201,148,58,0.25);
+  border-radius:5px;padding:10px 12px;cursor:pointer;
+  transition:.2s;display:flex;flex-direction:column;gap:4px;
+}
+.sb-daily-card:hover{border-color:var(--gold);background:linear-gradient(135deg,rgba(201,148,58,0.16),rgba(201,148,58,0.06));}
+.sb-daily-row{display:flex;align-items:center;gap:8px;}
+.sb-daily-icon{font-size:14px;}
+.sb-daily-title{font-size:11px;font-weight:500;color:var(--cream);letter-spacing:0.3px;flex:1;}
+.sb-daily-time{font-size:9.5px;color:var(--muted);font-style:italic;}
+.sb-daily-weather{
+  display:flex;align-items:center;gap:6px;
+  padding-top:6px;border-top:1px solid var(--border);margin-top:4px;
+  font-size:10.5px;color:var(--muted);
+}
+.sb-daily-weather strong{color:var(--gold-l);font-weight:500;}
+.sb-daily-checkin-btn{
+  background:rgba(201,148,58,0.12);
+  border:1px solid var(--border);color:var(--gold-l);
+  padding:7px 10px;border-radius:4px;font-size:10.5px;letter-spacing:0.3px;
+  cursor:pointer;transition:.15s;font-family:'DM Sans',sans-serif;font-weight:500;
+  display:flex;align-items:center;gap:7px;width:100%;justify-content:center;
+  margin-top:6px;
+}
+.sb-daily-checkin-btn:hover{background:rgba(201,148,58,0.2);border-color:var(--gold);}
+
+/* HEUTE-CHECK MODAL */
+.checkin-options{display:flex;flex-direction:column;gap:8px;margin:1rem 0 0.5rem;}
+.checkin-option{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;border:1px solid var(--border);border-radius:5px;
+  background:rgba(201,148,58,0.04);cursor:pointer;transition:.2s;
+}
+.checkin-option:hover{border-color:var(--gold);background:rgba(201,148,58,0.08);}
+.checkin-option-icon{font-size:24px;}
+.checkin-option-content{flex:1;}
+.checkin-option-title{font-size:13px;font-weight:500;color:var(--cream);margin-bottom:2px;}
+.checkin-option-desc{font-size:11px;color:var(--muted);line-height:1.4;}
+.checkin-textarea{
+  width:100%;background:#111808;border:1px solid var(--border);
+  outline:none;color:var(--cream);font-family:'DM Sans',sans-serif;
+  font-size:13px;padding:10px 12px;border-radius:3px;resize:vertical;
+  min-height:80px;margin-top:0.5rem;
+}
+.checkin-textarea:focus{border-color:var(--gold);}
+
+/* BCS PHOTO TRACKING */
+.bcs-track-card{
+  background:linear-gradient(135deg,rgba(74,222,128,0.06),rgba(74,222,128,0.02));
+  border:1px solid rgba(74,222,128,0.2);border-radius:5px;padding:10px 12px;
+  margin-top:8px;
+}
+.bcs-track-title{font-size:10px;font-weight:500;color:rgba(74,222,128,0.9);letter-spacing:0.5px;margin-bottom:4px;}
+.bcs-track-desc{font-size:10px;color:var(--muted);line-height:1.45;margin-bottom:8px;}
+.bcs-track-action{
+  background:none;border:1px solid rgba(74,222,128,0.3);color:rgba(74,222,128,0.95);
+  padding:5px 10px;border-radius:3px;font-size:10px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;letter-spacing:0.3px;
+}
+.bcs-track-action:hover{border-color:rgba(74,222,128,0.7);background:rgba(74,222,128,0.08);}
+
 .sb-scroll{flex:1;overflow-y:auto;padding:10px 12px 8px;scrollbar-width:thin;scrollbar-color:rgba(201,148,58,0.15) transparent;}
 .sb-scroll::-webkit-scrollbar{width:4px;}
 .sb-scroll::-webkit-scrollbar-thumb{background:rgba(201,148,58,0.15);border-radius:2px;}
@@ -81,7 +145,18 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .sb-horse-item{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:4px;border:1px solid transparent;cursor:pointer;transition:.15s;margin:1px 0;background:rgba(201,148,58,0.03);}
 .sb-horse-item:hover{background:var(--sb-hover);}
 .sb-horse-item.active{background:linear-gradient(135deg,rgba(201,148,58,0.12),rgba(201,148,58,0.04));border-color:rgba(201,148,58,0.3);}
-.sb-horse-icon{font-size:15px;flex-shrink:0;width:18px;text-align:center;}
+.sb-horse-icon{
+  width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,#2D4A1E,#1B2F14);
+  border:1px solid rgba(201,148,58,0.45);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:0;
+}
+.sb-horse-icon::before{
+  content:'E';font-family:'Cormorant Garamond',serif;
+  font-size:12px;font-weight:400;color:var(--gold-l);
+  line-height:1;padding-top:1px;
+}
 .sb-horse-info{flex:1;min-width:0;}
 .sb-horse-name{font-size:11.5px;font-weight:500;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .sb-horse-item.active .sb-horse-name{color:var(--gold-l);}
@@ -91,7 +166,22 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 
 .sb-horse-empty{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:4px;background:linear-gradient(135deg,rgba(201,148,58,0.08),rgba(201,148,58,0.02));border:1px solid var(--border);cursor:pointer;transition:.2s;}
 .sb-horse-empty:hover{border-color:var(--gold);}
-.sb-horse-empty-icon{font-size:20px;flex-shrink:0;}
+.sb-horse-empty-icon{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,#2D4A1E,#1B2F14);
+  border:1px solid rgba(201,148,58,0.4);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:0;position:relative;
+}
+.sb-horse-empty-icon::before{
+  content:'E';font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:400;color:var(--gold-l);
+  line-height:1;margin-top:-1px;
+}
+.sb-horse-empty-icon::after{
+  content:'';position:absolute;inset:3px;border-radius:50%;
+  border:1px solid rgba(201,148,58,0.15);pointer-events:none;
+}
 .sb-horse-empty-text{flex:1;}
 .sb-horse-empty-h{font-size:11px;font-weight:500;color:var(--gold);letter-spacing:0.5px;}
 .sb-horse-empty-d{font-size:9.5px;color:var(--muted);margin-top:2px;line-height:1.3;}
@@ -227,9 +317,17 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .msgs::-webkit-scrollbar-thumb{background:rgba(201,148,58,0.2);border-radius:2px;}
 .row{display:flex;gap:10px;align-items:flex-start;}
 .row.u{flex-direction:row-reverse;}
-.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
-.av.b{background:linear-gradient(135deg,#2D4A1E,#1B2F14);border:1px solid var(--border);}
+.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;position:relative;}
+.av.b{background:linear-gradient(135deg,#2D4A1E,#1B2F14);border:1px solid rgba(201,148,58,0.5);}
+.av.b::before{content:'E';font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--gold-l);line-height:1;margin-top:-1px;}
+.av.b::after{content:'';position:absolute;inset:3px;border-radius:50%;border:1px solid rgba(201,148,58,0.18);pointer-events:none;}
+.av.b.streaming{animation:monoPulse 1.6s ease-in-out infinite;}
 .av.u{background:linear-gradient(135deg,#3a2a10,#2a1a08);border:1px solid rgba(201,148,58,0.2);}
+
+@keyframes monoPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(201,148,58,0);}
+  50%{box-shadow:0 0 0 6px rgba(201,148,58,0.08);}
+}
 .mb{display:flex;flex-direction:column;gap:4px;max-width:82%;min-width:0;}
 .mn{font-size:10px;letter-spacing:.5px;color:var(--muted);}
 .row.u .mn{text-align:right;}
@@ -246,7 +344,23 @@ body{font-family:'DM Sans',sans-serif;background:#080E06;color:var(--cream);font
 .bbl-action.active{background:var(--gold);color:var(--dark);border-color:var(--gold);}
 
 .welcome{text-align:center;padding:40px 16px 24px;}
-.welcome-horse{font-size:46px;margin-bottom:14px;}
+.welcome-horse{
+  width:72px;height:72px;border-radius:50%;
+  background:radial-gradient(circle at 38% 35%,#2D4A1E,#0a1208);
+  border:1px solid rgba(201,148,58,0.5);
+  box-shadow:0 0 0 5px rgba(201,148,58,0.07),0 8px 28px rgba(0,0,0,0.5);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 14px;font-size:0;position:relative;
+}
+.welcome-horse::before{
+  content:'E';font-family:'Cormorant Garamond',serif;
+  font-size:42px;font-weight:400;color:var(--gold-l);
+  line-height:1;margin-top:-2px;
+}
+.welcome-horse::after{
+  content:'';position:absolute;inset:5px;border-radius:50%;
+  border:1px solid rgba(201,148,58,0.18);pointer-events:none;
+}
 .welcome-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--cream);margin-bottom:10px;}
 .welcome-sub{font-size:13px;color:var(--muted);max-width:380px;margin:0 auto 20px;line-height:1.7;}
 .welcome-tips{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:480px;margin:0 auto;padding:0 4px;}
@@ -418,6 +532,30 @@ input[type="date"]{color-scheme:dark;}
 
     <div class="sb-scroll">
 
+      <!-- DAILY SECTION -->
+      <div class="sb-daily" id="sbDaily" style="display:none;">
+        <div class="sb-daily-card" onclick="triggerMorningBriefing()" id="sbDailyCard">
+          <div class="sb-daily-row">
+            <span class="sb-daily-icon">🌅</span>
+            <span class="sb-daily-title" id="sbDailyTitle">Morgen-Briefing</span>
+            <span class="sb-daily-time" id="sbDailyTime"></span>
+          </div>
+          <div class="sb-daily-weather" id="sbDailyWeather" style="display:none;">
+            <span id="sbDailyWeatherEmoji">🌤️</span>
+            <span id="sbDailyWeatherText"></span>
+          </div>
+        </div>
+        <button class="sb-daily-checkin-btn" onclick="openCheckInModal()">
+          <span>📋</span>
+          <span id="sbCheckinLabel">Heute-Check für mein Pferd</span>
+        </button>
+        <div class="bcs-track-card" id="sbBcsTrack" style="display:none;">
+          <div class="bcs-track-title" id="sbBcsTrackTitle">📊 Body-Condition-Score</div>
+          <div class="bcs-track-desc" id="sbBcsTrackDesc">Monatlicher Foto-Check für Gewichts-/Konditionsverlauf.</div>
+          <button class="bcs-track-action" onclick="openBcsModal()" id="sbBcsTrackBtn">+ Photo hochladen</button>
+        </div>
+      </div>
+
       <!-- HORSES PICKER -->
       <div class="sb-horses">
         <div class="sb-horses-head">
@@ -480,7 +618,7 @@ input[type="date"]{color-scheme:dark;}
 
     <div class="msgs" id="msgs">
       <div class="welcome" id="welcome">
-        <div class="welcome-horse">🐴</div>
+        <div class="welcome-horse"></div>
         <div class="welcome-title" id="welcomeTitle">Hallo! Ich bin der EQUINAT PferdeBot<span style="color:var(--gold)">®</span></div>
         <div class="welcome-sub" id="welcomeSub">Dein KI-Pferdeexperte für Gesundheit, Ernährung &amp; EQUINAT-Futterprogramme.<br/>Klick links auf ein Themengebiet oder stell mir direkt eine Frage.</div>
         <div class="welcome-tips" id="welcomeTips"></div>
@@ -570,6 +708,43 @@ var I18N = {
     sbHorsesEmpty:'Noch kein Pferd angelegt',
     sbHorsesEmptySub:'Für personalisierte Antworten',
     sbHorsesMax:'Maximum 5 Pferde erreicht',
+    dailyTitleMorning:'Morgen-Briefing',
+    dailyTitleAfternoon:'Heute-Status',
+    dailyTitleEvening:'Tages-Rückblick',
+    dailyTitleAlready:'Briefing heute schon angefragt',
+    dailyTimeMorning:'Vor dem Stallbesuch',
+    dailyTimeAfternoon:'Mittags-Update',
+    dailyTimeEvening:'Vor dem Schlafen',
+    checkinLabel:'Heute-Check für mein Pferd',
+    checkinNoHorse:'Lege erst ein Pferd an, dann gibt\'s den Heute-Check.',
+    checkinModalTitle:'Heute-Check für <name>',
+    checkinModalSub:'Wie geht es <name> heute? Eine schnelle Einschätzung in 30 Sekunden.',
+    checkinTop:'👍 Top — alles bestens',
+    checkinTopDesc:'Aktiv, gut drauf, frisst normal, keine Auffälligkeiten',
+    checkinNormal:'😐 Normal — wie immer',
+    checkinNormalDesc:'Routinemäßiger Tag, nichts Besonderes zu berichten',
+    checkinAuffaellig:'😟 Auffällig — etwas ist anders',
+    checkinAuffaelligDesc:'Verhalten, Fressverhalten, Bewegung oder Aussehen weicht ab',
+    checkinObservPlaceholder:'Was beobachtest du? Seit wann? Wie stark? (z.B. Hugo lahmt seit heute morgen, eher links vorne, leicht)',
+    checkinSubmit:'An den Bot senden',
+    checkinCancel:'Abbrechen',
+    bcsTrackTitle:'📊 Body-Condition-Score',
+    bcsTrackDesc:'Monatlicher Foto-Check für Gewichts-/Konditionsverlauf.',
+    bcsTrackBtn:'+ Photo hochladen',
+    bcsModalTitle:'Body-Condition-Score Tracking',
+    bcsModalSub:'Lade ein Seitenfoto deines Pferdes hoch — der Bot schätzt den BCS und du behältst den Verlauf.',
+    bcsUpload:'Photo auswählen',
+    bcsHistoryTitle:'Bisheriger Verlauf',
+    bcsNoHistory:'Noch keine Einträge',
+    bcsAnalyze:'Analysieren lassen',
+    bcsCancel:'Abbrechen',
+    morningBriefingPrompt:'MORGEN-BRIEFING-REQUEST: Bitte gib mir mein kurzes Tagesbriefing für heute. Maximal 4-6 Zeilen, kompakt, nur das Wichtigste basierend auf Wetter und meinem Pferd.',
+    afternoonBriefingPrompt:'HEUTE-STATUS-REQUEST: Kurzes Mittagsbriefing für mein Pferd basierend auf Wetter und Profil. Max 4 Zeilen.',
+    eveningBriefingPrompt:'TAGES-RUECKBLICK-REQUEST: Kurzer Tages-Rückblick und Hinweise für morgen, basierend auf Wetter. Max 4 Zeilen.',
+    checkinTopPrompt:'HEUTE-CHECK-START: Status TOP — meinem Pferd geht es heute richtig gut. Bitte freue dich kurz, gib EINE leichte Beobachtung oder einen Tipp passend zum Wetter, fertig. Max 3 Zeilen.',
+    checkinNormalPrompt:'HEUTE-CHECK-START: Status NORMAL — alles wie immer, kein besonderer Tag. Bitte bestätigend antworten, frag ob es etwas Spezielles zu besprechen gibt. Max 3 Zeilen.',
+    checkinAuffaelligPrompt:'HEUTE-CHECK-START: Status AUFFÄLLIG. Beobachtung des Nutzers: <observation>. Bitte aufmerksam reagieren — frag konkret nach (was, seit wann, wie stark, akute Symptome). Bei akuten Symptomen sofort Tierarzt-Indikation.',
+    bcsAnalyzePrompt:'BCS-FOTO-ANALYSE: Bitte schätze den Body-Condition-Score (Henneke 1-9) anhand dieses Seitenfotos meines Pferdes. Hinweis: Foto-Schätzung ist grobe Orientierung, präziser ist Abtasten der Rippen. Gib einen Score, kurze Begründung (was siehst du an Rippen, Schulter, Hals, Hüfte), und eine Empfehlung. Max 6 Zeilen.',
     sbSearchPh:'Chats & Themen suchen…',
     sbProjectsTitle:'Projekte',
     sbProjectsAdd:'+ Projekt',
@@ -678,7 +853,7 @@ var I18N = {
     bblSpeak:'Vorlesen',
     bblStop:'Stop',
     bblRegen:'Andere Antwort',
-    limitTitle:'500 Nachrichten diesen Monat erreicht 🐴',
+    limitTitle:'500 Nachrichten diesen Monat erreicht',
     limitDesc:'Dein monatliches Kontingent ist aufgebraucht.<br>Am 1. des nächsten Monats wird es automatisch zurückgesetzt.<br>Oder lade sofort weitere Nachrichten nach:',
     limitBtn:'+ Nachrichten-Paket kaufen',
     limitAbo:'→ Mit EQUINAT Produktabo dauerhaft gratis',
@@ -687,9 +862,9 @@ var I18N = {
     toast10:'⚠️ Nur noch 10 Nachrichten — jetzt Paket kaufen?',
     boostOk:'+<n> Nachrichten gutgeschrieben!',
     boostFail:'Code <c> ist ungültig.',
-    networkErr:'🐴 Verbindungsfehler. Bitte überprüfe deine Internetverbindung.',
-    fetchErr:'🐴 Fehler beim Senden.',
-    accessRevoked:'🐴 Dein Zugang ist nicht mehr aktiv. Bitte logge dich neu ein.',
+    networkErr:'Verbindungsfehler. Bitte überprüfe deine Internetverbindung.',
+    fetchErr:'Fehler beim Senden.',
+    accessRevoked:'Dein Zugang ist nicht mehr aktiv. Bitte logge dich neu ein.',
     confirmLogout:'Möchtest du dich wirklich ausloggen?',
     today:'Heute',yesterday:'Gestern',thisweek:'Diese Woche',older:'Älter'
   },
@@ -709,6 +884,43 @@ var I18N = {
     sbHorsesEmpty:'No horse added yet',
     sbHorsesEmptySub:'For personalized answers',
     sbHorsesMax:'Maximum 5 horses reached',
+    dailyTitleMorning:'Morning briefing',
+    dailyTitleAfternoon:'Today\'s status',
+    dailyTitleEvening:'Day recap',
+    dailyTitleAlready:'Briefing already requested today',
+    dailyTimeMorning:'Before the stable visit',
+    dailyTimeAfternoon:'Midday update',
+    dailyTimeEvening:'Before bedtime',
+    checkinLabel:'Today\'s check for my horse',
+    checkinNoHorse:'Add a horse first, then you can do the today\'s check.',
+    checkinModalTitle:'Today\'s check for <name>',
+    checkinModalSub:'How is <name> today? A quick check-in in 30 seconds.',
+    checkinTop:'👍 Top — all great',
+    checkinTopDesc:'Active, in good spirits, eating normally, nothing unusual',
+    checkinNormal:'😐 Normal — like always',
+    checkinNormalDesc:'Routine day, nothing special to report',
+    checkinAuffaellig:'😟 Unusual — something is off',
+    checkinAuffaelligDesc:'Behavior, eating, movement, or appearance differs from usual',
+    checkinObservPlaceholder:'What do you observe? Since when? How severe? (e.g. Hugo is lame since this morning, mostly left front, mild)',
+    checkinSubmit:'Send to bot',
+    checkinCancel:'Cancel',
+    bcsTrackTitle:'📊 Body Condition Score',
+    bcsTrackDesc:'Monthly photo check for weight/condition trend.',
+    bcsTrackBtn:'+ Upload photo',
+    bcsModalTitle:'Body Condition Score Tracking',
+    bcsModalSub:'Upload a side photo of your horse — the bot estimates the BCS and you track the trend.',
+    bcsUpload:'Choose photo',
+    bcsHistoryTitle:'Previous entries',
+    bcsNoHistory:'No entries yet',
+    bcsAnalyze:'Analyze now',
+    bcsCancel:'Cancel',
+    morningBriefingPrompt:'MORNING-BRIEFING-REQUEST: Give me my short daily briefing for today. Maximum 4-6 lines, compact, only the essentials based on weather and my horse.',
+    afternoonBriefingPrompt:'AFTERNOON-STATUS-REQUEST: Short midday briefing for my horse based on weather and profile. Max 4 lines.',
+    eveningBriefingPrompt:'EVENING-RECAP-REQUEST: Short day recap and hints for tomorrow, based on weather. Max 4 lines.',
+    checkinTopPrompt:'HEUTE-CHECK-START: Status TOP — my horse is doing really well today. Please briefly celebrate, give ONE light observation or tip matching the weather, done. Max 3 lines.',
+    checkinNormalPrompt:'HEUTE-CHECK-START: Status NORMAL — all as usual, nothing special. Please respond affirmingly, ask if there\'s anything specific to discuss. Max 3 lines.',
+    checkinAuffaelligPrompt:'HEUTE-CHECK-START: Status AUFFÄLLIG (unusual). User observation: <observation>. Please respond attentively — ask specifically (what, since when, how severe, acute symptoms). For acute symptoms, immediately recommend a vet.',
+    bcsAnalyzePrompt:'BCS-PHOTO-ANALYSIS: Please estimate the Body Condition Score (Henneke 1-9) from this side photo of my horse. Note: Photo estimation is rough orientation, more precise is palpating the ribs. Give a score, brief reasoning (what you see at ribs, shoulder, neck, hip), and a recommendation. Max 6 lines.',
     sbSearchPh:'Search chats & topics…',
     sbProjectsTitle:'Projects',
     sbProjectsAdd:'+ Project',
@@ -817,7 +1029,7 @@ var I18N = {
     bblSpeak:'Listen',
     bblStop:'Stop',
     bblRegen:'Try another answer',
-    limitTitle:'500 messages reached this month 🐴',
+    limitTitle:'500 messages reached this month',
     limitDesc:'Your monthly quota is exhausted.<br>It will reset automatically on the 1st of next month.<br>Or top up immediately:',
     limitBtn:'+ Buy message package',
     limitAbo:'→ Free permanently with EQUINAT product subscription',
@@ -826,9 +1038,9 @@ var I18N = {
     toast10:'⚠️ Only 10 messages left — buy package now?',
     boostOk:'+<n> messages credited!',
     boostFail:'Code <c> is invalid.',
-    networkErr:'🐴 Connection error. Please check your internet.',
-    fetchErr:'🐴 Send error.',
-    accessRevoked:'🐴 Your access is no longer active. Please log in again.',
+    networkErr:'Connection error. Please check your internet.',
+    fetchErr:'Send error.',
+    accessRevoked:'Your access is no longer active. Please log in again.',
     confirmLogout:'Do you really want to log out?',
     today:'Today',yesterday:'Yesterday',thisweek:'This week',older:'Older'
   }
@@ -891,6 +1103,305 @@ function saveState(s){
 }
 function remaining(s){return Math.max(0,(MONTHLY_LIMIT-s.used)+s.extra);}
 function getActiveHorse(){var s=getState();if(!s.activeHorseId)return null;return s.horses.find(function(h){return h.id===s.activeHorseId;})||null;}
+
+// ═══════════════════════════════════════════════
+// WEATHER (Open-Meteo, kein API-Key nötig)
+// ═══════════════════════════════════════════════
+var sessionWeather=null;       // Cache pro Session
+var weatherFetchAttempted=false;
+var weatherLocation=null;      // {lat, lon, name}
+
+// Open-Meteo WMO weather codes → Beschreibung
+var WMO_CODES={
+  0:{de:'Klar',en:'Clear sky'},
+  1:{de:'Überwiegend klar',en:'Mainly clear'},
+  2:{de:'Teilweise bewölkt',en:'Partly cloudy'},
+  3:{de:'Bedeckt',en:'Overcast'},
+  45:{de:'Nebel',en:'Fog'},
+  48:{de:'Reifnebel',en:'Rime fog'},
+  51:{de:'Leichter Sprühregen',en:'Light drizzle'},
+  53:{de:'Sprühregen',en:'Drizzle'},
+  55:{de:'Starker Sprühregen',en:'Dense drizzle'},
+  61:{de:'Leichter Regen',en:'Slight rain'},
+  63:{de:'Regen',en:'Rain'},
+  65:{de:'Starker Regen',en:'Heavy rain'},
+  71:{de:'Leichter Schneefall',en:'Slight snow'},
+  73:{de:'Schneefall',en:'Snow'},
+  75:{de:'Starker Schneefall',en:'Heavy snow'},
+  77:{de:'Schneegriesel',en:'Snow grains'},
+  80:{de:'Leichte Regenschauer',en:'Slight rain showers'},
+  81:{de:'Regenschauer',en:'Rain showers'},
+  82:{de:'Heftige Regenschauer',en:'Violent rain showers'},
+  85:{de:'Schneeschauer',en:'Snow showers'},
+  86:{de:'Starke Schneeschauer',en:'Heavy snow showers'},
+  95:{de:'Gewitter',en:'Thunderstorm'},
+  96:{de:'Gewitter mit leichtem Hagel',en:'Thunderstorm with slight hail'},
+  99:{de:'Gewitter mit starkem Hagel',en:'Thunderstorm with heavy hail'}
+};
+
+function getWeatherDescription(code,lang){
+  var entry=WMO_CODES[code];
+  if(!entry)return lang==='en'?'Unknown':'Unbekannt';
+  return entry[lang]||entry.de;
+}
+
+async function fetchWeatherIfNeeded(){
+  // Returns weather object or null. Caches per session.
+  if(sessionWeather)return sessionWeather;
+  if(weatherFetchAttempted)return null;
+  weatherFetchAttempted=true;
+
+  // Try to get location from browser
+  if(!navigator.geolocation)return null;
+
+  var pos=await new Promise(function(resolve){
+    navigator.geolocation.getCurrentPosition(
+      function(p){resolve(p);},
+      function(){resolve(null);},
+      {timeout:5000,maximumAge:1800000} // 30min cache
+    );
+  });
+  if(!pos||!pos.coords)return null;
+
+  var lat=pos.coords.latitude.toFixed(2);
+  var lon=pos.coords.longitude.toFixed(2);
+
+  try{
+    // Open-Meteo: free, no API key, GDPR-friendly
+    var resp=await fetch('https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current=temperature_2m,weather_code,wind_speed_10m&timezone=auto');
+    if(!resp.ok)return null;
+    var data=await resp.json();
+    if(!data.current)return null;
+
+    // Reverse geocoding (also Open-Meteo, free)
+    var locName='';
+    try{
+      var geoResp=await fetch('https://geocoding-api.open-meteo.com/v1/reverse?latitude='+lat+'&longitude='+lon+'&count=1&language='+(getLanguage()==='en'?'en':'de'));
+      if(geoResp.ok){
+        var geoData=await geoResp.json();
+        if(geoData.results&&geoData.results[0]){
+          locName=geoData.results[0].name;
+          if(geoData.results[0].admin1)locName+=', '+geoData.results[0].admin1;
+        }
+      }
+    }catch(e){}
+
+    sessionWeather={
+      temp:Math.round(data.current.temperature_2m),
+      code:data.current.weather_code,
+      description:getWeatherDescription(data.current.weather_code,getLanguage()),
+      wind:Math.round(data.current.wind_speed_10m),
+      location:locName,
+      time:new Date().toISOString()
+    };
+    weatherLocation={lat:lat,lon:lon,name:locName};
+    // Refresh sidebar daily card with weather info
+    try{renderDailySection();}catch(e){}
+    return sessionWeather;
+  }catch(e){return null;}
+}
+
+function getCachedWeather(){return sessionWeather;}
+
+// ═══════════════════════════════════════════════
+// DAILY: Morgen-Briefing + Heute-Check + BCS
+// ═══════════════════════════════════════════════
+function getDailyState(){
+  var s=getState();
+  if(!s.daily)s.daily={};
+  return s.daily;
+}
+function saveDailyState(daily){
+  var s=getState();
+  s.daily=daily;
+  saveState(s);
+}
+function todayKey(){
+  var d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function isBriefingDoneToday(){
+  var d=getDailyState();
+  return d.lastBriefing===todayKey();
+}
+function markBriefingDone(){
+  var d=getDailyState();
+  d.lastBriefing=todayKey();
+  saveDailyState(d);
+}
+
+function getDailySegment(){
+  // Returns {key, titleKey, timeKey, prompt, emoji}
+  var hour=new Date().getHours();
+  if(hour<12){
+    return {key:'morning',title:t('dailyTitleMorning'),time:t('dailyTimeMorning'),prompt:t('morningBriefingPrompt'),emoji:'🌅'};
+  } else if(hour<18){
+    return {key:'afternoon',title:t('dailyTitleAfternoon'),time:t('dailyTimeAfternoon'),prompt:t('afternoonBriefingPrompt'),emoji:'☀️'};
+  } else {
+    return {key:'evening',title:t('dailyTitleEvening'),time:t('dailyTimeEvening'),prompt:t('eveningBriefingPrompt'),emoji:'🌙'};
+  }
+}
+
+function renderDailySection(){
+  var s=getState();
+  var daily=document.getElementById('sbDaily');
+  if(!daily)return;
+  var hasHorse=s.horses && s.horses.length>0;
+  if(!hasHorse){daily.style.display='none';return;}
+  daily.style.display='';
+
+  var seg=getDailySegment();
+  document.getElementById('sbDailyCard').firstElementChild.firstElementChild.textContent=seg.emoji;
+  var titleEl=document.getElementById('sbDailyTitle');
+  var timeEl=document.getElementById('sbDailyTime');
+  if(isBriefingDoneToday()){
+    titleEl.textContent=t('dailyTitleAlready');
+    timeEl.textContent='✓';
+    document.getElementById('sbDailyCard').style.opacity='0.7';
+  }else{
+    titleEl.textContent=seg.title;
+    timeEl.textContent=seg.time;
+    document.getElementById('sbDailyCard').style.opacity='1';
+  }
+
+  // Show weather if cached
+  var w=getCachedWeather();
+  var weatherDiv=document.getElementById('sbDailyWeather');
+  if(w && weatherDiv){
+    weatherDiv.style.display='flex';
+    document.getElementById('sbDailyWeatherText').innerHTML='<strong>'+w.temp+'°C</strong> · '+escapeHTML(w.description)+(w.location?' · '+escapeHTML(w.location):'');
+    // Pick emoji
+    var emoji='🌤️';
+    if(w.code===0)emoji='☀️';
+    else if([1,2].includes(w.code))emoji='⛅';
+    else if(w.code===3)emoji='☁️';
+    else if([45,48].includes(w.code))emoji='🌫️';
+    else if([51,53,55,61,63,65,80,81,82].includes(w.code))emoji='🌧️';
+    else if([71,73,75,77,85,86].includes(w.code))emoji='❄️';
+    else if([95,96,99].includes(w.code))emoji='⛈️';
+    document.getElementById('sbDailyWeatherEmoji').textContent=emoji;
+  }
+
+  // BCS Tracking — show only for active horse
+  var bcsCard=document.getElementById('sbBcsTrack');
+  if(bcsCard){
+    var h=getActiveHorse();
+    if(h){
+      bcsCard.style.display='';
+      document.getElementById('sbBcsTrackTitle').textContent='📊 '+t('bcsTrackTitle').replace('📊 ','');
+      document.getElementById('sbBcsTrackDesc').textContent=t('bcsTrackDesc');
+      document.getElementById('sbBcsTrackBtn').textContent=t('bcsTrackBtn');
+    } else {
+      bcsCard.style.display='none';
+    }
+  }
+  document.getElementById('sbCheckinLabel').textContent=t('checkinLabel');
+}
+
+async function triggerMorningBriefing(){
+  var s=getState();
+  if(!s.horses||s.horses.length===0){
+    showToast(t('checkinNoHorse'),3000);
+    return;
+  }
+  if(busy)return;
+
+  // Try to get weather first (may take 1-2 seconds)
+  showToast(getLanguage()==='en'?'Loading weather…':'Lade Wetter…',1500);
+  try{await fetchWeatherIfNeeded();}catch(e){}
+
+  var seg=getDailySegment();
+  // Mark as done for today (only morning counts as "done", afternoon/evening can repeat)
+  if(seg.key==='morning')markBriefingDone();
+
+  // Send the briefing prompt to the bot — same as a normal user message but with hidden marker
+  closeSidebar();
+  newChat();
+  // Insert into input + send
+  var inp=document.getElementById('inp');
+  inp.value=seg.prompt;
+  send();
+  renderDailySection();
+}
+
+function openCheckInModal(){
+  var s=getState();
+  if(!s.horses||s.horses.length===0){
+    showToast(t('checkinNoHorse'),3000);
+    return;
+  }
+  closeSidebar();
+  openModal('checkin');
+}
+
+function submitCheckIn(status){
+  var observation='';
+  if(status==='auffaellig'){
+    var ta=document.getElementById('checkinObservation');
+    observation=(ta?ta.value:'').trim();
+    if(!observation){
+      ta.focus();
+      ta.style.borderColor='#D67B6B';
+      return;
+    }
+  }
+  closeModal();
+  if(busy)return;
+
+  var prompt='';
+  if(status==='top')prompt=t('checkinTopPrompt');
+  else if(status==='normal')prompt=t('checkinNormalPrompt');
+  else if(status==='auffaellig')prompt=t('checkinAuffaelligPrompt').replace('<observation>',observation);
+
+  newChat();
+  document.getElementById('inp').value=prompt;
+  send();
+}
+
+// ═══════════════════════════════════════════════
+// BCS Tracking
+// ═══════════════════════════════════════════════
+function getBcsHistory(horseId){
+  var s=getState();
+  if(!s.bcs)return [];
+  return (s.bcs[horseId]||[]).sort(function(a,b){return new Date(b.date)-new Date(a.date);});
+}
+function addBcsEntry(horseId,score,note,photoData){
+  var s=getState();
+  if(!s.bcs)s.bcs={};
+  if(!s.bcs[horseId])s.bcs[horseId]=[];
+  s.bcs[horseId].push({date:new Date().toISOString(),score:score,note:note||'',photo:photoData||null});
+  saveState(s);
+}
+
+function openBcsModal(){
+  var s=getState();
+  var h=getActiveHorse();
+  if(!h){showToast(t('checkinNoHorse'),3000);return;}
+  closeSidebar();
+  openModal('bcs');
+}
+
+function bcsHandlePhotoSelect(event){
+  var file=event.target.files[0];
+  if(!file)return;
+  if(file.size>5*1024*1024){showToast(t('imgTooBig'),3000);return;}
+  if(!/^image\/(jpeg|png|webp|gif)$/.test(file.type)){showToast(t('imgWrongType'),3000);return;}
+  var reader=new FileReader();
+  reader.onload=function(e){
+    pendingImage=e.target.result;
+    pendingImageName=file.name;
+    pendingImageType=file.type;
+    // Send analysis prompt with image
+    closeModal();
+    if(busy)return;
+    newChat();
+    document.getElementById('inp').value=t('bcsAnalyzePrompt');
+    send();
+  };
+  reader.readAsDataURL(file);
+  event.target.value='';
+}
 function getCurrentChat(){if(!currentChatId)return null;var s=getState();return s.chats.find(function(c){return c.id===currentChatId;})||null;}
 
 function getLanguage(){var s=getState();return s.lang||'de';}
@@ -931,7 +1442,7 @@ function applyTranslations(){
   if(document.getElementById('welcomeTitle'))document.getElementById('welcomeTitle').innerHTML=t('welcomeTitle').replace(/®/g,'<span style="color:var(--gold)">®</span>');
   if(document.getElementById('welcomeSub'))document.getElementById('welcomeSub').innerHTML=t('welcomeSub');
   if(!currentChatId)document.getElementById('hdrChatTitle').textContent='PferdeBot®';
-  renderTopics();renderWelcomeTips();renderHorses();renderActiveHorseLabel();renderSidebar();updateUsageBar();
+  renderTopics();renderWelcomeTips();renderHorses();renderActiveHorseLabel();renderSidebar();updateUsageBar();renderDailySection();
 }
 
 // ═══════════════════════════════════════════════
@@ -986,7 +1497,7 @@ function renderHorses(){
   addBtn.disabled=s.horses.length>=MAX_HORSES;
   addBtn.title=addBtn.disabled?t('sbHorsesMax'):t('sbHorsesAdd');
   if(s.horses.length===0){
-    list.innerHTML='<div class="sb-horse-empty" onclick="openHorseEditor(null)"><div class="sb-horse-empty-icon">🐴</div><div class="sb-horse-empty-text"><div class="sb-horse-empty-h">'+t('sbHorsesEmpty')+'</div><div class="sb-horse-empty-d">'+t('sbHorsesEmptySub')+'</div></div><div class="sb-horse-edit">+</div></div>';
+    list.innerHTML='<div class="sb-horse-empty" onclick="openHorseEditor(null)"><div class="sb-horse-empty-icon"></div><div class="sb-horse-empty-text"><div class="sb-horse-empty-h">'+t('sbHorsesEmpty')+'</div><div class="sb-horse-empty-d">'+t('sbHorsesEmptySub')+'</div></div><div class="sb-horse-edit">+</div></div>';
     return;
   }
   var html='';
@@ -995,7 +1506,7 @@ function renderHorses(){
     var meta=[];if(h.rasse)meta.push(h.rasse);if(h.alter)meta.push(h.alter+(getLanguage()==='en'?' yrs':' J.'));if(h.kgw)meta.push(h.kgw+'kg');
     var metaStr=meta.join(' · ');
     var displayName=(h.name||'—').replace(/</g,'&lt;');
-    html+='<div class="sb-horse-item'+(isActive?' active':'')+'" onclick="setActiveHorse(\''+h.id+'\')"><div class="sb-horse-icon">🐴</div><div class="sb-horse-info"><div class="sb-horse-name">'+displayName+'</div>'+(metaStr?'<div class="sb-horse-meta">'+metaStr+'</div>':'')+'</div><button class="sb-horse-edit" onclick="event.stopPropagation();openHorseEditor(\''+h.id+'\')" title="'+t('chatRename')+'">✎</button></div>';
+    html+='<div class="sb-horse-item'+(isActive?' active':'')+'" onclick="setActiveHorse(\''+h.id+'\')"><div class="sb-horse-icon"></div><div class="sb-horse-info"><div class="sb-horse-name">'+displayName+'</div>'+(metaStr?'<div class="sb-horse-meta">'+metaStr+'</div>':'')+'</div><button class="sb-horse-edit" onclick="event.stopPropagation();openHorseEditor(\''+h.id+'\')" title="'+t('chatRename')+'">✎</button></div>';
   });
   list.innerHTML=html;
 }
@@ -1012,7 +1523,7 @@ function setActiveHorse(id){
   var s=getState();
   if(s.activeHorseId===id){openHorseEditor(id);return;}
   s.activeHorseId=id;saveState(s);
-  renderHorses();renderActiveHorseLabel();
+  renderHorses();renderActiveHorseLabel();renderDailySection();
   var h=s.horses.find(function(x){return x.id===id;});
   if(h&&h.name)showToast(t('horseActivated').replace('<name>',h.name),2000);
 }
@@ -1049,7 +1560,7 @@ function saveHorseFromForm(){
     if(!s.activeHorseId)s.activeHorseId=data.id;
   }
   saveState(s);editingHorseId=null;
-  renderHorses();renderActiveHorseLabel();closeModal();
+  renderHorses();renderActiveHorseLabel();renderDailySection();closeModal();
   showToast(t('horseSaved'),2000);
 }
 
@@ -1062,7 +1573,7 @@ function deleteHorseFromForm(){
   s.horses=s.horses.filter(function(x){return x.id!==editingHorseId;});
   if(s.activeHorseId===editingHorseId){s.activeHorseId=s.horses.length>0?s.horses[0].id:null;}
   saveState(s);editingHorseId=null;
-  renderHorses();renderActiveHorseLabel();closeModal();
+  renderHorses();renderActiveHorseLabel();renderDailySection();closeModal();
   showToast(t('horseDeleted'),2000);
 }
 
@@ -1087,7 +1598,7 @@ function renderEmptyChat(){
   var msgs=document.getElementById('msgs');
   var welcomeHtml=
     '<div class="welcome" id="welcome">'+
-      '<div class="welcome-horse">🐴</div>'+
+      '<div class="welcome-horse"></div>'+
       '<div class="welcome-title" id="welcomeTitle">'+t('welcomeTitle').replace(/®/g,'<span style="color:var(--gold)">®</span>')+'</div>'+
       '<div class="welcome-sub" id="welcomeSub">'+t('welcomeSub')+'</div>'+
       '<div class="welcome-tips" id="welcomeTips"></div>'+
@@ -1107,7 +1618,7 @@ function loadChat(chatId){
   // Restore active horse if it was different
   if(chat.horseId && chat.horseId!==s.activeHorseId){
     if(s.horses.find(function(h){return h.id===chat.horseId;})){
-      s.activeHorseId=chat.horseId;saveState(s);renderHorses();renderActiveHorseLabel();
+      s.activeHorseId=chat.horseId;saveState(s);renderHorses();renderActiveHorseLabel();renderDailySection();
     }
   }
 
@@ -1622,6 +2133,77 @@ var MODAL_CONTENT={
       '<div class="modal-btns">'+deleteBtn+'<button class="modal-btn modal-btn-secondary" onclick="closeModal()">'+t('horseModalCancel')+'</button><button class="modal-btn modal-btn-primary" onclick="saveHorseFromForm()">'+t('horseModalSave')+'</button></div>';
   },
 
+  checkin:function(){
+    var h=getActiveHorse();
+    var name=h?(h.name||'—'):'—';
+    return '<div class="modal-tag">'+t('checkinLabel')+'</div>'+
+      '<div class="modal-title">'+t('checkinModalTitle').replace('<name>',escapeHTML(name))+'</div>'+
+      '<div class="modal-sub">'+t('checkinModalSub').replace('<name>',escapeHTML(name))+'</div>'+
+      '<div class="checkin-options">'+
+        '<div class="checkin-option" onclick="submitCheckIn(\'top\')">'+
+          '<div class="checkin-option-icon">👍</div>'+
+          '<div class="checkin-option-content">'+
+            '<div class="checkin-option-title">'+t('checkinTop')+'</div>'+
+            '<div class="checkin-option-desc">'+t('checkinTopDesc')+'</div>'+
+          '</div>'+
+        '</div>'+
+        '<div class="checkin-option" onclick="submitCheckIn(\'normal\')">'+
+          '<div class="checkin-option-icon">😐</div>'+
+          '<div class="checkin-option-content">'+
+            '<div class="checkin-option-title">'+t('checkinNormal')+'</div>'+
+            '<div class="checkin-option-desc">'+t('checkinNormalDesc')+'</div>'+
+          '</div>'+
+        '</div>'+
+        '<div class="checkin-option" onclick="document.getElementById(\'checkinAuffaelligBlock\').style.display=\'block\';this.style.borderColor=\'var(--gold)\';this.style.background=\'rgba(201,148,58,0.1)\';">'+
+          '<div class="checkin-option-icon">😟</div>'+
+          '<div class="checkin-option-content">'+
+            '<div class="checkin-option-title">'+t('checkinAuffaellig')+'</div>'+
+            '<div class="checkin-option-desc">'+t('checkinAuffaelligDesc')+'</div>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+      '<div id="checkinAuffaelligBlock" style="display:none;margin-top:1rem;">'+
+        '<textarea id="checkinObservation" class="checkin-textarea" placeholder="'+t('checkinObservPlaceholder').replace(/"/g,'&quot;')+'"></textarea>'+
+        '<div class="modal-btns">'+
+          '<button class="modal-btn modal-btn-secondary" onclick="closeModal()">'+t('checkinCancel')+'</button>'+
+          '<button class="modal-btn modal-btn-primary" onclick="submitCheckIn(\'auffaellig\')">'+t('checkinSubmit')+'</button>'+
+        '</div>'+
+      '</div>'+
+      '<div style="text-align:center;margin-top:1rem;"><button class="modal-close" onclick="closeModal()">'+t('checkinCancel')+'</button></div>';
+  },
+
+  bcs:function(){
+    var h=getActiveHorse();
+    var name=h?(h.name||'—'):'—';
+    var history=h?getBcsHistory(h.id):[];
+    var historyHtml='';
+    if(history.length===0){
+      historyHtml='<div style="font-size:11px;color:var(--muted);font-style:italic;padding:8px 0;">'+t('bcsNoHistory')+'</div>';
+    } else {
+      historyHtml='<div style="display:flex;flex-direction:column;gap:6px;">';
+      history.slice(0,6).forEach(function(entry){
+        var d=new Date(entry.date);
+        var dateStr=d.toLocaleDateString(getLanguage()==='en'?'en-US':'de-DE');
+        historyHtml+='<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:rgba(201,148,58,0.05);border:1px solid var(--border);border-radius:3px;font-size:11.5px;">'+
+          '<span style="color:var(--cream2);">'+dateStr+'</span>'+
+          '<span style="color:var(--gold-l);font-weight:500;">BCS '+(entry.score||'—')+'/9</span>'+
+        '</div>';
+      });
+      historyHtml+='</div>';
+    }
+    return '<div class="modal-tag">📊 '+name+'</div>'+
+      '<div class="modal-title">'+t('bcsModalTitle')+'</div>'+
+      '<div class="modal-sub">'+t('bcsModalSub')+'</div>'+
+      '<input type="file" id="bcsPhotoFile" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="bcsHandlePhotoSelect(event)"/>'+
+      '<div style="text-align:center;margin:1.5rem 0;">'+
+        '<button class="modal-btn modal-btn-primary" onclick="document.getElementById(\'bcsPhotoFile\').click()" style="padding:14px 28px;">📷 '+t('bcsUpload')+'</button>'+
+      '</div>'+
+      '<div style="margin-top:1.5rem;"><div style="font-size:10px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;">'+t('bcsHistoryTitle')+'</div>'+
+        historyHtml+
+      '</div>'+
+      '<div style="text-align:center;margin-top:1.5rem;"><button class="modal-close" onclick="closeModal()">'+t('bcsCancel')+'</button></div>';
+  },
+
   folderPicker:function(){
     var s=getState();
     var chat=s.chats.find(function(c){return c.id===movingChatId;});
@@ -1776,7 +2358,7 @@ function addMsg(role,text,imgData){
   var welcome=document.getElementById('welcome');if(welcome)welcome.remove();
   var msgs=document.getElementById('msgs');
   var row=document.createElement('div');row.className='row '+(role==='u'?'u':'');
-  var avatar=document.createElement('div');avatar.className='av '+(role==='u'?'u':'b');avatar.textContent=role==='u'?'👤':'🐴';
+  var avatar=document.createElement('div');avatar.className='av '+(role==='u'?'u':'b');if(role==='u')avatar.textContent='👤';
   var mb=document.createElement('div');mb.className='mb';
   var mn=document.createElement('div');mn.className='mn';mn.textContent=role==='u'?t('bblYou'):t('bblName');
   var bbl=document.createElement('div');bbl.className='bbl '+(role==='u'?'u':'b');
@@ -1789,7 +2371,7 @@ function addMsg(role,text,imgData){
 function addBotBubble(){
   var msgs=document.getElementById('msgs');var welcome=document.getElementById('welcome');if(welcome)welcome.remove();
   var row=document.createElement('div');row.className='row';row.id='current-bot-row';
-  var avatar=document.createElement('div');avatar.className='av b';avatar.textContent='🐴';
+  var avatar=document.createElement('div');avatar.className='av b streaming';avatar.id='current-bot-avatar';
   var mb=document.createElement('div');mb.className='mb';
   var mn=document.createElement('div');mn.className='mn';mn.textContent=t('bblName');
   var bbl=document.createElement('div');bbl.className='bbl b';bbl.id='current-bot-bbl';bbl.innerHTML='<span class="stream-cursor"></span>';
@@ -1810,6 +2392,7 @@ function finalizeBotBubble(bbl,fullText){
   bbl.innerHTML=fmtBubble(fullText);
   addBubbleActions(bbl, fullText);
   var row=document.getElementById('current-bot-row');if(row)row.removeAttribute('id');
+  var av=document.getElementById('current-bot-avatar');if(av){av.classList.remove('streaming');av.removeAttribute('id');}
   bbl.removeAttribute('id');
 }
 
@@ -1819,7 +2402,7 @@ async function send(){
   if(msg.startsWith('/code ')){
     var code=msg.replace('/code ','').trim();var bbl=addMsg('b','');
     if(!applyBoostCode(code)){bbl.innerHTML=fmtBubble(t('boostFail').replace('<c>',code));}
-    else{bbl.innerHTML=fmtBubble(getLanguage()==='en'?'✅ Package credited! 🐴':'✅ Paket gutgeschrieben! 🐴');}
+    else{bbl.innerHTML=fmtBubble(getLanguage()==='en'?'✅ Package credited!':'✅ Paket gutgeschrieben!');}
     inp.value='';return;
   }
   var s=getState();
@@ -1848,6 +2431,11 @@ async function sendToApi(isRegenerate){
   busy=true;document.getElementById('sbtn').disabled=true;document.getElementById('inp').disabled=true;
   if(!isRegenerate){s.used=(s.used||0)+1;saveState(s);updateUsageBar();}
   var bbl=addBotBubble();
+
+  // Try to get weather (non-blocking — if fails, just continues without it)
+  var weather=null;
+  try{weather=await fetchWeatherIfNeeded();}catch(e){weather=null;}
+
   try{
     var res=await fetch('/.netlify/functions/chat',{
       method:'POST',headers:{'Content-Type':'application/json'},
@@ -1856,7 +2444,8 @@ async function sendToApi(isRegenerate){
         email:s.email||'',access_code:s.accessCode||'',msg_count:s.used,
         language:getLanguage(),
         horses:s.horses||[],
-        activeHorseId:s.activeHorseId||null
+        activeHorseId:s.activeHorseId||null,
+        weather:weather
       })
     });
     if(res.status===401){
@@ -1879,7 +2468,7 @@ async function sendToApi(isRegenerate){
       }
     }else{
       var data=await res.json();
-      if(data.error){bbl.innerHTML=fmtBubble('🐴 '+data.error);return;}
+      if(data.error){bbl.innerHTML=fmtBubble(data.error);return;}
       fullText=(data.content&&data.content[0]&&data.content[0].text)||'';
       if(data._group)metaGroup=data._group;if(data._model)metaModel=data._model;
     }
@@ -1926,6 +2515,10 @@ function initApp(){
   // Auto-load last chat if exists
   if(s.chats && s.chats.length>0){
     loadChat(s.chats[0].id);
+  }
+  // Trigger background weather fetch (non-blocking, will refresh daily card when done)
+  if(s.horses && s.horses.length>0){
+    setTimeout(function(){fetchWeatherIfNeeded().catch(function(){});},2000);
   }
 }
 
