@@ -194,18 +194,10 @@ td{padding:0.8rem 0.85rem;font-size:0.78rem;color:var(--cream2);vertical-align:m
 </head>
 <body>
 
-<div id="loginScreen">
-  <div class="login-box">
-    <div class="login-logo">Equinat Complete</div>
-    <h1 class="login-title">Admin Panel</h1>
-    <p class="login-sub">Internes Backoffice · Zafao GmbH</p>
-    <input type="password" class="login-input" id="pwInput" placeholder="Passwort" autocomplete="current-password"/>
-    <button class="login-btn" onclick="doLogin()">Einloggen</button>
-    <p class="login-err" id="loginErr">Falsches Passwort</p>
-  </div>
-</div>
+<!-- Login-Screen entfernt: Admin ist jetzt durch Netlify Basic Auth geschützt (siehe netlify.toml).
+     Wer hier ist, hat das Browser-Auth-Dialog schon bestanden. -->
 
-<div id="app">
+<div id="app" class="ready">
   <div class="topbar">
     <div class="topbar-brand">EQUINAT · Admin Backoffice</div>
     <div class="topbar-right">
@@ -394,7 +386,7 @@ td{padding:0.8rem 0.85rem;font-size:0.78rem;color:var(--cream2);vertical-align:m
             Beim Klick auf <code style="color:var(--gold2);">✓ Freischalten</code> wird automatisch ein 6-stelliger Beta-Zugangscode generiert (z.B. <code style="color:var(--gold2);">EQ-7K3M</code>). Diesen kopierst du und schickst ihn dem Tester per Email.<br/><br/>
             Der Tester gibt den Code + seine Email auf der Bot-Startseite ein und ist freigeschaltet.<br/><br/>
             <strong style="color:var(--cream2);">Code revoken:</strong> Im Detail-Modal eines Testers gibt es einen "Code widerrufen" Button — der setzt den Status auf <code style="color:var(--gold2);">revoked</code> und der Bot sperrt den Tester.<br/><br/>
-            <strong style="color:var(--cream2);">Admin-Passwort ändern:</strong> Öffne <code style="color:var(--gold2);">admin.html</code> und ersetze <code style="color:var(--gold2);">EQUINAT2026</code> mit deinem neuen Passwort.
+            <strong style="color:var(--cream2);">Admin-Zugang:</strong> Geschützt durch Netlify Basic Auth (siehe <code style="color:var(--gold2);">netlify.toml</code>). Username + Passwort werden serverseitig validiert. Browser-Login-Dialog erscheint beim Aufruf von <code style="color:var(--gold2);">/admin.html</code>.
           </div>
         </div>
       </div>
@@ -427,7 +419,10 @@ td{padding:0.8rem 0.85rem;font-size:0.78rem;color:var(--cream2);vertical-align:m
 </div>
 
 <script>
-const ADMIN_PASS = 'EQUINAT2026';
+// ═══════════════════════════════════════════════
+// SECURITY: Admin ist durch Netlify Basic Auth geschützt (netlify.toml).
+// Kein Frontend-Passwort mehr — wer hier landet, hat den HTTP-Auth-Dialog passiert.
+// ═══════════════════════════════════════════════
 const SITE_URL = 'https://equinatbot.netlify.app';
 
 const LS = {
@@ -445,18 +440,16 @@ let notes = {};
 let testerLangs = {};
 let currentDetailId = null;
 
-// ─── LOGIN ───
-function doLogin(){
-  const pw = document.getElementById('pwInput').value;
-  if(pw === ADMIN_PASS){
-    LS.set('auth','ok');
-    document.getElementById('loginScreen').style.display='none';
-    document.getElementById('app').classList.add('ready');
-    init();
-  } else { document.getElementById('loginErr').style.display='block'; }
+// ─── LOGOUT ───
+// Browser-Basic-Auth-Logout: Wir können das HTTP-Auth nicht clientseitig clearen,
+// daher schicken wir den User zur Startseite. Der nächste Admin-Aufruf erfordert dann
+// erneut das HTTP-Auth-Login (oder Browser cached es weiter — das ist OK).
+function doLogout(){
+  if(confirm('Logout: Browser muss komplett geschlossen werden, damit Basic Auth zurückgesetzt wird. Trotzdem fortfahren?')){
+    LS.set('token','');
+    location.href = '/';
+  }
 }
-document.getElementById('pwInput').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
-function doLogout(){ LS.set('auth',''); location.reload(); }
 
 // ─── CLOCK ───
 function updateClock(){
@@ -1314,11 +1307,8 @@ function switchPage(el,page){
 }
 
 window.addEventListener('load',()=>{
-  if(LS.get('auth')==='ok'){
-    document.getElementById('loginScreen').style.display='none';
-    document.getElementById('app').classList.add('ready');
-    init();
-  }
+  // Basic Auth hat bereits authentifiziert — direkt initialisieren
+  init();
 });
 </script>
 </body>
