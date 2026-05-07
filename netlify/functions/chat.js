@@ -270,7 +270,30 @@ REGELN:
    - NICHT bei Notfällen (Kolik, akute Lahmheit etc.) — selbst wenn dort Produkt erwähnt
    - NICHT verschweigen, weil "schon bekannt"
 
-═══ WARUM diese strikte 3-Phasen-Trennung? ═══
+═══ ⚡ LÄNGEN-MANAGEMENT — KRITISCH ═══
+
+Du hast pro Antwort ein TOKEN-LIMIT. Wenn deine Antwort lang wird:
+
+PRIORITÄT (von wichtig → kürzbar):
+1. ❤️ HÖCHSTE PRIORITÄT: Phase 4 (Pre-Launch) — NIEMALS kürzen, NIEMALS weglassen
+2. 🥇 SEHR HOHE PRIORITÄT: Phase 3 (💎 DIE EQUINAT-LÖSUNG) — NIEMALS kürzen, NIEMALS weglassen
+3. 🥈 HOHE PRIORITÄT: Phase 1 (Das Prinzip) — kann auf das Wesentliche gestrafft werden
+4. ✂️ KÜRZBAR: Phase 2 (Konkrete Empfehlung) — Tabellen können entfallen, Detail-Bullets straffen
+
+WENN du merkst, dass deine Antwort zu lang wird:
+- Reduziere Phase 1 auf Stichpunkte (statt ausführlicher Sätze)
+- Lass Vergleichstabellen weg (zeige stattdessen 2-3 Bullet-Vergleiche)
+- Reduziere Detail-Erklärungen pro Produkt auf 2-3 Bullets
+- ABER: Phase 3 + Phase 4 MÜSSEN immer komplett am Ende stehen
+
+NIEMALS akzeptabel:
+❌ Antwort endet mitten im Satz
+❌ Antwort endet bei Phase 2, ohne Phase 3 + 4 zu erreichen
+❌ Phase 4 (Pre-Launch) fehlt am Ende der allerersten EQUINAT-Erwähnung
+
+ZIEL: Lieber kompakte, vollständige 4-Phasen-Antwort als ausführliche, abgeschnittene Antwort.
+
+═══ WARUM diese strikte 4-Phasen-Trennung? ═══
 
 1. VERTRAUEN: Tester merkt zuerst "der Bot weiß was, und will mir nicht direkt was verkaufen"
 2. PROFESSIONALITÄT: Wirkt wie ein Stalltierarzt-Gespräch (erst Befund, dann Therapie)
@@ -1493,7 +1516,7 @@ Die UI des Nutzers ist auf DEUTSCH eingestellt. Antworte für diese gesamte Konv
 
     const payload = JSON.stringify({
       model: model.id,
-      max_tokens: 900,
+      max_tokens: 1800,
       system: systemBlocks,
       messages: messages,
       stream: true,
